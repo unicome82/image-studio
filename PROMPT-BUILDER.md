@@ -109,7 +109,7 @@ Combine the selected prompt file instructions while preserving their defining ch
 
 - 기존 IMAGE STUDIO 메뉴에 `Prompt Builder` 추가; Gallery는 기본 화면 유지
 - 스타일 선택·레퍼런스 미리보기·표현 방식 단일 선택·복잡도·입력·결과·복사·저장 UI 제공
-- Typography는 예외로 제목 옆 토글 ON일 때 제목 바로 아래 옵션 버튼과 같은 높이의 입력창, 그 아래 전체 옵션을 표시한다. OFF일 때 입력창과 옵션은 숨기며 별도 펼치기·접기 버튼은 사용하지 않는다.
+- Typography는 예외로 제목 옆 토글 ON일 때 제목 바로 아래 공통 높이 28px의 입력창, 그 아래 전체 옵션을 표시한다. OFF일 때 입력창과 옵션은 숨기며 별도 펼치기·접기 버튼은 사용하지 않는다.
 - 다른 카테고리는 접힌 상태에서 최대 한 줄만 표시하고, 실제 버튼 폭을 측정해 Builder 너비에 맞게 개수를 조절한다. 옵션 버튼 옆의 `…` 버튼으로 전체 목록을 펼치거나 접는다. 접힌 행의 폭 계산에 `…` 버튼과 간격을 포함한다. 선택 상태 표시와 반응형 구성 유지
 - 옵션 버튼 상하 패딩 3.5px, 옵션 타이틀은 10px bold 회색, 전체 UI 폰트는 최소 10px. Outline은 Aspect ratio 바로 위에 배치. 본문·textarea·저장 팝업을 포함한 모든 스크롤바는 6px, radius 0, 화살표와 thumb/track 간격 제거
 - 옵션 사이 구분선 제거. Builder 기본 폭 248px, 데스크톱에서 최소 220px~최대 420px까지 우측 경계 드래그로 조절. 경계의 방향키·Home·End 조작 지원. 모바일 전체 화면 팝업은 너비 조절 제외

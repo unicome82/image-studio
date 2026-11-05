@@ -13,9 +13,14 @@
   direction: ltr;
   font-feature-settings: 'liga';
   font-variation-settings:
-    'FILL' 0,
+    'FILL' var(--symbol-fill, 0),
     'wght' 400,
     'GRAD' 0,
     'opsz' 24;
   -webkit-font-smoothing: antialiased;
+}
+
+.material-symbol[fill],
+.material-symbol.fill {
+  --symbol-fill: 1;
 }

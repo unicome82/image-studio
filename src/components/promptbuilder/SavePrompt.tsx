@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next';
 import './SavePrompt.scss';
 import Icon from '../Icon';
 import { useEffect, useRef, useState } from 'react';
@@ -7,6 +8,7 @@ interface Props {
   prompt: string;
 }
 function SaveDialog({ save, prompt, close }: Props & { close: () => void }) {
+  const { t } = useTranslation();
   const ref = useRef<HTMLDialogElement>(null);
   const [name, setName] = useState('');
   const [error, setError] = useState('');
@@ -24,7 +26,7 @@ function SaveDialog({ save, prompt, close }: Props & { close: () => void }) {
     <dialog
       ref={ref}
       className="save-style-dialog"
-      aria-label="Save style"
+      aria-label={t('Save style')}
       onCancel={(e) => {
         e.preventDefault();
         e.stopPropagation();
@@ -44,8 +46,8 @@ function SaveDialog({ save, prompt, close }: Props & { close: () => void }) {
       }}
     >
       <div className="panel-heading">
-        <span>Save style</span>
-        <button className="icon-button" aria-label="Close save style" onClick={close}>
+        <span>{t('Save style')}</span>
+        <button className="icon-button" aria-label={t('Close save style')} onClick={close}>
           <Icon name="close" size={18} />
         </button>
       </div>
@@ -61,12 +63,12 @@ function SaveDialog({ save, prompt, close }: Props & { close: () => void }) {
         }}
       >
         <label className="save-style-label">
-          Style name
+          {t('Style name')}
           <input
-            aria-label="Style name"
+            aria-label={t('Style name')}
             value={name}
             maxLength={80}
-            placeholder="Style name"
+            placeholder={t('Style name')}
             autoFocus
             required
             onChange={(e) => {
@@ -76,25 +78,25 @@ function SaveDialog({ save, prompt, close }: Props & { close: () => void }) {
           />
         </label>
         <label className="save-style-label">
-          Prompt preview
+          {t('Prompt preview')}
           <textarea
             className="prompt-textarea"
-            aria-label="Prompt preview"
+            aria-label={t('Prompt preview')}
             readOnly
             value={prompt}
           />
         </label>
         {error && (
           <p className="save-style-error" role="alert">
-            {error}
+            {t(error)}
           </p>
         )}
         <div className="save-style-actions">
           <button type="button" className="secondary" onClick={close}>
-            Cancel
+            {t('Cancel')}
           </button>
           <button type="submit" className="primary" disabled={!name.trim()}>
-            Save
+            {t('Save')}
           </button>
         </div>
       </form>
@@ -103,6 +105,7 @@ function SaveDialog({ save, prompt, close }: Props & { close: () => void }) {
   );
 }
 export default function SavePrompt({ save, prompt }: Props) {
+  const { t } = useTranslation();
   const [open, setOpen] = useState(false);
   return (
     <div className="save-prompt-control">
@@ -112,7 +115,7 @@ export default function SavePrompt({ save, prompt }: Props) {
         aria-expanded={open}
         onClick={() => setOpen(true)}
       >
-        Save
+        {t('Save')}
       </button>
       {open && <SaveDialog save={save} prompt={prompt} close={() => setOpen(false)} />}
     </div>

@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next';
 import Icon from './Icon';
 import Panel from './Panel';
 import SavePrompt from './promptbuilder/SavePrompt';
@@ -16,12 +17,13 @@ interface Props {
   preview: () => void;
 }
 export default function ImageDetail(p: Props) {
+  const { t } = useTranslation();
   const image = p.image;
   return (
-    <Panel className="detail" label="Image detail" close={p.close}>
+    <Panel className="detail" label={t('Image detail')} close={p.close}>
       <div className="panel-heading">
-        <span>IMAGE DETAIL</span>
-        <button className="icon-button" aria-label="Close image detail" onClick={p.close}>
+        <span>{t('IMAGE DETAIL')}</span>
+        <button className="icon-button" aria-label={t('Close image detail')} onClick={p.close}>
           <Icon name="close" size={17} />
         </button>
       </div>
@@ -30,17 +32,17 @@ export default function ImageDetail(p: Props) {
           className="detail-preview"
           style={{ backgroundColor: image.color, aspectRatio: `${image.width} / ${image.height}` }}
         >
-          <button className="icon-button" aria-label="Expand preview" onClick={p.preview}>
+          <button className="icon-button" aria-label={t('Expand preview')} onClick={p.preview}>
             <Icon name="fullscreen" size={15} />
           </button>
         </div>
         <div className="detail-title">
           <h2>
-            {image.label} {String(image.index + 1).padStart(2, '0')}
+            {t(image.label)} {String(image.index + 1).padStart(2, '0')}
           </h2>
           <button
             className="icon-button"
-            aria-label="Bookmark selected placeholder"
+            aria-label={t('Bookmark selected placeholder')}
             aria-pressed={p.bookmarked}
             onClick={p.toggleBookmark}
           >
@@ -53,16 +55,16 @@ export default function ImageDetail(p: Props) {
         </div>
         <section className="detail-section">
           <h3>
-            Style prompt
+            {t('Style prompt')}
             <button
               className="icon-button"
-              aria-label="Copy style prompt"
+              aria-label={t('Copy style prompt')}
               onClick={() => p.copy(p.stylePrompt)}
             >
               <Icon name="content_copy" size={13} />
             </button>
           </h3>
-          <p className="detail-prompt" aria-label="Selected style prompt">
+          <p className="detail-prompt" aria-label={t('Selected style prompt')}>
             {p.stylePrompt}
           </p>
           <div className="prompt-actions">
@@ -70,10 +72,10 @@ export default function ImageDetail(p: Props) {
             <button
               className="primary"
               disabled
-              title="Add an image and connect an authorized publishing workflow to publish"
+              title={t('Add an image and connect an authorized publishing workflow to publish')}
             >
               <Icon name="cloud_upload" size={14} />
-              Publish
+              {t('Publish')}
             </button>
           </div>
         </section>

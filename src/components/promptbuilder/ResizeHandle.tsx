@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next';
 import './ResizeHandle.scss';
 import { useEffect, useRef, useState } from 'react';
 export const builderMinWidth = 220;
@@ -9,6 +10,7 @@ export default function ResizeHandle({
   width: number;
   resize: (width: number) => void;
 }) {
+  const { t } = useTranslation();
   const [dragging, setDragging] = useState(false);
   const start = useRef({ x: 0, width });
   const clamp = (value: number) =>
@@ -28,7 +30,7 @@ export default function ResizeHandle({
     <div
       className={'builder-resize ' + (dragging ? 'dragging' : '')}
       role="separator"
-      aria-label="Resize Builder"
+      aria-label={t('Resize Builder')}
       aria-orientation="vertical"
       aria-valuemin={builderMinWidth}
       aria-valuemax={builderMaxWidth}

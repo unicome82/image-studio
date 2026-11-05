@@ -7,13 +7,15 @@
     "dev": "vite --host 0.0.0.0",
     "build": "tsc -b && vite build",
     "preview": "vite preview --host 0.0.0.0",
-    "test": "node --experimental-strip-types scripts/promptBuilder.test.ts",
+    "test": "node --experimental-strip-types --test scripts/*.test.ts",
     "format": "prettier --write \"src/**/*.{ts,tsx,scss}\" \"scripts/**/*.ts\" vite.config.ts package.json tsconfig.json .prettierrc.json \".github/workflows/*.yml\" index.html",
     "format:check": "prettier --check \"src/**/*.{ts,tsx,scss}\" \"scripts/**/*.ts\" vite.config.ts package.json tsconfig.json .prettierrc.json \".github/workflows/*.yml\" index.html"
   },
   "dependencies": {
+    "i18next": "^26.7.1",
     "react": "^19.0.0",
-    "react-dom": "^19.0.0"
+    "react-dom": "^19.0.0",
+    "react-i18next": "^17.1.12"
   },
   "devDependencies": {
     "@types/node": "^22.0.0",

@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next';
 import './Presets.scss';
 import Icon from '../Icon';
 import { useState } from 'react';
@@ -11,21 +12,23 @@ interface Props {
   copy: (prompt: string) => void;
 }
 export default function Presets(p: Props) {
+  const { t } = useTranslation();
   const [editing, setEditing] = useState<string | null>(null);
   const [editName, setEditName] = useState('');
   const [deleting, setDeleting] = useState<string | null>(null);
   return (
-    <section className="presets-page" aria-label="Saved style sets">
+    <section className="presets-page" aria-label={t('Saved style sets')}>
       <div className="section-heading">
         <h2>
-          Prompts<span>{p.presets.length}</span>
+          {t('Prompts')}
+          <span>{p.presets.length}</span>
         </h2>
       </div>
       <div className="preset-list">
         {p.presets.length === 0 ? (
           <div className="preset-empty">
             <Icon name="format_list_bulleted" size={22} />
-            <p>No saved style sets</p>
+            <p>{t('No saved style sets')}</p>
           </div>
         ) : (
           p.presets.map((preset) => {
@@ -48,19 +51,19 @@ export default function Presets(p: Props) {
                     }}
                   >
                     <input
-                      aria-label="Rename style set"
+                      aria-label={t('Rename style set')}
                       maxLength={80}
                       value={editName}
                       onChange={(e) => setEditName(e.target.value)}
                       autoFocus
                       required
                     />
-                    <button className="icon-button" aria-label="Confirm rename" type="submit">
+                    <button className="icon-button" aria-label={t('Confirm rename')} type="submit">
                       <Icon name="check" size={16} />
                     </button>
                     <button
                       className="icon-button"
-                      aria-label="Cancel rename"
+                      aria-label={t('Cancel rename')}
                       type="button"
                       onClick={() => setEditing(null)}
                     >
@@ -73,7 +76,7 @@ export default function Presets(p: Props) {
                       <h3>{preset.name}</h3>
                       <button
                         className="icon-button"
-                        aria-label={`Edit ${preset.name} name`}
+                        aria-label={t('Edit {{name}} name', { name: preset.name })}
                         onClick={() => {
                           setEditing(preset.id);
                           setEditName(preset.name);
@@ -86,34 +89,34 @@ export default function Presets(p: Props) {
                       {deleting === preset.id ? (
                         <>
                           <button className="secondary" onClick={() => setDeleting(null)}>
-                            Cancel
+                            {t('Cancel')}
                           </button>
                           <button
                             className="primary"
-                            aria-label={`Confirm delete ${preset.name}`}
+                            aria-label={t('Confirm delete {{name}}', { name: preset.name })}
                             onClick={() => {
                               p.remove(preset.id);
                               setDeleting(null);
                             }}
                           >
-                            Delete
+                            {t('Delete')}
                           </button>
                         </>
                       ) : (
                         <>
                           <button
                             className="primary preset-copy"
-                            aria-label={`Copy ${preset.name} prompt`}
-                            title="Copy prompt"
+                            aria-label={t('Copy {{name}} prompt', { name: preset.name })}
+                            title={t('Copy prompt')}
                             onClick={() => p.copy(prompt)}
                           >
                             <Icon name="content_copy" size={14} />
-                            Copy
+                            {t('Copy')}
                           </button>
                           <button
                             className="icon-button type-outline"
-                            aria-label={`Delete ${preset.name}`}
-                            title="Delete style set"
+                            aria-label={t('Delete {{name}}', { name: preset.name })}
+                            title={t('Delete style set')}
                             onClick={() => setDeleting(preset.id)}
                           >
                             <Icon name="delete" size={14} />
@@ -125,7 +128,7 @@ export default function Presets(p: Props) {
                 )}
                 <textarea
                   className="prompt-textarea preset-prompt"
-                  aria-label={`${preset.name} prompt`}
+                  aria-label={t('{{name}} prompt', { name: preset.name })}
                   value={prompt}
                   readOnly
                 />

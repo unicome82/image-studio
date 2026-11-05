@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next';
 import './Builder.scss';
 import Icon from '../Icon';
 import OptionChoices from './OptionChoices';
@@ -27,12 +28,13 @@ interface Props {
   save: (name: string) => boolean;
 }
 export default function Builder(p: Props) {
+  const { t } = useTranslation();
   const categories = builderCategories(p.photo);
   return (
-    <Panel className="builder" label="Prompt Builder" close={p.close}>
+    <Panel className="builder" label={t('Prompt Builder')} close={p.close}>
       <ResizeHandle width={p.width} resize={p.resize} />
       <div className="builder-mobile-close">
-        <button className="icon-button" aria-label="Close Builder" onClick={p.close}>
+        <button className="icon-button" aria-label={t('Close Builder')} onClick={p.close}>
           <Icon name="close" size={19} />
         </button>
       </div>
@@ -74,7 +76,7 @@ export default function Builder(p: Props) {
                       <button
                         className="typography-toggle"
                         role="switch"
-                        aria-label="Typography"
+                        aria-label={t('Typography')}
                         aria-checked={isTypographyEnabled(p.fields)}
                         onClick={() =>
                           p.setFields({
@@ -93,8 +95,8 @@ export default function Builder(p: Props) {
                     category === 'Typography' && isTypographyEnabled(p.fields) ? (
                       <input
                         className="typography-input"
-                        aria-label="Typography text"
-                        placeholder="Text (optional)"
+                        aria-label={t('Typography text')}
+                        placeholder={t('Text (optional)')}
                         value={p.fields.Text ?? ''}
                         onChange={(e) => p.setFields({ ...p.fields, Text: e.target.value })}
                       />
@@ -117,11 +119,12 @@ export default function Builder(p: Props) {
           </section>
           <section className="option-section complexity-option">
             <h3>
-              Complexity <span>{complexityLabels[p.complexity - 1]}</span>
+              {t('Complexity')}
+              <span>{t(complexityLabels[p.complexity - 1])}</span>
             </h3>
             <input
-              aria-label="Complexity"
-              aria-valuetext={complexityLabels[p.complexity - 1]}
+              aria-label={t('Complexity')}
+              aria-valuetext={t(complexityLabels[p.complexity - 1])}
               type="range"
               min="1"
               max="5"
@@ -131,7 +134,7 @@ export default function Builder(p: Props) {
           </section>
           <section className="option-section inputs">
             <h3>
-              <label htmlFor="builder-direction">Your direction</label>
+              <label htmlFor="builder-direction">{t('Your direction')}</label>
             </h3>
             <textarea
               id="builder-direction"
@@ -140,17 +143,17 @@ export default function Builder(p: Props) {
               onChange={(e) =>
                 p.setFields({ ...p.fields, 'Additional Instructions': e.target.value })
               }
-              placeholder="Add your direction…"
+              placeholder={t('Add your direction\u2026')}
             />
           </section>
         </div>
       </div>
       <div className="builder-footer">
         <div className="builder-wrap">
-          <h3>Prompt</h3>
+          <h3>{t('Prompt')}</h3>
           <textarea
             className="prompt-textarea"
-            aria-label="Builder prompt"
+            aria-label={t('Builder prompt')}
             readOnly
             value={p.prompt}
           />
@@ -158,7 +161,7 @@ export default function Builder(p: Props) {
             <SavePrompt save={p.save} prompt={p.prompt} />
             <button className="primary builder-copy" onClick={() => p.copy(p.prompt)}>
               <Icon name="content_copy" size={14} />
-              Copy
+              {t('Copy')}
             </button>
           </div>
         </div>

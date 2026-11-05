@@ -18,13 +18,15 @@ interface Props {
   name: IconName;
   size?: number;
   className?: string;
+  fill?: boolean;
 }
 /** Google Material Symbols Outlined, loaded through the jsDelivr CDN. */
-export default function Icon({ name, size = 18, className = '' }: Props) {
+export default function Icon({ name, size = 18, className = '', fill = false }: Props) {
   return (
     <span
       className={`material-symbol ${className}`.trim()}
       data-icon={name}
+      {...(fill ? { fill: '' } : {})}
       style={{ fontSize: size, width: size, height: size }}
       aria-hidden="true"
     >

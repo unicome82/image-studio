@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next';
 import './ImagePreview.scss';
 import Icon from './Icon';
 import { useEffect, useRef, useState } from 'react';
@@ -14,6 +15,7 @@ export function clampZoom(value: number) {
   return Math.max(minZoom, Math.min(maxZoom, value));
 }
 export default function ImagePreview({ image, close }: { image: PreviewImage; close: () => void }) {
+  const { t } = useTranslation();
   const ref = useRef<HTMLDialogElement>(null);
   const stage = useRef<HTMLDivElement>(null);
   const [zoom, setZoom] = useState(1);
@@ -68,7 +70,7 @@ export default function ImagePreview({ image, close }: { image: PreviewImage; cl
     <dialog
       ref={ref}
       className="image-viewer"
-      aria-label="Image preview"
+      aria-label={t('Image preview')}
       data-zoom={zoom}
       onCancel={(e) => {
         e.preventDefault();
@@ -98,9 +100,11 @@ export default function ImagePreview({ image, close }: { image: PreviewImage; cl
         <div
           className="image-viewer-image"
           role="img"
-          aria-label={image.label}
+          aria-label={t(image.label)}
           tabIndex={0}
-          aria-description="Drag up to zoom in and down to zoom out, from 1 to 4 times. Scroll or pinch to zoom; double-click or press 0 to reset."
+          aria-description={t(
+            'Drag up to zoom in and down to zoom out, from 1 to 4 times. Scroll or pinch to zoom; double-click or press 0 to reset.',
+          )}
           style={{
             width,
             height: width / ratio,
@@ -139,7 +143,7 @@ export default function ImagePreview({ image, close }: { image: PreviewImage; cl
           }}
         />
       </div>
-      <button className="image-viewer-close" aria-label="Close image preview" onClick={close}>
+      <button className="image-viewer-close" aria-label={t('Close image preview')} onClick={close}>
         <Icon name="close" size={24} />
       </button>
     </dialog>,

@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next';
 import Icon from './Icon';
 import type { GallerySection, GalleryTile } from '../types';
 import './Gallery.scss';
@@ -10,6 +11,7 @@ interface Props {
   toggleBookmark: (id: string) => void;
 }
 export default function Gallery(p: Props) {
+  const { t } = useTranslation();
   const total = p.groups.reduce((sum, group) => sum + group.tiles.length, 0);
   return (
     <>
@@ -17,7 +19,7 @@ export default function Gallery(p: Props) {
         <section className="gallery-section" id={'section-' + group.id} key={group.id}>
           <div className="section-heading">
             <h2>
-              {group.label}
+              {t(group.label)}
               <span>{group.tiles.length}</span>
             </h2>
           </div>
@@ -33,12 +35,20 @@ export default function Gallery(p: Props) {
               >
                 <button
                   className="tile-main"
-                  aria-label={`View ${tile.label} placeholder ${tile.index + 1}`}
+                  aria-label={t('View {{name}} placeholder {{number}}', {
+                    name: t(tile.label),
+                    number: tile.index + 1,
+                  })}
                   onClick={() => p.select(tile)}
                 />
                 <button
                   className={'tile-bookmark ' + (p.bookmarks.includes(tile.id) ? 'bookmarked' : '')}
-                  aria-label={`${p.bookmarks.includes(tile.id) ? 'Remove' : 'Add'} bookmark ${tile.label} ${tile.index + 1}`}
+                  aria-label={t(
+                    p.bookmarks.includes(tile.id)
+                      ? 'Remove bookmark {{name}} {{number}}'
+                      : 'Add bookmark {{name}} {{number}}',
+                    { name: t(tile.label), number: tile.index + 1 },
+                  )}
                   aria-pressed={p.bookmarks.includes(tile.id)}
                   onClick={() => p.toggleBookmark(tile.id)}
                 >
@@ -51,7 +61,7 @@ export default function Gallery(p: Props) {
       ))}
       {!total && (
         <div className="empty-state">
-          <h2>{p.emptyMessage}</h2>
+          <h2>{t(p.emptyMessage)}</h2>
         </div>
       )}
     </>

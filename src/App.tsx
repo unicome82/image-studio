@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next';
 import Icon from './components/Icon';
 import { useEffect, useRef, useState, type CSSProperties } from 'react';
 import catalog from 'virtual:prompt-catalog';
@@ -90,6 +91,7 @@ function storedBookmarks(): string[] {
   }
 }
 export default function App() {
+  const { t } = useTranslation();
   const [copyFallback, setCopyFallback] = useState('');
   const [builderWidth, setBuilderWidth] = useState(248);
   const [builder, setBuilder] = useState(() => window.innerWidth > 1100);
@@ -130,7 +132,7 @@ export default function App() {
   const visibleGroups = currentGroups.filter(
     (g) =>
       (active === 'all' || g.id === active) &&
-      `${g.label} ${g.id}`.toLowerCase().includes(query.trim().toLowerCase()),
+      `${g.label} ${t(g.label)} ${g.id}`.toLowerCase().includes(query.trim().toLowerCase()),
   );
   const tileGroups = visibleGroups.map((group) => ({
     ...group,
@@ -206,7 +208,6 @@ export default function App() {
     setPhoto(value);
     setSelected(null);
     setActive('all');
-    window.scrollTo({ top: 0 });
   }
   function persistPresets(next: StylePreset[]) {
     try {
@@ -319,7 +320,7 @@ export default function App() {
           <>
             <button
               className="mobile-scrim"
-              aria-label="Close Builder"
+              aria-label={t('Close Builder')}
               onClick={() => setBuilder(false)}
             />
             <Builder
@@ -340,7 +341,7 @@ export default function App() {
             />
           </>
         )}
-        <main className="gallery" aria-label={presetOpen ? 'Saved prompts' : 'Image gallery'}>
+        <main className="gallery" aria-label={t(presetOpen ? 'Saved prompts' : 'Image gallery')}>
           {presetOpen ? (
             <Presets
               presets={presets.filter((p) =>
@@ -372,7 +373,7 @@ export default function App() {
           <>
             <button
               className="detail-scrim"
-              aria-label="Close image detail"
+              aria-label={t('Close image detail')}
               onClick={() => setSelected(null)}
             />
             <ImageDetail
@@ -393,27 +394,31 @@ export default function App() {
       <dialog
         ref={modalRef}
         className="modal"
-        aria-label="Full prompt"
+        aria-label={t('Full prompt')}
         onCancel={() => setModal(null)}
         onClick={(e) => {
           if (e.target === e.currentTarget) setModal(null);
         }}
       >
         <div className="panel-heading">
-          <span>YOUR PROMPT</span>
-          <button className="icon-button" aria-label="Close dialog" onClick={() => setModal(null)}>
+          <span>{t('YOUR PROMPT')}</span>
+          <button
+            className="icon-button"
+            aria-label={t('Close dialog')}
+            onClick={() => setModal(null)}
+          >
             <Icon name="close" size={18} />
           </button>
         </div>
         <textarea
           className="prompt-textarea"
           readOnly
-          aria-label="Full prompt"
+          aria-label={t('Full prompt')}
           value={copyFallback || prompt}
         />
         <button className="primary" onClick={() => copy(copyFallback || prompt)}>
           <Icon name="content_copy" size={14} />
-          Copy
+          {t('Copy')}
         </button>
       </dialog>
       {modal === 'image' && selected && (
@@ -422,7 +427,7 @@ export default function App() {
       {toast && (
         <div className="toast" role="status">
           <Icon name="check" size={15} />
-          {toast}
+          {t(toast)}
         </div>
       )}
     </>

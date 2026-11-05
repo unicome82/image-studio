@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next';
 import './OptionChoices.scss';
 import Icon from '../Icon';
 import { useId, useLayoutEffect, useRef, useState, type ReactNode } from 'react';
@@ -25,6 +26,7 @@ export default function OptionChoices({
   showOptions = true,
   collapsible = true,
 }: Props) {
+  const { t } = useTranslation();
   const rowId = useId();
   const [expanded, setExpanded] = useState(false);
   const [count, setCount] = useState(options.length);
@@ -75,8 +77,8 @@ export default function OptionChoices({
   const overflow = collapsible && count < options.length;
   return (
     <>
-      <h3 className="option-heading" aria-label={title}>
-        {title}
+      <h3 className="option-heading" aria-label={t(title)}>
+        {t(title)}
         {headerControl && <span className="option-heading-actions">{headerControl}</span>}
       </h3>
       {afterHeading}
@@ -94,13 +96,16 @@ export default function OptionChoices({
                 aria-pressed={selected.includes(option.id)}
                 onClick={() => choose(option.id)}
               >
-                {option.label.replace(/\s+illustration\b/gi, '')}
+                {t(option.label.replace(/\s+illustration\b/gi, ''))}
               </button>
             ))}
             {overflow && (
               <button
                 className="choice-toggle"
-                aria-label={`${expanded ? 'Collapse' : 'Expand'} ${title} options`}
+                aria-label={t(
+                  expanded ? 'Collapse {{title}} options' : 'Expand {{title}} options',
+                  { title: t(title) },
+                )}
                 aria-expanded={expanded}
                 aria-controls={rowId}
                 onClick={() => setExpanded(!expanded)}
@@ -114,7 +119,7 @@ export default function OptionChoices({
               <div className="pills" ref={measures}>
                 {options.map((option) => (
                   <span className="option-choice" data-choice key={option.id}>
-                    {option.label.replace(/\s+illustration\b/gi, '')}
+                    {t(option.label.replace(/\s+illustration\b/gi, ''))}
                   </span>
                 ))}
                 <span className="choice-toggle" data-toggle>
