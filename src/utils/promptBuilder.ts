@@ -31,6 +31,7 @@ export function builderCategories(photo: boolean): string[] {
 export function toggleOption(selection: Selection, category: string, id: string): Selection {
   const current = selection[category] ?? [];
   if (category === 'Outline') return { ...selection, [category]: [id] };
+  if (!current.includes(id) && current.length >= 3) return selection;
   const conflicts: Record<string, string[]> = {
     warm: ['cool'],
     cool: ['warm'],
@@ -51,7 +52,7 @@ export function toggleOption(selection: Selection, category: string, id: string)
           (x) => !(conflicts[id] ?? []).includes(x) && !(conflicts[x] ?? []).includes(id),
         ),
         id,
-      ].slice(-3);
+      ];
   return { ...selection, [category]: next };
 }
 export function makePrompt(

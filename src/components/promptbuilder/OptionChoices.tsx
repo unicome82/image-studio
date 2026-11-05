@@ -13,6 +13,7 @@ interface Props {
   afterHeading?: ReactNode;
   showOptions?: boolean;
   collapsible?: boolean;
+  multiple?: boolean;
   options: Choice[];
   selected: string[];
   choose: (id: string) => void;
@@ -26,11 +27,12 @@ export default function OptionChoices({
   afterHeading,
   showOptions = true,
   collapsible = true,
+  multiple = true,
 }: Props) {
   const { t } = useTranslation();
   const orderedOptions = useMemo(
-    () => prioritizeSelectedOptions(options, selected),
-    [options, selected],
+    () => prioritizeSelectedOptions(options, selected, multiple),
+    [options, selected, multiple],
   );
   const rowId = useId();
   const [expanded, setExpanded] = useState(false);

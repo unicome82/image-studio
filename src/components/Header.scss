@@ -4,8 +4,7 @@
   position: relative;
   z-index: 30;
   @include flex-row($gap: 24px);
-  height: 76px;
-  padding: 0 $content-padding;
+  padding: 20px $content-padding;
   background: $page;
 }
 .brand {
@@ -28,7 +27,7 @@
 .header-search input {
   width: 100%;
   min-width: 0;
-  padding: 0;
+  padding: 0 8px;
   border: 0;
   background: transparent;
   color: $ink;
@@ -68,8 +67,8 @@
 }
 @media (max-width: $mobile) {
   .header {
-    height: 64px;
     gap: 8px;
+    padding-block: 12px;
   }
   .brand {
     font-size: 12px;
@@ -87,7 +86,6 @@
     display: grid;
     grid-template-columns: minmax(0, 1fr) auto;
     grid-template-rows: repeat(2, $header-control-size);
-    height: 96px;
     padding-block: 12px;
   }
   .header-search {

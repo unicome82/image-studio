@@ -118,6 +118,7 @@ export default function LanguageMenu() {
               }}
             >
               {label}
+              {i18n.resolvedLanguage === code && <Icon name="check" size={16} />}
             </button>
           ))}
         </div>

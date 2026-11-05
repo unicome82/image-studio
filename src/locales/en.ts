@@ -1,4 +1,5 @@
 const translation: Record<string, string> = {
+  'You can select up to 3 options.': 'You can select up to 3 options.',
   Language: 'Language',
   'Image Studio home': 'Image Studio home',
   'Search gallery': 'Search gallery',

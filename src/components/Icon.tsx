@@ -1,5 +1,6 @@
 import './Icon.scss';
 export type IconName =
+  | 'star'
   | 'language'
   | 'bookmark'
   | 'content_copy'

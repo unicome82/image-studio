@@ -14,7 +14,7 @@ test('conflicts prefer newest selection; style mixes cap at three', () => {
   assert.deepEqual(toggleOption({ Color: ['muted'] }, 'Color', 'vivid').Color, ['vivid']);
   assert.deepEqual(
     toggleOption({ 'Base Style': ['a', 'b', 'c'] }, 'Base Style', 'd')['Base Style'],
-    ['b', 'c', 'd'],
+    ['a', 'b', 'c'],
   );
 });
 test('only existing selected paths; typography requires its switch, photography requires photo', () => {
@@ -201,4 +201,11 @@ test('Typography defaults off, supports automatic text when enabled, and restore
   assert.equal(restored['Typography Enabled'], 'true');
   assert.equal(restored.Text, 'HELLO');
   assert.deepEqual(compactFields(restored), restored);
+});
+
+test('The three-option limit preserves existing choices, permits deselection, and blocks conflicting replacements at the limit', () => {
+  const full = { Color: ['warm', 'muted', 'earthy'] };
+  assert.equal(toggleOption(full, 'Color', 'cool'), full);
+  assert.deepEqual(toggleOption(full, 'Color', 'warm').Color, ['muted', 'earthy']);
+  assert.deepEqual(toggleOption({ Color: ['warm'] }, 'Color', 'cool').Color, ['cool']);
 });

@@ -1,4 +1,5 @@
 const translation: Record<string, string> = {
+  'You can select up to 3 options.': '최대 3개까지 선택가능합니다.',
   Language: '언어 선택',
   'Image Studio home': '이미지 스튜디오 홈',
   'Search gallery': '갤러리 검색',

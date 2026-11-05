@@ -19,16 +19,18 @@
   align-self: center;
   height: var(--type-toggle-height);
   padding: 0;
-  border: 1px solid $secondary-border;
-  border-radius: 6px;
-  color: $muted;
+  border: 1px solid transparent;
+  border-radius: 16px;
+  background: $ai-gradient;
+  color: $white;
 }
 .builder-toggle:hover {
-  background: $icon-hover-background;
+  filter: brightness(1.08);
 }
 .builder-toggle.active {
-  background: $black;
-  color: $white;
+  box-shadow:
+    0 0 0 2px $page,
+    0 0 0 3px $ink;
 }
 .type-tabs {
   @include flex-row;
@@ -36,7 +38,6 @@
   padding: 0 8px;
 }
 .type-tabs button {
-  border-radius: 6px;
   height: var(--type-toggle-height);
   padding: 0 12px;
   border: 0;
@@ -44,6 +45,12 @@
   color: $muted;
   font-size: $option-font-size;
   white-space: nowrap;
+}
+.type-tabs button:first-child {
+  border-radius: 16px 0 0 16px;
+}
+.type-tabs button:last-child {
+  border-radius: 0 16px 16px 0;
 }
 .type-tabs button[aria-pressed='true'] {
   @include selected-surface;
@@ -59,7 +66,6 @@
   overflow: auto;
 }
 .style-tabs button {
-  border-radius: 6px;
   padding: 0 12px;
   border-bottom: 2px solid transparent;
   color: #888a80;

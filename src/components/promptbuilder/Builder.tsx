@@ -91,6 +91,7 @@ export default function Builder(p: Props) {
                   }
                   showOptions={category !== 'Typography' || isTypographyEnabled(p.fields)}
                   collapsible={category !== 'Typography'}
+                  multiple={category !== 'Outline'}
                   afterHeading={
                     category === 'Typography' && isTypographyEnabled(p.fields) ? (
                       <input
@@ -110,6 +111,7 @@ export default function Builder(p: Props) {
           <section className="option-section">
             <OptionChoices
               title="Aspect ratio"
+              multiple={false}
               options={[...new Set(['1:1', '4:3', '3:4', '16:9', '9:16', p.fields['Aspect Ratio']])]
                 .filter(Boolean)
                 .map((ratio) => ({ id: ratio, label: ratio }))}

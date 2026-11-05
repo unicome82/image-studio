@@ -1,3 +1,4 @@
+import { createPortal } from 'react-dom';
 import { useTranslation } from 'react-i18next';
 import Icon from './components/Icon';
 import { useEffect, useRef, useState, type CSSProperties } from 'react';
@@ -123,6 +124,7 @@ export default function App() {
   const [bookmarks, setBookmarks] = useState(storedBookmarks);
   const [onlySaved, setOnlySaved] = useState(false);
   const [toast, setToast] = useState('');
+  const [toastVersion, setToastVersion] = useState(0);
   const [modal, setModal] = useState<'prompt' | 'image' | null>(null);
   const modalRef = useRef<HTMLDialogElement>(null);
   const selection = photo ? photoSelection : illustrationSelection;
@@ -165,7 +167,7 @@ export default function App() {
     if (!toast) return;
     const timer = setTimeout(() => setToast(''), 2800);
     return () => clearTimeout(timer);
-  }, [toast]);
+  }, [toast, toastVersion]);
   useEffect(() => {
     if (modal === 'prompt') modalRef.current?.showModal();
     else modalRef.current?.close();
@@ -339,7 +341,13 @@ export default function App() {
               resize={setBuilderWidth}
               catalog={catalog}
               selection={selection}
-              toggle={(cat, id) => setSelection((s) => toggleOption(s, cat, id))}
+              toggle={(cat, id) => {
+                const next = toggleOption(selection, cat, id);
+                if (next === selection) {
+                  setToast('You can select up to 3 options.');
+                  setToastVersion((version) => version + 1);
+                } else setSelection(next);
+              }}
               complexity={complexity}
               setComplexity={setComplexity}
               fields={fields}
@@ -435,12 +443,14 @@ export default function App() {
       {modal === 'image' && selected && (
         <ImagePreview image={selected} close={() => setModal(null)} />
       )}
-      {toast && (
-        <div className="toast" role="status">
-          <Icon name="check" size={16} />
-          {t(toast)}
-        </div>
-      )}
+      {toast &&
+        createPortal(
+          <div className="toast" role="status">
+            <Icon name="check" size={16} />
+            {t(toast)}
+          </div>,
+          Array.from(document.querySelectorAll('dialog[open]')).at(-1) ?? document.body,
+        )}
     </>
   );
 }

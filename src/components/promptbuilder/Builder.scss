@@ -15,7 +15,7 @@
   font-size: $option-font-size;
 }
 .builder .prompt-actions {
-  gap: 4px;
+  gap: 8px;
 }
 .builder-wrap {
   padding-inline: $content-padding;
@@ -32,7 +32,6 @@
 .option-section h3 {
   @include builder-heading($font-size: 9px, $margin-bottom: 8px);
   @include flex-row($gap: 8px, $justify: space-between);
-  min-height: 20px;
 }
 .option-section h3 span {
   font-weight: 400;
@@ -45,13 +44,13 @@
   @include flex-row($gap: 8px, $display: inline-flex);
   flex-shrink: 0;
 }
-.typography-toggle {
+.builder .typography-toggle {
   @include flex-row($display: inline-flex);
   flex-shrink: 0;
   width: 24px;
-  height: 14px;
-  padding: 2px;
-  border-radius: 8px;
+  height: 12px;
+  padding: 1px;
+  border-radius: 12px;
   background: #cecec7;
 }
 .typography-toggle span {
@@ -66,7 +65,7 @@
   background: $ink;
 }
 .typography-toggle[aria-checked='true'] span {
-  transform: translateX(12px);
+  transform: translateX(calc(24px - 2px - 8px));
 }
 .typography-input {
   display: block;

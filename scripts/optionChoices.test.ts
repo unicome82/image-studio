@@ -15,3 +15,8 @@ test('Selected choices lead without losing canonical order and deselection resto
     ['a', 'b', 'c', 'd'],
   );
 });
+
+test('Single-select choices always retain their original order', () => {
+  const options = ['a', 'b', 'c'].map((id) => ({ id }));
+  assert.equal(prioritizeSelectedOptions(options, ['c'], false), options);
+});

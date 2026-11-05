@@ -20,7 +20,7 @@
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
 }
 .language-option {
-  display: block;
+  @include flex-row($gap: 12px, $justify: space-between);
   width: 100%;
   padding: 8px 12px;
   border-radius: 8px;
@@ -30,10 +30,9 @@
   letter-spacing: normal;
 }
 .language-option[aria-checked='true'] {
-  background: $prompt-background;
   font-weight: 600;
 }
-.language-option:hover:not([aria-checked='true']),
+.language-option:hover,
 .language-option:focus-visible {
   background: $icon-hover-background;
 }
