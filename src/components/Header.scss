@@ -54,6 +54,9 @@
 .preset-toggle.active {
   @include selected-surface;
 }
+.saved-toggle.active .material-symbol {
+  color: $favorite;
+}
 .saved-count {
   position: absolute;
   top: 0;

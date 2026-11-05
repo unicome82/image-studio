@@ -1,9 +1,12 @@
 import { useTranslation } from 'react-i18next';
 import './ImagePreview.scss';
 import Icon from './Icon';
+import { imageName } from '../utils/imageName';
 import { useEffect, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 interface PreviewImage {
+  fileName?: string;
+  index?: number;
   width: number;
   height: number;
   color: string;
@@ -99,7 +102,7 @@ export default function ImagePreview({ image, close }: { image: PreviewImage; cl
         <div
           className="image-viewer-image"
           role="img"
-          aria-label={t(image.label)}
+          aria-label={imageName(image)}
           tabIndex={0}
           aria-description={t(
             'Scroll or pinch to zoom from 1 to 4 times; double-click or press 0 to reset.',

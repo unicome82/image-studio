@@ -32,11 +32,14 @@
   margin: 0 auto 16px;
   border-radius: 8px;
 }
-.detail-preview button {
+.detail-preview-open {
   position: absolute;
-  bottom: 8px;
-  right: 8px;
-  background: #ffffff4d;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  border-radius: inherit;
 }
 .detail-title {
   flex: 1;

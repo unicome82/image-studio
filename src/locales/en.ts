@@ -1,4 +1,8 @@
 const translation: Record<string, string> = {
+  'Remove {{name}} from favorites': 'Remove {{name}} from favorites',
+  'Add {{name}} to favorites': 'Add {{name}} to favorites',
+  'Preview {{name}}': 'Preview {{name}}',
+  'View {{name}}': 'View {{name}}',
   'You can select up to 3 options.': 'You can select up to 3 options.',
   Language: 'Language',
   'Image Studio home': 'Image Studio home',

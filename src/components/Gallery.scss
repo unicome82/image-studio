@@ -29,15 +29,6 @@
   height: 100%;
 }
 .tile-bookmark {
-  position: absolute;
-  top: 8px;
-  right: 8px;
-  @include grid-center;
-  width: 24px;
-  height: 24px;
-  padding: 0;
-  border-radius: 8px;
-  background: #faf9f63b;
   opacity: 0;
 }
 .tile:hover .tile-bookmark,
@@ -46,7 +37,6 @@
 }
 .tile-bookmark.bookmarked {
   opacity: 1;
-  background: $page;
 }
 .empty-state {
   @include flex-column;

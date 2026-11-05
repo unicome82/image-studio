@@ -1,5 +1,6 @@
 import { useTranslation } from 'react-i18next';
-import Icon from './Icon';
+import FavoriteButton from './FavoriteButton';
+import { imageName } from '../utils/imageName';
 import type { GallerySection, GalleryTile } from '../types';
 import './Gallery.scss';
 interface Props {
@@ -35,25 +36,20 @@ export default function Gallery(p: Props) {
               >
                 <button
                   className="tile-main"
-                  aria-label={t('View {{name}} placeholder {{number}}', {
-                    name: t(tile.label),
-                    number: tile.index + 1,
-                  })}
+                  aria-label={t('View {{name}}', { name: imageName(tile) })}
                   onClick={() => p.select(tile)}
                 />
-                <button
+                <FavoriteButton
                   className={'tile-bookmark ' + (p.bookmarks.includes(tile.id) ? 'bookmarked' : '')}
-                  aria-label={t(
+                  active={p.bookmarks.includes(tile.id)}
+                  label={t(
                     p.bookmarks.includes(tile.id)
-                      ? 'Remove bookmark {{name}} {{number}}'
-                      : 'Add bookmark {{name}} {{number}}',
-                    { name: t(tile.label), number: tile.index + 1 },
+                      ? 'Remove {{name}} from favorites'
+                      : 'Add {{name}} to favorites',
+                    { name: imageName(tile) },
                   )}
-                  aria-pressed={p.bookmarks.includes(tile.id)}
-                  onClick={() => p.toggleBookmark(tile.id)}
-                >
-                  <Icon name="bookmark" size={16} />
-                </button>
+                  toggle={() => p.toggleBookmark(tile.id)}
+                />
               </article>
             ))}
           </div>

@@ -1,6 +1,8 @@
 import type { CSSProperties } from 'react';
 import { useTranslation } from 'react-i18next';
 import Icon from './Icon';
+import FavoriteButton from './FavoriteButton';
+import { imageName } from '../utils/imageName';
 import Panel from './Panel';
 import SavePrompt from './promptbuilder/SavePrompt';
 import type { GalleryTile } from '../types';
@@ -23,17 +25,7 @@ export default function ImageDetail(p: Props) {
   return (
     <Panel className="detail" label={t('Image detail')} close={p.close}>
       <div className="panel-heading">
-        <h2 className="detail-title">
-          {t(image.label)} {String(image.index + 1).padStart(2, '0')}
-        </h2>
-        <button
-          className="icon-button"
-          aria-label={t('Bookmark selected placeholder')}
-          aria-pressed={p.bookmarked}
-          onClick={p.toggleBookmark}
-        >
-          <Icon name="bookmark" size={20} fill={p.bookmarked} />
-        </button>
+        <h2 className="detail-title">{imageName(image)}</h2>
         <button className="icon-button" aria-label={t('Close image detail')} onClick={p.close}>
           <Icon name="close" size={18} />
         </button>
@@ -49,9 +41,19 @@ export default function ImageDetail(p: Props) {
             } as CSSProperties
           }
         >
-          <button className="icon-button" aria-label={t('Expand preview')} onClick={p.preview}>
-            <Icon name="fullscreen" size={16} />
-          </button>
+          <button
+            className="detail-preview-open"
+            aria-label={t('Preview {{name}}', { name: imageName(image) })}
+            onClick={p.preview}
+          />
+          <FavoriteButton
+            active={p.bookmarked}
+            label={t(
+              p.bookmarked ? 'Remove {{name}} from favorites' : 'Add {{name}} to favorites',
+              { name: imageName(image) },
+            )}
+            toggle={p.toggleBookmark}
+          />
         </div>
         <div className="tags">
           <span>#{image.group}</span>

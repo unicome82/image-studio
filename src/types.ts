@@ -1,4 +1,5 @@
 export interface GalleryTile {
+  fileName?: string;
   id: string;
   group: string;
   label: string;

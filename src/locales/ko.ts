@@ -1,4 +1,8 @@
 const translation: Record<string, string> = {
+  'Remove {{name}} from favorites': '{{name}} 즐겨찾기 제거',
+  'Add {{name}} to favorites': '{{name}} 즐겨찾기 추가',
+  'Preview {{name}}': '{{name}} 확대 보기',
+  'View {{name}}': '{{name}} 보기',
   'You can select up to 3 options.': '최대 3개까지 선택가능합니다.',
   Language: '언어 선택',
   'Image Studio home': '이미지 스튜디오 홈',
