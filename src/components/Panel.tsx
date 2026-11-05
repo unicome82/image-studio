@@ -1,5 +1,6 @@
 import './Panel.scss';
-import { useEffect, useRef, useState, type ReactNode } from 'react';
+import { useEffect, useRef, type ReactNode } from 'react';
+import { useMediaQuery } from '../utils/useMediaQuery';
 interface Props {
   className: string;
   label: string;
@@ -7,14 +8,8 @@ interface Props {
   children: ReactNode;
 }
 export default function Panel({ className, label, close, children }: Props) {
-  const [mobile, setMobile] = useState(() => matchMedia('(max-width: 600px)').matches);
+  const mobile = useMediaQuery('(max-width: 600px)');
   const ref = useRef<HTMLDialogElement>(null);
-  useEffect(() => {
-    const media = matchMedia('(max-width: 600px)');
-    const change = () => setMobile(media.matches);
-    media.addEventListener('change', change);
-    return () => media.removeEventListener('change', change);
-  }, []);
   useEffect(() => {
     if (!mobile) return;
     const previous = document.body.style.overflow;

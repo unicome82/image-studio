@@ -1,6 +1,5 @@
 import { useLayoutEffect, useId, useRef, useState } from 'react';
 import Icon from '../Icon';
-import '../LanguageMenu.scss';
 import './BuilderSelect.scss';
 interface Props {
   label: string;
@@ -89,7 +88,7 @@ export default function BuilderSelect({ label, value, options, disabled, change 
       </button>
       {open && (
         <div
-          className="language-dropdown builder-select-dropdown"
+          className="dropdown-menu builder-select-dropdown"
           id={id}
           ref={menu}
           popover="manual"
@@ -119,7 +118,7 @@ export default function BuilderSelect({ label, value, options, disabled, change 
           {options.map((option) => (
             <button
               key={option.value}
-              className="language-option"
+              className="dropdown-option"
               role="menuitemradio"
               aria-checked={value === option.value}
               tabIndex={-1}

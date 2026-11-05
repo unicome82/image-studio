@@ -214,13 +214,14 @@ test('The three-option limit preserves existing choices, permits deselection, an
 
 test('Blank subjects request random image content while explicit subjects remain unchanged', () => {
   for (const photo of [false, true]) {
-    for (const Subject of ['', '   ']) {
-      const prompt = makePrompt([], {}, 3, { Subject }, photo);
-      assert.ok(prompt.includes('Choose a random subject and scene'));
+    for (const Subject of [undefined, '', '   ']) {
+      const fields: Record<string, string> = Subject === undefined ? {} : { Subject };
+      const prompt = makePrompt([], {}, 3, fields, photo);
+      assert.ok(prompt.includes('Generate an image with a random subject and scene'));
       assert.ok(prompt.includes('without asking for a subject'));
     }
     const prompt = makePrompt([], {}, 3, { Subject: 'A cat in Seoul' }, photo);
     assert.ok(prompt.includes('Subject: A cat in Seoul'));
-    assert.ok(!prompt.includes('Choose a random subject'));
+    assert.ok(!prompt.includes('Generate an image with a random subject'));
   }
 });

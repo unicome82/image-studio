@@ -38,6 +38,36 @@
 .close-button:hover [data-icon='close'] {
   transform: rotate(180deg);
 }
+.dropdown-menu {
+  position: absolute;
+  top: calc(100% + 8px);
+  right: 0;
+  z-index: 100;
+  min-width: 128px;
+  padding: 4px;
+  border: 1px solid $line;
+  border-radius: 8px;
+  background: $page;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+}
+.dropdown-option {
+  @include flex-row($gap: 12px, $justify: space-between);
+  width: 100%;
+  padding: calc(8em / 11) calc(12em / 11);
+  border-radius: 8px;
+  font-size: $button-font-size;
+  text-align: start;
+  text-transform: none;
+  letter-spacing: normal;
+}
+.dropdown-option[aria-checked='true'] {
+  font-weight: 500;
+}
+.dropdown-option:hover,
+.dropdown-option:focus-visible {
+  background: $icon-hover-background;
+}
+
 .panel-heading {
   @include flex-row($justify: space-between);
   min-height: 56px;

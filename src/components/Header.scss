@@ -39,8 +39,8 @@
 }
 .header .icon-button {
   flex-shrink: 0;
-  width: $header-control-size;
-  height: $header-control-size;
+  width: $compact-control-size;
+  height: $compact-control-size;
 }
 .header-actions {
   @include flex-row($gap: 8px);
@@ -71,9 +71,6 @@
   }
   .header-actions {
     gap: 0;
-  }
-  .saved-toggle {
-    --icon-20: calc(9rem / 8);
   }
   .mobile-search-trigger {
     display: inline-flex;

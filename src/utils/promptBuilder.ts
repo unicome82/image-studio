@@ -91,7 +91,7 @@ export function makePrompt(
     '',
     ...(!fields.Subject?.trim()
       ? [
-          'Subject: Choose a random subject and scene consistent with the selected settings and additional instructions. Generate the image without asking for a subject.',
+          'Subject: Generate an image with a random subject and scene consistent with the selected settings and additional instructions, without asking for a subject.',
         ]
       : []),
     ...Object.entries(fields)

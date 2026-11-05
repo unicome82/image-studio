@@ -74,7 +74,7 @@ export default function LanguageMenu() {
         <div
           ref={menu}
           id={menuId}
-          className="language-dropdown"
+          className="dropdown-menu"
           role="menu"
           aria-label={t('Language')}
           onKeyDown={(event) => {
@@ -106,7 +106,7 @@ export default function LanguageMenu() {
           ).map(({ code, label }) => (
             <button
               key={code}
-              className="language-option"
+              className="dropdown-option"
               role="menuitemradio"
               aria-checked={i18n.resolvedLanguage === code}
               lang={code}
