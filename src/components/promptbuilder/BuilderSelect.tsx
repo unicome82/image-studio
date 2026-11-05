@@ -1,4 +1,4 @@
-import { useEffect, useId, useRef, useState } from 'react';
+import { useLayoutEffect, useId, useRef, useState } from 'react';
 import Icon from '../Icon';
 import '../LanguageMenu.scss';
 import './BuilderSelect.scss';
@@ -16,8 +16,19 @@ export default function BuilderSelect({ label, value, options, disabled, change 
   const menu = useRef<HTMLDivElement>(null);
   const initialFocus = useRef<'first' | 'last' | 'selected'>('selected');
   const id = useId();
-  useEffect(() => {
+  useLayoutEffect(() => {
     if (!open) return;
+    const dropdown = menu.current;
+    function position() {
+      const bounds = trigger.current?.getBoundingClientRect();
+      if (!bounds || !dropdown) return;
+      dropdown.style.left = `${bounds.left}px`;
+      dropdown.style.top = `${bounds.bottom + 8}px`;
+    }
+    position();
+    dropdown?.showPopover();
+    window.addEventListener('resize', position);
+    document.addEventListener('scroll', position, true);
     const items = menu.current?.querySelectorAll<HTMLButtonElement>('[role="menuitemradio"]');
     const selected = menu.current?.querySelector<HTMLButtonElement>('[aria-checked="true"]');
     (initialFocus.current === 'first'
@@ -30,7 +41,12 @@ export default function BuilderSelect({ label, value, options, disabled, change 
       if (!root.current?.contains(event.target as Node)) setOpen(false);
     }
     document.addEventListener('pointerdown', outside);
-    return () => document.removeEventListener('pointerdown', outside);
+    return () => {
+      document.removeEventListener('pointerdown', outside);
+      window.removeEventListener('resize', position);
+      document.removeEventListener('scroll', position, true);
+      if (dropdown?.isConnected && dropdown.matches(':popover-open')) dropdown.hidePopover();
+    };
   }, [open]);
   return (
     <div
@@ -76,6 +92,7 @@ export default function BuilderSelect({ label, value, options, disabled, change 
           className="language-dropdown builder-select-dropdown"
           id={id}
           ref={menu}
+          popover="manual"
           role="menu"
           aria-label={label}
           onKeyDown={(event) => {

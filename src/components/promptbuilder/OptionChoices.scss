@@ -28,10 +28,11 @@
 .option-choice:hover:not(:disabled) {
   border-color: $option-hover-border;
 }
-.option-choice[aria-pressed='true'] {
-  border-color: transparent;
-  background: $ai-option-gradient;
-  color: $white;
+.option-choice[aria-pressed='true'],
+.option-choice[aria-pressed='true']:hover {
+  border-color: #666;
+  background: transparent;
+  color: $ink;
 }
 .choice-row {
   padding-inline: $content-padding;

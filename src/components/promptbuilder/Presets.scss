@@ -74,13 +74,11 @@
 .preset-rename button {
   flex-shrink: 0;
 }
-.preset-rename .rename-cancel {
-  border: 1px solid $secondary-border;
-}
-.preset-rename .rename-confirm,
-.preset-rename .rename-confirm:hover {
-  background: $black;
-  color: $white;
+.preset-rename .icon-button,
+.preset-rename .icon-button:hover {
+  border: 0;
+  background: transparent;
+  color: $ink;
 }
 .preset-empty {
   display: grid;

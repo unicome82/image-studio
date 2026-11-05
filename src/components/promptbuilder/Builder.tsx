@@ -57,15 +57,16 @@ export default function Builder(p: Props) {
         <div className="builder-wrap">
           <div className="builder-primary-inputs">
             <div className="builder-selects">
-              <BuilderSelect
-                label={t('Outline')}
-                disabled={p.photo}
-                value={p.selection.Outline?.[0] ?? 'coloronly'}
-                change={(value) => p.toggle('Outline', value)}
-                options={p.catalog
-                  .filter((o) => o.category === 'Outline')
-                  .map((o) => ({ value: o.id, label: t(o.label) }))}
-              />
+              {!p.photo && (
+                <BuilderSelect
+                  label={t('Outline')}
+                  value={p.selection.Outline?.[0] ?? 'coloronly'}
+                  change={(value) => p.toggle('Outline', value)}
+                  options={p.catalog
+                    .filter((o) => o.category === 'Outline')
+                    .map((o) => ({ value: o.id, label: t(o.label) }))}
+                />
+              )}
               <BuilderSelect
                 label={t('Aspect ratio')}
                 value={p.fields['Aspect Ratio'] || '1:1'}
