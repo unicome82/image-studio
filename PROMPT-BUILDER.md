@@ -128,3 +128,5 @@ Combine the selected prompt file instructions while preserving their defining ch
 `IMAGE-STUDIO.md`를 먼저 읽고 현재 프로젝트 구조를 확인한다. **우선 Step 1만 진행**하고 나머지는 요청 시 실행한다. 불필요한 파일·기능을 추가하지 않는다.
 
 - 최상단 Subject 아래 Outline·Aspect ratio·Complexity를 옵션명 없는 셀렉트박스 한 줄로 배치한다. Subject는 생성·복사·스타일셋 저장에 포함하며 언어 변경 시 원문을 유지한다. Selected 영역은 우측 음수 마진과 같은 크기 패딩으로 스크롤바를 패널 우측 경계에 정렬한다.
+
+- Selected에는 비율·복잡도·Outline의 값만 표시한다. 필터 X는 회전 없이 opacity 0.5에서 hover 시 1로 전환한다. Selected·Prompt 탭은 옵션 제목 스타일을 공유하며, 빌더 셀렉트는 8px 화살표를 사용한다. Typography 표시명에서 Typography·Lettering·Handwriting 접미어를 생략하되 프롬프트 원문은 유지한다.

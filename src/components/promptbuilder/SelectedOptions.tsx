@@ -21,15 +21,28 @@ export default function SelectedOptions({
   remove,
 }: Props) {
   const { t } = useTranslation();
-  const options = selectedBuilderOptions(catalog, selection, fields, photo);
+  const options = selectedBuilderOptions(catalog, selection, fields, photo).filter(
+    (option) => option.category !== 'Outline',
+  );
+  const outline = !photo
+    ? catalog.find(
+        (option) =>
+          option.category === 'Outline' && option.id === (selection.Outline?.[0] ?? 'coloronly'),
+      )
+    : undefined;
   return (
     <div className="selected-options" role="group" aria-label={t('Selected options')}>
       <span className="selected-option fixed-option" title={t('Aspect ratio')}>
-        {t('Aspect ratio')}: {fields['Aspect Ratio'] || '1:1'}
+        {fields['Aspect Ratio'] || '1:1'}
       </span>
       <span className="selected-option fixed-option" title={t('Complexity')}>
-        {t('Complexity')}: {t(complexityLabels[complexity - 1])}
+        {t(complexityLabels[complexity - 1])}
       </span>
+      {outline && (
+        <span className="selected-option fixed-option" title={t('Outline')}>
+          {t(outline.label)}
+        </span>
+      )}
       {options.map((option) => {
         const label = t(option.label.replace(' Modern', '').replace(/\s+illustration\b/gi, ''));
         return (
@@ -40,7 +53,7 @@ export default function SelectedOptions({
           >
             <span className="selected-option-label">{label}</span>
             <button
-              className="selected-option-remove close-button"
+              className="selected-option-remove"
               aria-label={t('Remove {{label}} option', { label })}
               onClick={() => remove(option.category, option.id)}
             >

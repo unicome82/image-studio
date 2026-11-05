@@ -55,7 +55,7 @@
   flex-wrap: wrap;
 }
 .choice-toggle {
-  margin-right: -4px;
+  margin-right: -8px;
   @include flex-row($justify: center, $display: inline-flex);
   flex-shrink: 0;
   height: $option-control-height;
@@ -70,8 +70,8 @@
 }
 .choice-toggle:hover,
 .choice-toggle[aria-expanded='true'] {
-  background: $subtle-background;
-  color: $ink;
+  background: transparent;
+  color: $black;
 }
 
 .choice-row.dragging,

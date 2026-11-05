@@ -27,6 +27,7 @@
 }
 .selected-option .selected-option-remove {
   margin-right: -4px;
+  opacity: 0.5;
   @include grid-center;
   flex-shrink: 0;
   width: 16px;
@@ -34,6 +35,10 @@
   padding: 0;
 }
 
+.selected-option-remove:hover {
+  background: transparent;
+  opacity: 1;
+}
 .fixed-option {
   padding-inline: 8px;
 }

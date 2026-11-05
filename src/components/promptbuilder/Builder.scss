@@ -35,7 +35,12 @@
 .builder-selects select {
   width: 100%;
   min-width: 0;
-  padding-inline: 4px;
+  appearance: none;
+  padding: 0 16px 0 8px;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='8' viewBox='0 0 8 8'%3E%3Cpath d='M0 2h8L4 6z' fill='%23000'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 4px center;
+  background-size: 8px 8px;
   border-radius: 4px;
   font-size: $option-font-size;
 }
@@ -88,7 +93,7 @@
 .typography-input {
   display: block;
   margin-bottom: 8px;
-  font-size: 11px;
+  font-size: $option-font-size;
 }
 .inputs textarea {
   min-height: 84px;
@@ -103,8 +108,10 @@
   margin-bottom: 16px;
 }
 .builder-footer-tabs [role='tab'] {
+  @include builder-option-heading;
+  margin-bottom: 0;
   padding: 0;
-  color: $muted;
+  @include uppercase-text;
 }
 .builder-footer-tabs [aria-selected='true'] {
   color: $black;

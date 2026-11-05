@@ -32,7 +32,7 @@
   border: 0;
   background: transparent;
   color: $ink;
-  font-size: 12px;
+  font-size: $option-font-size;
 }
 .header-search input::-webkit-search-cancel-button {
   -webkit-appearance: none;
@@ -66,9 +66,6 @@
   .header-search {
     gap: 8px;
     padding-left: 8px;
-  }
-  .header-search input {
-    font-size: 11px;
   }
 }
 @media (max-width: 480px) {

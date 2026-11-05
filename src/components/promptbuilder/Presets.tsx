@@ -82,7 +82,7 @@ export default function Presets(p: Props) {
                           setEditName(preset.name);
                         }}
                       >
-                        <Icon name="edit" size={14} />
+                        <Icon name="edit" size={16} />
                       </button>
                     </div>
                     <div className="preset-item-actions">
@@ -110,7 +110,7 @@ export default function Presets(p: Props) {
                             title={t('Copy prompt')}
                             onClick={() => p.copy(prompt)}
                           >
-                            <Icon name="content_copy" size={14} />
+                            <Icon name="content_copy" size={16} />
                           </button>
                           <button
                             className="icon-button preset-delete"
@@ -118,7 +118,7 @@ export default function Presets(p: Props) {
                             title={t('Delete style set')}
                             onClick={() => setDeleting(preset.id)}
                           >
-                            <Icon name="delete" size={14} />
+                            <Icon name="delete" size={16} />
                           </button>
                         </>
                       )}

@@ -18,7 +18,7 @@
 }
 .preset-item-heading {
   @include flex-row($gap: 8px);
-  min-height: 28px;
+  min-height: $input-height;
 }
 .preset-name {
   @include flex-row($gap: 4px, $display: inline-flex);
@@ -33,10 +33,13 @@
   letter-spacing: normal;
   overflow-wrap: anywhere;
 }
-.preset-name .icon-button {
+.presets-page .icon-button {
   flex-shrink: 0;
-  width: 24px;
-  height: 24px;
+  width: $input-height;
+  height: $input-height;
+}
+.presets-page .close-button {
+  margin-right: 0;
 }
 .preset-prompt {
   flex: 1;
@@ -48,13 +51,9 @@
   flex-shrink: 0;
   margin-left: auto;
 }
-.preset-item-actions .icon-button {
-  width: 28px;
-  height: 28px;
-}
 .preset-item-actions .primary,
 .preset-item-actions .secondary {
-  height: 28px;
+  height: $input-height;
   padding: 0 8px;
   gap: 4px;
   font-size: 10px;
@@ -70,7 +69,7 @@
 }
 .preset-rename input {
   flex: 1;
-  font-size: 11px;
+  font-size: $option-font-size;
 }
 .preset-rename button {
   flex-shrink: 0;
