@@ -7,7 +7,7 @@
   padding: 0 24px 24px;
   overflow: auto;
   overscroll-behavior: contain;
-  border: 1px solid #dedcd2;
+  border: 1px solid $dialog-border;
   border-radius: 8px;
   background: $page;
   color: $ink;
@@ -22,7 +22,7 @@
   display: grid;
   gap: 8px;
   margin-top: 16px;
-  color: #777a6d;
+  color: $dialog-muted;
   font-size: 11px;
 }
 .save-style-label input {

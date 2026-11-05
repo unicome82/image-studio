@@ -1,4 +1,6 @@
 const translation: Record<string, string> = {
+  Selected: '선택 항목',
+  'Builder output': '빌더 출력',
   'Generate prompt': '프롬프트 생성',
   'Remove {{label}} option': '{{label}} 옵션 제거',
   'Selected options': '선택한 옵션',

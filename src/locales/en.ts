@@ -1,4 +1,6 @@
 const translation: Record<string, string> = {
+  Selected: 'Selected',
+  'Builder output': 'Builder output',
   'Generate prompt': 'Generate prompt',
   'Remove {{label}} option': 'Remove {{label}} option',
   'Selected options': 'Selected options',

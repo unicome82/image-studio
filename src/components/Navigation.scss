@@ -13,6 +13,10 @@
   background: $page;
   font-size: $nav-font-size;
 }
+.navigation button {
+  text-transform: none;
+  letter-spacing: normal;
+}
 .builder-toggle {
   @include flex-row($justify: center, $display: inline-flex);
   flex-shrink: 0;
@@ -42,7 +46,7 @@
   height: var(--type-toggle-height);
   padding: 0 12px;
   border: 0;
-  background: #ecece5;
+  background: $icon-hover-background;
   color: $muted;
   white-space: nowrap;
 }
@@ -56,7 +60,7 @@
   @include selected-surface;
 }
 .type-tabs button[aria-pressed='false']:hover {
-  background: #e2e2d8;
+  background: $tab-hover-background;
 }
 .style-tabs {
   display: flex;
@@ -68,7 +72,7 @@
 .style-tabs button {
   padding: 0 12px;
   border-bottom: 2px solid transparent;
-  color: #888a80;
+  color: $tab-text;
   line-height: 1;
   white-space: nowrap;
 }

@@ -105,16 +105,15 @@ export default function Presets(p: Props) {
                       ) : (
                         <>
                           <button
-                            className="primary preset-copy"
+                            className="icon-button preset-copy"
                             aria-label={t('Copy {{name}} prompt', { name: preset.name })}
                             title={t('Copy prompt')}
                             onClick={() => p.copy(prompt)}
                           >
                             <Icon name="content_copy" size={14} />
-                            {t('Copy')}
                           </button>
                           <button
-                            className="icon-button type-outline"
+                            className="icon-button preset-delete"
                             aria-label={t('Delete {{name}}', { name: preset.name })}
                             title={t('Delete style set')}
                             onClick={() => setDeleting(preset.id)}

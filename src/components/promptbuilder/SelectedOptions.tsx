@@ -1,6 +1,7 @@
 import { useTranslation } from 'react-i18next';
 import Icon from '../Icon';
 import type { Option, Selection } from '../../utils/promptBuilder';
+import { complexityLabels } from '../../utils/promptBuilder';
 import { selectedBuilderOptions } from '../../utils/selectedOptions';
 import './SelectedOptions.scss';
 interface Props {
@@ -8,14 +9,27 @@ interface Props {
   selection: Selection;
   fields: Record<string, string>;
   photo: boolean;
+  complexity: number;
   remove: (category: string, id: string) => void;
 }
-export default function SelectedOptions({ catalog, selection, fields, photo, remove }: Props) {
+export default function SelectedOptions({
+  catalog,
+  selection,
+  fields,
+  photo,
+  complexity,
+  remove,
+}: Props) {
   const { t } = useTranslation();
   const options = selectedBuilderOptions(catalog, selection, fields, photo);
-  if (!options.length) return null;
   return (
     <div className="selected-options" role="group" aria-label={t('Selected options')}>
+      <span className="selected-option fixed-option" title={t('Aspect ratio')}>
+        {t('Aspect ratio')}: {fields['Aspect Ratio'] || '1:1'}
+      </span>
+      <span className="selected-option fixed-option" title={t('Complexity')}>
+        {t('Complexity')}: {t(complexityLabels[complexity - 1])}
+      </span>
       {options.map((option) => {
         const label = t(option.label.replace(' Modern', '').replace(/\s+illustration\b/gi, ''));
         return (

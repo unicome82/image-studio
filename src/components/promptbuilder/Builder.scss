@@ -52,7 +52,7 @@
   height: 12px;
   padding: 2px;
   border-radius: 12px;
-  background: #cecec7;
+  background: $toggle-background;
 }
 .typography-toggle span {
   display: block;
@@ -110,10 +110,29 @@
   padding: 20px 0 20px;
   border-top: 1px solid $line;
 }
-.builder-footer h3 {
-  @include builder-heading($font-size: 10px, $margin-bottom: 12px);
+.builder-footer-tabs {
+  @include flex-row($gap: 16px);
+  margin-bottom: 16px;
 }
-.builder .builder-footer > .builder-wrap > .generate-prompt,
+.builder-footer-tabs [role='tab'] {
+  padding: 0;
+  color: $muted;
+}
+.builder-footer-tabs [aria-selected='true'] {
+  color: $black;
+}
+.builder-output {
+  animation: output-reveal var(--transition-duration) ease-out;
+}
+@keyframes output-reveal {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+.builder .builder-footer .generate-prompt,
 .builder .builder-footer .prompt-actions button {
   @include uppercase-text;
 }

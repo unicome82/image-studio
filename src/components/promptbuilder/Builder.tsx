@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useId, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import './Builder.scss';
 import Icon from '../Icon';
@@ -38,6 +38,7 @@ export default function Builder(p: Props) {
   useEffect(() => {
     setGenerated(null);
   }, [configuration]);
+  const tabsId = useId();
   const categories = builderCategories(p.photo);
   return (
     <Panel className="builder" label={t('Prompt Builder')} close={p.close}>
@@ -162,40 +163,70 @@ export default function Builder(p: Props) {
       </div>
       <div className="builder-footer">
         <div className="builder-wrap">
-          {showPrompt ? (
-            <>
-              <h3>{t('Prompt')}</h3>
-              <textarea
-                className="prompt-textarea"
-                aria-label={t('Builder prompt')}
-                readOnly
-                value={p.prompt}
-              />
-              <div className="prompt-actions">
-                <SavePrompt save={p.save} prompt={p.prompt} />
-                <button className="primary builder-copy" onClick={() => p.copy(p.prompt)}>
-                  <Icon name="content_copy" size={14} />
-                  {t('Copy')}
-                </button>
-              </div>
-            </>
-          ) : (
-            <>
-              <SelectedOptions
-                catalog={p.catalog}
-                selection={p.selection}
-                fields={p.fields}
-                photo={p.photo}
-                remove={p.removeOption}
-              />
+          <div className="builder-footer-tabs" role="tablist" aria-label={t('Builder output')}>
+            {['Selected', 'Prompt'].map((tab, index) => (
               <button
-                className="primary generate-prompt"
-                onClick={() => setGenerated(configuration)}
+                key={tab}
+                id={`${tabsId}-tab-${index}`}
+                role="tab"
+                aria-selected={showPrompt === (index === 1)}
+                aria-controls={`${tabsId}-panel`}
+                tabIndex={showPrompt === (index === 1) ? 0 : -1}
+                onClick={() => setGenerated(index === 1 ? configuration : null)}
+                onKeyDown={(event) => {
+                  if (!['ArrowLeft', 'ArrowRight', 'Home', 'End'].includes(event.key)) return;
+                  event.preventDefault();
+                  const next = event.key === 'Home' ? 0 : event.key === 'End' ? 1 : 1 - index;
+                  setGenerated(next === 1 ? configuration : null);
+                  document.getElementById(`${tabsId}-tab-${next}`)?.focus();
+                }}
               >
-                {t('Generate prompt')}
+                {t(tab)}
               </button>
-            </>
-          )}
+            ))}
+          </div>
+          <div
+            className="builder-output"
+            key={showPrompt ? 'prompt' : 'selected'}
+            id={`${tabsId}-panel`}
+            role="tabpanel"
+            aria-labelledby={`${tabsId}-tab-${showPrompt ? 1 : 0}`}
+          >
+            {showPrompt ? (
+              <>
+                <textarea
+                  className="prompt-textarea"
+                  aria-label={t('Builder prompt')}
+                  readOnly
+                  value={p.prompt}
+                />
+                <div className="prompt-actions">
+                  <SavePrompt save={p.save} prompt={p.prompt} />
+                  <button className="primary builder-copy" onClick={() => p.copy(p.prompt)}>
+                    <Icon name="content_copy" size={14} />
+                    {t('Copy')}
+                  </button>
+                </div>
+              </>
+            ) : (
+              <>
+                <SelectedOptions
+                  catalog={p.catalog}
+                  selection={p.selection}
+                  fields={p.fields}
+                  photo={p.photo}
+                  complexity={p.complexity}
+                  remove={p.removeOption}
+                />
+                <button
+                  className="primary generate-prompt"
+                  onClick={() => setGenerated(configuration)}
+                >
+                  {t('Generate prompt')}
+                </button>
+              </>
+            )}
+          </div>
         </div>
       </div>
     </Panel>

@@ -63,3 +63,5 @@ The Pages workflow checks formatting before tests and build.
 ## Languages
 
 The header uses vertical padding instead of a fixed height. The three rightmost header buttons share an 8px gap. The rightmost globe icon opens a custom language menu for English and Korean, with a right-side check for the current language, no resting selection background, and hover highlighting using i18next and react-i18next. UI translations are maintained in `src/locales/en.ts` and `src/locales/ko.ts`; initialization is in `src/i18n.ts`. The first visit follows the browser language (Korean or English fallback). Language selection is saved in LocalStorage when available and updates the document language and page title. Generated prompts, reference files, saved IDs, and user-entered content remain unchanged when switching languages.
+
+빌더 하단은 Selected·Prompt 탭으로 전환하며, 비율·복잡도는 제거할 수 없는 필터로 함께 표시합니다. 옵션을 바꾸면 Selected로 돌아갑니다. UI 회색은 푸른 톤으로 통일하고 스타일셋 복사·삭제는 배경 없는 아이콘으로 표시합니다.

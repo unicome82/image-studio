@@ -59,15 +59,11 @@
   gap: 4px;
   font-size: 10px;
 }
-.preset-item-actions .preset-copy {
-  background: $black;
-  border-color: $black;
-}
-.preset-item-actions .preset-copy:hover {
-  background: #333;
-}
-.preset-item-actions .type-outline {
-  border: 1px solid $line;
+.preset-item-actions :is(.preset-copy, .preset-delete),
+.preset-item-actions :is(.preset-copy, .preset-delete):hover {
+  background: transparent;
+  border: 0;
+  color: $ink;
 }
 .preset-rename {
   @include flex-row($gap: 8px);

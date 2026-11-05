@@ -20,7 +20,7 @@
 .builder-resize:hover::after,
 .builder-resize.dragging::after,
 .builder-resize:focus-visible::after {
-  background: #969c89;
+  background: $resize-hover;
 }
 @media (max-width: $tablet) {
   .builder-resize {

@@ -4,7 +4,7 @@
   --nav-height: 44px;
   --header-visible: 76px;
   --panel-top: calc(var(--header-visible) + var(--nav-height));
-  --transition-duration: 0.15s;
+  --transition-duration: 0.3s;
 }
 html {
   scroll-behavior: smooth;
@@ -29,7 +29,8 @@ button {
   transition:
     background var(--transition-duration),
     color var(--transition-duration),
-    border-color var(--transition-duration);
+    border-color var(--transition-duration),
+    opacity var(--transition-duration);
 }
 button:disabled {
   cursor: not-allowed;

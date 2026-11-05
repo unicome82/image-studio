@@ -60,7 +60,7 @@
 
 @mixin builder-heading($font-size, $margin-bottom) {
   margin-bottom: $margin-bottom;
-  color: #85877d;
+  color: $heading-muted;
   font-size: $font-size;
   font-weight: 400;
 }

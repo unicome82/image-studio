@@ -37,6 +37,10 @@
   background-clip: border-box;
   box-shadow: none;
 }
+:is(html, body, .builder, .builder *)::-webkit-scrollbar-track,
+:is(html, body, .builder, .builder *)::-webkit-scrollbar-thumb {
+  border-radius: 0;
+}
 *::-webkit-scrollbar-button {
   display: none;
   width: 0;

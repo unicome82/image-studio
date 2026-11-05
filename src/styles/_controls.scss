@@ -6,7 +6,7 @@
   border-color: $ink;
 }
 .primary:hover:not(:disabled) {
-  background: #44473e;
+  background: $primary-hover-background;
 }
 .secondary {
   @include button-frame;
@@ -47,7 +47,7 @@
   padding: 2px 6px;
   border-radius: 8px;
   background: $secondary-hover-background;
-  color: #9a9d91;
+  color: $count-text;
   font-size: 12px;
   font-weight: 400;
 }
