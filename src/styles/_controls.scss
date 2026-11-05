@@ -38,7 +38,7 @@
 .close-button:hover [data-icon='close'] {
   transform: rotate(180deg);
 }
-.dropdown-menu {
+:where(.dropdown-menu) {
   position: absolute;
   top: calc(100% + 8px);
   right: 0;
