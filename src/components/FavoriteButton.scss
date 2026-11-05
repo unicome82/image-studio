@@ -20,4 +20,10 @@
   .favorite-button {
     --icon-24: calc(9rem / 8);
   }
+  .favorite-button.tile-bookmark {
+    top: 0;
+    right: 0;
+    place-items: start end;
+    padding: 8px;
+  }
 }

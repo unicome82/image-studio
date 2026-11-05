@@ -81,3 +81,9 @@
 .choice-row.dragging .option-choice {
   cursor: grabbing;
 }
+
+@media (max-width: $mobile) {
+  .option-choice {
+    padding-block: round(nearest, calc(2em / 11), 2px);
+  }
+}

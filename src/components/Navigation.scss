@@ -1,7 +1,7 @@
 @use '../styles/variable' as *;
 @use '../styles/mixin' as *;
 .navigation {
-  --type-toggle-height: var(--control-height, 28px);
+  --type-toggle-height: var(--nav-control-height, var(--control-height, 28px));
   position: sticky;
   top: 0;
   z-index: 25;
@@ -84,13 +84,17 @@
   color: $ink;
 }
 @media (max-width: $mobile) {
+  .style-tabs button {
+    padding-inline: calc(4em / 5);
+  }
   .type-dropdown {
     align-self: center;
     flex-shrink: 0;
     margin-inline: calc(1em / 2);
   }
   .type-dropdown .builder-select-trigger {
-    padding-inline: calc(2em / 3);
+    height: var(--type-toggle-height);
+    padding-inline: calc(1em / 2);
     border: 1px solid $selected-border;
     border-radius: 6px;
     background: $prompt-background;

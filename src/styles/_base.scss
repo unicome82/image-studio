@@ -93,9 +93,10 @@ textarea::placeholder {
   }
   :root {
     --header-visible: 80px;
-    --nav-height: round(nearest, clamp(60px, 16cqw, 72px), 4px);
+    --nav-height: round(nearest, clamp(52px, 14cqw, 64px), 4px);
+    --nav-control-height: round(nearest, clamp(36px, 9cqw, 44px), 4px);
     --control-height: round(nearest, clamp(44px, 11cqw, 52px), 4px);
-    --option-height: round(nearest, clamp(40px, 10cqw, 48px), 4px);
+    --option-height: round(nearest, clamp(32px, 8cqw, 40px), 4px);
     --action-height: round(nearest, clamp(44px, 11cqw, 52px), 4px);
     --chip-height: round(nearest, clamp(32px, 8cqw, 40px), 4px);
     --button-font-size: round(nearest, clamp(12px, calc(10px + 1cqw), 16px), 2px);
@@ -125,6 +126,9 @@ textarea::placeholder {
   textarea {
     font-size: 16px;
     line-height: 1.5;
+  }
+  .prompt-textarea[readonly] {
+    font-size: 12px;
   }
 }
 @media (prefers-reduced-motion: reduce) {
