@@ -1,7 +1,6 @@
 @use '../../styles/variable' as *;
 @use '../../styles/mixin' as *;
 .builder-select {
-  position: relative;
   min-width: 0;
 }
 .builder-select-trigger {
@@ -20,13 +19,14 @@
   clip-path: polygon(0 0, 100% 0, 50% 100%);
 }
 .builder-select-dropdown {
+  right: auto;
+  left: 0;
+  text-align: left;
   max-width: 200px;
   min-width: max-content;
 }
 .builder-select-dropdown .language-option {
   border-radius: 8px;
-}
-.builder-select:first-child .builder-select-dropdown {
-  right: auto;
-  left: 0;
+  text-align: left;
+  justify-content: space-between;
 }

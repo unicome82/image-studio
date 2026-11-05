@@ -28,6 +28,7 @@
   padding-block: 12px 0;
 }
 .builder-selects {
+  position: relative;
   @include flex-row($gap: 8px);
   flex-wrap: wrap;
 }

@@ -58,11 +58,15 @@ export default function Presets(p: Props) {
                       autoFocus
                       required
                     />
-                    <button className="icon-button" aria-label={t('Confirm rename')} type="submit">
+                    <button
+                      className="icon-button rename-confirm"
+                      aria-label={t('Confirm rename')}
+                      type="submit"
+                    >
                       <Icon name="check" size={16} />
                     </button>
                     <button
-                      className="icon-button"
+                      className="icon-button rename-cancel"
                       aria-label={t('Cancel rename')}
                       type="button"
                       onClick={() => setEditing(null)}
