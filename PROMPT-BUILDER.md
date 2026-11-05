@@ -109,8 +109,8 @@ Combine the selected prompt file instructions while preserving their defining ch
 
 - 기존 IMAGE STUDIO 메뉴에 `Prompt Builder` 추가; Gallery는 기본 화면 유지
 - 스타일 선택·레퍼런스 미리보기·표현 방식 단일 선택·복잡도·입력·결과·복사·저장 UI 제공
-- 카테고리는 접힌 상태에서 More 버튼을 포함해 최대 한 줄만 표시하고, 실제 버튼 폭을 측정해 Builder 너비에 맞게 개수를 조절한다. More는 전체 목록을 펼치고 Less는 접는다. 선택 상태 표시와 반응형 구성 유지
-- 옵션 버튼 상하 패딩 3.5px, 옵션 타이틀은 11px bold 회색. 본문·textarea를 제외한 내부 스크롤바는 6px, 화살표와 thumb/track 간격 제거
+- 카테고리는 접힌 상태에서 최대 한 줄만 표시하고, 실제 버튼 폭을 측정해 Builder 너비에 맞게 개수를 조절한다. 옵션 제목 우측의 +는 전체 목록을 펼치고 −는 접는다. 선택 상태 표시와 반응형 구성 유지
+- 옵션 버튼 상하 패딩 3.5px, 옵션 타이틀은 10px bold 회색, 전체 UI 폰트는 최소 10px. Outline은 Aspect ratio 바로 위에 배치. 본문·textarea를 제외한 내부 스크롤바는 6px, 화살표와 thumb/track 간격 제거
 - 옵션 사이 구분선 제거. Builder 기본 폭 248px, 데스크톱에서 최소 220px~최대 420px까지 우측 경계 드래그로 조절. 경계의 방향키·Home·End 조작 지원. 모바일 전체 화면 팝업은 너비 조절 제외
 - Public `reference/`의 기존 이미지·프롬프트와 공개 GitHub 조회 경로 재사용; Cloudflare API를 전제로 하지 않음
 - 필요한 컴포넌트는 `src/components/promptbuilder/`, 생성 로직은 `src/utils/promptBuilder.ts`에 배치하되 기존 구조에 맞게 조정

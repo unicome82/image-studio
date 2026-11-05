@@ -12,7 +12,7 @@ export function hasPromptText(fields: Record<string,string>): boolean {
   return Boolean(fields.Text?.trim() || /(?:^|\n)\s*Text\s*:\s*\S/i.test(fields['Additional Instructions'] ?? ''));
 }
 export function builderCategories(photo: boolean): string[] {
-  return photo ? ['Photography', 'Color', 'Composition', 'Texture', 'Typography'] : ['Base Style', 'Technique', 'Color', 'Outline', 'Composition', 'Texture', 'Typography'];
+  return photo ? ['Photography', 'Color', 'Composition', 'Texture', 'Typography'] : ['Base Style', 'Technique', 'Color', 'Composition', 'Texture', 'Typography', 'Outline'];
 }
 export function toggleOption(selection: Selection, category: string, id: string): Selection {
   const current = selection[category] ?? [];
