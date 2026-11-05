@@ -29,7 +29,7 @@
 }
 .builder-selects {
   position: relative;
-  @include flex-row($gap: 8px);
+  @include flex-row($gap: 12px);
   flex-wrap: wrap;
 }
 .builder-scroll {

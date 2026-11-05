@@ -1,4 +1,3 @@
-import type { CSSProperties } from 'react';
 import { useTranslation } from 'react-i18next';
 import Icon from './Icon';
 import FavoriteButton from './FavoriteButton';
@@ -46,13 +45,10 @@ export default function ImageDetail(p: Props) {
       <div className="detail-scroll">
         <div
           className="detail-preview"
-          style={
-            {
-              backgroundColor: image.color,
-              aspectRatio: `${image.width} / ${image.height}`,
-              '--preview-ratio': image.width / image.height,
-            } as CSSProperties
-          }
+          style={{
+            backgroundColor: image.color,
+            aspectRatio: `${image.width} / ${image.height}`,
+          }}
         >
           <button
             className="detail-preview-open"
@@ -86,18 +82,18 @@ export default function ImageDetail(p: Props) {
           <p className="detail-prompt" aria-label={t('Selected style prompt')}>
             {p.stylePrompt}
           </p>
-          <div className="prompt-actions">
-            <SavePrompt key={image.id} prompt={p.savePreview} save={p.save} />
-            <button
-              className="primary"
-              disabled
-              title={t('Add an image and connect an authorized publishing workflow to publish')}
-            >
-              <Icon name="cloud_upload" size={14} />
-              {t('Publish')}
-            </button>
-          </div>
         </section>
+      </div>
+      <div className="prompt-actions detail-actions">
+        <SavePrompt key={image.id} prompt={p.savePreview} save={p.save} />
+        <button
+          className="primary"
+          disabled
+          title={t('Add an image and connect an authorized publishing workflow to publish')}
+        >
+          <Icon name="cloud_upload" size={14} />
+          {t('Publish')}
+        </button>
       </div>
     </Panel>
   );
