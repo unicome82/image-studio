@@ -17,7 +17,7 @@
   border-radius: 8px;
 }
 .preset-item-heading {
-  @include flex-row($gap: 8px);
+  @include flex-row($gap: 4px);
   min-height: $input-height;
 }
 .preset-name {
@@ -62,7 +62,7 @@
   color: $ink;
 }
 .preset-rename {
-  @include flex-row($gap: 8px);
+  @include flex-row($gap: 4px);
 }
 .preset-rename input {
   flex: 1;

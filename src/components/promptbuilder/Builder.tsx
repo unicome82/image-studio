@@ -4,6 +4,7 @@ import './Builder.scss';
 import Icon from '../Icon';
 import OptionChoices from './OptionChoices';
 import SelectedOptions from './SelectedOptions';
+import BuilderSelect from './BuilderSelect';
 import ResizeHandle from './ResizeHandle';
 import SavePrompt from './SavePrompt';
 import Panel from '../Panel';
@@ -56,44 +57,34 @@ export default function Builder(p: Props) {
         <div className="builder-wrap">
           <div className="builder-primary-inputs">
             <div className="builder-selects">
-              <select
-                aria-label={t('Outline')}
+              <BuilderSelect
+                label={t('Outline')}
                 disabled={p.photo}
                 value={p.selection.Outline?.[0] ?? 'coloronly'}
-                onChange={(e) => p.toggle('Outline', e.target.value)}
-              >
-                {p.catalog
+                change={(value) => p.toggle('Outline', value)}
+                options={p.catalog
                   .filter((o) => o.category === 'Outline')
-                  .map((o) => (
-                    <option key={o.id} value={o.id}>
-                      {t(o.label)}
-                    </option>
-                  ))}
-              </select>
-              <select
-                aria-label={t('Aspect ratio')}
+                  .map((o) => ({ value: o.id, label: t(o.label) }))}
+              />
+              <BuilderSelect
+                label={t('Aspect ratio')}
                 value={p.fields['Aspect Ratio'] || '1:1'}
-                onChange={(e) => p.setFields({ ...p.fields, 'Aspect Ratio': e.target.value })}
-              >
-                {[...new Set(['1:1', '4:3', '3:4', '16:9', '9:16', p.fields['Aspect Ratio']])]
+                change={(value) => p.setFields({ ...p.fields, 'Aspect Ratio': value })}
+                options={[
+                  ...new Set(['1:1', '4:3', '3:4', '16:9', '9:16', p.fields['Aspect Ratio']]),
+                ]
                   .filter(Boolean)
-                  .map((ratio) => (
-                    <option key={ratio} value={ratio}>
-                      {ratio}
-                    </option>
-                  ))}
-              </select>
-              <select
-                aria-label={t('Complexity')}
-                value={p.complexity}
-                onChange={(e) => p.setComplexity(Number(e.target.value))}
-              >
-                {complexityLabels.map((label, index) => (
-                  <option key={label} value={index + 1}>
-                    {t(label)}
-                  </option>
-                ))}
-              </select>
+                  .map((ratio) => ({ value: ratio, label: ratio }))}
+              />
+              <BuilderSelect
+                label={t('Complexity')}
+                value={String(p.complexity)}
+                change={(value) => p.setComplexity(Number(value))}
+                options={complexityLabels.map((label, index) => ({
+                  value: String(index + 1),
+                  label: t(label),
+                }))}
+              />
             </div>
             <input
               aria-label={t('Subject')}

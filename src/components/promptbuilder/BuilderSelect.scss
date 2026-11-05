@@ -1,0 +1,32 @@
+@use '../../styles/variable' as *;
+@use '../../styles/mixin' as *;
+.builder-select {
+  position: relative;
+  min-width: 0;
+}
+.builder-select-trigger {
+  @include flex-row($gap: 4px, $display: inline-flex);
+  height: $input-height;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  white-space: nowrap;
+}
+.builder-select-arrow {
+  flex-shrink: 0;
+  width: 6px;
+  height: 4px;
+  background: currentColor;
+  clip-path: polygon(0 0, 100% 0, 50% 100%);
+}
+.builder-select-dropdown {
+  max-width: 200px;
+  min-width: max-content;
+}
+.builder-select-dropdown .language-option {
+  border-radius: 8px;
+}
+.builder-select:first-child .builder-select-dropdown {
+  right: auto;
+  left: 0;
+}

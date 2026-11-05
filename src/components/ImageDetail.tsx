@@ -40,7 +40,7 @@ export default function ImageDetail(p: Props) {
           aria-label={t('Close image detail')}
           onClick={p.close}
         >
-          <Icon name="close" size={32} weight={200} />
+          <Icon name="close" size={24} weight={200} />
         </button>
       </div>
       <div className="detail-scroll">
