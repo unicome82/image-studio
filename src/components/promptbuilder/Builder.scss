@@ -22,6 +22,23 @@
 .builder-wrap {
   padding-inline: $content-padding;
 }
+.builder-primary-inputs {
+  display: grid;
+  gap: 8px;
+  padding-block: 12px 0;
+}
+.builder-selects {
+  display: grid;
+  grid-template-columns: minmax(0, 1.3fr) minmax(0, 0.8fr) minmax(0, 1fr);
+  gap: 4px;
+}
+.builder-selects select {
+  width: 100%;
+  min-width: 0;
+  padding-inline: 4px;
+  border-radius: 4px;
+  font-size: $option-font-size;
+}
 .builder-scroll {
   @include scroll-area;
 }
@@ -72,35 +89,6 @@
   display: block;
   margin-bottom: 8px;
   font-size: 11px;
-}
-.complexity-option input[type='range'] {
-  appearance: none;
-  border: 0;
-  box-shadow: none;
-  height: 20px;
-  padding: 0;
-  background: transparent;
-  cursor: pointer;
-}
-.complexity-option input::-webkit-slider-runnable-track {
-  @include slider-track;
-}
-.complexity-option input::-webkit-slider-thumb {
-  appearance: none;
-  @include slider-thumb;
-  margin-top: calc((1px - 12px) / 2);
-}
-.complexity-option input::-moz-range-track {
-  @include slider-track;
-}
-.complexity-option input::-moz-range-progress {
-  border: 0;
-  box-shadow: none;
-  height: 1px;
-  background: $ink;
-}
-.complexity-option input::-moz-range-thumb {
-  @include slider-thumb;
 }
 .inputs textarea {
   min-height: 84px;

@@ -115,6 +115,7 @@ export default function App() {
   });
   const [complexity, setComplexity] = useState(3);
   const [fields, setFields] = useState<Record<string, string>>({
+    Subject: '',
     'Aspect Ratio': '1:1',
     'Additional Instructions': '',
     'Typography Enabled': 'false',
@@ -427,7 +428,7 @@ export default function App() {
         <div className="panel-heading">
           <span className="uppercase">{t('YOUR PROMPT')}</span>
           <button
-            className="icon-button"
+            className="icon-button close-button"
             aria-label={t('Close dialog')}
             onClick={() => setModal(null)}
           >

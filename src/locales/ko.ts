@@ -1,4 +1,5 @@
 const translation: Record<string, string> = {
+  'What would you like to draw?': '무엇을 그릴까요?',
   Selected: '선택 항목',
   'Builder output': '빌더 출력',
   'Generate prompt': '프롬프트 생성',

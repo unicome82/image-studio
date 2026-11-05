@@ -40,7 +40,7 @@ export default function SelectedOptions({
           >
             <span className="selected-option-label">{label}</span>
             <button
-              className="selected-option-remove"
+              className="selected-option-remove close-button"
               aria-label={t('Remove {{label}} option', { label })}
               onClick={() => remove(option.category, option.id)}
             >

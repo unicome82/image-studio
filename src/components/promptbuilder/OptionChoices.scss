@@ -55,6 +55,7 @@
   flex-wrap: wrap;
 }
 .choice-toggle {
+  margin-right: -4px;
   @include flex-row($justify: center, $display: inline-flex);
   flex-shrink: 0;
   height: $option-control-height;

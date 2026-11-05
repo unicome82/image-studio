@@ -134,8 +134,10 @@ test('compact direction preserves legacy preset fields and typography text', () 
     'Negative Prompt': 'No frame',
   });
   assert.equal(fields['Aspect Ratio'], '3:4');
-  assert.equal(Object.keys(fields).length, 4);
-  assert.ok(fields['Additional Instructions'].includes('Subject: A garden'));
+  assert.equal(Object.keys(fields).length, 5);
+  assert.equal(fields.Subject, 'A garden');
+  assert.ok(makePrompt([], {}, 3, fields, false).includes('Subject: A garden'));
+  assert.ok(!fields['Additional Instructions'].includes('Subject:'));
   assert.equal(fields.Text, 'FLOWER');
   assert.equal(fields['Typography Enabled'], 'false');
   assert.ok(fields['Additional Instructions'].includes('Negative Prompt: No frame'));

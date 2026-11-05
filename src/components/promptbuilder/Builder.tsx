@@ -39,17 +39,69 @@ export default function Builder(p: Props) {
     setGenerated(null);
   }, [configuration]);
   const tabsId = useId();
-  const categories = builderCategories(p.photo);
+  const categories = builderCategories(p.photo).filter((category) => category !== 'Outline');
   return (
     <Panel className="builder" label={t('Prompt Builder')} close={p.close}>
       <ResizeHandle width={p.width} resize={p.resize} />
       <div className="builder-mobile-close">
-        <button className="icon-button" aria-label={t('Close Builder')} onClick={p.close}>
+        <button
+          className="icon-button close-button"
+          aria-label={t('Close Builder')}
+          onClick={p.close}
+        >
           <Icon name="close" size={24} weight={200} />
         </button>
       </div>
       <div className="builder-scroll">
         <div className="builder-wrap">
+          <div className="builder-primary-inputs">
+            <input
+              aria-label={t('Subject')}
+              placeholder={t('What would you like to draw?')}
+              value={p.fields.Subject ?? ''}
+              onChange={(e) => p.setFields({ ...p.fields, Subject: e.target.value })}
+            />
+            <div className="builder-selects">
+              <select
+                aria-label={t('Outline')}
+                disabled={p.photo}
+                value={p.selection.Outline?.[0] ?? 'coloronly'}
+                onChange={(e) => p.toggle('Outline', e.target.value)}
+              >
+                {p.catalog
+                  .filter((o) => o.category === 'Outline')
+                  .map((o) => (
+                    <option key={o.id} value={o.id}>
+                      {t(o.label)}
+                    </option>
+                  ))}
+              </select>
+              <select
+                aria-label={t('Aspect ratio')}
+                value={p.fields['Aspect Ratio'] || '1:1'}
+                onChange={(e) => p.setFields({ ...p.fields, 'Aspect Ratio': e.target.value })}
+              >
+                {[...new Set(['1:1', '4:3', '3:4', '16:9', '9:16', p.fields['Aspect Ratio']])]
+                  .filter(Boolean)
+                  .map((ratio) => (
+                    <option key={ratio} value={ratio}>
+                      {ratio}
+                    </option>
+                  ))}
+              </select>
+              <select
+                aria-label={t('Complexity')}
+                value={p.complexity}
+                onChange={(e) => p.setComplexity(Number(e.target.value))}
+              >
+                {complexityLabels.map((label, index) => (
+                  <option key={label} value={index + 1}>
+                    {t(label)}
+                  </option>
+                ))}
+              </select>
+            </div>
+          </div>
           {categories.map((category) => {
             const preferred = [
               'naivefolk',
@@ -101,7 +153,7 @@ export default function Builder(p: Props) {
                   }
                   showOptions={category !== 'Typography' || isTypographyEnabled(p.fields)}
                   collapsible={category !== 'Typography'}
-                  multiple={category !== 'Outline'}
+                  multiple
                   afterHeading={
                     category === 'Typography' && isTypographyEnabled(p.fields) ? (
                       <input
@@ -118,33 +170,6 @@ export default function Builder(p: Props) {
               </section>
             );
           })}
-          <section className="option-section">
-            <OptionChoices
-              title="Aspect ratio"
-              multiple={false}
-              collapsible={false}
-              options={[...new Set(['1:1', '4:3', '3:4', '16:9', '9:16', p.fields['Aspect Ratio']])]
-                .filter(Boolean)
-                .map((ratio) => ({ id: ratio, label: ratio }))}
-              selected={[p.fields['Aspect Ratio']]}
-              choose={(ratio) => p.setFields({ ...p.fields, 'Aspect Ratio': ratio })}
-            />
-          </section>
-          <section className="option-section complexity-option">
-            <h3>
-              {t('Complexity')}
-              <span>{t(complexityLabels[p.complexity - 1])}</span>
-            </h3>
-            <input
-              aria-label={t('Complexity')}
-              aria-valuetext={t(complexityLabels[p.complexity - 1])}
-              type="range"
-              min="1"
-              max="5"
-              value={p.complexity}
-              onChange={(e) => p.setComplexity(Number(e.target.value))}
-            />
-          </section>
           <section className="option-section inputs">
             <h3>
               <label htmlFor="builder-direction">{t('Your direction')}</label>

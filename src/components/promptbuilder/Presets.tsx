@@ -62,7 +62,7 @@ export default function Presets(p: Props) {
                       <Icon name="check" size={16} />
                     </button>
                     <button
-                      className="icon-button"
+                      className="icon-button close-button"
                       aria-label={t('Cancel rename')}
                       type="button"
                       onClick={() => setEditing(null)}

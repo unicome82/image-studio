@@ -5,7 +5,8 @@
   flex-wrap: wrap;
   gap: 4px;
   max-height: 96px;
-  margin-bottom: 20px;
+  margin: 0 (-$content-padding) 20px 0;
+  padding-right: $content-padding;
   overflow: auto;
 }
 .selected-option {
@@ -24,15 +25,13 @@
   white-space: nowrap;
   text-overflow: ellipsis;
 }
-.selected-option-remove {
+.selected-option .selected-option-remove {
+  margin-right: -4px;
   @include grid-center;
   flex-shrink: 0;
   width: 16px;
   height: 16px;
   padding: 0;
-}
-.selected-option-remove:hover {
-  background: $icon-hover-background;
 }
 
 .fixed-option {

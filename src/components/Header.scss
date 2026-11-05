@@ -52,11 +52,10 @@
   position: relative;
   flex-shrink: 0;
 }
-.saved-toggle.active {
-  color: $favorite;
-}
+.saved-toggle.active,
 .preset-toggle.active {
   @include selected-surface;
+  background: $black;
 }
 
 @media (max-width: $mobile) {

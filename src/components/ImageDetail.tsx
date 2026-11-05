@@ -35,7 +35,11 @@ export default function ImageDetail(p: Props) {
             <Icon name="content_copy" size={16} />
           </button>
         </div>
-        <button className="icon-button" aria-label={t('Close image detail')} onClick={p.close}>
+        <button
+          className="icon-button close-button"
+          aria-label={t('Close image detail')}
+          onClick={p.close}
+        >
           <Icon name="close" size={32} weight={200} />
         </button>
       </div>

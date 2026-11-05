@@ -31,10 +31,10 @@ IMAGE STUDIO의 **부가 메뉴**로 스타일 조합용 영문 지시문을 생
 2. **Live Prompt:** 선택 즉시 영문 지시문 갱신
 3. **Conflict Prevention:** 색상·구도 등 명백한 충돌만 최근 선택 우선으로 자동 해제; 스타일 혼합은 허용
 4. **Reference Preview:** 기존 `reference/` 이미지 1~3장 미리보기·확대, 이미지 없으면 텍스트 표시
-5. **Custom Input:** Your direction textarea 하나로 피사체·문구·추가 지시를 입력. Aspect ratio(1:1/4:3/3:4/16:9/9:16)는 상위 독립 옵션으로 선택. 기존 프리셋의 Subject·Negative Prompt는 이름표와 함께 Your direction으로 합쳐 보존하고, Text는 별도 Typography 입력칸에 보존
+5. **Custom Input:** 최상단 라벨 없는 Subject input으로 피사체를 입력하고 Your direction textarea로 추가 지시를 입력. Aspect ratio(1:1/4:3/3:4/16:9/9:16)는 상위 독립 옵션으로 선택. 기존 프리셋의 Subject는 주제 입력란에 보존하고 Negative Prompt는 이름표와 함께 Your direction으로 합쳐 보존하며, Text는 별도 Typography 입력칸에 보존
 6. **Copy Prompt:** 영문 지시문 복사
 7. **Save Preset:** 스타일명·선택값·복잡도·입력값 저장/목록 조회·복사/이름 수정/삭제; Save 클릭 시 스타일명 입력·프롬프트 미리보기·Cancel·Save가 있는 팝업 제공. 저장 목록은 본문 페이지에서 실제 콘텐츠 폭에 따라 최대 3열로 표시. 이름 바로 옆에 편집 아이콘, 하단에 저장값으로 재구성한 전체 프롬프트와 Copy 버튼을 제공하며 Load 버튼은 사용하지 않는다. LocalStorage 사용(기기 간 동기화 없음)
-8. **Complexity Control:** 전체 이미지 복잡도 5단계 슬라이더, 기본 Balanced. UI·생성 프롬프트에는 숫자 없이 단계명만 표시하고, 트랙 높이는 1px. 내부 저장값 1~5는 기존 프리셋 호환용으로 유지
+8. **Complexity Control:** 전체 이미지 복잡도 5단계 셀렉트, 기본 Balanced. UI·생성 프롬프트에는 숫자 없이 단계명만 표시하고, 트랙 높이는 1px. 내부 저장값 1~5는 기존 프리셋 호환용으로 유지
 9. **Rendering Mode:** 컬러만 / 컬러 + 윤곽선 / 윤곽선만 중 하나 선택, 기본값 Color Only. 프리셋 저장·프롬프트 재구성에 포함하며 기존 프리셋에 값이 없으면 기본값 적용.
 
 ### Rendering Mode
@@ -126,3 +126,5 @@ Combine the selected prompt file instructions while preserving their defining ch
 5. **Step 5 — Integration:** 기존 IMAGE STUDIO에 연결
 
 `IMAGE-STUDIO.md`를 먼저 읽고 현재 프로젝트 구조를 확인한다. **우선 Step 1만 진행**하고 나머지는 요청 시 실행한다. 불필요한 파일·기능을 추가하지 않는다.
+
+- 최상단 Subject 아래 Outline·Aspect ratio·Complexity를 옵션명 없는 셀렉트박스 한 줄로 배치한다. Subject는 생성·복사·스타일셋 저장에 포함하며 언어 변경 시 원문을 유지한다. Selected 영역은 우측 음수 마진과 같은 크기 패딩으로 스크롤바를 패널 우측 경계에 정렬한다.

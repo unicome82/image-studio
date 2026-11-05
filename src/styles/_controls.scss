@@ -23,8 +23,20 @@
   padding: 0;
   border-radius: 8px;
 }
-.icon-button:hover:not(.active) {
+.icon-button:hover:not(.active):not(.close-button) {
   background: $icon-hover-background;
+}
+.close-button {
+  margin-right: -8px;
+}
+.close-button:hover {
+  background: transparent;
+}
+.close-button [data-icon='close'] {
+  transition: transform var(--transition-duration) ease;
+}
+.close-button:hover [data-icon='close'] {
+  transform: rotate(180deg);
 }
 .panel-heading {
   @include flex-row($justify: space-between);

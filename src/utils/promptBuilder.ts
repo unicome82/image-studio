@@ -7,13 +7,14 @@ export interface Option {
 export type Selection = Record<string, string[]>;
 export const levels = ['verysimple', 'simple', 'balanced', 'detailed', 'intricate'];
 export const complexityLabels = ['Very Simple', 'Simple', 'Balanced', 'Detailed', 'Intricate'];
-// Preserve older presets' separate inputs inside the single direction field.
+// Keep the subject editable while preserving older presets' negative instructions.
 export function compactFields(fields: Record<string, string>): Record<string, string> {
-  const direction = ['Subject', 'Negative Prompt']
+  const direction = ['Negative Prompt']
     .filter((key) => fields[key]?.trim())
     .map((key) => `${key}: ${fields[key]}`);
   if (fields['Additional Instructions']?.trim()) direction.push(fields['Additional Instructions']);
   return {
+    Subject: fields.Subject ?? '',
     'Aspect Ratio': fields['Aspect Ratio'] || '1:1',
     'Additional Instructions': direction.join('\n'),
     'Typography Enabled': fields['Typography Enabled'] === 'true' ? 'true' : 'false',

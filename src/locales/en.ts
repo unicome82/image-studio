@@ -1,4 +1,5 @@
 const translation: Record<string, string> = {
+  'What would you like to draw?': 'What would you like to draw?',
   Selected: 'Selected',
   'Builder output': 'Builder output',
   'Generate prompt': 'Generate prompt',

@@ -37,7 +37,7 @@ export default function Header(p: Props) {
         />
         {p.query && (
           <button
-            className="icon-button"
+            className="icon-button close-button"
             aria-label={t('Clear search')}
             onClick={() => p.search('')}
           >
@@ -52,7 +52,7 @@ export default function Header(p: Props) {
           aria-pressed={p.showBookmarks}
           onClick={p.toggleBookmarks}
         >
-          <Icon name="favorite" size={24} fill={p.showBookmarks} />
+          <Icon name="favorite" size={20} fill={p.showBookmarks} />
         </button>
         <button
           className={'icon-button preset-toggle ' + (p.showPrompts ? 'active' : '')}
