@@ -1,5 +1,6 @@
 import { useTranslation } from 'react-i18next';
 import Icon from './Icon';
+import LanguageMenu from './LanguageMenu';
 import './Header.scss';
 interface Props {
   home: () => void;
@@ -12,7 +13,7 @@ interface Props {
   togglePrompts: () => void;
 }
 export default function Header(p: Props) {
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
   return (
     <header className="header">
       <a
@@ -51,7 +52,7 @@ export default function Header(p: Props) {
         aria-pressed={p.showBookmarks}
         onClick={p.toggleBookmarks}
       >
-        <Icon name="bookmark" size={19} />
+        <Icon name="bookmark" size={20} />
         <span className="saved-count">{p.bookmarksCount || ''}</span>
       </button>
       <button
@@ -62,19 +63,7 @@ export default function Header(p: Props) {
       >
         <Icon name="format_list_bulleted" size={20} />
       </button>
-      <select
-        className="language-select"
-        aria-label={t('Language')}
-        value={i18n.resolvedLanguage ?? 'en'}
-        onChange={(event) => void i18n.changeLanguage(event.target.value)}
-      >
-        <option value="en" lang="en">
-          English
-        </option>
-        <option value="ko" lang="ko">
-          한국어
-        </option>
-      </select>
+      <LanguageMenu />
     </header>
   );
 }

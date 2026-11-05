@@ -52,7 +52,7 @@ export default function Gallery(p: Props) {
                   aria-pressed={p.bookmarks.includes(tile.id)}
                   onClick={() => p.toggleBookmark(tile.id)}
                 >
-                  <Icon name="bookmark" size={15} />
+                  <Icon name="bookmark" size={16} />
                 </button>
               </article>
             ))}

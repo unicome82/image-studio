@@ -8,7 +8,7 @@
   display: flex;
   align-items: stretch;
   height: var(--nav-height);
-  padding: 0;
+  padding: 0 $content-padding;
   border-bottom: 1px solid $line;
   background: $page;
 }
@@ -16,12 +16,11 @@
   @include flex-row($justify: center, $display: inline-flex);
   flex-shrink: 0;
   width: var(--type-toggle-height);
-  margin-left: 32px;
   align-self: center;
   height: var(--type-toggle-height);
   padding: 0;
   border: 1px solid $secondary-border;
-  border-radius: 4px;
+  border-radius: 8px;
   color: $muted;
 }
 .builder-toggle:hover {
@@ -42,14 +41,14 @@
   border: 0;
   background: #ecece5;
   color: $muted;
-  font-size: 12px;
+  font-size: $option-font-size;
   white-space: nowrap;
 }
 .type-tabs button:first-child {
-  border-radius: 4px 0 0 4px;
+  border-radius: 8px 0 0 8px;
 }
 .type-tabs button:last-child {
-  border-radius: 0 4px 4px 0;
+  border-radius: 0 8px 8px 0;
 }
 .type-tabs button[aria-pressed='true'] {
   @include selected-surface;
@@ -68,7 +67,7 @@
   padding: 0 12px;
   border-bottom: 2px solid transparent;
   color: #888a80;
-  font-size: 12px;
+  font-size: $option-font-size;
   line-height: 1;
   white-space: nowrap;
 }
@@ -80,9 +79,6 @@
   color: $ink;
 }
 @media (max-width: $mobile) {
-  .builder-toggle {
-    margin-left: 16px;
-  }
   .type-tabs {
     padding-inline: 4px;
   }

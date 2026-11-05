@@ -27,9 +27,9 @@
 @mixin field-surface {
   width: 100%;
   border: 1px solid $input-border;
-  border-radius: 3px;
+  border-radius: 8px;
   background: $white;
-  font-size: 12px;
+  font-size: 10px;
 }
 
 @mixin selected-surface {
@@ -49,7 +49,7 @@
   width: 12px;
   height: 12px;
   border: 0;
-  border-radius: 50%;
+  border-radius: 8px;
   background: $ink;
 }
 
@@ -64,8 +64,8 @@
   @include flex-row($gap: 8px, $justify: center, $display: inline-flex);
   padding: 12px 12px;
   border: 1px solid;
-  border-radius: 4px;
-  font-size: 12px;
+  border-radius: 8px;
+  font-size: 11px;
 }
 
 @mixin prompt-action-button {
@@ -78,4 +78,9 @@
   position: fixed;
   inset: var(--panel-top) 0 0;
   background: #24252055;
+}
+
+@mixin uppercase-text {
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
 }

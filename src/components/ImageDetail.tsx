@@ -35,7 +35,7 @@ export default function ImageDetail(p: Props) {
           <Icon name="bookmark" size={20} fill={p.bookmarked} />
         </button>
         <button className="icon-button" aria-label={t('Close image detail')} onClick={p.close}>
-          <Icon name="close" size={17} />
+          <Icon name="close" size={18} />
         </button>
       </div>
       <div className="detail-scroll">
@@ -50,7 +50,7 @@ export default function ImageDetail(p: Props) {
           }
         >
           <button className="icon-button" aria-label={t('Expand preview')} onClick={p.preview}>
-            <Icon name="fullscreen" size={15} />
+            <Icon name="fullscreen" size={16} />
           </button>
         </div>
         <div className="tags">
@@ -65,7 +65,7 @@ export default function ImageDetail(p: Props) {
               aria-label={t('Copy style prompt')}
               onClick={() => p.copy(p.stylePrompt)}
             >
-              <Icon name="content_copy" size={13} />
+              <Icon name="content_copy" size={14} />
             </button>
           </h3>
           <p className="detail-prompt" aria-label={t('Selected style prompt')}>

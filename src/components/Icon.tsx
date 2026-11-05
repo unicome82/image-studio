@@ -1,5 +1,7 @@
+import type { CSSProperties } from 'react';
 import './Icon.scss';
 export type IconName =
+  | 'language'
   | 'bookmark'
   | 'content_copy'
   | 'close'
@@ -19,15 +21,31 @@ interface Props {
   size?: number;
   className?: string;
   fill?: boolean;
+  weight?: number;
 }
 /** Google Material Symbols Outlined, loaded through the jsDelivr CDN. */
-export default function Icon({ name, size = 18, className = '', fill = false }: Props) {
+export default function Icon({
+  name,
+  size = 18,
+  className = '',
+  fill = false,
+  weight = 400,
+}: Props) {
+  const pixelSize = Math.max(2, Math.round(size / 2) * 2);
   return (
     <span
       className={`material-symbol ${className}`.trim()}
       data-icon={name}
       {...(fill ? { fill: '' } : {})}
-      style={{ fontSize: size, width: size, height: size }}
+      style={
+        {
+          fontSize: pixelSize,
+          width: pixelSize,
+          height: pixelSize,
+          '--symbol-opsz': pixelSize,
+          '--symbol-weight': weight,
+        } as CSSProperties
+      }
       aria-hidden="true"
     >
       {name}

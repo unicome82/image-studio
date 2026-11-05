@@ -82,7 +82,7 @@ export default function Presets(p: Props) {
                           setEditName(preset.name);
                         }}
                       >
-                        <Icon name="edit" size={13} />
+                        <Icon name="edit" size={14} />
                       </button>
                     </div>
                     <div className="preset-item-actions">

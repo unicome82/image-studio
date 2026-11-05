@@ -21,7 +21,7 @@
   width: 32px;
   height: 32px;
   padding: 0;
-  border-radius: 4px;
+  border-radius: 8px;
 }
 .icon-button:hover:not(.active) {
   background: $icon-hover-background;
@@ -30,7 +30,7 @@
   @include flex-row($justify: space-between);
   min-height: 56px;
   border-bottom: 1px solid $line;
-  font-size: 12px;
+  font-size: 10px;
   font-weight: 600;
 }
 .section-heading {
@@ -40,15 +40,15 @@
 }
 .section-heading h2 {
   @include flex-row($gap: 12px);
-  font-size: 20px;
+  font-size: 19px;
   font-weight: 500;
 }
 .section-heading h2 span {
   padding: 3px 4px;
-  border-radius: 3px;
+  border-radius: 8px;
   background: $secondary-hover-background;
   color: #9a9d91;
-  font-size: 12px;
+  font-size: 10px;
   font-weight: 400;
 }
 .prompt-actions {
@@ -93,9 +93,9 @@
   @include flex-row($gap: 12px);
   max-width: 90vw;
   padding: 12px 20px;
-  border-radius: 4px;
+  border-radius: 8px;
   @include selected-surface;
-  font-size: 12px;
+  font-size: 11px;
   transform: translateX(-50%);
 }
 @media (max-width: $mobile) {
@@ -103,7 +103,7 @@
     min-height: 52px;
   }
   .section-heading h2 {
-    font-size: 20px;
+    font-size: 18px;
   }
   .modal textarea {
     height: 50dvh;

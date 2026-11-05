@@ -11,7 +11,7 @@
   background: transparent;
 }
 .builder-wrap {
-  padding-inline: 20px;
+  padding-inline: $content-padding;
 }
 .builder-scroll {
   @include scroll-area;
@@ -23,7 +23,7 @@
   padding: 12px 0;
 }
 .option-section h3 {
-  @include builder-heading($font-size: 8px, $margin-bottom: 8px);
+  @include builder-heading($font-size: 9px, $margin-bottom: 8px);
   @include flex-row($gap: 8px, $justify: space-between);
   min-height: 20px;
 }
@@ -31,6 +31,7 @@
   font-weight: 400;
 
   text-transform: none;
+  letter-spacing: normal;
 }
 .option-heading-actions {
   margin-right: auto;
@@ -41,7 +42,7 @@
   @include flex-row($display: inline-flex);
   flex-shrink: 0;
   width: 24px;
-  height: 12px;
+  height: 14px;
   padding: 2px;
   border-radius: 8px;
   background: #cecec7;
@@ -50,7 +51,7 @@
   display: block;
   width: 8px;
   height: 8px;
-  border-radius: 50%;
+  border-radius: 8px;
   background: $white;
   transition: transform var(--transition-duration);
 }
@@ -63,7 +64,7 @@
 .typography-input {
   display: block;
   margin-bottom: 8px;
-  font-size: 12px;
+  font-size: 11px;
 }
 .complexity-option input[type='range'] {
   appearance: none;
@@ -103,7 +104,7 @@
   border-top: 1px solid $line;
 }
 .builder-footer h3 {
-  @include builder-heading($font-size: 12px, $margin-bottom: 12px);
+  @include builder-heading($font-size: 10px, $margin-bottom: 12px);
 }
 .builder-footer .prompt-textarea {
   height: 96px;
@@ -128,9 +129,6 @@
     justify-content: flex-end;
     flex-shrink: 0;
     padding: 8px 16px 0;
-  }
-  .builder-wrap {
-    padding-inline: 20px;
   }
   .builder-footer {
     padding-bottom: max(20px, env(safe-area-inset-bottom));

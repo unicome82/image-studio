@@ -64,8 +64,8 @@ const translation: Record<string, string> = {
     '이미지를 추가하고 권한이 있는 게시 절차를 연결하세요',
   'Image preview': '이미지 미리보기',
   'Close image preview': '이미지 미리보기 닫기',
-  'Drag up to zoom in and down to zoom out, from 1 to 4 times. Scroll or pinch to zoom; double-click or press 0 to reset.':
-    '위아래로 드래그하여 1~4배 확대·축소합니다. 스크롤 또는 핀치로 배율을 조절하고, 두 번 클릭하거나 0을 눌러 초기화하세요.',
+  'Scroll or pinch to zoom from 1 to 4 times; double-click or press 0 to reset.':
+    '스크롤 또는 핀치로 1~4배 확대·축소하고, 두 번 클릭하거나 0을 눌러 초기화하세요.',
   'Resize Builder': '빌더 너비 조절',
   'Image gallery': '이미지 갤러리',
   'Full prompt': '전체 프롬프트',

@@ -15,13 +15,13 @@
   height: $option-control-height;
   padding: 4px 8px;
   border: 1px solid #ddded5;
-  border-radius: 4px;
+  border-radius: 8px;
   background: transparent;
-  font-size: 12px;
+  font-size: $option-font-size;
   line-height: normal;
   font-weight: 400;
   white-space: nowrap;
-  text-transform: uppercase;
+  @include uppercase-text;
 }
 .option-choice:hover:not(:disabled) {
   border-color: #9e9f93;
@@ -44,9 +44,9 @@
   min-width: 24px;
   padding: 0 8px;
   border: 1px solid transparent;
-  border-radius: 3px;
+  border-radius: 8px;
   color: $muted;
-  font-size: 16px;
+  font-size: 14px;
   line-height: 1;
 }
 .choice-toggle:hover,

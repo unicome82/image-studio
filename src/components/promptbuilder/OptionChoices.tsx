@@ -115,7 +115,7 @@ export default function OptionChoices({
                 aria-controls={rowId}
                 onClick={() => setExpanded(!expanded)}
               >
-                <Icon name={expanded ? 'expand_less' : 'more_horiz'} size={18} />
+                <Icon name={expanded ? 'expand_less' : 'more_horiz'} size={16} />
               </button>
             )}
           </div>
@@ -128,7 +128,7 @@ export default function OptionChoices({
                   </span>
                 ))}
                 <span className="choice-toggle" data-toggle>
-                  <Icon name={expanded ? 'expand_less' : 'more_horiz'} size={18} />
+                  <Icon name={expanded ? 'expand_less' : 'more_horiz'} size={16} />
                 </span>
               </div>
             </div>

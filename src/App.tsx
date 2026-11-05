@@ -412,7 +412,7 @@ export default function App() {
         }}
       >
         <div className="panel-heading">
-          <span>{t('YOUR PROMPT')}</span>
+          <span className="uppercase">{t('YOUR PROMPT')}</span>
           <button
             className="icon-button"
             aria-label={t('Close dialog')}
@@ -437,7 +437,7 @@ export default function App() {
       )}
       {toast && (
         <div className="toast" role="status">
-          <Icon name="check" size={15} />
+          <Icon name="check" size={16} />
           {t(toast)}
         </div>
       )}

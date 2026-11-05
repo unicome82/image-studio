@@ -1,0 +1,39 @@
+@use '../styles/variable' as *;
+@use '../styles/mixin' as *;
+.language-menu {
+  position: relative;
+  flex-shrink: 0;
+}
+.language-trigger.active {
+  @include selected-surface;
+}
+.language-dropdown {
+  position: absolute;
+  top: calc(100% + 8px);
+  right: 0;
+  z-index: 100;
+  min-width: 128px;
+  padding: 4px;
+  border: 1px solid $line;
+  border-radius: 8px;
+  background: $page;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+}
+.language-option {
+  display: block;
+  width: 100%;
+  padding: 8px 12px;
+  border-radius: 8px;
+  font-size: $option-font-size;
+  text-align: start;
+  text-transform: none;
+  letter-spacing: normal;
+}
+.language-option[aria-checked='true'] {
+  background: $prompt-background;
+  font-weight: 600;
+}
+.language-option:hover:not([aria-checked='true']),
+.language-option:focus-visible {
+  background: $icon-hover-background;
+}

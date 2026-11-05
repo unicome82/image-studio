@@ -21,7 +21,7 @@ export default function ImagePreview({ image, close }: { image: PreviewImage; cl
   const [zoom, setZoom] = useState(1);
   const zoomRef = useRef(1);
   const points = useRef(new Map<number, { x: number; y: number }>());
-  const gesture = useRef({ y: 0, distance: 0, zoom: 1 });
+  const gesture = useRef({ distance: 0, zoom: 1 });
   const [viewport, setViewport] = useState({
     width: window.innerWidth,
     height: window.innerHeight,
@@ -36,8 +36,7 @@ export default function ImagePreview({ image, close }: { image: PreviewImage; cl
     return a && b ? Math.hypot(a.x - b.x, a.y - b.y) : 0;
   }
   function resetGesture() {
-    const first = points.current.values().next().value;
-    gesture.current = { y: first?.y ?? 0, distance: distance(), zoom: zoomRef.current };
+    gesture.current = { distance: distance(), zoom: zoomRef.current };
   }
   useEffect(() => {
     const previous = document.body.style.overflow;
@@ -103,7 +102,7 @@ export default function ImagePreview({ image, close }: { image: PreviewImage; cl
           aria-label={t(image.label)}
           tabIndex={0}
           aria-description={t(
-            'Drag up to zoom in and down to zoom out, from 1 to 4 times. Scroll or pinch to zoom; double-click or press 0 to reset.',
+            'Scroll or pinch to zoom from 1 to 4 times; double-click or press 0 to reset.',
           )}
           style={{
             width,
@@ -114,7 +113,7 @@ export default function ImagePreview({ image, close }: { image: PreviewImage; cl
           onClick={(e) => e.stopPropagation()}
           onDoubleClick={() => changeZoom(1)}
           onPointerDown={(e) => {
-            if (e.button !== 0) return;
+            if (e.pointerType !== 'touch') return;
             e.preventDefault();
             e.currentTarget.setPointerCapture(e.pointerId);
             points.current.set(e.pointerId, { x: e.clientX, y: e.clientY });
@@ -125,7 +124,6 @@ export default function ImagePreview({ image, close }: { image: PreviewImage; cl
             points.current.set(e.pointerId, { x: e.clientX, y: e.clientY });
             if (points.current.size > 1 && gesture.current.distance > 0)
               changeZoom((gesture.current.zoom * distance()) / gesture.current.distance);
-            else changeZoom(gesture.current.zoom * Math.exp((gesture.current.y - e.clientY) / 200));
           }}
           onPointerUp={(e) => {
             points.current.delete(e.pointerId);
@@ -144,7 +142,7 @@ export default function ImagePreview({ image, close }: { image: PreviewImage; cl
         />
       </div>
       <button className="image-viewer-close" aria-label={t('Close image preview')} onClick={close}>
-        <Icon name="close" size={24} />
+        <Icon name="close" size={40} weight={200} />
       </button>
     </dialog>,
     document.body,

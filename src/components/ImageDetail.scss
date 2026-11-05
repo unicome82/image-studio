@@ -30,7 +30,7 @@
   width: min(100%, calc(min(320px, 40dvh) * var(--preview-ratio)));
   max-height: min(320px, 40dvh);
   margin: 0 auto 16px;
-  border-radius: 3px;
+  border-radius: 8px;
 }
 .detail-preview button {
   position: absolute;
@@ -41,9 +41,10 @@
 .detail-title {
   flex: 1;
   min-width: 0;
-  font-size: 16px;
+  font-size: 18px;
   font-weight: 500;
   text-transform: none;
+  letter-spacing: normal;
   overflow-wrap: anywhere;
 }
 .tags {
@@ -53,10 +54,10 @@
 }
 .tags span {
   padding: 4px 8px;
-  border-radius: 3px;
+  border-radius: 8px;
   background: #eeeee7;
   color: #818576;
-  font-size: 12px;
+  font-size: 10px;
 }
 .detail-section {
   margin-top: 24px;
@@ -69,7 +70,7 @@
 .detail-prompt {
   padding: 16px 0;
   color: $prompt-text;
-  font-size: 12px;
+  font-size: 10px;
   line-height: 1.3;
   letter-spacing: normal;
   white-space: pre-wrap;

@@ -35,7 +35,7 @@ export default function Builder(p: Props) {
       <ResizeHandle width={p.width} resize={p.resize} />
       <div className="builder-mobile-close">
         <button className="icon-button" aria-label={t('Close Builder')} onClick={p.close}>
-          <Icon name="close" size={19} />
+          <Icon name="close" size={20} />
         </button>
       </div>
       <div className="builder-scroll">

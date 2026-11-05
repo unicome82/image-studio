@@ -1,27 +1,39 @@
 @use './variable' as *;
 * {
+  --scrollbar-thumb: #{$scrollbar};
   scrollbar-width: auto;
   scrollbar-color: auto;
 }
+*:hover {
+  --scrollbar-thumb: #{$scrollbar-hover};
+}
+:is(html, body),
+:is(html, body):hover {
+  --scrollbar-thumb: #{$black};
+}
 *::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
+  width: 6px;
+  height: 6px;
   margin: 0;
   padding: 0;
   border: 0;
+}
+:is(html, body)::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
 }
 *::-webkit-scrollbar-track {
   margin: 0;
   padding: 0;
   border: 0;
-  border-radius: 0;
+  border-radius: 8px;
   background: transparent;
   box-shadow: none;
 }
 *::-webkit-scrollbar-thumb {
   border: 0;
-  border-radius: 0;
-  background: $scrollbar;
+  border-radius: 8px;
+  background: var(--scrollbar-thumb);
   background-clip: border-box;
   box-shadow: none;
 }
@@ -40,6 +52,9 @@
 @supports not selector(::-webkit-scrollbar) {
   * {
     scrollbar-width: thin;
-    scrollbar-color: $scrollbar transparent;
+    scrollbar-color: var(--scrollbar-thumb) transparent;
+  }
+  :is(html, body) {
+    scrollbar-width: auto;
   }
 }
