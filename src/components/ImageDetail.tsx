@@ -1,3 +1,4 @@
+import type { CSSProperties } from 'react';
 import { useTranslation } from 'react-i18next';
 import Icon from './Icon';
 import Panel from './Panel';
@@ -22,7 +23,17 @@ export default function ImageDetail(p: Props) {
   return (
     <Panel className="detail" label={t('Image detail')} close={p.close}>
       <div className="panel-heading">
-        <span>{t('IMAGE DETAIL')}</span>
+        <h2 className="detail-title">
+          {t(image.label)} {String(image.index + 1).padStart(2, '0')}
+        </h2>
+        <button
+          className="icon-button"
+          aria-label={t('Bookmark selected placeholder')}
+          aria-pressed={p.bookmarked}
+          onClick={p.toggleBookmark}
+        >
+          <Icon name="bookmark" size={20} fill={p.bookmarked} />
+        </button>
         <button className="icon-button" aria-label={t('Close image detail')} onClick={p.close}>
           <Icon name="close" size={17} />
         </button>
@@ -30,23 +41,16 @@ export default function ImageDetail(p: Props) {
       <div className="detail-scroll">
         <div
           className="detail-preview"
-          style={{ backgroundColor: image.color, aspectRatio: `${image.width} / ${image.height}` }}
+          style={
+            {
+              backgroundColor: image.color,
+              aspectRatio: `${image.width} / ${image.height}`,
+              '--preview-ratio': image.width / image.height,
+            } as CSSProperties
+          }
         >
           <button className="icon-button" aria-label={t('Expand preview')} onClick={p.preview}>
             <Icon name="fullscreen" size={15} />
-          </button>
-        </div>
-        <div className="detail-title">
-          <h2>
-            {t(image.label)} {String(image.index + 1).padStart(2, '0')}
-          </h2>
-          <button
-            className="icon-button"
-            aria-label={t('Bookmark selected placeholder')}
-            aria-pressed={p.bookmarked}
-            onClick={p.toggleBookmark}
-          >
-            <Icon name="bookmark" size={19} />
           </button>
         </div>
         <div className="tags">

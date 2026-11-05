@@ -4,10 +4,11 @@
 - React + TypeScript + SCSS를 유지하고, 변경 범위에 필요하지 않은 기능을 추가하지 않는다.
 - 컴포넌트와 해당 SCSS를 함께 관리한다. 공통 색상은 `src/styles/_variable.scss`, 공통 입력·버튼·스크롤바·레이아웃은 `src/styles/`에서 관리한다. `src/styles.scss`는 공통 스타일 진입점으로만 사용한다.
 - 태그 기본값 초기화는 `src/styles/_reset.scss`에서 관리한다. 반복되는 스타일 묶음은 `src/styles/_mixin.scss`에 정의하고 `@include`로 재사용한다.
+- SCSS의 4px 이상 고정 길이는 4px 배수로 관리한다. 1~3px 선·트랙 및 비례 단위는 유지한다. UI 텍스트 자간은 각 요소 글자 크기 기준 0.1em을 공통 적용하고, 프롬프트 본문과 아이콘 글리프는 normal로 예외 처리한다. 선택된 옵션은 원래 순서를 유지하며 앞에 배치하고, 해제되면 원래 자리로 돌린다.
 - 기존의 담당 규칙을 수정한다. 파일 하단에 과거 레이아웃을 덮어쓰는 규칙을 누적하거나 미사용 선택자를 남기지 않는다. 반응형 규칙은 해당 컴포넌트 파일에 모으고 과도한 중첩과 `!important`를 피한다.
 - 아이콘은 `Icon.tsx`와 jsDelivr CDN의 Material Symbols Outlined를 사용한다. 로컬 아이콘 파일이나 별도 아이콘 라이브러리를 추가하지 않는다.
 - UI 문구는 i18next와 `src/locales/en.ts`, `src/locales/ko.ts`에서 영어·한국어로 관리한다. 언어 변경은 표시 문구에만 적용하고 영문 프롬프트·파일 경로·선택 ID·사용자 입력은 변경하지 않는다.
-- 폰트는 버전이 고정된 Pretendard CDN을 사용한다. 일반 텍스트는 최소 10px을 유지하고, 빌더 옵션 버튼은 11px·보통 굵기를 사용한다. 버튼 텍스트는 대문자로 표시한다.
+- 폰트는 버전이 고정된 Pretendard CDN을 사용한다. 일반 텍스트는 12px 이상, 빌더 옵션 버튼은 12px·보통 굵기를 사용한다. 빌더 제목은 8px 예외를 허용한다. 버튼 텍스트는 대문자로 표시한다.
 - 단일 행 입력은 `src/styles/_variable.scss`의 `$input-height: 28px`를 공통 사용한다. range·textarea는 용도에 맞는 높이를 유지한다. 아이콘 span에 `fill` 속성 또는 `fill` 클래스를 추가하면 채움 표시한다.
 - 일반 입력 textarea는 흰색, 생성 프롬프트 textarea는 `prompt-textarea` 클래스의 무채색 배경으로 구분한다. textarea의 resize는 비활성화한다.
 - 텍스트가 있는 버튼의 아이콘은 Copy·Publish에만 사용하고, 아이콘 전용 버튼은 유지한다. Typography는 토글 ON일 때 제목 바로 아래에 공통 28px 높이의 입력창, 그 아래 전체 옵션을 표시한다. OFF에서는 입력창과 옵션을 숨기고 별도 펼치기·접기 버튼을 사용하지 않는다.

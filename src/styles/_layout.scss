@@ -17,7 +17,7 @@
 }
 .gallery {
   min-width: 0;
-  padding: 26px 30px 0;
+  padding: 28px 32px 0;
 }
 .mobile-scrim,
 .detail-scrim {
@@ -25,18 +25,18 @@
 }
 @media (min-width: 1700px) {
   .workspace {
-    --detail-width: 350px;
+    --detail-width: 352px;
   }
   .gallery {
     padding-inline: 40px;
   }
 }
-@media (max-width: 1250px) {
+@media (max-width: 1252px) {
   .workspace {
-    --detail-width: 290px;
+    --detail-width: 292px;
   }
   .gallery {
-    padding-inline: 22px;
+    padding-inline: 24px;
   }
 }
 @media (max-width: $tablet) {
@@ -46,7 +46,7 @@
     grid-template-columns: minmax(0, 1fr);
   }
   .gallery {
-    padding: 30px;
+    padding: 32px;
   }
   .mobile-scrim {
     @include panel-scrim;
@@ -59,6 +59,6 @@
 }
 @media (max-width: $mobile) {
   .gallery {
-    padding: 20px 18px 0;
+    padding: 20px 20px 0;
   }
 }

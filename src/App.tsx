@@ -279,6 +279,17 @@ export default function App() {
   return (
     <>
       <Header
+        home={() => {
+          setPhoto(false);
+          setActive('all');
+          setQuery('');
+          setOnlySaved(false);
+          setPresetOpen(false);
+          setSelected(null);
+          setModal(null);
+          setCopyFallback('');
+          window.scrollTo({ top: 0, behavior: 'instant' });
+        }}
         query={query}
         search={(value) => {
           setQuery(value);

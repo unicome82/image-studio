@@ -1,7 +1,8 @@
 import { useTranslation } from 'react-i18next';
 import './OptionChoices.scss';
+import { prioritizeSelectedOptions } from '../../utils/optionChoices';
 import Icon from '../Icon';
-import { useId, useLayoutEffect, useRef, useState, type ReactNode } from 'react';
+import { useId, useLayoutEffect, useMemo, useRef, useState, type ReactNode } from 'react';
 interface Choice {
   id: string;
   label: string;
@@ -27,6 +28,10 @@ export default function OptionChoices({
   collapsible = true,
 }: Props) {
   const { t } = useTranslation();
+  const orderedOptions = useMemo(
+    () => prioritizeSelectedOptions(options, selected),
+    [options, selected],
+  );
   const rowId = useId();
   const [expanded, setExpanded] = useState(false);
   const [count, setCount] = useState(options.length);
@@ -72,7 +77,7 @@ export default function OptionChoices({
       active = false;
       observer.disconnect();
     };
-  }, [options, collapsible, showOptions]);
+  }, [orderedOptions, collapsible, showOptions]);
   const isExpanded = !collapsible || expanded;
   const overflow = collapsible && count < options.length;
   return (
@@ -89,7 +94,7 @@ export default function OptionChoices({
             className={'pills choice-row ' + (isExpanded ? 'expanded' : 'collapsed')}
             ref={row}
           >
-            {(isExpanded ? options : options.slice(0, count)).map((option) => (
+            {(isExpanded ? orderedOptions : orderedOptions.slice(0, count)).map((option) => (
               <button
                 className="option-choice"
                 key={option.id}
@@ -117,7 +122,7 @@ export default function OptionChoices({
           {collapsible && (
             <div className="option-measurements" aria-hidden="true">
               <div className="pills" ref={measures}>
-                {options.map((option) => (
+                {orderedOptions.map((option) => (
                   <span className="option-choice" data-choice key={option.id}>
                     {t(option.label.replace(/\s+illustration\b/gi, ''))}
                   </span>

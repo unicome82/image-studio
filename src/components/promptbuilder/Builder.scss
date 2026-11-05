@@ -23,13 +23,13 @@
   padding: 12px 0;
 }
 .option-section h3 {
-  @include builder-heading($font-size: 9px, $margin-bottom: 9px);
+  @include builder-heading($font-size: 8px, $margin-bottom: 8px);
   @include flex-row($gap: 8px, $justify: space-between);
-  min-height: 18px;
+  min-height: 20px;
 }
 .option-section h3 span {
   font-weight: 400;
-  letter-spacing: 0;
+
   text-transform: none;
 }
 .option-heading-actions {
@@ -62,12 +62,14 @@
 }
 .typography-input {
   display: block;
-  margin-bottom: 6px;
-  font-size: 11px;
+  margin-bottom: 8px;
+  font-size: 12px;
 }
 .complexity-option input[type='range'] {
   appearance: none;
-  height: 18px;
+  border: 0;
+  box-shadow: none;
+  height: 20px;
   padding: 0;
   background: transparent;
   cursor: pointer;
@@ -78,12 +80,14 @@
 .complexity-option input::-webkit-slider-thumb {
   appearance: none;
   @include slider-thumb;
-  margin-top: -5px;
+  margin-top: calc((1px - 12px) / 2);
 }
 .complexity-option input::-moz-range-track {
   @include slider-track;
 }
 .complexity-option input::-moz-range-progress {
+  border: 0;
+  box-shadow: none;
   height: 1px;
   background: $ink;
 }
@@ -91,18 +95,18 @@
   @include slider-thumb;
 }
 .inputs textarea {
-  min-height: 85px;
+  min-height: 84px;
 }
 .builder-footer {
   flex-shrink: 0;
-  padding: 18px 0 20px;
+  padding: 20px 0 20px;
   border-top: 1px solid $line;
 }
 .builder-footer h3 {
-  @include builder-heading($font-size: 10px, $margin-bottom: 10px);
+  @include builder-heading($font-size: 12px, $margin-bottom: 12px);
 }
 .builder-footer .prompt-textarea {
-  height: 94px;
+  height: 96px;
 }
 @media (max-width: $tablet) {
   .builder {
@@ -123,13 +127,13 @@
     display: flex;
     justify-content: flex-end;
     flex-shrink: 0;
-    padding: 8px 14px 0;
+    padding: 8px 16px 0;
   }
   .builder-wrap {
-    padding-inline: 18px;
+    padding-inline: 20px;
   }
   .builder-footer {
-    padding-bottom: max(18px, env(safe-area-inset-bottom));
+    padding-bottom: max(20px, env(safe-area-inset-bottom));
   }
   .builder-footer .prompt-textarea {
     height: 80px;

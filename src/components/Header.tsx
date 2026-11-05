@@ -2,6 +2,7 @@ import { useTranslation } from 'react-i18next';
 import Icon from './Icon';
 import './Header.scss';
 interface Props {
+  home: () => void;
   query: string;
   search: (value: string) => void;
   bookmarksCount: number;
@@ -14,7 +15,15 @@ export default function Header(p: Props) {
   const { t, i18n } = useTranslation();
   return (
     <header className="header">
-      <a className="brand" href="#" aria-label={t('Image Studio home')}>
+      <a
+        className="brand"
+        href="./"
+        aria-label={t('Image Studio home')}
+        onClick={(event) => {
+          event.preventDefault();
+          p.home();
+        }}
+      >
         IMAGE STUDIO
       </a>
       <label className="header-search">

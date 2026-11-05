@@ -12,17 +12,24 @@
 }
 .detail > .panel-heading {
   flex-shrink: 0;
+  gap: 8px;
   min-height: 64px;
-  padding: 12px 22px;
+  padding: 12px 24px;
   border-bottom: 0;
+}
+.detail > .panel-heading .icon-button {
+  flex-shrink: 0;
 }
 .detail-scroll {
   @include scroll-area;
-  padding: 8px 22px 20px;
+  padding: 8px 24px 20px;
 }
 .detail-preview {
   position: relative;
   @include grid-center;
+  width: min(100%, calc(min(320px, 40dvh) * var(--preview-ratio)));
+  max-height: min(320px, 40dvh);
+  margin: 0 auto 16px;
   border-radius: 3px;
 }
 .detail-preview button {
@@ -32,25 +39,24 @@
   background: #ffffff4d;
 }
 .detail-title {
-  @include flex-row($justify: space-between);
-  margin: 22px 0 13px;
-}
-.detail-title h2 {
-  font-size: 18px;
+  flex: 1;
+  min-width: 0;
+  font-size: 16px;
   font-weight: 500;
-  letter-spacing: -0.5px;
+  text-transform: none;
+  overflow-wrap: anywhere;
 }
 .tags {
   display: flex;
   flex-wrap: wrap;
-  gap: 5px;
+  gap: 4px;
 }
 .tags span {
-  padding: 5px 7px;
+  padding: 4px 8px;
   border-radius: 3px;
   background: #eeeee7;
   color: #818576;
-  font-size: 10px;
+  font-size: 12px;
 }
 .detail-section {
   margin-top: 24px;
@@ -61,10 +67,11 @@
   @include flex-row($justify: space-between);
 }
 .detail-prompt {
-  padding: 14px 0;
+  padding: 16px 0;
   color: $prompt-text;
-  font-size: 10px;
+  font-size: 12px;
   line-height: 1.3;
+  letter-spacing: normal;
   white-space: pre-wrap;
   overflow-wrap: anywhere;
 }
@@ -84,10 +91,10 @@
     border-left: 0;
   }
   .detail > .panel-heading {
-    padding-inline: 18px;
+    padding-inline: 20px;
   }
   .detail-scroll {
-    padding-inline: 18px;
+    padding-inline: 20px;
     padding-bottom: max(20px, env(safe-area-inset-bottom));
   }
 }

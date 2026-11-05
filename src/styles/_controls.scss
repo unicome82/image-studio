@@ -18,8 +18,8 @@
 }
 .icon-button {
   @include flex-row($justify: center, $display: inline-flex);
-  width: 30px;
-  height: 30px;
+  width: 32px;
+  height: 32px;
   padding: 0;
   border-radius: 4px;
 }
@@ -30,29 +30,26 @@
   @include flex-row($justify: space-between);
   min-height: 56px;
   border-bottom: 1px solid $line;
-  font-size: 10px;
+  font-size: 12px;
   font-weight: 600;
-  letter-spacing: 1.3px;
 }
 .section-heading {
   @include flex-row($justify: space-between);
-  min-height: 30px;
-  margin-bottom: 17px;
+  min-height: 32px;
+  margin-bottom: 16px;
 }
 .section-heading h2 {
-  @include flex-row($gap: 10px);
-  font-size: 19px;
+  @include flex-row($gap: 12px);
+  font-size: 20px;
   font-weight: 500;
-  letter-spacing: -0.5px;
 }
 .section-heading h2 span {
-  padding: 3px 5px;
+  padding: 3px 4px;
   border-radius: 3px;
   background: $secondary-hover-background;
   color: #9a9d91;
-  font-size: 10px;
+  font-size: 12px;
   font-weight: 400;
-  letter-spacing: 0;
 }
 .prompt-actions {
   @include flex-row($gap: 8px);
@@ -72,11 +69,11 @@
   width: 100%;
 }
 .modal {
-  width: min(650px, 92vw);
+  width: min(652px, 92vw);
   max-height: 85dvh;
-  padding: 0 25px 25px;
+  padding: 0 24px 24px;
   border: 1px solid $line;
-  border-radius: 7px;
+  border-radius: 8px;
   background: $page;
   color: $ink;
 }
@@ -85,28 +82,28 @@
   backdrop-filter: blur(3px);
 }
 .modal textarea {
-  height: 350px;
-  margin: 16px 0 14px;
+  height: 352px;
+  margin: 16px 0 16px;
 }
 .toast {
   position: fixed;
-  bottom: 25px;
+  bottom: 24px;
   left: 50%;
   z-index: 100;
-  @include flex-row($gap: 10px);
+  @include flex-row($gap: 12px);
   max-width: 90vw;
-  padding: 13px 20px;
-  border-radius: 5px;
+  padding: 12px 20px;
+  border-radius: 4px;
   @include selected-surface;
-  font-size: 11px;
+  font-size: 12px;
   transform: translateX(-50%);
 }
 @media (max-width: $mobile) {
   .panel-heading {
-    min-height: 50px;
+    min-height: 52px;
   }
   .section-heading h2 {
-    font-size: 18px;
+    font-size: 20px;
   }
   .modal textarea {
     height: 50dvh;

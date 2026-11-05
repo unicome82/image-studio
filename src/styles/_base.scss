@@ -6,6 +6,9 @@
   --panel-top: calc(var(--header-visible) + var(--nav-height));
   --transition-duration: 0.15s;
 }
+* {
+  letter-spacing: $ui-letter-spacing;
+}
 html {
   scroll-behavior: smooth;
 }
@@ -13,7 +16,7 @@ body {
   background: $page;
   color: $ink;
   font-family: 'Pretendard', sans-serif;
-  font-size: 13px;
+  font-size: 12px;
   -webkit-font-smoothing: antialiased;
 }
 button,
@@ -41,9 +44,9 @@ button:disabled {
   box-shadow: none;
 }
 h3 {
-  font-size: 10px;
+  font-size: 12px;
   text-transform: uppercase;
-  letter-spacing: 1px;
+
   font-weight: 600;
 }
 :where(input:not([type='range'])) {
@@ -60,7 +63,7 @@ input[type='range'] {
 textarea {
   display: block;
   @include field-surface;
-  padding: 14px 12px;
+  padding: 16px 12px;
   color: $ink;
   line-height: 1.3;
   resize: none;
@@ -71,6 +74,7 @@ textarea::placeholder {
   opacity: 1;
 }
 .prompt-textarea {
+  letter-spacing: normal;
   background: $prompt-background;
   color: $prompt-text;
 }
