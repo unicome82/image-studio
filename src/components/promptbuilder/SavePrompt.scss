@@ -1,0 +1,55 @@
+@use '../../styles/tokens' as *;
+.save-style-dialog {
+  width: min(520px, calc(100vw - 28px));
+  max-height: calc(100dvh - 40px);
+  margin: auto;
+  padding: 0 22px 22px;
+  overflow: auto;
+  overscroll-behavior: contain;
+  border: 1px solid #dedcd2;
+  border-radius: 5px;
+  background: $page;
+  color: $ink;
+}
+.save-style-dialog::backdrop {
+  background: #24252066;
+  backdrop-filter: blur(2px);
+}
+.save-style-dialog .panel-heading {
+  margin-bottom: 18px;
+}
+.save-style-label {
+  display: grid;
+  gap: 8px;
+  margin-top: 16px;
+  color: #777a6d;
+  font-size: 11px;
+}
+.save-style-label input {
+  font-size: 11px;
+}
+.save-style-label textarea {
+  height: min(300px, 38dvh);
+}
+.save-style-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  margin-top: 18px;
+}
+.save-style-actions button {
+  min-width: 90px;
+  height: 36px;
+  padding: 0 16px;
+}
+.save-style-error {
+  margin-top: 12px;
+  color: #8b4e3b;
+  font-size: 11px;
+  line-height: 1.5;
+}
+@media (max-width: $mobile) {
+  .save-style-dialog {
+    padding-inline: 18px;
+  }
+}

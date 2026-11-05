@@ -1,0 +1,29 @@
+@use '../../styles/tokens' as *;
+.builder-resize {
+  position: absolute;
+  inset: 0 -4px 0 auto;
+  z-index: 5;
+  width: 8px;
+  cursor: col-resize;
+  touch-action: none;
+}
+.builder-resize::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 3px;
+  width: 2px;
+  background: transparent;
+  transition: background var(--transition-duration);
+}
+.builder-resize:hover::after,
+.builder-resize.dragging::after,
+.builder-resize:focus-visible::after {
+  background: #969c89;
+}
+@media (max-width: $tablet) {
+  .builder-resize {
+    display: none;
+  }
+}

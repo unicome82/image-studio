@@ -1,0 +1,136 @@
+@use './tokens' as *;
+.primary,
+.secondary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 10px 13px;
+  border: 1px solid;
+  border-radius: 4px;
+  font-size: 11px;
+}
+.primary {
+  background: $ink;
+  color: #fff;
+  border-color: $ink;
+}
+.primary:hover:not(:disabled) {
+  background: #44473e;
+}
+.secondary {
+  background: transparent;
+  border-color: #d6d6ce;
+}
+.secondary:hover {
+  background: #efeee8;
+}
+.icon-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  padding: 0;
+  border-radius: 4px;
+}
+.icon-button:hover {
+  background: #eeede7;
+}
+.panel-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 56px;
+  border-bottom: 1px solid $line;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 1.3px;
+}
+.section-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 30px;
+  margin-bottom: 17px;
+}
+.section-heading h2 {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 19px;
+  font-weight: 500;
+  letter-spacing: -0.5px;
+}
+.section-heading h2 span {
+  padding: 3px 5px;
+  border-radius: 3px;
+  background: #efeee8;
+  color: #9a9d91;
+  font-size: 10px;
+  font-weight: 400;
+  letter-spacing: 0;
+}
+.prompt-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 12px;
+}
+.prompt-actions > .save-prompt-control,
+.prompt-actions > .primary {
+  flex: 1;
+  min-width: 0;
+}
+.prompt-actions > .primary,
+.prompt-actions .save-prompt-button {
+  height: 36px;
+  padding: 0 12px;
+}
+.prompt-actions .save-prompt-button {
+  width: 100%;
+}
+.modal {
+  width: min(650px, 92vw);
+  max-height: 85dvh;
+  padding: 0 25px 25px;
+  border: 1px solid $line;
+  border-radius: 7px;
+  background: $page;
+  color: $ink;
+}
+.modal::backdrop {
+  background: #24252077;
+  backdrop-filter: blur(3px);
+}
+.modal textarea {
+  height: 350px;
+  margin: 16px 0 14px;
+}
+.toast {
+  position: fixed;
+  bottom: 25px;
+  left: 50%;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  max-width: 90vw;
+  padding: 13px 20px;
+  border-radius: 5px;
+  background: $ink;
+  color: #fff;
+  font-size: 11px;
+  transform: translateX(-50%);
+}
+@media (max-width: $mobile) {
+  .panel-heading {
+    min-height: 50px;
+  }
+  .section-heading h2 {
+    font-size: 18px;
+  }
+  .modal textarea {
+    height: 50dvh;
+  }
+}
