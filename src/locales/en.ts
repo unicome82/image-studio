@@ -1,4 +1,5 @@
 const translation: Record<string, string> = {
+  'Copy image name': 'Copy image name',
   'Remove {{name}} from favorites': 'Remove {{name}} from favorites',
   'Add {{name}} to favorites': 'Add {{name}} to favorites',
   'Preview {{name}}': 'Preview {{name}}',

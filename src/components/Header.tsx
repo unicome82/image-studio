@@ -53,7 +53,7 @@ export default function Header(p: Props) {
           aria-pressed={p.showBookmarks}
           onClick={p.toggleBookmarks}
         >
-          <Icon name="favorite" size={20} fill={p.showBookmarks} />
+          <Icon name="favorite" size={24} fill={p.showBookmarks} />
           <span className="saved-count">{p.bookmarksCount || ''}</span>
         </button>
         <button

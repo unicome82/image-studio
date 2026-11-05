@@ -35,6 +35,14 @@
 .tile:focus-within .tile-bookmark {
   opacity: 1;
 }
+.tile:hover .tile-bookmark:not([aria-pressed='true']),
+.tile:focus-within .tile-bookmark:not([aria-pressed='true']) {
+  color: $white;
+}
+.tile:hover .tile-bookmark .material-symbol,
+.tile:focus-within .tile-bookmark .material-symbol {
+  font-variation-settings: 'FILL' 1;
+}
 .tile-bookmark.bookmarked {
   opacity: 1;
 }

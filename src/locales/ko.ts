@@ -1,4 +1,5 @@
 const translation: Record<string, string> = {
+  'Copy image name': '이미지명 복사',
   'Remove {{name}} from favorites': '{{name}} 즐겨찾기 제거',
   'Add {{name}} to favorites': '{{name}} 즐겨찾기 추가',
   'Preview {{name}}': '{{name}} 확대 보기',

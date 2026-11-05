@@ -49,7 +49,7 @@
   flex-shrink: 0;
   width: 20px;
   height: 12px;
-  padding: 1px;
+  padding: 2px;
   border-radius: 12px;
   background: #cecec7;
 }
@@ -65,7 +65,7 @@
   background: $ink;
 }
 .typography-toggle[aria-checked='true'] span {
-  transform: translateX(calc(20px - 2px - 8px));
+  transform: translateX(calc(20px - 4px - 8px));
 }
 .typography-input {
   display: block;

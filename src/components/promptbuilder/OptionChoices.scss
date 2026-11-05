@@ -35,7 +35,14 @@
   overflow-x: auto;
   overflow-y: hidden;
   overscroll-behavior-x: contain;
-  padding-bottom: 4px;
+  scrollbar-width: none;
+  touch-action: pan-x pan-y;
+  -webkit-overflow-scrolling: touch;
+}
+.choice-row.collapsed::-webkit-scrollbar {
+  display: none;
+  width: 0;
+  height: 0;
 }
 .choice-row.expanded {
   flex-wrap: wrap;

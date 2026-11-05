@@ -9,7 +9,7 @@
 }
 .brand {
   white-space: nowrap;
-  font-size: 20px;
+  font-size: 16px;
   font-weight: 900;
   @include uppercase-text;
 }
@@ -50,12 +50,11 @@
   position: relative;
   flex-shrink: 0;
 }
-.saved-toggle.active,
+.saved-toggle.active {
+  color: $favorite;
+}
 .preset-toggle.active {
   @include selected-surface;
-}
-.saved-toggle.active .material-symbol {
-  color: $favorite;
 }
 .saved-count {
   position: absolute;
@@ -63,18 +62,10 @@
   right: -4px;
   font-size: 10px;
 }
-@media (max-width: $tablet) {
-  .brand {
-    font-size: 16px;
-  }
-}
 @media (max-width: $mobile) {
   .header {
     gap: 8px;
     padding-block: 12px;
-  }
-  .brand {
-    font-size: 12px;
   }
   .header-search {
     gap: 8px;

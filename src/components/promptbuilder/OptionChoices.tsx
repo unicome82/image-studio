@@ -2,7 +2,7 @@ import { useTranslation } from 'react-i18next';
 import './OptionChoices.scss';
 import { prioritizeSelectedOptions } from '../../utils/optionChoices';
 import Icon from '../Icon';
-import { useId, useMemo, useState, type ReactNode } from 'react';
+import { useEffect, useId, useMemo, useRef, useState, type ReactNode } from 'react';
 interface Choice {
   id: string;
   label: string;
@@ -37,6 +37,25 @@ export default function OptionChoices({
   const rowId = useId();
   const [expanded, setExpanded] = useState(false);
   const isExpanded = !collapsible || expanded;
+  const row = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    const element = row.current;
+    if (!element || isExpanded || !showOptions) return;
+    function wheel(event: WheelEvent) {
+      if (event.ctrlKey || event.metaKey || !element) return;
+      const delta = Math.abs(event.deltaX) > Math.abs(event.deltaY) ? event.deltaX : event.deltaY;
+      const unit = event.deltaMode === 1 ? 16 : event.deltaMode === 2 ? element.clientWidth : 1;
+      const next = Math.max(
+        0,
+        Math.min(element.scrollWidth - element.clientWidth, element.scrollLeft + delta * unit),
+      );
+      if (next === element.scrollLeft) return;
+      event.preventDefault();
+      element.scrollLeft = next;
+    }
+    element.addEventListener('wheel', wheel, { passive: false });
+    return () => element.removeEventListener('wheel', wheel);
+  }, [isExpanded, showOptions]);
   return (
     <>
       <h3 className="option-heading" aria-label={t(title)}>
@@ -60,6 +79,7 @@ export default function OptionChoices({
       {showOptions && (
         <div className="option-choices">
           <div
+            ref={row}
             id={rowId}
             role="group"
             aria-label={t(title)}

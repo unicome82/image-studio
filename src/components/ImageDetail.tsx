@@ -25,7 +25,6 @@ export default function ImageDetail(p: Props) {
   return (
     <Panel className="detail" label={t('Image detail')} close={p.close}>
       <div className="panel-heading">
-        <h2 className="detail-title">{imageName(image)}</h2>
         <button className="icon-button" aria-label={t('Close image detail')} onClick={p.close}>
           <Icon name="close" size={18} />
         </button>
@@ -46,6 +45,22 @@ export default function ImageDetail(p: Props) {
             aria-label={t('Preview {{name}}', { name: imageName(image) })}
             onClick={p.preview}
           />
+          <div className="detail-meta">
+            <div className="detail-name">
+              <h2 className="detail-title">{imageName(image)}</h2>
+              <button
+                className="detail-name-copy"
+                aria-label={t('Copy image name')}
+                onClick={() => p.copy(imageName(image))}
+              >
+                <Icon name="content_copy" size={16} />
+              </button>
+            </div>
+            <div className="tags">
+              <span>#{image.group}</span>
+              <span>#{p.photo ? 'photo' : 'illustration'}</span>
+            </div>
+          </div>
           <FavoriteButton
             active={p.bookmarked}
             label={t(
@@ -54,10 +69,6 @@ export default function ImageDetail(p: Props) {
             )}
             toggle={p.toggleBookmark}
           />
-        </div>
-        <div className="tags">
-          <span>#{image.group}</span>
-          <span>#{p.photo ? 'photo' : 'illustration'}</span>
         </div>
         <section className="detail-section">
           <h3>
