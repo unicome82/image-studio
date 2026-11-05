@@ -14,7 +14,7 @@
   max-width: 100%;
   min-width: 0;
   height: var(--chip-height, 20px);
-  padding: 0 0.4em 0 0.8em;
+  padding: 0 calc(2em / 5) 0 calc(4em / 5);
   border: 1px solid $prompt-border;
   background: $prompt-background;
   color: rgba($ink, 0.6);
@@ -42,5 +42,5 @@
   opacity: 1;
 }
 .fixed-option {
-  padding-inline: 0.8em;
+  padding-inline: calc(4em / 5);
 }

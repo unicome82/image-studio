@@ -132,3 +132,5 @@ Combine the selected prompt file instructions while preserving their defining ch
 - Selected에는 비율·복잡도·Outline의 값만 표시한다. 필터 X는 회전 없이 opacity 0.5에서 hover 시 1로 전환한다. Selected·Prompt 탭은 옵션 제목 스타일을 공유하며, 빌더 단일 선택은 언어 메뉴와 같은 커스텀 드롭다운과 6×4px 화살표를 사용한다. Typography 표시명에서 Typography·Lettering·Handwriting 접미어를 생략하되 프롬프트 원문은 유지한다.
 
 - Subject 미입력 시 선택 설정·추가 지시에 맞는 랜덤 피사체와 장면을 정해 추가 질문 없이 이미지를 생성하도록 지시한다. 미입력 안내를 Subject 아래 표시한다. 모바일에서는 카테고리 옵션을 모두 펼치고 접기 버튼을 숨긴다.
+
+- 하단 Selected·Prompt 활성 탭은 bold, 나머지 버튼·탭은 medium으로 표시한다. 출력 영역 접기는 선택 칩·프롬프트 내용만 숨기고 Generate 또는 Save·Copy 버튼을 유지한다. Generate 버튼 앞에는 AI 아이콘을 표시한다.

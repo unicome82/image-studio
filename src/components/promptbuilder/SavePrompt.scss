@@ -40,7 +40,7 @@
 .save-style-actions button {
   min-width: 92px;
   @include prompt-action-button;
-  padding-inline: 1.455em;
+  padding-inline: calc(16em / 11);
 }
 .save-style-error {
   margin-top: 12px;
@@ -55,6 +55,6 @@
   .save-style-actions button {
     flex: 1;
     min-width: 0;
-    padding-inline: 0.727em;
+    padding-inline: calc(8em / 11);
   }
 }

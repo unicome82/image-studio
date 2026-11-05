@@ -56,7 +56,7 @@
   font-weight: 500;
 }
 .section-heading h2 span {
-  padding: 0.167em 0.5em;
+  padding: calc(1em / 6) calc(1em / 2);
   border-radius: 8px;
   background: $secondary-hover-background;
   color: $count-text;
@@ -103,7 +103,7 @@
   z-index: 100;
   @include flex-row($gap: 12px);
   max-width: 90vw;
-  padding: 1.091em 1.818em;
+  padding: calc(12em / 11) calc(20em / 11);
   border-radius: 8px;
   @include selected-surface;
   font-size: var(--font-11, 11px);

@@ -14,6 +14,7 @@
   font-size: $nav-font-size;
 }
 .navigation button {
+  font-size: var(--button-font-size, inherit);
   text-transform: none;
   letter-spacing: normal;
 }
@@ -86,10 +87,10 @@
   .type-dropdown {
     align-self: center;
     flex-shrink: 0;
-    margin-inline: 0.5em;
+    margin-inline: calc(1em / 2);
   }
   .type-dropdown .builder-select-trigger {
-    padding-inline: 0.667em;
+    padding-inline: calc(2em / 3);
     border: 1px solid $selected-border;
     border-radius: 6px;
     background: $prompt-background;

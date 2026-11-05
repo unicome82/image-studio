@@ -5,6 +5,7 @@
   min-width: 0;
 }
 .builder-select-trigger {
+  font-size: $button-font-size;
   @include flex-row($gap: 4px, $display: inline-flex);
   height: $input-height;
   padding: 0;

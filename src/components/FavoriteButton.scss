@@ -18,6 +18,6 @@
 
 @media (max-width: $mobile) {
   .favorite-button {
-    --icon-24: 1.125rem;
+    --icon-24: calc(9rem / 8);
   }
 }

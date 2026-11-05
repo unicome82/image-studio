@@ -54,9 +54,9 @@
 .preset-item-actions .primary,
 .preset-item-actions .secondary {
   height: $input-height;
-  padding: 0 0.8em;
+  padding: 0 calc(4em / 5);
   gap: 4px;
-  font-size: var(--font-10, 10px);
+  font-size: var(--button-font-size, 10px);
 }
 .preset-item-actions :is(.preset-copy, .preset-delete),
 .preset-item-actions :is(.preset-copy, .preset-delete):hover {

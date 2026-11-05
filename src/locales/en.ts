@@ -1,4 +1,6 @@
 const translation: Record<string, string> = {
+  'Expand Builder output': 'Expand Builder output',
+  'Collapse Builder output': 'Collapse Builder output',
   'Leave blank to generate an image with a random subject.':
     'Leave blank to generate an image with a random subject.',
   'Close search': 'Close search',

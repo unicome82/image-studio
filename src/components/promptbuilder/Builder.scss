@@ -12,7 +12,7 @@
 }
 .builder button {
   border-radius: 4px;
-  font-size: $option-font-size;
+  font-size: $button-font-size;
   text-transform: none;
   letter-spacing: normal;
 }
@@ -96,18 +96,28 @@
   padding: 20px 0 20px;
   border-top: 1px solid $line;
 }
+.builder-footer-heading {
+  @include flex-row($gap: 16px, $justify: space-between);
+  margin-bottom: 16px;
+}
 .builder-footer-tabs {
   @include flex-row($gap: 16px);
-  margin-bottom: 16px;
 }
 .builder-footer-tabs [role='tab'] {
   @include builder-option-heading;
+  font-size: var(--button-font-size, 10px);
+  min-height: var(--option-height, auto);
+  font-weight: 500;
   margin-bottom: 0;
   padding: 0;
   @include uppercase-text;
 }
 .builder-footer-tabs [aria-selected='true'] {
+  font-weight: 700;
   color: $black;
+}
+.builder-footer.collapsed .prompt-actions {
+  margin-top: 0;
 }
 .builder-output {
   animation: output-reveal var(--transition-duration) ease-out;

@@ -67,16 +67,16 @@
 
 @mixin button-frame {
   @include flex-row($gap: 8px, $justify: center, $display: inline-flex);
-  padding: 1.091em;
+  padding: calc(12em / 11);
   border: 1px solid;
   border-radius: 8px;
-  font-size: var(--font-11, 11px);
+  font-size: $button-font-size;
 }
 
 @mixin prompt-action-button {
   border-radius: 6px;
   height: var(--action-height, 36px);
-  padding: 0 1.091em;
+  padding: 0 calc(12em / 11);
 }
 
 @mixin panel-scrim {
@@ -88,7 +88,7 @@
 
 @mixin uppercase-text {
   text-transform: uppercase;
-  letter-spacing: 0.05em;
+  letter-spacing: calc(1em / 20);
 }
 
 @mixin builder-option-heading {

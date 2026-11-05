@@ -34,6 +34,7 @@ interface Props {
 export default function Builder(p: Props) {
   const { t } = useTranslation();
   const configuration = JSON.stringify([p.selection, p.fields, p.complexity, p.photo]);
+  const [outputCollapsed, setOutputCollapsed] = useState(false);
   const [generated, setGenerated] = useState<string | null>(null);
   const showPrompt = generated === configuration;
   useEffect(() => {
@@ -182,29 +183,44 @@ export default function Builder(p: Props) {
           </section>
         </div>
       </div>
-      <div className="builder-footer">
+      <div className={'builder-footer' + (outputCollapsed ? ' collapsed' : '')}>
         <div className="builder-wrap">
-          <div className="builder-footer-tabs" role="tablist" aria-label={t('Builder output')}>
-            {['Selected', 'Prompt'].map((tab, index) => (
-              <button
-                key={tab}
-                id={`${tabsId}-tab-${index}`}
-                role="tab"
-                aria-selected={showPrompt === (index === 1)}
-                aria-controls={`${tabsId}-panel`}
-                tabIndex={showPrompt === (index === 1) ? 0 : -1}
-                onClick={() => setGenerated(index === 1 ? configuration : null)}
-                onKeyDown={(event) => {
-                  if (!['ArrowLeft', 'ArrowRight', 'Home', 'End'].includes(event.key)) return;
-                  event.preventDefault();
-                  const next = event.key === 'Home' ? 0 : event.key === 'End' ? 1 : 1 - index;
-                  setGenerated(next === 1 ? configuration : null);
-                  document.getElementById(`${tabsId}-tab-${next}`)?.focus();
-                }}
-              >
-                {t(tab)}
-              </button>
-            ))}
+          <div className="builder-footer-heading">
+            <div className="builder-footer-tabs" role="tablist" aria-label={t('Builder output')}>
+              {['Selected', 'Prompt'].map((tab, index) => (
+                <button
+                  key={tab}
+                  id={`${tabsId}-tab-${index}`}
+                  role="tab"
+                  aria-selected={showPrompt === (index === 1)}
+                  aria-controls={`${tabsId}-panel`}
+                  tabIndex={showPrompt === (index === 1) ? 0 : -1}
+                  onClick={() => {
+                    setGenerated(index === 1 ? configuration : null);
+                    setOutputCollapsed(false);
+                  }}
+                  onKeyDown={(event) => {
+                    if (!['ArrowLeft', 'ArrowRight', 'Home', 'End'].includes(event.key)) return;
+                    event.preventDefault();
+                    const next = event.key === 'Home' ? 0 : event.key === 'End' ? 1 : 1 - index;
+                    setGenerated(next === 1 ? configuration : null);
+                    setOutputCollapsed(false);
+                    document.getElementById(`${tabsId}-tab-${next}`)?.focus();
+                  }}
+                >
+                  {t(tab)}
+                </button>
+              ))}
+            </div>
+            <button
+              className="choice-toggle builder-output-toggle"
+              aria-label={t(outputCollapsed ? 'Expand Builder output' : 'Collapse Builder output')}
+              aria-expanded={!outputCollapsed}
+              aria-controls={`${tabsId}-content`}
+              onClick={() => setOutputCollapsed(!outputCollapsed)}
+            >
+              <Icon name={outputCollapsed ? 'expand_more' : 'expand_less'} size={16} />
+            </button>
           </div>
           <div
             className="builder-output"
@@ -213,24 +229,19 @@ export default function Builder(p: Props) {
             role="tabpanel"
             aria-labelledby={`${tabsId}-tab-${showPrompt ? 1 : 0}`}
           >
-            {showPrompt ? (
-              <>
+            <div
+              id={`${tabsId}-content`}
+              className="builder-output-content"
+              hidden={outputCollapsed}
+            >
+              {showPrompt ? (
                 <textarea
                   className="prompt-textarea"
                   aria-label={t('Builder prompt')}
                   readOnly
                   value={p.prompt}
                 />
-                <div className="prompt-actions">
-                  <SavePrompt save={p.save} prompt={p.prompt} />
-                  <button className="primary builder-copy" onClick={() => p.copy(p.prompt)}>
-                    <Icon name="content_copy" size={14} />
-                    {t('Copy')}
-                  </button>
-                </div>
-              </>
-            ) : (
-              <>
+              ) : (
                 <SelectedOptions
                   catalog={p.catalog}
                   selection={p.selection}
@@ -239,13 +250,27 @@ export default function Builder(p: Props) {
                   complexity={p.complexity}
                   remove={p.removeOption}
                 />
-                <button
-                  className="primary generate-prompt"
-                  onClick={() => setGenerated(configuration)}
-                >
-                  {t('Generate prompt')}
+              )}
+            </div>
+            {showPrompt ? (
+              <div className="prompt-actions">
+                <SavePrompt save={p.save} prompt={p.prompt} />
+                <button className="primary builder-copy" onClick={() => p.copy(p.prompt)}>
+                  <Icon name="content_copy" size={14} />
+                  {t('Copy')}
                 </button>
-              </>
+              </div>
+            ) : (
+              <button
+                className="primary generate-prompt"
+                onClick={() => {
+                  setGenerated(configuration);
+                  setOutputCollapsed(false);
+                }}
+              >
+                <Icon name="auto_awesome" size={16} fill />
+                {t('Generate prompt')}
+              </button>
             )}
           </div>
         </div>

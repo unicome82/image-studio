@@ -1,4 +1,6 @@
 const translation: Record<string, string> = {
+  'Expand Builder output': '빌더 결과 펼치기',
+  'Collapse Builder output': '빌더 결과 접기',
   'Leave blank to generate an image with a random subject.':
     '비워두면 랜덤한 주제로 이미지를 생성해요.',
   'Close search': '검색 닫기',

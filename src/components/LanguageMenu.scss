@@ -19,15 +19,15 @@
 .language-option {
   @include flex-row($gap: 12px, $justify: space-between);
   width: 100%;
-  padding: 0.727em 1.091em;
+  padding: calc(8em / 11) calc(12em / 11);
   border-radius: 8px;
-  font-size: $option-font-size;
+  font-size: $button-font-size;
   text-align: start;
   text-transform: none;
   letter-spacing: normal;
 }
 .language-option[aria-checked='true'] {
-  font-weight: 600;
+  font-weight: 500;
 }
 .language-option:hover,
 .language-option:focus-visible {
