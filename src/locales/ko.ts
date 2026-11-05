@@ -1,4 +1,5 @@
 const translation: Record<string, string> = {
+  'Generate prompt': '프롬프트 생성',
   'Remove {{label}} option': '{{label}} 옵션 제거',
   'Selected options': '선택한 옵션',
   'Expand prompt': '프롬프트 펼치기',

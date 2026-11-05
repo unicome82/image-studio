@@ -48,7 +48,7 @@ function SaveDialog({ save, prompt, close }: Props & { close: () => void }) {
       <div className="panel-heading">
         <span>{t('Save style')}</span>
         <button className="icon-button" aria-label={t('Close save style')} onClick={close}>
-          <Icon name="close" size={18} />
+          <Icon name="close" size={24} weight={200} />
         </button>
       </div>
       <form

@@ -431,7 +431,7 @@ export default function App() {
             aria-label={t('Close dialog')}
             onClick={() => setModal(null)}
           >
-            <Icon name="close" size={18} />
+            <Icon name="close" size={24} weight={200} />
           </button>
         </div>
         <textarea

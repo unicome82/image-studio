@@ -2,6 +2,7 @@
 @use '../../styles/mixin' as *;
 .option-choices {
   position: relative;
+  margin-inline: -$content-padding;
   min-width: 0;
 }
 .pills {
@@ -30,6 +31,9 @@
 .option-choice[aria-pressed='true'] {
   border-color: $ink;
   @include selected-surface;
+}
+.choice-row {
+  padding-inline: $content-padding;
 }
 .choice-row.collapsed {
   flex-wrap: nowrap;

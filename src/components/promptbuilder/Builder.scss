@@ -113,10 +113,14 @@
 .builder-footer h3 {
   @include builder-heading($font-size: 10px, $margin-bottom: 12px);
 }
-.prompt-toggle {
-  @include flex-row($justify: space-between);
+.builder .builder-footer > .builder-wrap > .generate-prompt,
+.builder .builder-footer .prompt-actions button {
+  @include uppercase-text;
+}
+.generate-prompt {
   width: 100%;
-  padding: 0;
+  height: 36px;
+  padding: 0 12px;
 }
 .builder-footer .prompt-textarea {
   height: 96px;

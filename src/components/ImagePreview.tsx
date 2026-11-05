@@ -145,7 +145,7 @@ export default function ImagePreview({ image, close }: { image: PreviewImage; cl
         />
       </div>
       <button className="image-viewer-close" aria-label={t('Close image preview')} onClick={close}>
-        <Icon name="close" size={40} weight={200} />
+        <Icon name="close" size={24} weight={200} />
       </button>
     </dialog>,
     document.body,
