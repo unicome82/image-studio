@@ -17,7 +17,7 @@ npm run build
 npm run preview
 ```
 
-The gallery includes Illustration/Photo navigation, style anchors, local bookmarks, responsive Builder and detail panels, copyable file-reference prompts, and image preview. Publish stays disabled until real assets and a safe, authorized publishing workflow are connected. Public reading does not authorize repository writes. No upload or simulated CDN approval occurs.
+The gallery includes Illustration/Photo navigation, style filters and gallery search, local bookmarks, responsive Builder and detail panels, copyable file-reference prompts, and image preview. Publish stays disabled until real assets and a safe, authorized publishing workflow are connected. Public reading does not authorize repository writes. No upload or simulated CDN approval occurs.
 
 ## Structure
 

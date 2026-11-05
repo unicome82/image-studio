@@ -6,3 +6,28 @@ $line:#e7e5df;$muted:#8b8b83;$ink:#242520;
 @media(max-width:1000px){.workspace.with-builder,.workspace.with-builder.with-detail{grid-template-columns:minmax(0,1fr)}.workspace.with-detail{grid-template-columns:minmax(0,1fr)}.builder{position:fixed;top:138px;left:0;width:280px;z-index:50}.mobile-scrim,.detail-scrim{display:block;position:fixed;inset:138px 0 0;background:#24252055;z-index:40}.detail{position:fixed;right:0;top:138px;width:340px;z-index:45}.image-grid{grid-template-columns:repeat(4,minmax(0,1fr))}.gallery{padding:30px}.header-prompt .eyebrow{display:none}.brand{font-size:21px}.style-tabs{gap:20px}.type-switch button{padding-inline:10px}.builder-toggle>span:not(.toggle-track){display:none}.detail-scrim{z-index:35}.tile-bookmark{opacity:.7}}
 @media(max-width:600px){.header{height:64px;padding:0 18px;gap:12px}.brand{font-size:19px;gap:7px}.brand-mark i{width:13px;height:13px}.brand-mark b{border-left-width:7px;border-right-width:7px;border-bottom-width:13px}.brand-dot{font-size:8px}.header-prompt{padding:8px;width:32px;flex:0 0 32px;margin-left:auto;justify-content:center}.header-prompt .prompt-line{display:none}.saved-toggle{margin-left:0}.navigation{height:100px;top:64px;padding:0 18px;gap:16px;flex-wrap:wrap;align-content:flex-start}.builder-toggle{height:48px}.type-switch{margin-top:8px}.style-tabs{width:100%;height:52px;gap:25px;order:3}.style-tabs button{font-size:11px}.builder,.detail{top:164px;height:calc(100dvh - 164px)}.mobile-scrim,.detail-scrim{top:164px}.builder{width:min(310px,90vw)}.detail{width:100%;border-left:0}.detail-preview{max-height:38dvh;aspect-ratio:4/3}.gallery{padding:26px 18px 0}.gallery-intro{margin-bottom:25px}.gallery-intro h1{font-size:25px}.gallery-intro .eyebrow{font-size:8px}.gallery-intro>div>p:last-child{font-size:10px}.image-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.gallery-section{scroll-margin-top:185px;margin-bottom:30px}.section-heading h2{font-size:19px}.gallery-footer{flex-wrap:wrap;line-height:1.8}.gallery-footer>span:nth-child(2){display:none}.tile-tag{opacity:.5}.modal textarea{height:50dvh}.panel-heading{min-height:50px}}
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{transition:none!important}}
+
+// Compact gallery controls and edge-aligned panel scrollbars.
+.header-search{display:flex;align-items:center;gap:12px;border:1px solid $line;border-radius:5px;padding:0 13px;max-width:760px;flex:1;min-width:0;height:38px;color:$muted}
+.header-search input{border:0;outline:0;background:transparent;width:100%;min-width:0;color:$ink;font-size:12px;height:100%}
+.header-search input::-webkit-search-cancel-button{-webkit-appearance:none}
+.header-search .icon-button{flex-shrink:0}
+.builder-toggle{width:32px;height:32px;justify-content:center;border-radius:4px;color:$muted;flex-shrink:0}
+.builder-toggle:hover{background:#eeede7}
+.builder-toggle.active{background:$ink;color:#fff}
+.gallery{padding-top:26px}
+.section-heading{min-height:30px}
+.detail{padding-inline:0}
+.detail>.panel-heading{padding-inline:22px;flex-shrink:0}
+.detail-scroll{padding:20px 22px;min-height:0;flex:1}
+.detail-preview{flex-shrink:0}
+.builder-footer h3{align-items:center}
+.builder-footer p{margin-bottom:0}
+.detail-title h2{margin-top:0}
+:where(.builder,.detail,.modal) :where(div,p,textarea),.style-tabs{scrollbar-width:thin;scrollbar-color:#bfc1b7 transparent}
+:where(.builder,.detail,.modal) ::-webkit-scrollbar,.style-tabs::-webkit-scrollbar{width:6px;height:6px}
+:where(.builder,.detail,.modal) ::-webkit-scrollbar-thumb,.style-tabs::-webkit-scrollbar-thumb{background:#bfc1b7;border-radius:6px}
+:where(.builder,.detail,.modal) ::-webkit-scrollbar-track,.style-tabs::-webkit-scrollbar-track{background:transparent}
+:where(.builder,.detail,.modal) ::-webkit-scrollbar-button,.style-tabs::-webkit-scrollbar-button{display:none;width:0;height:0}
+@media(max-width:1000px){.builder-toggle>span{display:none}}
+@media(max-width:600px){.header-search{height:34px;padding-inline:9px;gap:6px}.header-search input{font-size:11px}.header{gap:10px}.brand{font-size:17px}.navigation{align-items:flex-start}.builder-toggle{margin-top:8px;height:32px}.gallery{padding-top:20px}.detail>.panel-heading,.detail-scroll{padding-inline:18px}}
