@@ -41,11 +41,11 @@
   opacity: 0;
 }
 .tile:hover .tile-bookmark,
-.tile:focus-within .tile-bookmark,
-.tile-bookmark.bookmarked {
+.tile:focus-within .tile-bookmark {
   opacity: 1;
 }
 .tile-bookmark.bookmarked {
+  opacity: 1;
   background: $page;
 }
 .empty-state {

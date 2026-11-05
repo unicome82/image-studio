@@ -1,6 +1,7 @@
 @use '../styles/variable' as *;
 @use '../styles/mixin' as *;
 .navigation {
+  --type-toggle-height: 28px;
   position: sticky;
   top: 0;
   z-index: 25;
@@ -15,7 +16,8 @@
   @include flex-row($justify: center, $display: inline-flex);
   flex-shrink: 0;
   width: 44px;
-  height: 100%;
+  align-self: center;
+  height: var(--type-toggle-height);
   padding: 0;
   border: 0;
   border-right: 1px solid $secondary-border;
@@ -35,7 +37,7 @@
   padding: 0 8px;
 }
 .type-tabs button {
-  height: 28px;
+  height: var(--type-toggle-height);
   padding: 0 10px;
   border: 0;
   background: #ecece5;
@@ -78,6 +80,9 @@
   color: $ink;
 }
 @media (max-width: $mobile) {
+  .navigation {
+    --type-toggle-height: 27px;
+  }
   .builder-toggle {
     width: 40px;
   }
@@ -85,7 +90,6 @@
     padding-inline: 5px;
   }
   .type-tabs button {
-    height: 27px;
     padding-inline: 8px;
   }
   .style-tabs button {

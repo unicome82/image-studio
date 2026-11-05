@@ -50,3 +50,30 @@
   border-radius: 50%;
   background: $ink;
 }
+
+@mixin builder-heading($font-size, $margin-bottom) {
+  margin-bottom: $margin-bottom;
+  color: #85877d;
+  font-size: $font-size;
+  font-weight: 400;
+}
+
+@mixin button-frame {
+  @include flex-row($gap: 8px, $justify: center, $display: inline-flex);
+  padding: 10px 13px;
+  border: 1px solid;
+  border-radius: 4px;
+  font-size: 11px;
+}
+
+@mixin prompt-action-button {
+  height: 36px;
+  padding: 0 12px;
+}
+
+@mixin panel-scrim {
+  display: block;
+  position: fixed;
+  inset: var(--panel-top) 0 0;
+  background: #24252055;
+}

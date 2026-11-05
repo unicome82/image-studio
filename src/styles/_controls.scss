@@ -1,14 +1,7 @@
 @use './variable' as *;
 @use './mixin' as *;
-.primary,
-.secondary {
-  @include flex-row($gap: 8px, $justify: center, $display: inline-flex);
-  padding: 10px 13px;
-  border: 1px solid;
-  border-radius: 4px;
-  font-size: 11px;
-}
 .primary {
+  @include button-frame;
   @include selected-surface;
   border-color: $ink;
 }
@@ -16,6 +9,7 @@
   background: #44473e;
 }
 .secondary {
+  @include button-frame;
   background: transparent;
   border-color: $secondary-border;
 }
@@ -64,17 +58,17 @@
   @include flex-row($gap: 8px);
   margin-top: 12px;
 }
-.prompt-actions > .save-prompt-control,
-.prompt-actions > .primary {
+.prompt-actions > .save-prompt-control {
   flex: 1;
   min-width: 0;
 }
-.prompt-actions > .primary,
-.prompt-actions .save-prompt-button {
-  height: 36px;
-  padding: 0 12px;
+.prompt-actions > .primary {
+  @include prompt-action-button;
+  flex: 1;
+  min-width: 0;
 }
 .prompt-actions .save-prompt-button {
+  @include prompt-action-button;
   width: 100%;
 }
 .modal {

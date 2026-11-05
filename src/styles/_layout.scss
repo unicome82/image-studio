@@ -1,4 +1,5 @@
 @use './variable' as *;
+@use './mixin' as *;
 .workspace {
   --detail-width: 320px;
   display: grid;
@@ -47,17 +48,12 @@
   .gallery {
     padding: 30px;
   }
-  .mobile-scrim,
-  .detail-scrim {
-    display: block;
-    position: fixed;
-    inset: var(--panel-top) 0 0;
-    background: #24252055;
-  }
   .mobile-scrim {
+    @include panel-scrim;
     z-index: 40;
   }
   .detail-scrim {
+    @include panel-scrim;
     z-index: 35;
   }
 }

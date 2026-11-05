@@ -87,19 +87,21 @@ export default function Builder(p: Props) {
                       </button>
                     ) : undefined
                   }
-                  disabledHint="Turn Typography on to select lettering styles."
-                  disabled={category === 'Typography' && !isTypographyEnabled(p.fields)}
+                  showOptions={category !== 'Typography' || isTypographyEnabled(p.fields)}
+                  collapsible={category !== 'Typography'}
+                  afterHeading={
+                    category === 'Typography' && isTypographyEnabled(p.fields) ? (
+                      <input
+                        className="typography-input"
+                        aria-label="Typography text"
+                        placeholder="Text (optional)"
+                        value={p.fields.Text ?? ''}
+                        onChange={(e) => p.setFields({ ...p.fields, Text: e.target.value })}
+                      />
+                    ) : undefined
+                  }
                   choose={(id) => p.toggle(category, id)}
                 />
-                {category === 'Typography' && isTypographyEnabled(p.fields) && (
-                  <input
-                    className="typography-input"
-                    aria-label="Typography text"
-                    placeholder="Text (optional)"
-                    value={p.fields.Text ?? ''}
-                    onChange={(e) => p.setFields({ ...p.fields, Text: e.target.value })}
-                  />
-                )}
               </section>
             );
           })}

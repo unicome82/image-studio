@@ -12,6 +12,7 @@
 .option-choice {
   @include flex-row($gap: 3px, $display: inline-flex);
   flex-shrink: 0;
+  height: $option-control-height;
   padding: 4px 8px;
   border: 1px solid #ddded5;
   border-radius: 4px;
@@ -39,7 +40,7 @@
 .choice-toggle {
   @include flex-row($justify: center, $display: inline-flex);
   flex-shrink: 0;
-  height: 24px;
+  height: $option-control-height;
   min-width: 24px;
   padding: 0 6px;
   border: 1px solid transparent;

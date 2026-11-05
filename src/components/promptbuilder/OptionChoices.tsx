@@ -8,20 +8,22 @@ interface Choice {
 interface Props {
   title: string;
   headerControl?: ReactNode;
-  disabledHint?: string;
+  afterHeading?: ReactNode;
+  showOptions?: boolean;
+  collapsible?: boolean;
   options: Choice[];
   selected: string[];
   choose: (id: string) => void;
-  disabled?: boolean;
 }
 export default function OptionChoices({
   title,
   options,
   selected,
   choose,
-  disabled = false,
   headerControl,
-  disabledHint,
+  afterHeading,
+  showOptions = true,
+  collapsible = true,
 }: Props) {
   const rowId = useId();
   const [expanded, setExpanded] = useState(false);
@@ -29,6 +31,7 @@ export default function OptionChoices({
   const row = useRef<HTMLDivElement>(null);
   const measures = useRef<HTMLDivElement>(null);
   useLayoutEffect(() => {
+    if (!collapsible || !showOptions) return;
     function measure() {
       if (!row.current || !measures.current) return;
       const width = row.current.clientWidth;
@@ -67,56 +70,61 @@ export default function OptionChoices({
       active = false;
       observer.disconnect();
     };
-  }, [options]);
-  const overflow = count < options.length;
+  }, [options, collapsible, showOptions]);
+  const isExpanded = !collapsible || expanded;
+  const overflow = collapsible && count < options.length;
   return (
     <>
       <h3 className="option-heading" aria-label={title}>
         {title}
         {headerControl && <span className="option-heading-actions">{headerControl}</span>}
       </h3>
-      <div className="option-choices" title={disabled ? disabledHint : undefined}>
-        <div
-          id={rowId}
-          className={'pills choice-row ' + (expanded ? 'expanded' : 'collapsed')}
-          ref={row}
-        >
-          {(expanded ? options : options.slice(0, count)).map((option) => (
-            <button
-              className="option-choice"
-              key={option.id}
-              aria-pressed={selected.includes(option.id)}
-              disabled={disabled}
-              onClick={() => choose(option.id)}
-            >
-              {option.label.replace(/\s+illustration\b/gi, '')}
-            </button>
-          ))}
-          {overflow && (
-            <button
-              className="choice-toggle"
-              aria-label={`${expanded ? 'Collapse' : 'Expand'} ${title} options`}
-              aria-expanded={expanded}
-              aria-controls={rowId}
-              onClick={() => setExpanded(!expanded)}
-            >
-              <Icon name={expanded ? 'expand_less' : 'more_horiz'} size={18} />
-            </button>
+      {afterHeading}
+      {showOptions && (
+        <div className="option-choices">
+          <div
+            id={rowId}
+            className={'pills choice-row ' + (isExpanded ? 'expanded' : 'collapsed')}
+            ref={row}
+          >
+            {(isExpanded ? options : options.slice(0, count)).map((option) => (
+              <button
+                className="option-choice"
+                key={option.id}
+                aria-pressed={selected.includes(option.id)}
+                onClick={() => choose(option.id)}
+              >
+                {option.label.replace(/\s+illustration\b/gi, '')}
+              </button>
+            ))}
+            {overflow && (
+              <button
+                className="choice-toggle"
+                aria-label={`${expanded ? 'Collapse' : 'Expand'} ${title} options`}
+                aria-expanded={expanded}
+                aria-controls={rowId}
+                onClick={() => setExpanded(!expanded)}
+              >
+                <Icon name={expanded ? 'expand_less' : 'more_horiz'} size={18} />
+              </button>
+            )}
+          </div>
+          {collapsible && (
+            <div className="option-measurements" aria-hidden="true">
+              <div className="pills" ref={measures}>
+                {options.map((option) => (
+                  <span className="option-choice" data-choice key={option.id}>
+                    {option.label.replace(/\s+illustration\b/gi, '')}
+                  </span>
+                ))}
+                <span className="choice-toggle" data-toggle>
+                  <Icon name={expanded ? 'expand_less' : 'more_horiz'} size={18} />
+                </span>
+              </div>
+            </div>
           )}
         </div>
-        <div className="option-measurements" aria-hidden="true">
-          <div className="pills" ref={measures}>
-            {options.map((option) => (
-              <span className="option-choice" data-choice key={option.id}>
-                {option.label.replace(/\s+illustration\b/gi, '')}
-              </span>
-            ))}
-            <span className="choice-toggle" data-toggle>
-              <Icon name={expanded ? 'expand_less' : 'more_horiz'} size={18} />
-            </span>
-          </div>
-        </div>
-      </div>
+      )}
     </>
   );
 }

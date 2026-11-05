@@ -94,7 +94,6 @@ function SaveDialog({ save, prompt, close }: Props & { close: () => void }) {
             Cancel
           </button>
           <button type="submit" className="primary" disabled={!name.trim()}>
-            <Icon name="save" size={14} />
             Save
           </button>
         </div>
@@ -113,7 +112,6 @@ export default function SavePrompt({ save, prompt }: Props) {
         aria-expanded={open}
         onClick={() => setOpen(true)}
       >
-        <Icon name="save" size={14} />
         Save
       </button>
       {open && <SaveDialog save={save} prompt={prompt} close={() => setOpen(false)} />}
