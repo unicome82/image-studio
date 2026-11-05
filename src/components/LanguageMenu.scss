@@ -19,7 +19,7 @@
 .language-option {
   @include flex-row($gap: 12px, $justify: space-between);
   width: 100%;
-  padding: 8px 12px;
+  padding: 0.727em 1.091em;
   border-radius: 8px;
   font-size: $option-font-size;
   text-align: start;

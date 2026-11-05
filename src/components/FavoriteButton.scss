@@ -15,3 +15,9 @@
 .favorite-button[aria-pressed='true'] {
   color: $favorite;
 }
+
+@media (max-width: $mobile) {
+  .favorite-button {
+    --icon-24: 1.125rem;
+  }
+}

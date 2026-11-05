@@ -211,3 +211,16 @@ test('The three-option limit preserves existing choices, permits deselection, an
   assert.deepEqual(toggleOption(full, 'Color', 'warm').Color, ['muted', 'earthy']);
   assert.deepEqual(toggleOption({ Color: ['warm'] }, 'Color', 'cool').Color, ['cool']);
 });
+
+test('Blank subjects request random image content while explicit subjects remain unchanged', () => {
+  for (const photo of [false, true]) {
+    for (const Subject of ['', '   ']) {
+      const prompt = makePrompt([], {}, 3, { Subject }, photo);
+      assert.ok(prompt.includes('Choose a random subject and scene'));
+      assert.ok(prompt.includes('without asking for a subject'));
+    }
+    const prompt = makePrompt([], {}, 3, { Subject: 'A cat in Seoul' }, photo);
+    assert.ok(prompt.includes('Subject: A cat in Seoul'));
+    assert.ok(!prompt.includes('Choose a random subject'));
+  }
+});

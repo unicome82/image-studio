@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import Icon from './Icon';
 import './FavoriteButton.scss';
 interface Props {
@@ -7,13 +8,16 @@ interface Props {
   className?: string;
 }
 export default function FavoriteButton({ active, label, toggle, className = '' }: Props) {
+  const [pulse, setPulse] = useState(false);
   return (
     <button
-      className={`favorite-button ${className}`.trim()}
+      className={`favorite-button ${className} ${pulse ? 'favorite-pulse' : ''}`.trim()}
       aria-label={label}
       aria-pressed={active}
+      onAnimationEnd={() => setPulse(false)}
       onClick={(event) => {
         event.stopPropagation();
+        setPulse(!active);
         toggle();
       }}
     >

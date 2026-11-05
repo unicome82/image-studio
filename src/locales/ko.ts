@@ -1,4 +1,7 @@
 const translation: Record<string, string> = {
+  'Leave blank to generate an image with a random subject.':
+    '비워두면 랜덤한 주제로 이미지를 생성해요.',
+  'Close search': '검색 닫기',
   'What would you like to draw?': '무엇을 그릴까요?',
   Selected: '선택 항목',
   'Builder output': '빌더 출력',

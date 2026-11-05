@@ -27,6 +27,11 @@
   gap: 8px;
   padding-block: 12px 0;
 }
+.subject-hint {
+  color: $muted;
+  font-size: var(--font-10, 10px);
+  line-height: 1.5;
+}
 .builder-selects {
   position: relative;
   @include flex-row($gap: 12px);

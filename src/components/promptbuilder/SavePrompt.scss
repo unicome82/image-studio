@@ -40,7 +40,7 @@
 .save-style-actions button {
   min-width: 92px;
   @include prompt-action-button;
-  padding-inline: 16px;
+  padding-inline: 1.455em;
 }
 .save-style-error {
   margin-top: 12px;
@@ -51,5 +51,10 @@
 @media (max-width: $mobile) {
   .save-style-dialog {
     padding-inline: 20px;
+  }
+  .save-style-actions button {
+    flex: 1;
+    min-width: 0;
+    padding-inline: 0.727em;
   }
 }

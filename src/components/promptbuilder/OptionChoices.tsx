@@ -2,6 +2,7 @@ import { useTranslation } from 'react-i18next';
 import './OptionChoices.scss';
 import { prioritizeSelectedOptions } from '../../utils/optionChoices';
 import Icon from '../Icon';
+import { useMediaQuery } from '../../utils/useMediaQuery';
 import { useEffect, useId, useMemo, useRef, useState, type ReactNode } from 'react';
 interface Choice {
   id: string;
@@ -36,7 +37,8 @@ export default function OptionChoices({
   );
   const rowId = useId();
   const [expanded, setExpanded] = useState(false);
-  const isExpanded = !collapsible || expanded;
+  const mobile = useMediaQuery('(max-width: 600px)');
+  const isExpanded = mobile || !collapsible || expanded;
   const row = useRef<HTMLDivElement>(null);
   const drag = useRef<{
     id: number;
@@ -70,7 +72,7 @@ export default function OptionChoices({
       <h3 className="option-heading" aria-label={t(title)}>
         {t(title)}
         {headerControl && <span className="option-heading-actions">{headerControl}</span>}
-        {collapsible && showOptions && options.length > 0 && (
+        {!mobile && collapsible && showOptions && options.length > 0 && (
           <button
             className="choice-toggle"
             aria-label={t(expanded ? 'Collapse {{title}} options' : 'Expand {{title}} options', {

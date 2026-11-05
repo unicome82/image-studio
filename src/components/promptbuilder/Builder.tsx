@@ -89,10 +89,14 @@ export default function Builder(p: Props) {
             </div>
             <input
               aria-label={t('Subject')}
+              aria-describedby={`${tabsId}-subject-hint`}
               placeholder={t('What would you like to draw?')}
               value={p.fields.Subject ?? ''}
               onChange={(e) => p.setFields({ ...p.fields, Subject: e.target.value })}
             />
+            <p id={`${tabsId}-subject-hint`} className="subject-hint">
+              {t('Leave blank to generate an image with a random subject.')}
+            </p>
           </div>
           {categories.map((category) => {
             const preferred = [

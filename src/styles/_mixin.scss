@@ -67,7 +67,7 @@
 
 @mixin button-frame {
   @include flex-row($gap: 8px, $justify: center, $display: inline-flex);
-  padding: 12px 12px;
+  padding: 1.091em;
   border: 1px solid;
   border-radius: 8px;
   font-size: var(--font-11, 11px);
@@ -76,7 +76,7 @@
 @mixin prompt-action-button {
   border-radius: 6px;
   height: var(--action-height, 36px);
-  padding: 0 12px;
+  padding: 0 1.091em;
 }
 
 @mixin panel-scrim {

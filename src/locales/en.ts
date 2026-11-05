@@ -1,4 +1,7 @@
 const translation: Record<string, string> = {
+  'Leave blank to generate an image with a random subject.':
+    'Leave blank to generate an image with a random subject.',
+  'Close search': 'Close search',
   'What would you like to draw?': 'What would you like to draw?',
   Selected: 'Selected',
   'Builder output': 'Builder output',

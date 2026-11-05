@@ -89,6 +89,11 @@ export function makePrompt(
     'Read only the selected prompt files below. Do not assume missing files exist.',
     ...options.map((o) => o.path),
     '',
+    ...(!fields.Subject?.trim()
+      ? [
+          'Subject: Choose a random subject and scene consistent with the selected settings and additional instructions. Generate the image without asking for a subject.',
+        ]
+      : []),
     ...Object.entries(fields)
       .filter(([key, value]) => key !== 'Typography Enabled' && key !== 'Text' && value.trim())
       .map(([key, value]) => `${key}: ${value}`),

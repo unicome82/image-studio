@@ -14,7 +14,7 @@
   @include flex-row($gap: 3px, $display: inline-flex);
   flex-shrink: 0;
   height: $option-control-height;
-  padding: 4px 8px;
+  padding: 0.364em 0.727em;
   border: 1px solid $option-border;
   border-radius: 4px;
   background: transparent;
