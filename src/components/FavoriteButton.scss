@@ -5,8 +5,8 @@
   top: 8px;
   right: 8px;
   @include grid-center;
-  width: 32px;
-  height: 32px;
+  width: var(--control-height, 32px);
+  height: var(--control-height, 32px);
   padding: 0;
   border-radius: 8px;
   background: transparent;

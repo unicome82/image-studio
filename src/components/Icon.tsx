@@ -34,12 +34,13 @@ export default function Icon({
   weight = 400,
 }: Props) {
   const pixelSize = Math.max(2, Math.round(size / 2) * 2);
+  const fluidSize = `var(--icon-${pixelSize}, ${pixelSize}px)`;
   return (
     <span
       className={`material-symbol ${className}`.trim()}
       data-icon={name}
       {...(fill ? { fill: '' } : {})}
-      style={{ fontSize: pixelSize, width: pixelSize, height: pixelSize, fontWeight: weight }}
+      style={{ fontSize: fluidSize, width: fluidSize, height: fluidSize, fontWeight: weight }}
       aria-hidden="true"
     >
       {name}

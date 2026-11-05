@@ -1,7 +1,7 @@
 @use '../styles/variable' as *;
 @use '../styles/mixin' as *;
 .navigation {
-  --type-toggle-height: 28px;
+  --type-toggle-height: var(--control-height, 28px);
   position: sticky;
   top: 0;
   z-index: 25;

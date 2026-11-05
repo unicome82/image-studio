@@ -13,7 +13,7 @@ body {
   background: $page;
   color: $ink;
   font-family: 'Pretendard', sans-serif;
-  font-size: 13px;
+  font-size: var(--font-13, 13px);
   -webkit-font-smoothing: antialiased;
 }
 button,
@@ -45,7 +45,7 @@ button:disabled {
   @include uppercase-text;
 }
 h3 {
-  font-size: 10px;
+  font-size: var(--font-10, 10px);
   @include uppercase-text;
 
   font-weight: 600;
@@ -83,8 +83,43 @@ textarea::placeholder {
   color: $prompt-text;
 }
 @media (max-width: $mobile) {
+  html {
+    container-type: inline-size;
+    font-size: clamp(1rem, 4cqw, 1.125rem);
+  }
   :root {
-    --header-visible: 64px;
+    --header-visible: 80px;
+    --nav-height: clamp(60px, 15.4cqw, 72px);
+    --control-height: clamp(44px, 11.3cqw, 52px);
+    --option-height: clamp(40px, 10.3cqw, 48px);
+    --action-height: clamp(44px, 11.3cqw, 52px);
+    --chip-height: clamp(32px, 8.2cqw, 40px);
+    --font-10: 0.8125rem;
+    --font-11: 1rem;
+    --font-12: 1rem;
+    --font-13: 1.0625rem;
+    --font-15: 1.125rem;
+    --font-16: 1.125rem;
+    --font-18: 1.25rem;
+    --font-19: 1.3125rem;
+    --font-20: 1.375rem;
+    --icon-12: 1rem;
+    --icon-14: 1.25rem;
+    --icon-16: 1.375rem;
+    --icon-18: 1.5rem;
+    --icon-20: 1.5rem;
+    --icon-22: 1.625rem;
+    --icon-24: 1.75rem;
+    --icon-32: 2.25rem;
+    --toggle-width: 44px;
+    --toggle-height: 26px;
+    --toggle-padding: 3px;
+    --toggle-thumb: 20px;
+    --toggle-offset: 18px;
+  }
+  textarea {
+    font-size: max(16px, 1rem);
+    line-height: 1.5;
   }
 }
 @media (prefers-reduced-motion: reduce) {

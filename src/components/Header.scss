@@ -10,7 +10,7 @@
 }
 .brand {
   white-space: nowrap;
-  font-size: 16px;
+  font-size: var(--font-16, 16px);
   font-weight: 900;
   @include uppercase-text;
 }
@@ -32,7 +32,7 @@
   border: 0;
   background: transparent;
   color: $ink;
-  font-size: 12px;
+  font-size: var(--font-12, 12px);
 }
 .header-search input::-webkit-search-cancel-button {
   -webkit-appearance: none;
@@ -59,6 +59,12 @@
 }
 
 @media (max-width: $mobile) {
+  .brand {
+    font-size: clamp(14px, 4cqw, 18px);
+  }
+  .header-actions {
+    gap: 4px;
+  }
   .header {
     gap: 8px;
     padding-block: 12px;

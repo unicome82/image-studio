@@ -18,8 +18,8 @@
 }
 .icon-button {
   @include flex-row($justify: center, $display: inline-flex);
-  width: 32px;
-  height: 32px;
+  width: var(--control-height, 32px);
+  height: var(--control-height, 32px);
   padding: 0;
   border-radius: 8px;
 }
@@ -42,7 +42,7 @@
   @include flex-row($justify: space-between);
   min-height: 56px;
   border-bottom: 1px solid $line;
-  font-size: 10px;
+  font-size: var(--font-10, 10px);
   font-weight: 600;
 }
 .section-heading {
@@ -52,7 +52,7 @@
 }
 .section-heading h2 {
   @include flex-row($gap: 12px);
-  font-size: 19px;
+  font-size: var(--font-19, 19px);
   font-weight: 500;
 }
 .section-heading h2 span {
@@ -60,7 +60,7 @@
   border-radius: 8px;
   background: $secondary-hover-background;
   color: $count-text;
-  font-size: 12px;
+  font-size: var(--font-12, 12px);
   font-weight: 400;
 }
 .prompt-actions {
@@ -106,7 +106,7 @@
   padding: 12px 20px;
   border-radius: 8px;
   @include selected-surface;
-  font-size: 11px;
+  font-size: var(--font-11, 11px);
   transform: translateX(-50%);
 }
 @media (max-width: $mobile) {
@@ -114,7 +114,7 @@
     min-height: 52px;
   }
   .section-heading h2 {
-    font-size: 18px;
+    font-size: var(--font-18, 18px);
   }
   .modal textarea {
     height: 50dvh;

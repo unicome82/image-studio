@@ -27,7 +27,7 @@
   color: $ink;
   right: auto;
   text-align: left;
-  max-width: 200px;
+  max-width: min(280px, calc(100vw - 24px));
   min-width: max-content;
 }
 .builder-select-dropdown .language-option {

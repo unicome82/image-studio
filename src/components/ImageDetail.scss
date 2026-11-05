@@ -59,7 +59,7 @@
 }
 .detail-title {
   min-width: 0;
-  font-size: 12px;
+  font-size: var(--font-12, 12px);
   font-weight: 700;
   text-transform: none;
   letter-spacing: normal;
@@ -68,8 +68,8 @@
 .detail-name-copy {
   @include grid-center;
   flex-shrink: 0;
-  width: 24px;
-  height: 24px;
+  width: var(--control-height, 24px);
+  height: var(--control-height, 24px);
   padding: 0;
   color: inherit;
   background: transparent;
@@ -81,7 +81,7 @@
 }
 .tags span {
   color: $tag-text;
-  font-size: 10px;
+  font-size: var(--font-10, 10px);
 }
 .detail-section {
   margin-top: 16px;
@@ -91,13 +91,13 @@
   color: $black;
 }
 .detail-section h3 .icon-button {
-  width: 24px;
-  height: 24px;
+  width: var(--control-height, 24px);
+  height: var(--control-height, 24px);
 }
 .detail-prompt {
   padding: 16px 0;
   color: $prompt-text;
-  font-size: 10px;
+  font-size: var(--font-10, 10px);
   line-height: 1.3;
   letter-spacing: normal;
   white-space: pre-wrap;
