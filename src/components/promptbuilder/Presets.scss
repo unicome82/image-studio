@@ -12,14 +12,15 @@
   display: flex;
   flex-direction: column;
   min-width: 0;
-  padding: 18px 0;
-  border-top: 1px solid $line;
+  padding: 16px;
+  border: 1px solid $line;
+  border-radius: 4px;
 }
 .preset-item-heading {
   display: flex;
   align-items: center;
-  gap: 5px;
-  min-height: 30px;
+  gap: 8px;
+  min-height: 28px;
 }
 .preset-name {
   display: inline-flex;
@@ -40,28 +41,24 @@
   width: 24px;
   height: 24px;
 }
-.preset-item-heading > .icon-button {
-  flex-shrink: 0;
-  margin-left: auto;
-}
 .preset-prompt {
   flex: 1;
-  margin-top: 14px;
-  color: $prompt-text;
-  font-size: 10px;
-  line-height: 1.3;
-  white-space: pre-wrap;
-  overflow-wrap: anywhere;
+  min-height: 160px;
+  margin-top: 12px;
 }
 .preset-item-actions {
   display: flex;
   align-items: center;
-  justify-content: flex-end;
-  margin-top: 16px;
+  flex-shrink: 0;
+  gap: 4px;
+  margin-left: auto;
 }
-.preset-item-actions .primary {
-  height: 36px;
-  padding: 0 14px;
+.preset-item-actions .icon-button {
+  width: 28px;
+  height: 28px;
+}
+.preset-item-actions .type-outline {
+  border: 1px solid $line;
 }
 .preset-rename {
   display: flex;

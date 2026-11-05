@@ -15,14 +15,15 @@
   align-items: center;
   gap: 3px;
   flex-shrink: 0;
-  padding: 3.5px 9px;
+  padding: 4px 8px;
   border: 1px solid #ddded5;
   border-radius: 4px;
   background: transparent;
-  font-size: 10px;
+  font-size: 9px;
   line-height: normal;
   font-weight: 400;
   white-space: nowrap;
+  text-transform: uppercase;
 }
 .option-choice:hover:not(:disabled) {
   border-color: #9e9f93;

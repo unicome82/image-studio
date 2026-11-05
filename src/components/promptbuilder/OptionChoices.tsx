@@ -88,7 +88,7 @@ export default function OptionChoices({
               disabled={disabled}
               onClick={() => choose(option.id)}
             >
-              {option.label}
+              {option.label.replace(/\s+illustration\b/gi, '')}
             </button>
           ))}
           {overflow && (
@@ -107,7 +107,7 @@ export default function OptionChoices({
           <div className="pills" ref={measures}>
             {options.map((option) => (
               <span className="option-choice" data-choice key={option.id}>
-                {option.label}
+                {option.label.replace(/\s+illustration\b/gi, '')}
               </span>
             ))}
             <span className="choice-toggle" data-toggle>

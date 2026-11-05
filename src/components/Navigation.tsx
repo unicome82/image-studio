@@ -39,7 +39,7 @@ export default function Navigation(p: Props) {
             className={p.active === group.id ? 'active' : ''}
             onClick={() => p.navigate(group.id)}
           >
-            {group.label}
+            {group.label.replace(/\s+illustration\b/gi, '')}
           </button>
         ))}
       </div>

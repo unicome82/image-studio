@@ -5,7 +5,7 @@
 - 컴포넌트와 해당 SCSS를 함께 관리한다. 공통 색상은 `src/styles/_tokens.scss`, 공통 입력·버튼·스크롤바·레이아웃은 `src/styles/`에서 관리한다. `src/styles.scss`는 공통 스타일 진입점으로만 사용한다.
 - 기존의 담당 규칙을 수정한다. 파일 하단에 과거 레이아웃을 덮어쓰는 규칙을 누적하거나 미사용 선택자를 남기지 않는다. 반응형 규칙은 해당 컴포넌트 파일에 모으고 과도한 중첩과 `!important`를 피한다.
 - 아이콘은 `Icon.tsx`와 로컬 Google Material Symbols SVG를 사용한다. Lucide나 아이콘 폰트를 추가하지 않는다. SVG 원본과 라이선스는 `src/assets/README.md`를 따른다.
-- 브라우저 기본 폰트, 최소 10px 글자 크기를 유지한다. Google Fonts 등 외부/CDN 폰트를 연결하지 않는다.
+- 폰트는 버전이 고정된 Pretendard CDN을 사용한다. 일반 텍스트는 최소 10px을 유지하고, 빌더 옵션명은 예외로 9px·보통 굵기를 사용한다. 버튼 텍스트는 대문자로 표시한다.
 - 일반 입력 textarea는 흰색, 생성 프롬프트 textarea는 `prompt-textarea` 클래스의 무채색 배경으로 구분한다. textarea의 resize는 비활성화한다.
 - 접힌 옵션은 `…` 버튼을 포함해 한 줄 안에 배치하고, Builder 폭에 따라 개수를 측정한다.
 - 프롬프트 상세 내용은 `reference/**/prompt.md`를 단일 원본으로 유지한다. UI 수정 중 기존 프롬프트·레퍼런스 이미지를 변경하거나 중복 보관하지 않는다. 이미지 생성은 별도 사용자 요청이 있을 때 진행한다.
