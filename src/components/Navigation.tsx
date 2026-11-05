@@ -21,7 +21,7 @@ export default function Navigation(p: Props) {
         aria-expanded={p.builder}
         onClick={p.toggleBuilder}
       >
-        <Icon name="star" size={16} fill />
+        <Icon name="auto_awesome" size={16} fill />
       </button>
       <div className="type-tabs" aria-label={t('Image type')}>
         <button aria-pressed={!p.photo} onClick={() => p.switchType(false)}>

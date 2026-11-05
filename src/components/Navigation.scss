@@ -20,7 +20,7 @@
   height: var(--type-toggle-height);
   padding: 0;
   border: 1px solid transparent;
-  border-radius: 16px;
+  border-radius: 8px;
   background: $ai-gradient;
   color: $white;
 }
@@ -47,10 +47,10 @@
   white-space: nowrap;
 }
 .type-tabs button:first-child {
-  border-radius: 16px 0 0 16px;
+  border-radius: 8px 0 0 8px;
 }
 .type-tabs button:last-child {
-  border-radius: 0 16px 16px 0;
+  border-radius: 0 8px 8px 0;
 }
 .type-tabs button[aria-pressed='true'] {
   @include selected-surface;

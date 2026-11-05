@@ -16,7 +16,8 @@ export type IconName =
   | 'edit'
   | 'delete'
   | 'more_horiz'
-  | 'expand_less';
+  | 'expand_less'
+  | 'expand_more';
 interface Props {
   name: IconName;
   size?: number;

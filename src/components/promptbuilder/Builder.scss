@@ -47,7 +47,7 @@
 .builder .typography-toggle {
   @include flex-row($display: inline-flex);
   flex-shrink: 0;
-  width: 24px;
+  width: 20px;
   height: 12px;
   padding: 1px;
   border-radius: 12px;
@@ -65,7 +65,7 @@
   background: $ink;
 }
 .typography-toggle[aria-checked='true'] span {
-  transform: translateX(calc(24px - 2px - 8px));
+  transform: translateX(calc(20px - 2px - 8px));
 }
 .typography-input {
   display: block;

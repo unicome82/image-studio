@@ -49,7 +49,7 @@ h3 {
 
   font-weight: 600;
 }
-:where(input:not([type='range'])) {
+input:where(:not([type='range'])) {
   @include field-surface;
   height: $input-height;
   min-width: 0;

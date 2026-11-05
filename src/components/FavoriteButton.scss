@@ -9,10 +9,9 @@
   height: 24px;
   padding: 0;
   border-radius: 8px;
-  background: $favorite-background;
+  background: transparent;
   color: $ink;
 }
 .favorite-button[aria-pressed='true'] {
-  background: $page;
   color: $favorite;
 }

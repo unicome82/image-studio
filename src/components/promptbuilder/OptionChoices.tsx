@@ -2,7 +2,7 @@ import { useTranslation } from 'react-i18next';
 import './OptionChoices.scss';
 import { prioritizeSelectedOptions } from '../../utils/optionChoices';
 import Icon from '../Icon';
-import { useId, useLayoutEffect, useMemo, useRef, useState, type ReactNode } from 'react';
+import { useId, useMemo, useState, type ReactNode } from 'react';
 interface Choice {
   id: string;
   label: string;
@@ -36,67 +36,37 @@ export default function OptionChoices({
   );
   const rowId = useId();
   const [expanded, setExpanded] = useState(false);
-  const [count, setCount] = useState(options.length);
-  const row = useRef<HTMLDivElement>(null);
-  const measures = useRef<HTMLDivElement>(null);
-  useLayoutEffect(() => {
-    if (!collapsible || !showOptions) return;
-    function measure() {
-      if (!row.current || !measures.current) return;
-      const width = row.current.clientWidth;
-      const gap = parseFloat(getComputedStyle(row.current).columnGap) || 0;
-      const widths = Array.from(
-        measures.current.querySelectorAll<HTMLElement>('[data-choice]'),
-      ).map((el) => el.getBoundingClientRect().width);
-      const toggleWidth = measures.current
-        .querySelector<HTMLElement>('[data-toggle]')!
-        .getBoundingClientRect().width;
-      if (
-        widths.reduce((total, value) => total + value, 0) + Math.max(0, widths.length - 1) * gap <=
-        width
-      ) {
-        setCount(widths.length);
-        return;
-      }
-      let used = 0,
-        fit = 0;
-      for (const value of widths) {
-        const next = used + (fit ? gap : 0) + value;
-        if (next + gap + toggleWidth > width) break;
-        used = next;
-        fit++;
-      }
-      setCount(fit);
-    }
-    measure();
-    const observer = new ResizeObserver(measure);
-    if (row.current) observer.observe(row.current);
-    let active = true;
-    document.fonts.ready.then(() => {
-      if (active) measure();
-    });
-    return () => {
-      active = false;
-      observer.disconnect();
-    };
-  }, [orderedOptions, collapsible, showOptions]);
   const isExpanded = !collapsible || expanded;
-  const overflow = collapsible && count < options.length;
   return (
     <>
       <h3 className="option-heading" aria-label={t(title)}>
         {t(title)}
         {headerControl && <span className="option-heading-actions">{headerControl}</span>}
+        {collapsible && showOptions && options.length > 0 && (
+          <button
+            className="choice-toggle"
+            aria-label={t(expanded ? 'Collapse {{title}} options' : 'Expand {{title}} options', {
+              title: t(title),
+            })}
+            aria-expanded={expanded}
+            aria-controls={rowId}
+            onClick={() => setExpanded(!expanded)}
+          >
+            <Icon name={expanded ? 'expand_less' : 'expand_more'} size={16} />
+          </button>
+        )}
       </h3>
       {afterHeading}
       {showOptions && (
         <div className="option-choices">
           <div
             id={rowId}
+            role="group"
+            aria-label={t(title)}
+            tabIndex={isExpanded ? undefined : 0}
             className={'pills choice-row ' + (isExpanded ? 'expanded' : 'collapsed')}
-            ref={row}
           >
-            {(isExpanded ? orderedOptions : orderedOptions.slice(0, count)).map((option) => (
+            {orderedOptions.map((option) => (
               <button
                 className="option-choice"
                 key={option.id}
@@ -106,35 +76,7 @@ export default function OptionChoices({
                 {t(option.label.replace(/\s+illustration\b/gi, ''))}
               </button>
             ))}
-            {overflow && (
-              <button
-                className="choice-toggle"
-                aria-label={t(
-                  expanded ? 'Collapse {{title}} options' : 'Expand {{title}} options',
-                  { title: t(title) },
-                )}
-                aria-expanded={expanded}
-                aria-controls={rowId}
-                onClick={() => setExpanded(!expanded)}
-              >
-                <Icon name={expanded ? 'expand_less' : 'more_horiz'} size={16} />
-              </button>
-            )}
           </div>
-          {collapsible && (
-            <div className="option-measurements" aria-hidden="true">
-              <div className="pills" ref={measures}>
-                {orderedOptions.map((option) => (
-                  <span className="option-choice" data-choice key={option.id}>
-                    {t(option.label.replace(/\s+illustration\b/gi, ''))}
-                  </span>
-                ))}
-                <span className="choice-toggle" data-toggle>
-                  <Icon name={expanded ? 'expand_less' : 'more_horiz'} size={16} />
-                </span>
-              </div>
-            </div>
-          )}
         </div>
       )}
     </>

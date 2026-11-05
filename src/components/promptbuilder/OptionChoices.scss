@@ -32,7 +32,10 @@
 }
 .choice-row.collapsed {
   flex-wrap: nowrap;
-  overflow: hidden;
+  overflow-x: auto;
+  overflow-y: hidden;
+  overscroll-behavior-x: contain;
+  padding-bottom: 4px;
 }
 .choice-row.expanded {
   flex-wrap: wrap;
@@ -54,16 +57,4 @@
 .choice-toggle[aria-expanded='true'] {
   background: #ececea;
   color: $ink;
-}
-.option-measurements {
-  position: absolute;
-  inset: 0;
-  height: 0;
-  overflow: hidden;
-  visibility: hidden;
-  pointer-events: none;
-}
-.option-measurements > .pills {
-  width: max-content;
-  flex-wrap: nowrap;
 }
