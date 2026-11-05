@@ -57,6 +57,20 @@
   width: 28px;
   height: 28px;
 }
+.preset-item-actions .primary,
+.preset-item-actions .secondary {
+  height: 28px;
+  padding: 0 8px;
+  gap: 4px;
+  font-size: 10px;
+}
+.preset-item-actions .preset-copy {
+  background: #000;
+  border-color: #000;
+}
+.preset-item-actions .preset-copy:hover {
+  background: #333;
+}
 .preset-item-actions .type-outline {
   border: 1px solid $line;
 }
@@ -71,17 +85,6 @@
 }
 .preset-rename button {
   flex-shrink: 0;
-}
-.preset-confirm {
-  display: flex;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: 8px;
-  margin-top: 14px;
-  font-size: 11px;
-}
-.preset-confirm > span {
-  margin-right: auto;
 }
 .preset-empty {
   display: grid;

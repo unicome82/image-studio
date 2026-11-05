@@ -83,22 +83,43 @@ export default function Presets(p: Props) {
                       </button>
                     </div>
                     <div className="preset-item-actions">
-                      <button
-                        className="icon-button"
-                        aria-label={`Copy ${preset.name} prompt`}
-                        title="Copy prompt"
-                        onClick={() => p.copy(prompt)}
-                      >
-                        <Icon name="content_copy" size={14} />
-                      </button>
-                      <button
-                        className="icon-button type-outline"
-                        aria-label={`Delete ${preset.name}`}
-                        title="Delete style set"
-                        onClick={() => setDeleting(preset.id)}
-                      >
-                        <Icon name="delete" size={14} />
-                      </button>
+                      {deleting === preset.id ? (
+                        <>
+                          <button className="secondary" onClick={() => setDeleting(null)}>
+                            Cancel
+                          </button>
+                          <button
+                            className="primary"
+                            aria-label={`Confirm delete ${preset.name}`}
+                            onClick={() => {
+                              p.remove(preset.id);
+                              setDeleting(null);
+                            }}
+                          >
+                            Delete
+                          </button>
+                        </>
+                      ) : (
+                        <>
+                          <button
+                            className="primary preset-copy"
+                            aria-label={`Copy ${preset.name} prompt`}
+                            title="Copy prompt"
+                            onClick={() => p.copy(prompt)}
+                          >
+                            <Icon name="content_copy" size={14} />
+                            Copy
+                          </button>
+                          <button
+                            className="icon-button type-outline"
+                            aria-label={`Delete ${preset.name}`}
+                            title="Delete style set"
+                            onClick={() => setDeleting(preset.id)}
+                          >
+                            <Icon name="delete" size={14} />
+                          </button>
+                        </>
+                      )}
                     </div>
                   </div>
                 )}
@@ -108,23 +129,6 @@ export default function Presets(p: Props) {
                   value={prompt}
                   readOnly
                 />
-                {deleting === preset.id && (
-                  <div className="preset-confirm">
-                    <span>Delete this style set?</span>
-                    <button className="secondary" onClick={() => setDeleting(null)}>
-                      Cancel
-                    </button>
-                    <button
-                      className="primary"
-                      onClick={() => {
-                        p.remove(preset.id);
-                        setDeleting(null);
-                      }}
-                    >
-                      Delete
-                    </button>
-                  </div>
-                )}
               </article>
             );
           })

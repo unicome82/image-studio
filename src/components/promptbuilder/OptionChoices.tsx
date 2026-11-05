@@ -1,4 +1,5 @@
 import './OptionChoices.scss';
+import Icon from '../Icon';
 import { useId, useLayoutEffect, useRef, useState, type ReactNode } from 'react';
 interface Choice {
   id: string;
@@ -99,7 +100,7 @@ export default function OptionChoices({
               aria-controls={rowId}
               onClick={() => setExpanded(!expanded)}
             >
-              …
+              <Icon name={expanded ? 'expand_less' : 'more_horiz'} size={18} />
             </button>
           )}
         </div>
@@ -111,7 +112,7 @@ export default function OptionChoices({
               </span>
             ))}
             <span className="choice-toggle" data-toggle>
-              …
+              <Icon name={expanded ? 'expand_less' : 'more_horiz'} size={18} />
             </span>
           </div>
         </div>

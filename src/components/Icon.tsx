@@ -1,4 +1,3 @@
-import symbols from '../assets/material-symbols.svg?no-inline';
 import './Icon.scss';
 export type IconName =
   | 'bookmark'
@@ -12,24 +11,24 @@ export type IconName =
   | 'format_list_bulleted'
   | 'save'
   | 'edit'
-  | 'delete';
+  | 'delete'
+  | 'more_horiz'
+  | 'expand_less';
 interface Props {
   name: IconName;
   size?: number;
   className?: string;
 }
-/** Local Google Material Symbols SVG; never loads a remote stylesheet or icon font. */
+/** Google Material Symbols Outlined, loaded through the jsDelivr CDN. */
 export default function Icon({ name, size = 18, className = '' }: Props) {
   return (
-    <svg
+    <span
       className={`material-symbol ${className}`.trim()}
       data-icon={name}
-      width={size}
-      height={size}
+      style={{ fontSize: size, width: size, height: size }}
       aria-hidden="true"
-      focusable="false"
     >
-      <use href={`${symbols}#${name}`} width={size} height={size} />
-    </svg>
+      {name}
+    </span>
   );
 }
