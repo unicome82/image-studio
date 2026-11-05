@@ -1,9 +1,14 @@
-*,
-*::before,
-*::after {
-  box-sizing: border-box;
-}
+@use './variable' as *;
+@use './mixin' as *;
 
+// Element reset
+* {
+  &,
+  &::before,
+  &::after {
+    box-sizing: border-box;
+  }
+}
 body,
 h1,
 h2,
@@ -27,13 +32,11 @@ legend {
   margin: 0;
   padding: 0;
 }
-
 ol,
 ul,
 dl {
   list-style: none;
 }
-
 button,
 input,
 select,
@@ -44,22 +47,159 @@ textarea {
   letter-spacing: normal;
   color: inherit;
 }
-
 button {
   border: 0 solid transparent;
   background: transparent;
 }
-
 fieldset {
   border: 0;
 }
-
 a {
   color: inherit;
   text-decoration: none;
 }
-
 table {
   border-collapse: collapse;
   border-spacing: 0;
+}
+
+// Base typography, form defaults and responsive size tokens
+:root {
+  --nav-height: 44px;
+  --header-visible: 76px;
+  --panel-top: calc(var(--header-visible) + var(--nav-height));
+  --transition-duration: 0.3s;
+  @media (max-width: $mobile) {
+    --header-visible: 80px;
+    --nav-height: round(nearest, clamp(52px, 14cqw, 64px), 4px);
+    --nav-control-height: round(nearest, clamp(36px, 9cqw, 44px), 4px);
+    --control-height: round(nearest, clamp(44px, 11cqw, 52px), 4px);
+    --option-height: round(nearest, clamp(32px, 8cqw, 40px), 4px);
+    --action-height: round(nearest, clamp(44px, 11cqw, 52px), 4px);
+    --chip-height: round(nearest, clamp(32px, 8cqw, 40px), 4px);
+    --button-font-size: round(nearest, clamp(12px, calc(10px + 1cqw), 16px), 2px);
+    --font-10: 12px;
+    --font-11: 16px;
+    --font-12: 16px;
+    --font-13: 16px;
+    --font-15: 16px;
+    --font-16: 16px;
+    --font-18: 20px;
+    --font-19: 20px;
+    --font-20: 24px;
+    --icon-12: 16px;
+    --icon-14: 20px;
+    --icon-16: 20px;
+    --icon-18: 24px;
+    --icon-20: 24px;
+    --icon-22: 24px;
+    --icon-24: 28px;
+    --icon-32: 36px;
+    --toggle-width: 44px;
+    --toggle-height: 26px;
+    --toggle-padding: 3px;
+    --toggle-thumb: 20px;
+    --toggle-offset: 18px;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    --transition-duration: 0s;
+  }
+}
+html {
+  touch-action: manipulation;
+  scroll-behavior: smooth;
+  @media (max-width: $mobile) {
+    container-type: inline-size;
+    font-size: 16px;
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    scroll-behavior: auto;
+  }
+}
+body {
+  background: $page;
+  color: $ink;
+  font-family: 'Pretendard', sans-serif;
+  font-size: var(--font-13, 13px);
+  -webkit-font-smoothing: antialiased;
+}
+button,
+a,
+input,
+textarea,
+select {
+  -webkit-tap-highlight-color: transparent;
+}
+button {
+  @include uppercase-text;
+  font-weight: 500;
+  cursor: pointer;
+  transition:
+    background var(--transition-duration),
+    color var(--transition-duration),
+    border-color var(--transition-duration),
+    opacity var(--transition-duration);
+  &:disabled {
+    cursor: not-allowed;
+    opacity: 0.38;
+  }
+}
+:focus,
+:focus-visible {
+  outline: none;
+  box-shadow: none;
+}
+.uppercase {
+  @include uppercase-text;
+}
+h3 {
+  font-size: var(--font-10, 10px);
+  @include uppercase-text;
+
+  font-weight: 600;
+}
+input:where(:not([type='range'])),
+select {
+  @include field-surface;
+  height: $input-height;
+  min-width: 0;
+  padding: 0 calc(8em / 11);
+  font-size: $option-font-size;
+}
+input {
+  &[type='range'] {
+    width: 100%;
+    accent-color: $ink;
+    margin: 0;
+  }
+}
+textarea {
+  display: block;
+  @include field-surface;
+  padding: calc(4em / 5);
+  color: $ink;
+  line-height: 1.3;
+  resize: none;
+  @media (max-width: $mobile) {
+    font-size: 16px;
+    line-height: 1.5;
+  }
+}
+input::placeholder,
+textarea::placeholder {
+  color: $placeholder;
+  opacity: 1;
+}
+.prompt-textarea {
+  border-color: $prompt-border;
+  letter-spacing: normal;
+  background: $prompt-background;
+  color: $prompt-text;
+  @media (max-width: $mobile) {
+    &[readonly] {
+      font-size: 12px;
+    }
+  }
 }

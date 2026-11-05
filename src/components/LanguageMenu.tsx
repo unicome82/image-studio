@@ -1,7 +1,6 @@
 import { useEffect, useId, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import Icon from './Icon';
-import './LanguageMenu.scss';
 
 export default function LanguageMenu() {
   const { t, i18n } = useTranslation();

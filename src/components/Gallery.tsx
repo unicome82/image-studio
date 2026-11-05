@@ -2,7 +2,6 @@ import { useTranslation } from 'react-i18next';
 import FavoriteButton from './FavoriteButton';
 import { imageName } from '../utils/imageName';
 import type { GallerySection, GalleryTile } from '../types';
-import './Gallery.scss';
 interface Props {
   groups: GallerySection[];
   bookmarks: string[];

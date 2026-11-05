@@ -1,6 +1,5 @@
 import { useEffect, useId, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import './Builder.scss';
 import Icon from '../Icon';
 import OptionChoices from './OptionChoices';
 import SelectedOptions from './SelectedOptions';

@@ -1,5 +1,4 @@
 import { useTranslation } from 'react-i18next';
-import './ImagePreview.scss';
 import Icon from './Icon';
 import { imageName } from '../utils/imageName';
 import { useEffect, useRef, useState } from 'react';

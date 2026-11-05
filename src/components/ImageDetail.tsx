@@ -5,7 +5,6 @@ import { imageName } from '../utils/imageName';
 import Panel from './Panel';
 import SavePrompt from './promptbuilder/SavePrompt';
 import type { GalleryTile } from '../types';
-import './ImageDetail.scss';
 interface Props {
   image: GalleryTile;
   photo: boolean;

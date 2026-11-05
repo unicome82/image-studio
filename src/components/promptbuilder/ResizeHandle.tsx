@@ -1,5 +1,4 @@
 import { useTranslation } from 'react-i18next';
-import './ResizeHandle.scss';
 import { useEffect, useRef, useState } from 'react';
 export const builderMinWidth = 220;
 export const builderMaxWidth = 420;

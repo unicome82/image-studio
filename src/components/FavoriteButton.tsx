@@ -1,6 +1,5 @@
 import { useState } from 'react';
 import Icon from './Icon';
-import './FavoriteButton.scss';
 interface Props {
   active: boolean;
   label: string;

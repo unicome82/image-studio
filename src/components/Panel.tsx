@@ -1,4 +1,3 @@
-import './Panel.scss';
 import { useEffect, useRef, type ReactNode } from 'react';
 import { useMediaQuery } from '../utils/useMediaQuery';
 interface Props {

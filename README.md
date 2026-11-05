@@ -47,7 +47,7 @@ The logo is IMAGE STUDIO at 16px with font weight 900. Header and navigation hor
 
 ## Source and style conventions
 
-See `AGENTS.md` for the repository’s coding instructions. Header, Navigation, Gallery, ImageDetail, and the Builder controls each own their adjacent SCSS file. `src/styles.scss` imports only shared base rules, controls, scrollbars, layout, variables, and mixins from `src/styles/`. Update the owning rule instead of appending historical overrides.
+See `AGENTS.md` for the repository’s coding instructions. All SCSS lives in `src/styles/`: `_variable.scss` for tokens, `_mixin.scss` for reusable patterns, `_reset.scss` for element resets and base/mobile defaults, `common.scss` for shared controls and UI, `layout.scss` for page layout, and `style.scss` as the single entry imported by `main.tsx`. The entry uses reset and forwards common/layout; only variable, mixin, and reset are `@use` dependencies. Use nested selectors, `&` states, and media queries inside the owning selector instead of component-specific files or repeated flat selectors.
 
 Google Material Symbols Outlined icons are loaded through the jsDelivr CDN and rendered through `src/components/Icon.tsx`. No icon files are stored locally. A `fill` attribute or `fill` class on the icon span enables its filled form. The navigation Builder button uses the filled symbol and gradient only while open, with a transparent background while closed. Navigation text is 12px. The page background is white (`#fff`).
 

@@ -1,6 +1,5 @@
 import { useLayoutEffect, useId, useRef, useState } from 'react';
 import Icon from '../Icon';
-import './BuilderSelect.scss';
 interface Props {
   label: string;
   value: string;

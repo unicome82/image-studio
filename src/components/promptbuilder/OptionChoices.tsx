@@ -1,5 +1,4 @@
 import { useTranslation } from 'react-i18next';
-import './OptionChoices.scss';
 import { prioritizeSelectedOptions } from '../../utils/optionChoices';
 import Icon from '../Icon';
 import { useMediaQuery } from '../../utils/useMediaQuery';

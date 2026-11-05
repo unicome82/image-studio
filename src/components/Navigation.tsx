@@ -2,7 +2,6 @@ import { useTranslation } from 'react-i18next';
 import Icon from './Icon';
 import BuilderSelect from './promptbuilder/BuilderSelect';
 import { useMediaQuery } from '../utils/useMediaQuery';
-import './Navigation.scss';
 interface Props {
   builder: boolean;
   photo: boolean;

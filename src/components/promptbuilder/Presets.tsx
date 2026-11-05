@@ -1,5 +1,4 @@
 import { useTranslation } from 'react-i18next';
-import './Presets.scss';
 import Icon from '../Icon';
 import { useState } from 'react';
 import type { StylePreset } from '../../utils/presets';

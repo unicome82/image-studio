@@ -3,7 +3,6 @@ import { useMediaQuery } from '../utils/useMediaQuery';
 import { useTranslation } from 'react-i18next';
 import Icon from './Icon';
 import LanguageMenu from './LanguageMenu';
-import './Header.scss';
 interface Props {
   home: () => void;
   query: string;

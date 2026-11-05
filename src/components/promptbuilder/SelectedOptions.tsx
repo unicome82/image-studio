@@ -3,7 +3,6 @@ import Icon from '../Icon';
 import type { Option, Selection } from '../../utils/promptBuilder';
 import { complexityLabels } from '../../utils/promptBuilder';
 import { selectedBuilderOptions } from '../../utils/selectedOptions';
-import './SelectedOptions.scss';
 interface Props {
   catalog: Option[];
   selection: Selection;

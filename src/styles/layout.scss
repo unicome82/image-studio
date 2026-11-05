@@ -1,0 +1,63 @@
+@use './variable' as *;
+@use './mixin' as *;
+
+.workspace {
+  --detail-width: 320px;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  align-items: start;
+  &.with-builder {
+    grid-template-columns: var(--builder-width, 248px) minmax(0, 1fr);
+  }
+  &.with-detail {
+    grid-template-columns: minmax(0, 1fr) var(--detail-width);
+  }
+  &.with-builder.with-detail {
+    grid-template-columns: var(--builder-width, 248px) minmax(0, 1fr) var(--detail-width);
+  }
+  @media (min-width: 1700px) {
+    --detail-width: 352px;
+  }
+  @media (max-width: 1252px) {
+    --detail-width: 292px;
+  }
+  @media (max-width: $tablet) {
+    &.with-builder,
+    &.with-detail,
+    &.with-builder.with-detail {
+      grid-template-columns: minmax(0, 1fr);
+    }
+  }
+}
+.gallery {
+  min-width: 0;
+  padding: 28px 32px 0;
+  @media (min-width: 1700px) {
+    padding-inline: 40px;
+  }
+  @media (max-width: 1252px) {
+    padding-inline: 24px;
+  }
+  @media (max-width: $tablet) {
+    padding: 32px;
+  }
+  @media (max-width: $mobile) {
+    padding: 20px 20px 0;
+  }
+}
+.mobile-scrim,
+.detail-scrim {
+  display: none;
+}
+.mobile-scrim {
+  @media (max-width: $tablet) {
+    @include panel-scrim;
+    z-index: 40;
+  }
+}
+.detail-scrim {
+  @media (max-width: $tablet) {
+    @include panel-scrim;
+    z-index: 35;
+  }
+}

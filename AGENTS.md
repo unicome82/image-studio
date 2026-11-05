@@ -3,9 +3,10 @@
 ## 구조와 유지보수
 
 - 사용자 최신 요청과 `IMAGE-STUDIO.md`, `PROMPT-BUILDER.md`를 따른다. React + TypeScript + SCSS를 유지하고 요청 범위 밖 기능을 추가하지 않는다.
-- 컴포넌트와 해당 SCSS를 함께 관리한다. 공통 색상·크기는 `src/styles/_variable.scss`, 공통 스타일은 `src/styles/`, 태그 초기화는 `_reset.scss`, 반복 스타일 묶음은 `_mixin.scss`에서 관리한다. `src/styles.scss`는 공통 스타일 진입점으로만 사용한다.
-- 기존 담당 규칙을 수정하고 파일 끝에 덮어쓰기 규칙을 누적하지 않는다. 반응형 규칙은 담당 컴포넌트에 모은다. 미사용 코드·선택자·토큰·믹스인, 과도한 중첩과 `!important`를 피한다.
-- 공통 버튼은 `primary`, `secondary`, `icon-button`, 메뉴는 `dropdown-menu`, `dropdown-option` 클래스를 재사용한다. 기능별 SCSS를 다른 기능에서 import하지 않는다. 반응형 판별은 `useMediaQuery`를 공유한다.
+- SCSS는 `src/styles/`의 `_variable.scss`, `_mixin.scss`, `_reset.scss`, `common.scss`, `layout.scss`, `style.scss` 6개로만 관리한다. 컴포넌트별 SCSS나 컴포넌트의 스타일 import를 다시 추가하지 않는다. 색상·크기는 variable, 재사용 묶음은 mixin, 태그 초기화·기본 스타일·모바일 크기 기준은 reset, UI는 common, 화면 배치는 layout에서 관리한다.
+- `src/main.tsx`는 `src/styles/style.scss` 하나만 import한다. 프로젝트 `@use` 대상은 variable·mixin·reset로 한정하고, style은 common·layout을 `@forward`로 조합한다. 부모·자식·상태·의사 요소는 SCSS 중첩과 `&`로 작성하되 기존 선택자의 범위·우선순위를 유지한다.
+- 기존 담당 규칙을 수정하고 파일 끝에 덮어쓰기 규칙을 누적하지 않는다. 반응형 규칙은 담당 선택자 내부의 @media로 모은다. 미사용 코드·선택자·토큰·믹스인, 과도한 중첩과 `!important`를 피한다.
+- 공통 버튼은 `primary`, `secondary`, `icon-button`, 메뉴는 `dropdown-menu`, `dropdown-option` 클래스를 재사용한다. 컴포넌트별 스타일 파일은 두지 않고 common의 공통 클래스와 구역별 중첩 규칙을 재사용한다. 반응형 판별은 `useMediaQuery`를 공유한다.
 - 아이콘은 `Icon.tsx`와 버전 고정 jsDelivr Material Symbols Outlined를 사용한다. 로컬 아이콘이나 별도 라이브러리를 추가하지 않는다. 심볼은 2px 단위, 굵기는 표준 font-weight, 채움은 fill 속성으로 관리한다. 모바일 크기는 공통 크기 변수를 사용한다.
 - Pretendard는 버전 고정 CDN을 사용한다. UI 문구는 i18next와 `src/locales/en.ts`, `ko.ts`에서 관리한다. 언어 변경으로 영문 프롬프트·경로·ID·사용자 입력·파일명을 바꾸지 않는다.
 - `reference/**/prompt.md`가 프롬프트 상세 내용의 단일 원본이다. UI 작업 중 원문·레퍼런스 이미지를 변경하거나 복제하지 않는다. 이미지 생성은 별도 사용자 요청이 있을 때만 진행한다.

@@ -1,5 +1,4 @@
 import { useTranslation } from 'react-i18next';
-import './SavePrompt.scss';
 import Icon from '../Icon';
 import { useEffect, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
