@@ -55,12 +55,6 @@ export default function Builder(p: Props) {
       <div className="builder-scroll">
         <div className="builder-wrap">
           <div className="builder-primary-inputs">
-            <input
-              aria-label={t('Subject')}
-              placeholder={t('What would you like to draw?')}
-              value={p.fields.Subject ?? ''}
-              onChange={(e) => p.setFields({ ...p.fields, Subject: e.target.value })}
-            />
             <div className="builder-selects">
               <select
                 aria-label={t('Outline')}
@@ -101,6 +95,12 @@ export default function Builder(p: Props) {
                 ))}
               </select>
             </div>
+            <input
+              aria-label={t('Subject')}
+              placeholder={t('What would you like to draw?')}
+              value={p.fields.Subject ?? ''}
+              onChange={(e) => p.setFields({ ...p.fields, Subject: e.target.value })}
+            />
           </div>
           {categories.map((category) => {
             const preferred = [

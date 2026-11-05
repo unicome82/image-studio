@@ -15,11 +15,6 @@
   margin-bottom: 12px;
   overflow: hidden;
   border-radius: 8px;
-  outline: 1px solid transparent;
-  outline-offset: 3px;
-}
-.tile.selected {
-  outline-color: $ink;
 }
 .tile-main {
   position: absolute;
@@ -27,6 +22,42 @@
   display: block;
   width: 100%;
   height: 100%;
+}
+.tile-main::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: rgba($black, 0.6);
+  opacity: 0;
+  transition: opacity var(--transition-duration) ease;
+}
+.tile-caption {
+  position: absolute;
+  inset: 0;
+  @include flex-column;
+  justify-content: flex-end;
+  gap: 8px;
+  padding: 16px;
+  color: $white;
+  text-align: left;
+  text-transform: none;
+  letter-spacing: normal;
+  opacity: 0;
+  transition: opacity var(--transition-duration) ease;
+  pointer-events: none;
+}
+.tile-title {
+  font-size: 13px;
+  font-weight: 500;
+  overflow-wrap: anywhere;
+}
+.tile-tags {
+  font-size: 10px;
+  overflow-wrap: anywhere;
+}
+.tile.selected .tile-main::before,
+.tile.selected .tile-caption {
+  opacity: 1;
 }
 .tile-bookmark {
   opacity: 0;

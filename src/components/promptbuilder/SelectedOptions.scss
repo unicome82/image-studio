@@ -13,11 +13,13 @@
   @include flex-row($gap: 4px, $display: inline-flex);
   max-width: 100%;
   min-width: 0;
-  height: 24px;
+  height: 20px;
   padding: 0 4px 0 8px;
-  border: 1px solid $line;
+  border: 1px solid $prompt-border;
+  background: $prompt-background;
+  color: rgba($black, 0.6);
   border-radius: 4px;
-  font-size: $option-font-size;
+  font-size: 10px;
 }
 .selected-option-label {
   min-width: 0;

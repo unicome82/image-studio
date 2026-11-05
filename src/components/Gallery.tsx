@@ -37,8 +37,16 @@ export default function Gallery(p: Props) {
                 <button
                   className="tile-main"
                   aria-label={t('View {{name}}', { name: imageName(tile) })}
+                  aria-pressed={p.selectedId === tile.id}
                   onClick={() => p.select(tile)}
-                />
+                >
+                  <span className="tile-caption" aria-hidden="true">
+                    <span className="tile-title">{imageName(tile)}</span>
+                    <span className="tile-tags">
+                      #{tile.group} #{t(tile.id.startsWith('photo-') ? 'Photo' : 'Illustration')}
+                    </span>
+                  </span>
+                </button>
                 <FavoriteButton
                   className={'tile-bookmark ' + (p.bookmarks.includes(tile.id) ? 'bookmarked' : '')}
                   active={p.bookmarks.includes(tile.id)}

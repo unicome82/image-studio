@@ -18,12 +18,12 @@
   @include flex-row($gap: 12px);
   flex: 1;
   min-width: 0;
-  max-width: 760px;
+  max-width: 320px;
   height: $header-control-size;
   padding: 0 0 0 12px;
-  border: 1px solid $line;
+  border: 1px solid $option-hover-border;
   border-radius: 4px;
-  color: $muted;
+  color: $ink;
 }
 .header-search input {
   width: 100%;
@@ -48,7 +48,7 @@
   margin-left: auto;
 }
 .saved-toggle {
-  color: $favorite-default;
+  color: $black;
   position: relative;
   flex-shrink: 0;
 }
