@@ -46,24 +46,26 @@ export default function Header(p: Props) {
           </button>
         )}
       </label>
-      <button
-        className={'icon-button saved-toggle ' + (p.showBookmarks ? 'active' : '')}
-        aria-label={t('Show bookmarks')}
-        aria-pressed={p.showBookmarks}
-        onClick={p.toggleBookmarks}
-      >
-        <Icon name="bookmark" size={20} />
-        <span className="saved-count">{p.bookmarksCount || ''}</span>
-      </button>
-      <button
-        className={'icon-button preset-toggle ' + (p.showPrompts ? 'active' : '')}
-        aria-label={t('Open saved style sets')}
-        aria-pressed={p.showPrompts}
-        onClick={p.togglePrompts}
-      >
-        <Icon name="format_list_bulleted" size={20} />
-      </button>
-      <LanguageMenu />
+      <div className="header-actions">
+        <button
+          className={'icon-button saved-toggle ' + (p.showBookmarks ? 'active' : '')}
+          aria-label={t('Show bookmarks')}
+          aria-pressed={p.showBookmarks}
+          onClick={p.toggleBookmarks}
+        >
+          <Icon name="bookmark" size={20} />
+          <span className="saved-count">{p.bookmarksCount || ''}</span>
+        </button>
+        <button
+          className={'icon-button preset-toggle ' + (p.showPrompts ? 'active' : '')}
+          aria-label={t('Open saved style sets')}
+          aria-pressed={p.showPrompts}
+          onClick={p.togglePrompts}
+        >
+          <Icon name="format_list_bulleted" size={20} />
+        </button>
+        <LanguageMenu />
+      </div>
     </header>
   );
 }

@@ -22,7 +22,7 @@
   height: $header-control-size;
   padding: 0 0 0 12px;
   border: 1px solid $line;
-  border-radius: 8px;
+  border-radius: 4px;
   color: $muted;
 }
 .header-search input {
@@ -42,10 +42,14 @@
   width: $header-control-size;
   height: $header-control-size;
 }
+.header-actions {
+  @include flex-row($gap: 8px);
+  flex-shrink: 0;
+  margin-left: auto;
+}
 .saved-toggle {
   position: relative;
   flex-shrink: 0;
-  margin-left: auto;
 }
 .saved-toggle.active,
 .preset-toggle.active {
@@ -56,10 +60,6 @@
   top: 0;
   right: -4px;
   font-size: 10px;
-}
-.preset-toggle {
-  flex-shrink: 0;
-  margin-left: -16px;
 }
 @media (max-width: $tablet) {
   .brand {
@@ -81,15 +81,11 @@
   .header-search input {
     font-size: 11px;
   }
-  .saved-toggle,
-  .preset-toggle {
-    margin-left: 0;
-  }
 }
 @media (max-width: 480px) {
   .header {
     display: grid;
-    grid-template-columns: minmax(0, 1fr) repeat(3, $header-control-size);
+    grid-template-columns: minmax(0, 1fr) auto;
     grid-template-rows: repeat(2, $header-control-size);
     height: 96px;
     padding-block: 12px;

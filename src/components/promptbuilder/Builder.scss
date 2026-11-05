@@ -10,6 +10,13 @@
   border-right: 1px solid $line;
   background: transparent;
 }
+.builder button {
+  border-radius: 4px;
+  font-size: $option-font-size;
+}
+.builder .prompt-actions {
+  gap: 4px;
+}
 .builder-wrap {
   padding-inline: $content-padding;
 }

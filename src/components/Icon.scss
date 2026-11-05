@@ -12,15 +12,12 @@
   word-wrap: normal;
   direction: ltr;
   font-feature-settings: 'liga';
-  font-variation-settings:
-    'FILL' var(--symbol-fill, 0),
-    'wght' var(--symbol-weight, 400),
-    'GRAD' 0,
-    'opsz' var(--symbol-opsz, 18);
+  font-optical-sizing: auto;
+  font-variation-settings: 'FILL' 0;
   -webkit-font-smoothing: antialiased;
 }
 
 .material-symbol[fill],
 .material-symbol.fill {
-  --symbol-fill: 1;
+  font-variation-settings: 'FILL' 1;
 }

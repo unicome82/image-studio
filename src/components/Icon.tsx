@@ -1,4 +1,3 @@
-import type { CSSProperties } from 'react';
 import './Icon.scss';
 export type IconName =
   | 'language'
@@ -37,15 +36,7 @@ export default function Icon({
       className={`material-symbol ${className}`.trim()}
       data-icon={name}
       {...(fill ? { fill: '' } : {})}
-      style={
-        {
-          fontSize: pixelSize,
-          width: pixelSize,
-          height: pixelSize,
-          '--symbol-opsz': pixelSize,
-          '--symbol-weight': weight,
-        } as CSSProperties
-      }
+      style={{ fontSize: pixelSize, width: pixelSize, height: pixelSize, fontWeight: weight }}
       aria-hidden="true"
     >
       {name}

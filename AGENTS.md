@@ -4,13 +4,13 @@
 - React + TypeScript + SCSS를 유지하고, 변경 범위에 필요하지 않은 기능을 추가하지 않는다.
 - 컴포넌트와 해당 SCSS를 함께 관리한다. 공통 색상은 `src/styles/_variable.scss`, 공통 입력·버튼·스크롤바·레이아웃은 `src/styles/`에서 관리한다. `src/styles.scss`는 공통 스타일 진입점으로만 사용한다.
 - 태그 기본값 초기화는 `src/styles/_reset.scss`에서 관리한다. 반복되는 스타일 묶음은 `src/styles/_mixin.scss`에 정의하고 `@include`로 재사용한다.
-- SCSS의 4px 이상 고정 길이는 4px 배수로 관리하되 폰트 크기는 제외한다. 심볼은 2px 배수, 빌더 펼치기·접기는 16px, Typography 토글 높이는 14px, 내부 스크롤바는 6px 예외를 사용한다. 모서리 반경은 양수일 때 최소 8px의 4px 배수로 관리한다. 기본 자간은 normal, 대문자로 표시하는 텍스트만 0.05em을 적용한다. 선택된 옵션은 원래 순서를 유지하며 앞에 배치하고, 해제되면 원래 자리로 돌린다.
+- SCSS의 4px 이상 고정 길이는 4px 배수로 관리하되 폰트 크기는 제외한다. 심볼은 2px 배수, 빌더 펼치기·접기는 16px, Typography 토글 높이는 14px, 내부 스크롤바는 6px 예외를 사용한다. 일반 모서리 반경은 양수일 때 최소 8px의 4px 배수로 관리하되 내비 버튼 6px, 빌더 버튼·input·textarea 4px은 예외로 사용한다. 기본 자간은 normal, 대문자로 표시하는 텍스트만 0.05em을 적용한다. 선택된 옵션은 원래 순서를 유지하며 앞에 배치하고, 해제되면 원래 자리로 돌린다.
 - 기존의 담당 규칙을 수정한다. 파일 하단에 과거 레이아웃을 덮어쓰는 규칙을 누적하거나 미사용 선택자를 남기지 않는다. 반응형 규칙은 해당 컴포넌트 파일에 모으고 과도한 중첩과 `!important`를 피한다.
 - 아이콘은 `Icon.tsx`와 jsDelivr CDN의 Material Symbols Outlined를 사용한다. 로컬 아이콘 파일이나 별도 아이콘 라이브러리를 추가하지 않는다.
 - 헤더·내비·빌더 본문의 좌우 여백은 `$content-padding`, 내비·빌더 옵션 버튼 글자 크기는 `$option-font-size`로 관리한다. 언어 선택은 지구본 아이콘의 커스텀 메뉴로 제공한다.
 - UI 문구는 i18next와 `src/locales/en.ts`, `src/locales/ko.ts`에서 영어·한국어로 관리한다. 언어 변경은 표시 문구에만 적용하고 영문 프롬프트·파일 경로·선택 ID·사용자 입력은 변경하지 않는다.
-- 폰트는 버전이 고정된 Pretendard CDN을 사용한다. 일반 텍스트는 최소 10px, 빌더 옵션 버튼은 11px·보통 굵기를 사용한다. 빌더 제목은 9px 예외를 허용한다. 버튼 텍스트는 대문자로 표시한다.
-- 단일 행 입력은 `src/styles/_variable.scss`의 `$input-height: 28px`를 공통 사용한다. 헤더 검색 영역과 아이콘 버튼은 32px 예외를 사용한다. range·textarea는 용도에 맞는 높이를 유지한다. 아이콘 span에 `fill` 속성 또는 `fill` 클래스를 추가하면 채움 표시한다.
+- 폰트는 버전이 고정된 Pretendard CDN을 사용한다. 일반 텍스트는 최소 10px, 빌더 버튼은 10px·보통 굵기를 사용하고 버튼 간격은 4px, 펼치기·접기 버튼은 24px 정사각형으로 관리한다. 빌더 제목은 9px 예외를 허용한다. 버튼 텍스트는 대문자로 표시한다.
+- 단일 행 입력은 `src/styles/_variable.scss`의 `$input-height: 28px`를 공통 사용한다. 헤더 검색 영역과 아이콘 버튼은 32px 예외를 사용한다. range·textarea는 용도에 맞는 높이를 유지한다. 아이콘 span에 `fill` 속성 또는 `fill` 클래스를 추가하면 채움 표시한다. 심볼의 크기·굵기는 표준 font-size·font-weight 속성으로 적용하고 심볼 전용 CSS 변수는 사용하지 않는다.
 - 일반 입력 textarea는 흰색, 생성 프롬프트 textarea는 `prompt-textarea` 클래스의 무채색 배경으로 구분한다. textarea의 resize는 비활성화한다.
 - 텍스트가 있는 버튼의 아이콘은 Copy·Publish에만 사용하고, 아이콘 전용 버튼은 유지한다. Typography는 토글 ON일 때 제목 바로 아래에 공통 28px 높이의 입력창, 그 아래 전체 옵션을 표시한다. OFF에서는 입력창과 옵션을 숨기고 별도 펼치기·접기 버튼을 사용하지 않는다.
 - 접힌 옵션은 Material Symbols 펼치기·접기 버튼을 포함해 한 줄 안에 배치하고, Builder 폭에 따라 개수를 측정한다.
