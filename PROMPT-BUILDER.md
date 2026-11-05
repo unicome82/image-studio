@@ -31,10 +31,10 @@ IMAGE STUDIO의 **부가 메뉴**로 스타일 조합용 영문 지시문을 생
 2. **Live Prompt:** 선택 즉시 영문 지시문 갱신
 3. **Conflict Prevention:** 색상·구도 등 명백한 충돌만 최근 선택 우선으로 자동 해제; 스타일 혼합은 허용
 4. **Reference Preview:** 기존 `reference/` 이미지 1~3장 미리보기·확대, 이미지 없으면 텍스트 표시
-5. **Custom Input:** Subject, Text, Aspect Ratio(1:1/4:3/3:4/16:9/9:16), Additional Instructions, Negative Prompt
+5. **Custom Input:** Your direction textarea 하나로 피사체·문구·추가 지시를 입력. Aspect ratio(1:1/4:3/3:4/16:9/9:16)는 상위 독립 옵션으로 선택. 기존 프리셋의 Subject·Text·Negative Prompt는 이름표와 함께 Your direction으로 합쳐 보존
 6. **Copy Prompt:** 영문 지시문 복사
 7. **Save Preset:** 이름·선택값·복잡도·입력값 저장/불러오기/수정/삭제; LocalStorage 사용(기기 간 동기화 없음)
-8. **Complexity Control:** 전체 이미지 복잡도 5단계 슬라이더, 기본 3
+8. **Complexity Control:** 전체 이미지 복잡도 5단계 슬라이더, 기본 Balanced. UI·생성 프롬프트에는 숫자 없이 단계명만 표시하고, 트랙 높이는 1px. 내부 저장값 1~5는 기존 프리셋 호환용으로 유지
 9. **Rendering Mode:** 컬러만 / 컬러 + 윤곽선 / 윤곽선만 중 하나 선택, 기본값 Color Only. 프리셋 저장·불러오기에 포함하며 기존 프리셋에 값이 없으면 기본값 적용.
 
 ### Rendering Mode
@@ -57,13 +57,15 @@ Color는 팔레트를, Rendering Mode는 채움과 윤곽선의 표현 방식을
 | 4 | Detailed | [prompt.md](reference/options/complexity/detailed/prompt.md) |
 | 5 | Intricate | [prompt.md](reference/options/complexity/intricate/prompt.md) |
 
+표의 숫자는 내부 값이며 UI와 생성 프롬프트에는 단계명만 표시한다.
+
 스타일 특징과 사용자가 고른 색상 옵션을 우선한다. 사진은 배경·피사체·구도 밀도 중심으로 조절한다.
 
 ## 5. 생성 규칙
 
 - `Subject → Base Style → Technique → Typography → Rendering Mode → Color → Texture → Composition → Photography → Complexity → Aspect Ratio → Additional Instructions → Negative Prompt` 순서
 - 선택하지 않은 항목은 생략, Subject·Text는 사용자 입력 그대로 유지
-- Typography는 Text 입력이 있을 때만 적용
+- Typography는 기존 Text 값이 있거나 Your direction에 `Text: 실제 문구` 줄이 있을 때만 적용
 - Rendering Mode의 표시명과 선택한 실제 프롬프트 경로를 출력한다. 채움·윤곽선에 관한 스타일·기법·질감 지침과 충돌하면 Rendering Mode를 우선하고, 나머지 스타일 특징은 유지한다. 사진 스타일을 선택해도 같은 표현 규칙을 적용한다.
 - Base Style은 `reference/{id}/prompt.md`, 옵션은 `reference/options/{category}/{id}/prompt.md`에 연결한다. Rendering Mode의 경로 카테고리는 `outline`이다. Complexity는 1~5를 위 표의 파일에 연결한다.
 - 위 선택 목록의 링크가 Builder ID와 실제 파일의 매핑이다. ID·표시명은 각 파일의 Category·Style ID·제목에서 읽으며 별도 목록이나 상세 설명 데이터를 복제하지 않는다. 동일 ID가 다른 카테고리에 있으면 카테고리와 ID를 함께 식별자로 사용한다.
@@ -93,7 +95,7 @@ Rendering Mode: Color Only
 Color: muted
 Texture: papergrain
 Composition: asymmetric
-Complexity: 1 (Very Simple)
+Complexity: Very Simple
 Subject: A woman holding a flower
 Text: FLOWER
 Aspect Ratio: 3:4
@@ -108,6 +110,7 @@ Combine the selected prompt file instructions while preserving their defining ch
 - 기존 IMAGE STUDIO 메뉴에 `Prompt Builder` 추가; Gallery는 기본 화면 유지
 - 스타일 선택·레퍼런스 미리보기·표현 방식 단일 선택·복잡도·입력·결과·복사·저장 UI 제공
 - 카테고리 접기/펼치기, 선택 상태 표시, 반응형 구성
+- 옵션 사이 구분선 제거. Builder 기본 폭 248px, 데스크톱에서 최소 220px~최대 420px까지 우측 경계 드래그로 조절. 경계의 방향키·Home·End 조작 지원. 모바일 전체 화면 팝업은 너비 조절 제외
 - Public `reference/`의 기존 이미지·프롬프트와 공개 GitHub 조회 경로 재사용; Cloudflare API를 전제로 하지 않음
 - 필요한 컴포넌트는 `src/components/promptbuilder/`, 생성 로직은 `src/utils/promptBuilder.ts`에 배치하되 기존 구조에 맞게 조정
 - GitHub 조회·쓰기 권한 처리·Publish·이미지 최적화 중복 구현 금지; 브라우저에 GitHub 토큰을 저장하지 않음

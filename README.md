@@ -34,3 +34,7 @@ Deploy the static site with GitHub Pages; Cloudflare Pages/Workers are not used.
 ## Saved style sets
 
 Use Save Prompt in Builder to save current settings, or Save Prompt in image detail to save the selected item’s style and aspect ratio. Current placeholders have no generated-image metadata, so detail saving uses only the displayed style and dimensions with default complexity. Enter a name in the inline form. The list icon next to bookmarks switches the main content to the saved-prompts page, where sets can be loaded, renamed, or deleted. It does not open a popup. Bookmark and saved-prompt views are mutually exclusive. Sets contain the image type, option IDs, complexity, and custom fields, not duplicated prompt bodies. They are stored in this browser’s LocalStorage and do not sync across devices. Clearing browser data removes them. The primary Copy Prompt button is at the bottom of Builder.
+
+## Compact Builder
+
+Builder starts at 248px wide on desktop. Drag its right edge between 220px and 420px, or focus the separator and use arrow keys, Home, and End. Mobile remains a full-screen panel. Option separators are removed. Aspect ratio is a separate option; Your direction is one textarea. Older saved Subject/Text/Negative Prompt fields are preserved as labeled lines in that textarea. Use a `Text: ...` line to apply Typography. Complexity uses names only in the UI and copied prompt; the range track is 1px high. Numeric levels remain internal for saved-set compatibility.
