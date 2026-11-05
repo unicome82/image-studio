@@ -11,8 +11,10 @@ GitHub 기반 개인 이미지 갤러리 및 관리 사이트를 구축한다. *
 
 ## 2. 저장소
 
-- **`image-studio` (Private):** 웹사이트 소스, 스타일 프롬프트·레퍼런스, 프로젝트별 생성 이미지
-- **`image-assets` (Public):** 사용자가 공개 승인한 최적화 PNG, CDN 제공
+- **`image-studio` (Public):** 웹사이트 소스, 스타일 프롬프트·레퍼런스, 프로젝트별 생성 이미지
+- **`image-assets` (Public):** 사용자가 CDN 게시 승인한 최적화 PNG, CDN 제공
+
+두 저장소 모두 공개한다. `image-studio`에 커밋한 이미지·프롬프트·레퍼런스와 Git 이력은 누구나 열람할 수 있다. Publish 승인은 비공개 해제가 아니라 `image-assets`로의 CDN 게시 승인이다. 비공개 자료나 인증정보는 커밋하지 않는다.
 
 ```text
 image-studio/
@@ -71,8 +73,8 @@ image-assets/
 
 ### Publish
 
-- 이미지별 공개 승인·취소
-- 승인한 이미지만 Public 저장소에 업로드
+- 이미지별 CDN 게시 승인·취소
+- 승인한 이미지만 `image-assets`에 게시; `image-studio`의 원본은 승인 전에도 공개 상태
 - CDN URL 생성·복사
 - 공개 취소 후에도 CDN 캐시 및 외부 복사본이 즉시 사라진다고 보장하지 않음
 
@@ -89,7 +91,7 @@ image-assets/
 
 ## 5. 공개 및 재사용
 
-1. Private 이미지 선택 → 최적화본 확인
+1. Public `image-studio`의 이미지 선택 → 최적화본 확인
 2. 사용자가 **Publish** 클릭 → `image-assets/projects/{project}/`에 업로드
 3. CDN URL 제공 및 복사
 
@@ -98,15 +100,19 @@ https://cdn.jsdelivr.net/gh/USERNAME/image-assets@main/projects/morph/image.png
 ```
 
 - 외부 프로젝트에서는 CDN URL을 사용하거나 Codex가 파일을 복사하도록 지시
-- Private 이미지 복사는 인증된 GitHub 접근이 필요
+- Public 이미지 조회·복사는 인증 없이 가능하다. 저장소 쓰기에는 권한이 필요하다.
+- 게시 취소는 `image-assets`의 파일 제거이며, Public `image-studio`의 파일과 Git 이력까지 비공개로 바꾸지 않는다.
 
 ## 6. 배포 및 보안
 
-- 정적 React 프런트엔드 + Cloudflare Workers API
-- Private 데이터 조회·변경·Publish는 **서버 측 관리자 인증 필수**
-- GitHub 토큰은 Workers Secrets에만 저장; 브라우저 코드·공개 빌드에 포함 금지
-- Private 레퍼런스·이미지는 인증된 API로 제공
-- GitHub Pages 배포 가능 여부를 저장소 공개 범위와 계정 플랜 기준으로 확인; Private 저장소 Pages가 불가능하면 Cloudflare Pages 무료 호스팅 사용
+- React 정적 사이트를 Public `image-studio`의 GitHub Pages에 배포한다.
+- Cloudflare Pages·Workers와 사용량 기반 과금 서버리스 서비스는 사용하지 않는다.
+- 공개 이미지·프롬프트는 GitHub의 공개 파일 URL 또는 읽기 전용 GitHub API로 조회한다. API 호출 제한을 고려해 요청을 최소화하고 캐시한다.
+- 공개 사이트의 조회에는 관리자 로그인을 요구하지 않는다. 공개 저장소와 정적 사이트에서 자료의 비밀성이나 접근 제한을 보장하지 않는다.
+- GitHub 토큰은 브라우저 코드·LocalStorage·공개 파일·빌드 결과물에 포함하지 않는다.
+- 저장소 변경과 CDN 게시에는 저장소 권한을 가진 사용자의 명시적 승인이 필요하다. 정적 Pages의 버튼만으로 GitHub 쓰기 인증이 해결된다고 가정하지 않는다.
+- 초기에는 Codex의 인증된 Git 작업 또는 GitHub에서 수동 실행하는 워크플로로 게시한다. 웹 버튼을 통한 직접 게시는 안전한 인증 방식 구현 전까지 비활성화한다.
+- GitHub Pages 배포 및 Actions를 사용할 경우 무료 범위 안에서 운영하고, 유료 기능이나 지출 한도 변경이 필요하면 사전에 안내한다.
 - 이미지 lazy loading 및 반응형 구성
 - 데이터베이스·유료 스토리지는 초기 구축에서 제외
 - 무료 플랜·오픈소스 우선, 비용 발생 가능 시 사전 안내
@@ -119,9 +125,9 @@ https://cdn.jsdelivr.net/gh/USERNAME/image-assets@main/projects/morph/image.png
 
 ## 8. 구현 순서
 
-- **Phase 1 — GitHub:** 인증 확인, Private/Public 저장소 생성, 기본 구조·README
+- **Phase 1 — GitHub:** GitHub 쓰기 권한 확인, Public 저장소 구성, 기본 구조·README
 - **Phase 2 — 이미지 관리:** Reference, Output, PNG 최적화
 - **Phase 3 — Gallery:** Gallery 중심 UI, Reference, 검색·미리보기·다운로드
-- **Phase 4 — Publish/Deploy:** 관리자 인증, GitHub API, Publish, CDN, 배포
+- **Phase 4 — Publish/Deploy:** 공개 GitHub 데이터 조회, 권한 있는 CDN 게시, GitHub Pages 배포
 
 각 Phase는 사용자가 요청할 때만 진행한다. 기존 파일을 불필요하게 변경하거나 중복 기능을 만들지 않는다. Prompt Builder 구현은 별도 `PROMPT-BUILDER.md`의 Step을 따른다.

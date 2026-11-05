@@ -101,16 +101,16 @@ Aspect Ratio: 3:4
 Combine the selected prompt file instructions while preserving their defining characteristics. Generate an image based on these settings.
 ```
 
-이 출력은 **파일 접근 권한이 있는 AI 코딩 도구용 지시문**이다. 일반 이미지 생성 서비스에서 Private GitHub의 `.md`를 자동으로 읽는다고 가정하지 않는다.
+이 출력은 **파일 접근 권한이 있는 AI 코딩 도구용 지시문**이다. 저장소는 Public이지만, 일반 이미지 생성 서비스가 GitHub의 `.md`를 자동으로 읽는다고 가정하지 않는다. 도구의 파일 또는 URL 접근 기능을 확인한다.
 
 ## 6. 연동 및 UI
 
 - 기존 IMAGE STUDIO 메뉴에 `Prompt Builder` 추가; Gallery는 기본 화면 유지
 - 스타일 선택·레퍼런스 미리보기·표현 방식 단일 선택·복잡도·입력·결과·복사·저장 UI 제공
 - 카테고리 접기/펼치기, 선택 상태 표시, 반응형 구성
-- `reference/`의 기존 이미지·프롬프트와 인증 API 재사용
+- Public `reference/`의 기존 이미지·프롬프트와 공개 GitHub 조회 경로 재사용; Cloudflare API를 전제로 하지 않음
 - 필요한 컴포넌트는 `src/components/promptbuilder/`, 생성 로직은 `src/utils/promptBuilder.ts`에 배치하되 기존 구조에 맞게 조정
-- GitHub API·인증·Publish·이미지 최적화 중복 구현 금지
+- GitHub 조회·쓰기 권한 처리·Publish·이미지 최적화 중복 구현 금지; 브라우저에 GitHub 토큰을 저장하지 않음
 
 ## 7. 구현 순서
 
