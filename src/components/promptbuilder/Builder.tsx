@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next';
 import './Builder.scss';
 import Icon from '../Icon';
 import OptionChoices from './OptionChoices';
+import SelectedOptions from './SelectedOptions';
 import ResizeHandle from './ResizeHandle';
 import SavePrompt from './SavePrompt';
 import Panel from '../Panel';
@@ -18,6 +19,7 @@ interface Props {
   catalog: Option[];
   selection: Selection;
   toggle: (category: string, id: string) => void;
+  removeOption: (category: string, id: string) => void;
   complexity: number;
   setComplexity: (n: number) => void;
   fields: Record<string, string>;
@@ -155,6 +157,13 @@ export default function Builder(p: Props) {
       </div>
       <div className="builder-footer">
         <div className="builder-wrap">
+          <SelectedOptions
+            catalog={p.catalog}
+            selection={p.selection}
+            fields={p.fields}
+            photo={p.photo}
+            remove={p.removeOption}
+          />
           <h3>
             <button
               className="prompt-toggle"
@@ -174,13 +183,13 @@ export default function Builder(p: Props) {
               readOnly
               value={p.prompt}
             />
-            <div className="prompt-actions">
-              <SavePrompt save={p.save} prompt={p.prompt} />
-              <button className="primary builder-copy" onClick={() => p.copy(p.prompt)}>
-                <Icon name="content_copy" size={14} />
-                {t('Copy')}
-              </button>
-            </div>
+          </div>
+          <div className="prompt-actions">
+            <SavePrompt save={p.save} prompt={p.prompt} />
+            <button className="primary builder-copy" onClick={() => p.copy(p.prompt)}>
+              <Icon name="content_copy" size={14} />
+              {t('Copy')}
+            </button>
           </div>
         </div>
       </div>

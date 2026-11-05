@@ -17,7 +17,7 @@ export default function FavoriteButton({ active, label, toggle, className = '' }
         toggle();
       }}
     >
-      <Icon name="favorite" size={24} fill={active} />
+      <Icon name="favorite" size={24} fill />
     </button>
   );
 }

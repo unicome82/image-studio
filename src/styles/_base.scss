@@ -74,6 +74,7 @@ textarea::placeholder {
   opacity: 1;
 }
 .prompt-textarea {
+  border-color: $prompt-border;
   letter-spacing: normal;
   background: $prompt-background;
   color: $prompt-text;

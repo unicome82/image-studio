@@ -20,7 +20,7 @@
   align-self: center;
   height: var(--type-toggle-height);
   padding: 0;
-  border: 1px solid transparent;
+  border: 1px solid $secondary-border;
   border-radius: 8px;
   background: transparent;
   color: $ink;
@@ -31,9 +31,7 @@
 .builder-toggle.active {
   background: $ai-gradient;
   color: $white;
-  box-shadow:
-    0 0 0 2px $page,
-    0 0 0 3px $ink;
+  border-color: transparent;
 }
 .type-tabs {
   @include flex-row;

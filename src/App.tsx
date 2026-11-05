@@ -347,6 +347,12 @@ export default function App() {
                   setToastVersion((version) => version + 1);
                 } else setSelection(next);
               }}
+              removeOption={(category, id) =>
+                setSelection((previous) => ({
+                  ...previous,
+                  [category]: (previous[category] ?? []).filter((value) => value !== id),
+                }))
+              }
               complexity={complexity}
               setComplexity={setComplexity}
               fields={fields}

@@ -32,8 +32,7 @@
   padding: 12px 0;
 }
 .option-section h3 {
-  @include builder-heading($font-size: 10px, $margin-bottom: 8px);
-  @include flex-row($gap: 8px, $justify: space-between);
+  @include builder-option-heading;
 }
 .option-section h3 span {
   font-weight: 400;

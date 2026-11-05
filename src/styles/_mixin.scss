@@ -89,3 +89,8 @@
   text-transform: uppercase;
   letter-spacing: 0.05em;
 }
+
+@mixin builder-option-heading {
+  @include builder-heading($font-size: 10px, $margin-bottom: 8px);
+  @include flex-row($gap: 8px, $justify: space-between);
+}

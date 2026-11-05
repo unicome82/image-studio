@@ -1,4 +1,6 @@
 const translation: Record<string, string> = {
+  'Remove {{label}} option': '{{label}} 옵션 제거',
+  'Selected options': '선택한 옵션',
   'Expand prompt': '프롬프트 펼치기',
   'Collapse prompt': '프롬프트 접기',
   'Copy image name': '이미지명 복사',

@@ -1,0 +1,36 @@
+@use '../../styles/variable' as *;
+@use '../../styles/mixin' as *;
+.selected-options {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  max-height: 96px;
+  margin-bottom: 8px;
+  overflow: auto;
+}
+.selected-option {
+  @include flex-row($gap: 4px, $display: inline-flex);
+  max-width: 100%;
+  min-width: 0;
+  height: 24px;
+  padding: 0 4px 0 8px;
+  border: 1px solid $line;
+  border-radius: 4px;
+  font-size: $option-font-size;
+}
+.selected-option-label {
+  min-width: 0;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+.selected-option-remove {
+  @include grid-center;
+  flex-shrink: 0;
+  width: 16px;
+  height: 16px;
+  padding: 0;
+}
+.selected-option-remove:hover {
+  background: $icon-hover-background;
+}
