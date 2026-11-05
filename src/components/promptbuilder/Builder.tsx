@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Copy, ChevronDown, X } from 'lucide-react';
+import { ChevronDown, X } from 'lucide-react';
 import ResizeHandle from './ResizeHandle';
 import SavePrompt from './SavePrompt';
 import Panel from '../Panel';
@@ -14,5 +14,5 @@ export default function Builder(p: Props) {
  <section className="option-section"><h3>Aspect ratio</h3><div className="pills">{[...new Set(['1:1','4:3','3:4','16:9','9:16',p.fields['Aspect Ratio']])].filter(Boolean).map(ratio=><button key={ratio} aria-pressed={p.fields['Aspect Ratio']===ratio} onClick={()=>p.setFields({...p.fields,'Aspect Ratio':ratio})}>{ratio}</button>)}</div></section>
  <section className="option-section complexity-option"><h3>Complexity <span>{complexityLabels[p.complexity-1]}</span></h3><input aria-label="Complexity" aria-valuetext={complexityLabels[p.complexity-1]} type="range" min="1" max="5" value={p.complexity} onChange={e=>p.setComplexity(Number(e.target.value))}/></section>
  <section className="option-section inputs"><h3><label htmlFor="builder-direction">Your direction</label></h3><textarea id="builder-direction" rows={4} value={p.fields['Additional Instructions']??''} onChange={e=>p.setFields({...p.fields,'Additional Instructions':e.target.value})} placeholder="Add your direction…"/></section>
- </div></div><div className="builder-footer"><div className="builder-wrap"><h3>Prompt</h3><p>{p.prompt}</p><button className="primary full builder-copy" onClick={()=>p.copy(p.prompt)}><Copy size={14}/>Copy Prompt</button><SavePrompt save={p.save}/></div></div></Panel>;
+ </div></div><div className="builder-footer"><div className="builder-wrap"><h3>Prompt</h3><textarea className="prompt-textarea" aria-label="Builder prompt" readOnly value={p.prompt}/><div className="prompt-actions"><SavePrompt save={p.save}/><button className="primary builder-copy" onClick={()=>p.copy(p.prompt)}>Copy</button></div></div></div></Panel>;
 }

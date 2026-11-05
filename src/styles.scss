@@ -166,3 +166,21 @@ $line:#e7e5df;$muted:#8b8b83;$ink:#242520;
 @media(min-width:1700px){.workspace.with-builder.with-detail{grid-template-columns:var(--builder-width,248px) minmax(0,1fr) 350px}}
 @media(max-width:1250px) and (min-width:1001px){.workspace.with-builder.with-detail{grid-template-columns:var(--builder-width,248px) minmax(0,1fr) 290px}}
 @media(max-width:1000px){.workspace.with-builder,.workspace.with-builder.with-detail{grid-template-columns:minmax(0,1fr)}.builder-resize{display:none}}
+
+// Fixed small masonry thumbnails; adjustable sizes are deferred.
+.image-grid{columns:150px}
+.tile,.tile:nth-child(4n+2){width:100%}
+.prompt-actions{position:relative;display:flex;align-items:center;gap:8px;margin-top:12px}
+.prompt-actions>.save-prompt-control,.prompt-actions>.primary{flex:1;min-width:0}
+.prompt-actions .builder-copy{margin:0}
+.prompt-actions .save-prompt-button{margin:0;width:100%}
+.prompt-actions .save-prompt-form{position:absolute;bottom:calc(100% + 8px);left:0;right:0;z-index:10;margin:0;padding:12px;background:#faf9f6;border:1px solid #dcd9ce;border-radius:4px}
+.save-prompt-form label{display:grid;gap:7px;font-size:10px;color:#777a6d}
+.save-prompt-form input{background:#fffef9}
+.builder-footer>.builder-wrap>h3{margin-bottom:10px}
+.builder-footer .prompt-textarea,.detail-section>textarea,.modal>textarea{display:block;width:100%;padding:10px 12px;background:#f3f0e7;border:1px solid #e2dfd5;border-radius:3px;font-size:10px;line-height:1.65;color:#747768}
+.builder-footer .prompt-textarea{height:94px;font-family:monospace}
+.detail-section>textarea{margin-top:10px;height:120px}
+textarea,.inputs textarea,.detail-section textarea,.modal textarea{resize:none}
+@media(max-width:600px){.image-grid{columns:3;column-gap:8px}.tile,.tile:nth-child(4n+2){width:100%}.builder-footer .prompt-textarea{height:80px}}
+.prompt-actions>.primary,.prompt-actions .save-prompt-button{height:36px;padding:0 12px}
