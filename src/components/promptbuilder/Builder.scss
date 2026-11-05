@@ -13,6 +13,8 @@
 .builder button {
   border-radius: 4px;
   font-size: $option-font-size;
+  text-transform: none;
+  letter-spacing: normal;
 }
 .builder .prompt-actions {
   gap: 8px;
@@ -30,7 +32,7 @@
   padding: 12px 0;
 }
 .option-section h3 {
-  @include builder-heading($font-size: 9px, $margin-bottom: 8px);
+  @include builder-heading($font-size: 10px, $margin-bottom: 8px);
   @include flex-row($gap: 8px, $justify: space-between);
 }
 .option-section h3 span {
@@ -111,6 +113,11 @@
 }
 .builder-footer h3 {
   @include builder-heading($font-size: 10px, $margin-bottom: 12px);
+}
+.prompt-toggle {
+  @include flex-row($justify: space-between);
+  width: 100%;
+  padding: 0;
 }
 .builder-footer .prompt-textarea {
   height: 96px;

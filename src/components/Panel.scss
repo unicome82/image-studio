@@ -20,6 +20,6 @@
     @include flex-column;
   }
   .fullscreen-panel::backdrop {
-    background: $page;
+    @include popup-backdrop;
   }
 }

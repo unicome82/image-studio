@@ -297,7 +297,6 @@ export default function App() {
           setQuery(value);
           setSelected(null);
         }}
-        bookmarksCount={bookmarks.length}
         showBookmarks={onlySaved}
         showPrompts={presetOpen}
         toggleBookmarks={() => {

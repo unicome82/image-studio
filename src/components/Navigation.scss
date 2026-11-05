@@ -11,6 +11,7 @@
   padding: 0 $content-padding;
   border-bottom: 1px solid $line;
   background: $page;
+  font-size: $nav-font-size;
 }
 .builder-toggle {
   @include flex-row($justify: center, $display: inline-flex);
@@ -21,13 +22,15 @@
   padding: 0;
   border: 1px solid transparent;
   border-radius: 8px;
-  background: $ai-gradient;
-  color: $white;
+  background: transparent;
+  color: $ink;
 }
 .builder-toggle:hover {
   filter: brightness(1.08);
 }
 .builder-toggle.active {
+  background: $ai-gradient;
+  color: $white;
   box-shadow:
     0 0 0 2px $page,
     0 0 0 3px $ink;
@@ -43,7 +46,6 @@
   border: 0;
   background: #ecece5;
   color: $muted;
-  font-size: $option-font-size;
   white-space: nowrap;
 }
 .type-tabs button:first-child {
@@ -69,7 +71,6 @@
   padding: 0 12px;
   border-bottom: 2px solid transparent;
   color: #888a80;
-  font-size: $option-font-size;
   line-height: 1;
   white-space: nowrap;
 }

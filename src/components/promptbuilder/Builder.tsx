@@ -1,3 +1,4 @@
+import { useId, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import './Builder.scss';
 import Icon from '../Icon';
@@ -29,6 +30,8 @@ interface Props {
 }
 export default function Builder(p: Props) {
   const { t } = useTranslation();
+  const [promptOpen, setPromptOpen] = useState(true);
+  const promptId = useId();
   const categories = builderCategories(p.photo);
   return (
     <Panel className="builder" label={t('Prompt Builder')} close={p.close}>
@@ -152,19 +155,32 @@ export default function Builder(p: Props) {
       </div>
       <div className="builder-footer">
         <div className="builder-wrap">
-          <h3>{t('Prompt')}</h3>
-          <textarea
-            className="prompt-textarea"
-            aria-label={t('Builder prompt')}
-            readOnly
-            value={p.prompt}
-          />
-          <div className="prompt-actions">
-            <SavePrompt save={p.save} prompt={p.prompt} />
-            <button className="primary builder-copy" onClick={() => p.copy(p.prompt)}>
-              <Icon name="content_copy" size={14} />
-              {t('Copy')}
+          <h3>
+            <button
+              className="prompt-toggle"
+              aria-label={t(promptOpen ? 'Collapse prompt' : 'Expand prompt')}
+              aria-expanded={promptOpen}
+              aria-controls={promptId}
+              onClick={() => setPromptOpen(!promptOpen)}
+            >
+              {t('Prompt')}
+              <Icon name={promptOpen ? 'expand_less' : 'expand_more'} size={16} />
             </button>
+          </h3>
+          <div id={promptId} hidden={!promptOpen}>
+            <textarea
+              className="prompt-textarea"
+              aria-label={t('Builder prompt')}
+              readOnly
+              value={p.prompt}
+            />
+            <div className="prompt-actions">
+              <SavePrompt save={p.save} prompt={p.prompt} />
+              <button className="primary builder-copy" onClick={() => p.copy(p.prompt)}>
+                <Icon name="content_copy" size={14} />
+                {t('Copy')}
+              </button>
+            </div>
           </div>
         </div>
       </div>

@@ -1,4 +1,6 @@
 const translation: Record<string, string> = {
+  'Expand prompt': 'Expand prompt',
+  'Collapse prompt': 'Collapse prompt',
   'Copy image name': 'Copy image name',
   'Remove {{name}} from favorites': 'Remove {{name}} from favorites',
   'Add {{name}} to favorites': 'Add {{name}} to favorites',

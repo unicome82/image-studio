@@ -1,5 +1,10 @@
 @use './variable' as *;
 
+@mixin popup-backdrop {
+  background: $popup-backdrop;
+  backdrop-filter: blur($popup-blur);
+}
+
 @mixin flex-row($gap: null, $justify: null, $display: flex) {
   display: $display;
   align-items: center;
@@ -77,7 +82,7 @@
   display: block;
   position: fixed;
   inset: var(--panel-top) 0 0;
-  background: #24252055;
+  @include popup-backdrop;
 }
 
 @mixin uppercase-text {

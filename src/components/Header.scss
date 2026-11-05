@@ -56,12 +56,7 @@
 .preset-toggle.active {
   @include selected-surface;
 }
-.saved-count {
-  position: absolute;
-  top: 0;
-  right: -4px;
-  font-size: 10px;
-}
+
 @media (max-width: $mobile) {
   .header {
     gap: 8px;

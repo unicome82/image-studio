@@ -78,8 +78,7 @@
   color: $ink;
 }
 .modal::backdrop {
-  background: #24252077;
-  backdrop-filter: blur(3px);
+  @include popup-backdrop;
 }
 .modal textarea {
   height: 352px;

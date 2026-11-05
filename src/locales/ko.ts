@@ -1,4 +1,6 @@
 const translation: Record<string, string> = {
+  'Expand prompt': '프롬프트 펼치기',
+  'Collapse prompt': '프롬프트 접기',
   'Copy image name': '이미지명 복사',
   'Remove {{name}} from favorites': '{{name}} 즐겨찾기 제거',
   'Add {{name}} to favorites': '{{name}} 즐겨찾기 추가',

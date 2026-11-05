@@ -21,7 +21,8 @@
   line-height: normal;
   font-weight: 400;
   white-space: nowrap;
-  @include uppercase-text;
+  text-transform: none;
+  letter-spacing: normal;
 }
 .option-choice:hover:not(:disabled) {
   border-color: #9e9f93;
@@ -38,6 +39,8 @@
   scrollbar-width: none;
   touch-action: pan-x pan-y;
   -webkit-overflow-scrolling: touch;
+  user-select: none;
+  cursor: grab;
 }
 .choice-row.collapsed::-webkit-scrollbar {
   display: none;
@@ -64,4 +67,9 @@
 .choice-toggle[aria-expanded='true'] {
   background: #ececea;
   color: $ink;
+}
+
+.choice-row.dragging,
+.choice-row.dragging .option-choice {
+  cursor: grabbing;
 }

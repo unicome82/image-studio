@@ -15,8 +15,7 @@
   color: $white;
 }
 .image-viewer::backdrop {
-  background: $preview-backdrop;
-  backdrop-filter: blur(12px);
+  @include popup-backdrop;
 }
 .image-viewer-stage {
   @include grid-center;

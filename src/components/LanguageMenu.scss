@@ -4,9 +4,6 @@
   position: relative;
   flex-shrink: 0;
 }
-.language-trigger.active {
-  @include selected-surface;
-}
 .language-dropdown {
   position: absolute;
   top: calc(100% + 8px);

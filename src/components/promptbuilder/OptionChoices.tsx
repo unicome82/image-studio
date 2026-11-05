@@ -38,6 +38,15 @@ export default function OptionChoices({
   const [expanded, setExpanded] = useState(false);
   const isExpanded = !collapsible || expanded;
   const row = useRef<HTMLDivElement>(null);
+  const drag = useRef<{
+    id: number;
+    x: number;
+    left: number;
+    target: HTMLElement;
+    moved: boolean;
+  } | null>(null);
+  const suppressClick = useRef(false);
+  const [dragging, setDragging] = useState(false);
   useEffect(() => {
     const element = row.current;
     if (!element || isExpanded || !showOptions) return;
@@ -84,7 +93,62 @@ export default function OptionChoices({
             role="group"
             aria-label={t(title)}
             tabIndex={isExpanded ? undefined : 0}
-            className={'pills choice-row ' + (isExpanded ? 'expanded' : 'collapsed')}
+            className={
+              'pills choice-row ' +
+              (isExpanded ? 'expanded' : 'collapsed') +
+              (dragging ? ' dragging' : '')
+            }
+            onPointerDown={(event) => {
+              if (isExpanded || event.pointerType !== 'mouse' || event.button !== 0) return;
+              suppressClick.current = false;
+              const target = event.target as HTMLElement;
+              target.setPointerCapture(event.pointerId);
+              drag.current = {
+                id: event.pointerId,
+                x: event.clientX,
+                left: event.currentTarget.scrollLeft,
+                target,
+                moved: false,
+              };
+            }}
+            onPointerMove={(event) => {
+              const current = drag.current;
+              if (!current || current.id !== event.pointerId) return;
+              const distance = event.clientX - current.x;
+              if (!current.moved && Math.abs(distance) < 4) return;
+              current.moved = true;
+              suppressClick.current = true;
+              setDragging(true);
+              event.preventDefault();
+              event.currentTarget.scrollLeft = current.left - distance;
+            }}
+            onPointerUp={(event) => {
+              const current = drag.current;
+              if (!current || current.id !== event.pointerId) return;
+              drag.current = null;
+              setDragging(false);
+              if (current.target.hasPointerCapture(event.pointerId))
+                current.target.releasePointerCapture(event.pointerId);
+            }}
+            onPointerCancel={() => {
+              drag.current = null;
+              suppressClick.current = false;
+              setDragging(false);
+            }}
+            onLostPointerCapture={() => {
+              drag.current = null;
+              setDragging(false);
+            }}
+            onClickCapture={(event) => {
+              if (suppressClick.current) {
+                event.preventDefault();
+                event.stopPropagation();
+                suppressClick.current = false;
+              }
+            }}
+            onKeyDownCapture={() => {
+              suppressClick.current = false;
+            }}
           >
             {orderedOptions.map((option) => (
               <button

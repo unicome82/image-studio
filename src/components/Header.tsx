@@ -6,7 +6,6 @@ interface Props {
   home: () => void;
   query: string;
   search: (value: string) => void;
-  bookmarksCount: number;
   showBookmarks: boolean;
   showPrompts: boolean;
   toggleBookmarks: () => void;
@@ -54,7 +53,6 @@ export default function Header(p: Props) {
           onClick={p.toggleBookmarks}
         >
           <Icon name="favorite" size={24} fill={p.showBookmarks} />
-          <span className="saved-count">{p.bookmarksCount || ''}</span>
         </button>
         <button
           className={'icon-button preset-toggle ' + (p.showPrompts ? 'active' : '')}
