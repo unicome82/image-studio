@@ -1,19 +1,16 @@
-@use '../../styles/tokens' as *;
+@use '../../styles/variable' as *;
+@use '../../styles/mixin' as *;
 .option-choices {
   position: relative;
   min-width: 0;
 }
 .pills {
-  display: flex;
+  @include flex-row($gap: 6px);
   flex-wrap: wrap;
-  align-items: center;
-  gap: 6px;
   min-width: 0;
 }
 .option-choice {
-  display: inline-flex;
-  align-items: center;
-  gap: 3px;
+  @include flex-row($gap: 3px, $display: inline-flex);
   flex-shrink: 0;
   padding: 4px 8px;
   border: 1px solid #ddded5;
@@ -30,8 +27,7 @@
 }
 .option-choice[aria-pressed='true'] {
   border-color: $ink;
-  background: $ink;
-  color: #fff;
+  @include selected-surface;
 }
 .choice-row.collapsed {
   flex-wrap: nowrap;
@@ -41,9 +37,7 @@
   flex-wrap: wrap;
 }
 .choice-toggle {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
+  @include flex-row($justify: center, $display: inline-flex);
   flex-shrink: 0;
   height: 24px;
   min-width: 24px;

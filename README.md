@@ -47,7 +47,7 @@ The logo is IMAGE STUDIO. All text, including prompt fields, uses Pretendard loa
 
 ## Source and style conventions
 
-See `AGENTS.md` for the repository’s coding instructions. Header, Navigation, Gallery, ImageDetail, and the Builder controls each own their adjacent SCSS file. `src/styles.scss` imports only shared base rules, controls, scrollbars, layout, and tokens from `src/styles/`. Update the owning rule instead of appending historical overrides.
+See `AGENTS.md` for the repository’s coding instructions. Header, Navigation, Gallery, ImageDetail, and the Builder controls each own their adjacent SCSS file. `src/styles.scss` imports only shared base rules, controls, scrollbars, layout, variables, and mixins from `src/styles/`. Update the owning rule instead of appending historical overrides.
 
 Google Material Symbols Outlined icons are loaded through the jsDelivr CDN and rendered through `src/components/Icon.tsx`. No icon files are stored locally. The page background is white (`#fff`).
 

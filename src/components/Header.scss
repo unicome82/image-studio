@@ -1,10 +1,9 @@
-@use '../styles/tokens' as *;
+@use '../styles/variable' as *;
+@use '../styles/mixin' as *;
 .header {
   position: relative;
   z-index: 30;
-  display: flex;
-  align-items: center;
-  gap: 24px;
+  @include flex-row($gap: 24px);
   height: 76px;
   padding: 0 30px;
   border-bottom: 1px solid $line;
@@ -17,9 +16,7 @@
   letter-spacing: -1px;
 }
 .header-search {
-  display: flex;
-  align-items: center;
-  gap: 12px;
+  @include flex-row($gap: 12px);
   flex: 1;
   min-width: 0;
   max-width: 760px;
@@ -52,8 +49,7 @@
 }
 .saved-toggle.active,
 .preset-toggle.active {
-  background: $ink;
-  color: #fff;
+  @include selected-surface;
 }
 .saved-count {
   position: absolute;

@@ -1,9 +1,9 @@
-@use '../../styles/tokens' as *;
+@use '../../styles/variable' as *;
+@use '../../styles/mixin' as *;
 .builder {
   position: sticky;
   top: var(--panel-top);
-  display: flex;
-  flex-direction: column;
+  @include flex-column;
   min-height: 0;
   height: calc(100dvh - var(--panel-top));
   padding: 0;
@@ -14,10 +14,7 @@
   padding-inline: 20px;
 }
 .builder-scroll {
-  flex: 1;
-  min-height: 0;
-  overflow: auto;
-  overscroll-behavior: contain;
+  @include scroll-area;
 }
 .builder-mobile-close {
   display: none;
@@ -34,10 +31,7 @@
 }
 .option-section h3 {
   font-size: 9px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 8px;
+  @include flex-row($gap: 8px, $justify: space-between);
   min-height: 18px;
 }
 .option-section h3 span {
@@ -46,14 +40,11 @@
   text-transform: none;
 }
 .option-heading-actions {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
+  @include flex-row($gap: 8px, $display: inline-flex);
   flex-shrink: 0;
 }
 .typography-toggle {
-  display: inline-flex;
-  align-items: center;
+  @include flex-row($display: inline-flex);
   flex-shrink: 0;
   width: 28px;
   height: 15px;
@@ -66,7 +57,7 @@
   width: 11px;
   height: 11px;
   border-radius: 50%;
-  background: #fff;
+  background: $white;
   transition: transform var(--transition-duration);
 }
 .typography-toggle[aria-checked='true'] {
@@ -87,34 +78,22 @@
   cursor: pointer;
 }
 .complexity-option input::-webkit-slider-runnable-track {
-  height: 1px;
-  border: 0;
-  background: #9fa393;
+  @include slider-track;
 }
 .complexity-option input::-webkit-slider-thumb {
   appearance: none;
-  width: 11px;
-  height: 11px;
+  @include slider-thumb;
   margin-top: -5px;
-  border: 0;
-  border-radius: 50%;
-  background: $ink;
 }
 .complexity-option input::-moz-range-track {
-  height: 1px;
-  border: 0;
-  background: #9fa393;
+  @include slider-track;
 }
 .complexity-option input::-moz-range-progress {
   height: 1px;
   background: $ink;
 }
 .complexity-option input::-moz-range-thumb {
-  width: 11px;
-  height: 11px;
-  border: 0;
-  border-radius: 50%;
-  background: $ink;
+  @include slider-thumb;
 }
 .inputs textarea {
   min-height: 85px;

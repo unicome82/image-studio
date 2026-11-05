@@ -1,4 +1,5 @@
-@use '../../styles/tokens' as *;
+@use '../../styles/variable' as *;
+@use '../../styles/mixin' as *;
 .presets-page {
   container-type: inline-size;
 }
@@ -9,23 +10,18 @@
   gap: 24px;
 }
 .preset-item {
-  display: flex;
-  flex-direction: column;
+  @include flex-column;
   min-width: 0;
   padding: 16px;
   border: 1px solid $line;
   border-radius: 4px;
 }
 .preset-item-heading {
-  display: flex;
-  align-items: center;
-  gap: 8px;
+  @include flex-row($gap: 8px);
   min-height: 28px;
 }
 .preset-name {
-  display: inline-flex;
-  align-items: center;
-  gap: 4px;
+  @include flex-row($gap: 4px, $display: inline-flex);
   min-width: 0;
 }
 .preset-name h3 {
@@ -47,10 +43,8 @@
   margin-top: 12px;
 }
 .preset-item-actions {
-  display: flex;
-  align-items: center;
+  @include flex-row($gap: 4px);
   flex-shrink: 0;
-  gap: 4px;
   margin-left: auto;
 }
 .preset-item-actions .icon-button {
@@ -65,8 +59,8 @@
   font-size: 10px;
 }
 .preset-item-actions .preset-copy {
-  background: #000;
-  border-color: #000;
+  background: $black;
+  border-color: $black;
 }
 .preset-item-actions .preset-copy:hover {
   background: #333;
@@ -75,9 +69,7 @@
   border: 1px solid $line;
 }
 .preset-rename {
-  display: flex;
-  align-items: center;
-  gap: 8px;
+  @include flex-row($gap: 8px);
 }
 .preset-rename input {
   flex: 1;

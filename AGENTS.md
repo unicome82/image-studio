@@ -2,7 +2,8 @@
 
 - 사용자 최신 요청과 `IMAGE-STUDIO.md`, `PROMPT-BUILDER.md`를 따른다.
 - React + TypeScript + SCSS를 유지하고, 변경 범위에 필요하지 않은 기능을 추가하지 않는다.
-- 컴포넌트와 해당 SCSS를 함께 관리한다. 공통 색상은 `src/styles/_tokens.scss`, 공통 입력·버튼·스크롤바·레이아웃은 `src/styles/`에서 관리한다. `src/styles.scss`는 공통 스타일 진입점으로만 사용한다.
+- 컴포넌트와 해당 SCSS를 함께 관리한다. 공통 색상은 `src/styles/_variable.scss`, 공통 입력·버튼·스크롤바·레이아웃은 `src/styles/`에서 관리한다. `src/styles.scss`는 공통 스타일 진입점으로만 사용한다.
+- 태그 기본값 초기화는 `src/styles/_reset.scss`에서 관리한다. 반복되는 스타일 묶음은 `src/styles/_mixin.scss`에 정의하고 `@include`로 재사용한다.
 - 기존의 담당 규칙을 수정한다. 파일 하단에 과거 레이아웃을 덮어쓰는 규칙을 누적하거나 미사용 선택자를 남기지 않는다. 반응형 규칙은 해당 컴포넌트 파일에 모으고 과도한 중첩과 `!important`를 피한다.
 - 아이콘은 `Icon.tsx`와 jsDelivr CDN의 Material Symbols Outlined를 사용한다. 로컬 아이콘 파일이나 별도 아이콘 라이브러리를 추가하지 않는다.
 - 폰트는 버전이 고정된 Pretendard CDN을 사용한다. 일반 텍스트는 최소 10px을 유지하고, 빌더 옵션 버튼은 11px·보통 굵기를 사용한다. 버튼 텍스트는 대문자로 표시한다.

@@ -1,9 +1,9 @@
-@use '../styles/tokens' as *;
+@use '../styles/variable' as *;
+@use '../styles/mixin' as *;
 .detail {
   position: sticky;
   top: var(--panel-top);
-  display: flex;
-  flex-direction: column;
+  @include flex-column;
   min-height: 0;
   height: calc(100dvh - var(--panel-top));
   padding: 0;
@@ -17,16 +17,12 @@
   border-bottom: 0;
 }
 .detail-scroll {
-  flex: 1;
-  min-height: 0;
+  @include scroll-area;
   padding: 8px 22px 20px;
-  overflow: auto;
-  overscroll-behavior: contain;
 }
 .detail-preview {
   position: relative;
-  display: grid;
-  place-items: center;
+  @include grid-center;
   border-radius: 3px;
 }
 .detail-preview button {
@@ -36,9 +32,7 @@
   background: #ffffff4d;
 }
 .detail-title {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
+  @include flex-row($justify: space-between);
   margin: 22px 0 13px;
 }
 .detail-title h2 {
@@ -64,9 +58,7 @@
   border-top: 1px solid $line;
 }
 .detail-section h3 {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
+  @include flex-row($justify: space-between);
 }
 .detail-prompt {
   padding: 14px 0;

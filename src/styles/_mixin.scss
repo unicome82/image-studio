@@ -1,0 +1,52 @@
+@use './variable' as *;
+
+@mixin flex-row($gap: null, $justify: null, $display: flex) {
+  display: $display;
+  align-items: center;
+  justify-content: $justify;
+  gap: $gap;
+}
+
+@mixin flex-column {
+  display: flex;
+  flex-direction: column;
+}
+
+@mixin grid-center {
+  display: grid;
+  place-items: center;
+}
+
+@mixin scroll-area {
+  flex: 1;
+  min-height: 0;
+  overflow: auto;
+  overscroll-behavior: contain;
+}
+
+@mixin field-surface {
+  width: 100%;
+  border: 1px solid $input-border;
+  border-radius: 3px;
+  background: $white;
+  font-size: 10px;
+}
+
+@mixin selected-surface {
+  background: $ink;
+  color: $white;
+}
+
+@mixin slider-track {
+  height: 1px;
+  border: 0;
+  background: $slider-track;
+}
+
+@mixin slider-thumb {
+  width: 11px;
+  height: 11px;
+  border: 0;
+  border-radius: 50%;
+  background: $ink;
+}

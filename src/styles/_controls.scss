@@ -1,18 +1,15 @@
-@use './tokens' as *;
+@use './variable' as *;
+@use './mixin' as *;
 .primary,
 .secondary {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
+  @include flex-row($gap: 8px, $justify: center, $display: inline-flex);
   padding: 10px 13px;
   border: 1px solid;
   border-radius: 4px;
   font-size: 11px;
 }
 .primary {
-  background: $ink;
-  color: #fff;
+  @include selected-surface;
   border-color: $ink;
 }
 .primary:hover:not(:disabled) {
@@ -20,27 +17,23 @@
 }
 .secondary {
   background: transparent;
-  border-color: #d6d6ce;
+  border-color: $secondary-border;
 }
 .secondary:hover {
-  background: #efeee8;
+  background: $secondary-hover-background;
 }
 .icon-button {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
+  @include flex-row($justify: center, $display: inline-flex);
   width: 30px;
   height: 30px;
   padding: 0;
   border-radius: 4px;
 }
 .icon-button:hover {
-  background: #eeede7;
+  background: $icon-hover-background;
 }
 .panel-heading {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
+  @include flex-row($justify: space-between);
   min-height: 56px;
   border-bottom: 1px solid $line;
   font-size: 10px;
@@ -48,16 +41,12 @@
   letter-spacing: 1.3px;
 }
 .section-heading {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
+  @include flex-row($justify: space-between);
   min-height: 30px;
   margin-bottom: 17px;
 }
 .section-heading h2 {
-  display: flex;
-  align-items: center;
-  gap: 10px;
+  @include flex-row($gap: 10px);
   font-size: 19px;
   font-weight: 500;
   letter-spacing: -0.5px;
@@ -65,16 +54,14 @@
 .section-heading h2 span {
   padding: 3px 5px;
   border-radius: 3px;
-  background: #efeee8;
+  background: $secondary-hover-background;
   color: #9a9d91;
   font-size: 10px;
   font-weight: 400;
   letter-spacing: 0;
 }
 .prompt-actions {
-  display: flex;
-  align-items: center;
-  gap: 8px;
+  @include flex-row($gap: 8px);
   margin-top: 12px;
 }
 .prompt-actions > .save-prompt-control,
@@ -112,14 +99,11 @@
   bottom: 25px;
   left: 50%;
   z-index: 100;
-  display: flex;
-  align-items: center;
-  gap: 10px;
+  @include flex-row($gap: 10px);
   max-width: 90vw;
   padding: 13px 20px;
   border-radius: 5px;
-  background: $ink;
-  color: #fff;
+  @include selected-surface;
   font-size: 11px;
   transform: translateX(-50%);
 }
