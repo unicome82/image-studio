@@ -31,3 +31,34 @@ $line:#e7e5df;$muted:#8b8b83;$ink:#242520;
 :where(.builder,.detail,.modal) ::-webkit-scrollbar-button,.style-tabs::-webkit-scrollbar-button{display:none;width:0;height:0}
 @media(max-width:1000px){.builder-toggle>span{display:none}}
 @media(max-width:600px){.header-search{height:34px;padding-inline:9px;gap:6px}.header-search input{font-size:11px}.header{gap:10px}.brand{font-size:17px}.navigation{align-items:flex-start}.builder-toggle{margin-top:8px;height:32px}.gallery{padding-top:20px}.detail>.panel-heading,.detail-scroll{padding-inline:18px}}
+
+// The header scrolls with the document; navigation remains at the viewport edge.
+:root{--nav-height:62px;--header-visible:76px;--panel-top:calc(var(--header-visible) + var(--nav-height))}
+.header{position:relative;top:auto}
+.navigation{top:0;height:var(--nav-height);flex-wrap:nowrap;align-items:center}
+.builder,.detail{top:var(--panel-top);height:calc(100dvh - var(--panel-top));min-height:0}
+.builder{padding:0}
+.builder-wrap{padding-inline:20px}
+.builder-scroll{min-height:0;overscroll-behavior:contain}
+.builder-type{padding:18px 0;border-bottom:1px solid $line}
+.builder-type .type-switch{margin:0;width:100%}
+.builder-type .type-switch button{flex:1}
+.builder-mobile-close{display:none}
+.builder-footer{flex-shrink:0}
+.style-tabs{flex:1}
+@media(max-width:1000px){.mobile-scrim,.detail-scrim{top:var(--panel-top)}}
+@media(max-width:600px){
+ :root{--nav-height:52px;--header-visible:64px}
+ .navigation{height:var(--nav-height);padding-inline:18px;gap:18px;align-content:normal}
+ .navigation .builder-toggle{margin:0;height:32px}
+ .style-tabs{width:auto;height:52px;order:initial}
+ .fullscreen-panel{position:fixed;inset:0;margin:0;width:100%;max-width:none;height:100dvh;max-height:none;border:0;border-radius:0;padding:0;z-index:60;color:$ink}
+ .fullscreen-panel[open]{display:flex;flex-direction:column}
+ .fullscreen-panel::backdrop{background:#faf9f6}
+ .builder-mobile-close{display:flex;justify-content:flex-end;padding:8px 14px 0;flex-shrink:0}
+ .builder-wrap{padding-inline:18px}
+ .builder-type{padding-top:8px}
+ .builder-footer{padding-bottom:max(18px,env(safe-area-inset-bottom))}
+ .detail-scroll{padding-bottom:max(20px,env(safe-area-inset-bottom));overscroll-behavior:contain}
+ .fullscreen-panel .detail-preview{max-height:none;aspect-ratio:1/1}
+}

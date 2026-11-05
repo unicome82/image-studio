@@ -17,7 +17,7 @@ npm run build
 npm run preview
 ```
 
-The gallery includes Illustration/Photo navigation, style filters and gallery search, local bookmarks, responsive Builder and detail panels, copyable file-reference prompts, and image preview. Publish stays disabled until real assets and a safe, authorized publishing workflow are connected. Public reading does not authorize repository writes. No upload or simulated CDN approval occurs.
+The gallery includes an Illustration/Photo selector inside Builder, style filters and gallery search, local bookmarks, responsive Builder and detail panels (full-screen dialogs on mobile), copyable file-reference prompts, and image preview. All displays a continuous grid with a total count; style tabs filter it. The header scrolls out of view while navigation stays sticky. Illustration and Photo retain independent selections, and hidden illustration options never enter Photo prompts. Publish stays disabled until real assets and a safe, authorized publishing workflow are connected. Public reading does not authorize repository writes. No upload or simulated CDN approval occurs.
 
 ## Structure
 
