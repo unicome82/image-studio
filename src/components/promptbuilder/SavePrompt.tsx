@@ -1,11 +1,15 @@
 import { useEffect, useRef, useState } from 'react';
+import { createPortal } from 'react-dom';
 import { X } from 'lucide-react';
-export default function SavePrompt({save}:{save:(name:string)=>boolean}) {
- const [open,setOpen]=useState(false);
+interface Props { save:(name:string)=>boolean; prompt:string }
+function SaveDialog({save,prompt,close}:Props & {close:()=>void}) {
+ const ref=useRef<HTMLDialogElement>(null);
  const [name,setName]=useState('');
- const ref=useRef<HTMLDivElement>(null);
- const button=useRef<HTMLButtonElement>(null);
- function close(){setOpen(false);button.current?.focus()}
- useEffect(()=>{if(!open)return;const outside=(event:PointerEvent)=>{if(!ref.current?.contains(event.target as Node))setOpen(false)};document.addEventListener('pointerdown',outside);return()=>document.removeEventListener('pointerdown',outside)},[open]);
- return <div className="save-prompt-control" ref={ref}><button ref={button} className="secondary save-prompt-button" aria-expanded={open} onClick={()=>setOpen(!open)}>Save</button>{open&&<form className="save-prompt-form" aria-label="Save style" onKeyDown={e=>{if(e.key==='Escape'){e.preventDefault();e.stopPropagation();close()}}} onSubmit={e=>{e.preventDefault();if(name.trim()&&save(name.trim())){close();setName('')}}}><label>Style name<input aria-label="Style name" value={name} maxLength={80} placeholder="Style name" autoFocus required onChange={e=>setName(e.target.value)}/></label><div><button type="submit" className="primary" disabled={!name.trim()}>Save</button><button type="button" className="icon-button" aria-label="Cancel save style" onClick={close}><X size={15}/></button></div></form>}</div>;
+ const [error,setError]=useState('');
+ useEffect(()=>{const previous=document.body.style.overflow;document.body.style.overflow='hidden';const dialog=ref.current;dialog?.showModal();return()=>{dialog?.close();document.body.style.overflow=previous}},[]);
+ return createPortal(<dialog ref={ref} className="save-style-dialog" aria-label="Save style" onCancel={e=>{e.preventDefault();e.stopPropagation();close()}} onClick={e=>{if(e.target===e.currentTarget){const rect=e.currentTarget.getBoundingClientRect();if(e.clientX<rect.left||e.clientX>rect.right||e.clientY<rect.top||e.clientY>rect.bottom)close()}}}><div className="panel-heading"><span>Save style</span><button className="icon-button" aria-label="Close save style" onClick={close}><X size={18}/></button></div><form onSubmit={e=>{e.preventDefault();if(!name.trim())return;if(save(name.trim()))close();else setError('Could not save. Check for an existing style name or unavailable browser storage.')}}><label className="save-style-label">Style name<input aria-label="Style name" value={name} maxLength={80} placeholder="Style name" autoFocus required onChange={e=>{setName(e.target.value);setError('')}}/></label><label className="save-style-label">Prompt preview<textarea aria-label="Prompt preview" readOnly value={prompt}/></label>{error&&<p className="save-style-error" role="alert">{error}</p>}<div className="save-style-actions"><button type="button" className="secondary" onClick={close}>Cancel</button><button type="submit" className="primary" disabled={!name.trim()}>Save</button></div></form></dialog>,document.body);
+}
+export default function SavePrompt({save,prompt}:Props) {
+ const [open,setOpen]=useState(false);
+ return <div className="save-prompt-control"><button className="secondary save-prompt-button" aria-haspopup="dialog" aria-expanded={open} onClick={()=>setOpen(true)}>Save</button>{open&&<SaveDialog save={save} prompt={prompt} close={()=>setOpen(false)}/>}</div>;
 }

@@ -1,0 +1,31 @@
+import { useLayoutEffect, useRef, useState } from 'react';
+import { ChevronDown } from 'lucide-react';
+interface Choice { id: string; label: string }
+interface Props { options: Choice[]; selected: string[]; choose: (id:string)=>void; disabled?: boolean }
+export default function OptionChoices({options,selected,choose,disabled=false}:Props) {
+ const [expanded,setExpanded]=useState(false);
+ const [count,setCount]=useState(options.length);
+ const row=useRef<HTMLDivElement>(null);
+ const measures=useRef<HTMLDivElement>(null);
+ useLayoutEffect(()=>{
+  const measure=()=>{
+   if(!row.current||!measures.current)return;
+   const width=row.current.clientWidth;
+   const gap=parseFloat(getComputedStyle(row.current).columnGap)||0;
+   const widths=Array.from(measures.current.querySelectorAll<HTMLElement>('[data-choice]')).map(el=>el.getBoundingClientRect().width);
+   const more=measures.current.querySelector<HTMLElement>('[data-more]')!.getBoundingClientRect().width;
+   if(widths.reduce((total,value)=>total+value,0)+Math.max(0,widths.length-1)*gap<=width){setCount(widths.length);return}
+   let used=0,fit=0;
+   for(const value of widths){const next=used+(fit?gap:0)+value;if(next+gap+more>width)break;used=next;fit++}
+   setCount(fit);
+  };
+  measure();
+  const observer=new ResizeObserver(measure);
+  if(row.current)observer.observe(row.current);
+  let active=true;
+  document.fonts.ready.then(()=>{if(active)measure()});
+  return()=>{active=false;observer.disconnect()};
+ },[options]);
+ const overflow=count<options.length;
+ return <div className="option-choices"><div className={'pills choice-row '+(expanded?'expanded':'collapsed')} ref={row}>{(expanded?options:options.slice(0,count)).map(option=><button className="option-choice" key={option.id} aria-pressed={selected.includes(option.id)} disabled={disabled} onClick={()=>choose(option.id)}>{option.label}</button>)}{overflow&&<button className="more choice-toggle" aria-expanded={expanded} onClick={()=>setExpanded(!expanded)}>{expanded?'Less':'More'}<ChevronDown size={11}/></button>}</div><div className="option-measurements" aria-hidden="true"><div className="pills" ref={measures}>{options.map(option=><span className="option-choice" data-choice key={option.id}>{option.label}</span>)}<span className="more choice-toggle" data-more>More<ChevronDown size={11}/></span></div></div></div>;
+}

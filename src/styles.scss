@@ -184,3 +184,37 @@ $line:#e7e5df;$muted:#8b8b83;$ink:#242520;
 textarea,.inputs textarea,.detail-section textarea,.modal textarea{resize:none}
 @media(max-width:600px){.image-grid{columns:3;column-gap:8px}.tile,.tile:nth-child(4n+2){width:100%}.builder-footer .prompt-textarea{height:80px}}
 .prompt-actions>.primary,.prompt-actions .save-prompt-button{height:36px;padding:0 12px}
+
+// Fit collapsed option choices into one measured row, reserving space for More.
+.option-choices{position:relative;min-width:0}
+.builder .pills .option-choice{display:inline-flex;align-items:center;gap:3px;flex-shrink:0;font-size:10px;line-height:normal;font-family:inherit;font-weight:400;padding:3.5px 9px;border:1px solid #ddded5;border-radius:4px;white-space:nowrap}
+.builder .choice-row{gap:6px;min-width:0}
+.builder .choice-row.collapsed{flex-wrap:nowrap;overflow:hidden}
+.builder .choice-row.expanded{flex-wrap:wrap}
+.builder .choice-toggle{display:inline-flex;align-items:center;justify-content:center;gap:3px;flex-shrink:0;font-size:10px;line-height:normal;font-family:inherit;font-weight:400;padding:3.5px 4px;border:1px solid transparent;white-space:nowrap}
+.option-measurements{position:absolute;inset:0;height:0;overflow:hidden;visibility:hidden;pointer-events:none}
+.option-measurements>.pills{width:max-content;flex-wrap:nowrap}
+.builder .option-section h3,.builder-footer h3{font-size:11px;font-weight:700;color:#85877d}
+.builder .option-section h3 span{font-weight:400}
+
+// Keep internal scrollbar thumbs flush with the track; body and textareas retain native styling.
+.builder-scroll,.detail-scroll,.style-tabs,.modal,.preset-content,.save-style-dialog{scrollbar-width:auto;scrollbar-color:auto;scrollbar-gutter:auto}
+*:not(html):not(body):not(textarea)::-webkit-scrollbar{width:6px;height:6px}
+*:not(html):not(body):not(textarea)::-webkit-scrollbar-track{margin:0;padding:0;border:0;background:transparent;box-shadow:none}
+*:not(html):not(body):not(textarea)::-webkit-scrollbar-thumb{border:0;border-radius:3px;background:#bfc1b7;background-clip:border-box;box-shadow:none}
+*:not(html):not(body):not(textarea)::-webkit-scrollbar-button,*:not(html):not(body):not(textarea)::-webkit-scrollbar-button:single-button,*:not(html):not(body):not(textarea)::-webkit-scrollbar-button:double-button{display:none;width:0;height:0;margin:0;padding:0;border:0;background:none}
+*:not(html):not(body):not(textarea)::-webkit-scrollbar-corner{background:transparent}
+@supports not selector(::-webkit-scrollbar){.builder-scroll,.detail-scroll,.style-tabs,.modal,.preset-content,.save-style-dialog{scrollbar-width:thin;scrollbar-color:#bfc1b7 transparent}}
+
+// Native modal stays above full-screen mobile panels and previews exactly what is saved.
+.save-style-dialog{width:min(520px,calc(100vw - 28px));max-height:calc(100dvh - 40px);margin:auto;padding:0 22px 22px;background:#faf9f6;color:$ink;border:1px solid #dedcd2;border-radius:5px;overflow:auto;overscroll-behavior:contain}
+.save-style-dialog::backdrop{background:#24252066;backdrop-filter:blur(2px)}
+.save-style-dialog .panel-heading{margin-bottom:18px}
+.save-style-label{display:grid;gap:8px;font-size:11px;color:#777a6d;margin-top:16px}
+.save-style-label input{width:100%;padding:11px 12px;background:#fffef9;border:1px solid #dedbd0;border-radius:3px;font:inherit;color:$ink}
+.save-style-label textarea{display:block;width:100%;height:min(300px,38dvh);resize:none;padding:12px;background:#f3f0e7;border:1px solid #e2dfd5;border-radius:3px;font:10px/1.7 monospace;color:#747768}
+.save-style-actions{display:flex;justify-content:flex-end;gap:8px;margin-top:18px}
+.save-style-actions button{min-width:90px;height:36px;padding:0 16px}
+.save-style-error{font-size:11px;line-height:1.5;color:#8b4e3b;margin-top:12px}
+@media(max-width:600px){.save-style-dialog{padding-inline:18px}}
+.builder .pills .option-choice[aria-pressed=true]{border-color:$ink}
