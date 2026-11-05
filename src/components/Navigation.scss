@@ -25,7 +25,7 @@
   height: var(--type-toggle-height);
   padding: 0;
   border: 1px solid $secondary-border;
-  border-radius: 8px;
+  border-radius: 6px;
   background: transparent;
   color: $ink;
 }
@@ -38,26 +38,23 @@
   border-color: transparent;
 }
 .type-tabs {
-  @include flex-row;
+  @include flex-row($gap: 4px);
   flex-shrink: 0;
   padding: 0 8px;
 }
 .type-tabs button {
   height: var(--type-toggle-height);
   padding: 0 12px;
-  border: 0;
+  border: 1px solid transparent;
+  border-radius: 6px;
   background: $icon-hover-background;
   color: $muted;
   white-space: nowrap;
 }
-.type-tabs button:first-child {
-  border-radius: 8px 0 0 8px;
-}
-.type-tabs button:last-child {
-  border-radius: 0 8px 8px 0;
-}
 .type-tabs button[aria-pressed='true'] {
-  @include selected-surface;
+  background: $white;
+  border-color: $secondary-border;
+  color: $ink;
 }
 .type-tabs button[aria-pressed='false']:hover {
   background: $tab-hover-background;

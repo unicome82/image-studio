@@ -29,8 +29,9 @@
   border-color: $option-hover-border;
 }
 .option-choice[aria-pressed='true'] {
-  border-color: $ink;
-  @include selected-surface;
+  border-color: transparent;
+  background: $ai-option-gradient;
+  color: $white;
 }
 .choice-row {
   padding-inline: $content-padding;

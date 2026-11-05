@@ -39,8 +39,8 @@
 }
 .save-style-actions button {
   min-width: 92px;
-  height: 36px;
-  padding: 0 16px;
+  @include prompt-action-button;
+  padding-inline: 16px;
 }
 .save-style-error {
   margin-top: 12px;
