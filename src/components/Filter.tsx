@@ -7,7 +7,7 @@ import ResizeHandle from './promptbuilder/ResizeHandle';
 import type { Option, Selection } from '../utils/promptBuilder';
 import { activeFilters, filterCategories, type FilterType } from '../utils/filters';
 import BuilderSelect from './promptbuilder/BuilderSelect';
-import { useMediaQuery } from '../utils/useMediaQuery';
+import { mobileQuery, useMediaQuery } from '../utils/useMediaQuery';
 import { optionLabelKey } from '../utils/optionChoices';
 
 interface Props {
@@ -27,7 +27,7 @@ interface Props {
 
 export default function Filter(p: Props) {
   const { t } = useTranslation();
-  const mobile = useMediaQuery('(max-width: 600px)');
+  const mobile = useMediaQuery(mobileQuery);
   const selectedFilters = activeFilters(p.filters, p.catalog);
   return (
     <Panel

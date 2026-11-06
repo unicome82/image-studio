@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import { useMediaQuery } from '../utils/useMediaQuery';
+import { mobileQuery, useMediaQuery } from '../utils/useMediaQuery';
 import { useTranslation } from 'react-i18next';
 import Icon from './Icon';
 import LanguageMenu from './LanguageMenu';
@@ -14,7 +14,7 @@ interface Props {
 }
 export default function Header(p: Props) {
   const { t } = useTranslation();
-  const mobile = useMediaQuery('(max-width: 600px)');
+  const mobile = useMediaQuery(mobileQuery);
   const [searchOpen, setSearchOpen] = useState(false);
   const [favoritePulse, setFavoritePulse] = useState(false);
   const searchInput = useRef<HTMLInputElement>(null);

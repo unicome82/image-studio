@@ -6,7 +6,7 @@ import SelectedOptions from './SelectedOptions';
 import SavePrompt from './SavePrompt';
 import Panel from '../Panel';
 import SelectionSummary from '../SelectionSummary';
-import { useMediaQuery } from '../../utils/useMediaQuery';
+import { mobileQuery, useMediaQuery } from '../../utils/useMediaQuery';
 import {
   aspectRatios,
   builderCategories,
@@ -67,7 +67,7 @@ export default function Builder(p: Props) {
     measure();
     return () => observer.disconnect();
   }, []);
-  const mobile = useMediaQuery('(max-width: 600px)');
+  const mobile = useMediaQuery(mobileQuery);
   const [promptCollapsed, setPromptCollapsed] = useState(mobile);
   const categories = builderCategories(p.photo, design).filter(
     (category) => category !== 'Outline',

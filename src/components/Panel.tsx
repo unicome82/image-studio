@@ -1,5 +1,5 @@
 import { useEffect, useRef, type ReactNode } from 'react';
-import { useMediaQuery } from '../utils/useMediaQuery';
+import { mobileQuery, useMediaQuery } from '../utils/useMediaQuery';
 interface Props {
   className: string;
   label: string;
@@ -20,7 +20,7 @@ export default function Panel({
   closing = false,
   closed,
 }: Props) {
-  const mobile = useMediaQuery('(max-width: 600px)');
+  const mobile = useMediaQuery(mobileQuery);
   const ref = useRef<HTMLDialogElement>(null);
   useEffect(() => {
     if (!mobile && !fullscreen) return;
