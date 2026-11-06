@@ -23,24 +23,12 @@ interface Props {
 export default function Filter(p: Props) {
   const { t } = useTranslation();
   return (
-    <Panel className="builder filter-panel" label={t('Filter')} close={p.close}>
+    <Panel className="builder filter-panel" label={t('Filter')} close={p.close} drawer>
       <ResizeHandle width={p.width} resize={p.resize} />
       <div className="builder-viewport">
         <div className="builder-wrap builder-heading">
           <div className="builder-title filter-type">
-            <BuilderSelect
-              label={t('Image type')}
-              value={p.type}
-              options={(['all', 'illustration', 'photo', 'design'] as const).map((value) => ({
-                value,
-                label: t(
-                  { all: 'All', illustration: 'Illustration', photo: 'Photo', design: 'Design' }[
-                    value
-                  ],
-                ),
-              }))}
-              change={(value) => p.setType(value as FilterType)}
-            />
+            <FilterTypeSelect type={p.type} setType={p.setType} />
             <button
               className="icon-button"
               aria-label={t('Reset filters')}
@@ -95,6 +83,23 @@ export default function Filter(p: Props) {
         </div>
       </div>
     </Panel>
+  );
+}
+
+export function FilterTypeSelect({ type, setType }: Pick<Props, 'type' | 'setType'>) {
+  const { t } = useTranslation();
+  return (
+    <BuilderSelect
+      label={t('Image type')}
+      value={type}
+      options={(['all', 'illustration', 'photo', 'design'] as const).map((value) => ({
+        value,
+        label: t(
+          { all: 'All', illustration: 'Illustration', photo: 'Photo', design: 'Design' }[value],
+        ),
+      }))}
+      change={(value) => setType(value as FilterType)}
+    />
   );
 }
 

@@ -8,8 +8,11 @@ import Gallery from './components/Gallery';
 import CollectionSort from './components/CollectionSort';
 import { sortCollection, type CollectionSort as SortOrder } from './utils/collectionSort';
 import { imageName } from './utils/imageName';
-import Filter, { SelectedFilters } from './components/Filter';
+import Filter, { FilterTypeSelect, SelectedFilters } from './components/Filter';
 import {
+  activeFilters,
+  builderFilterLimit,
+  pendingBuilderFilters,
   filterMetadata,
   matchesFilters,
   normalizeRatio,
@@ -141,6 +144,9 @@ export default function App() {
   const [builder, setBuilder] = useState(() => window.innerWidth > 1100);
   const [composerOpen, setComposerOpen] = useState(false);
   const [filters, setFilters] = useState<Selection>({});
+  const effectiveFilters = activeFilters(filters, filterCatalog);
+  const [pendingChoices, setPendingChoices] = useState<Selection>({});
+  const [pendingSelection, setPendingSelection] = useState<Selection>({});
   const appliedFilters = useRef('');
   const [presetOpen, setPresetOpen] = useState(false);
   const [favoriteSort, setFavoriteSort] = useState<SortOrder>('newest');
@@ -183,7 +189,7 @@ export default function App() {
   const selection = builderPhoto ? photoSelection : illustrationSelection;
   const setSelection = builderPhoto ? setPhotoSelection : setIllustrationSelection;
   const prompt =
-    builderType === 'design'
+    builderType === 'design' || Object.keys(pendingChoices).length > 0
       ? ''
       : makePrompt(catalog, selection, complexity, fields, builderPhoto);
   const sources = [
@@ -229,7 +235,7 @@ export default function App() {
                   source.photo,
                   `${tile.width}:${tile.height}`,
                 ),
-                filters,
+                effectiveFilters,
               ),
           ),
       })),
@@ -262,7 +268,7 @@ export default function App() {
             preset.fields['Aspect Ratio'] || '1:1',
             preset.complexity,
           ),
-          filters,
+          effectiveFilters,
         ),
     ),
     presetSort,
@@ -272,11 +278,6 @@ export default function App() {
   );
   const resultCount = presetOpen ? visiblePresets.length : displayGroups[0].tiles.length;
   function chooseFilter(category: string, id: string) {
-    if (!(filters[category] ?? []).includes(id) && (filters[category]?.length ?? 0) >= 3) {
-      setToast('You can select up to 3 options.');
-      setToastVersion((version) => version + 1);
-      return;
-    }
     const next = toggleFilter(filters, category, id);
     setFilters(next);
     setSelected(null);
@@ -293,16 +294,28 @@ export default function App() {
   }
   function openComposer() {
     const composerPhoto = filterType === 'photo';
-    const signature = JSON.stringify([filters, filterType]);
+    const signature = JSON.stringify([effectiveFilters, filterType]);
+    const unresolved =
+      filterType === 'design' ? {} : pendingBuilderFilters(effectiveFilters, composerPhoto);
     const relevant = Object.fromEntries(
-      Object.entries(filters).filter(
-        ([category, ids]) => builderCategories(composerPhoto).includes(category) && ids.length,
+      Object.entries(effectiveFilters).filter(
+        ([category, ids]) =>
+          builderCategories(composerPhoto).includes(category) &&
+          ids.length <= builderFilterLimit(category),
       ),
     );
     if (signature !== appliedFilters.current) {
-      if (filters['Aspect Ratio']?.length === 1)
-        setFields((previous) => ({ ...previous, 'Aspect Ratio': filters['Aspect Ratio'][0] }));
-      if (filters.Complexity?.length === 1) setComplexity(Number(filters.Complexity[0]));
+      setPendingChoices(unresolved);
+      setPendingSelection({});
+      setFields((previous) => ({
+        ...previous,
+        ...(effectiveFilters['Aspect Ratio']?.length === 1
+          ? { 'Aspect Ratio': effectiveFilters['Aspect Ratio'][0] }
+          : {}),
+        ...(effectiveFilters.Typography?.length ? { 'Typography Enabled': 'true' } : {}),
+      }));
+      if (effectiveFilters.Complexity?.length === 1)
+        setComplexity(Number(effectiveFilters.Complexity[0]));
       const update = composerPhoto ? setPhotoSelection : setIllustrationSelection;
       update((previous) => ({ ...previous, ...relevant }));
       setBuilderType(filterType === 'design' ? 'design' : composerPhoto ? 'photo' : 'illustration');
@@ -310,6 +323,46 @@ export default function App() {
     appliedFilters.current = signature;
     if (matchMedia('(max-width: 1000px)').matches) setBuilder(false);
     setComposerOpen(true);
+  }
+  function choosePending(category: string, id: string) {
+    if (builderFilterLimit(category) === 1) {
+      setPendingSelection((previous) => ({ ...previous, [category]: [id] }));
+      return;
+    }
+    const next = toggleFilter(pendingSelection, category, id);
+    if (next[category].length > 3) {
+      setToast('You can select up to 3 options.');
+      setToastVersion((version) => version + 1);
+      return;
+    }
+    setPendingSelection(next);
+  }
+  function applyPending() {
+    if (
+      Object.entries(pendingChoices).some(([category, ids]) => {
+        const chosen = pendingSelection[category] ?? [];
+        return (
+          chosen.length === 0 ||
+          chosen.length > builderFilterLimit(category) ||
+          chosen.some((id) => !ids.includes(id))
+        );
+      })
+    )
+      return;
+    const resolved = Object.fromEntries(
+      Object.entries(pendingSelection).filter(([category]) =>
+        builderCategories(builderPhoto).includes(category),
+      ),
+    );
+    setSelection((previous) => ({ ...previous, ...resolved }));
+    if (pendingSelection['Aspect Ratio']?.length)
+      setFields((previous) => ({
+        ...previous,
+        'Aspect Ratio': pendingSelection['Aspect Ratio'][0],
+      }));
+    if (pendingSelection.Complexity?.length) setComplexity(Number(pendingSelection.Complexity[0]));
+    setPendingChoices({});
+    setPendingSelection({});
   }
   const toggleBookmark = (id: string) =>
     setBookmarks((prev) => (prev.includes(id) ? prev.filter((x) => x !== id) : [...prev, id]));
@@ -371,7 +424,7 @@ export default function App() {
     id?: string,
     snapshot?: Pick<StylePreset, 'photo' | 'selection' | 'complexity' | 'fields'>,
   ) {
-    if (!name.trim()) return false;
+    if (!name.trim() || (!snapshot && Object.keys(pendingChoices).length > 0)) return false;
     if (presets.some((p) => p.id !== id && p.name.toLowerCase() === name.trim().toLowerCase())) {
       setToast('A style set with this name already exists.');
       return false;
@@ -509,6 +562,7 @@ export default function App() {
                 >
                   <Icon name="filter_list" size="20" />
                 </button>
+                {!builder && <FilterTypeSelect type={filterType} setType={changeFilterType} />}
                 <span className="result-count" role="status" aria-live="polite">
                   {t('{{count}} results', { count: resultCount })}
                 </span>
@@ -547,7 +601,11 @@ export default function App() {
                 )}
               </div>
             </div>
-            <SelectedFilters catalog={filterCatalog} filters={filters} remove={chooseFilter} />
+            <SelectedFilters
+              catalog={filterCatalog}
+              filters={effectiveFilters}
+              remove={chooseFilter}
+            />
           </div>
           {presetOpen ? (
             <Presets
@@ -567,7 +625,7 @@ export default function App() {
               bookmarks={bookmarks}
               selectedId={selected?.id}
               emptyMessage={
-                query || Object.values(filters).some((ids) => ids.length)
+                query || Object.values(effectiveFilters).some((ids) => ids.length)
                   ? 'No results'
                   : onlySaved
                     ? 'No bookmarks'
@@ -583,6 +641,16 @@ export default function App() {
           <footer className="site-footer">
             {t('Copyright notice', { year: new Date().getFullYear() })}
           </footer>
+          <button
+            className="primary compose-floating"
+            onClick={openComposer}
+            aria-label={t('Generate prompt')}
+          >
+            <Icon name="auto_awesome" size="24" className="fill" />
+            <span className="compose-floating-label" aria-hidden="true">
+              {t('Generate Prompt label')}
+            </span>
+          </button>
         </main>
         {selected && (
           <>
@@ -607,19 +675,11 @@ export default function App() {
           </>
         )}
       </div>
-      <button
-        className="primary compose-floating"
-        onClick={openComposer}
-        aria-label={t('Generate prompt')}
-      >
-        <Icon name="auto_awesome" size="24" className="fill" />
-        <span className="compose-floating-label" aria-hidden="true">
-          {t('Generate Prompt label')}
-        </span>
-      </button>
       {composerOpen && (
         <Builder
           reset={() => {
+            setPendingChoices({});
+            setPendingSelection({});
             setIllustrationSelection({ Outline: ['coloronly'] });
             setPhotoSelection({});
             setComplexity(3);
@@ -632,6 +692,11 @@ export default function App() {
             });
           }}
           catalog={catalog}
+          filterCatalog={filterCatalog}
+          pending={pendingChoices}
+          pendingSelection={pendingSelection}
+          choosePending={choosePending}
+          applyPending={applyPending}
           selection={selection}
           toggle={(cat, id) => {
             const next = toggleOption(selection, cat, id);

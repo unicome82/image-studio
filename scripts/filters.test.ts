@@ -7,7 +7,40 @@ import {
   normalizeRatio,
   toggleFilter,
   retainFilters,
+  activeFilters,
+  pendingBuilderFilters,
 } from '../src/utils/filters.ts';
+
+test('selecting all options removes only that category constraint, including missing metadata', () => {
+  const catalog = [
+    { category: 'Color', id: 'muted' },
+    { category: 'Color', id: 'vivid' },
+    { category: 'Base Style', id: 'naivefolk' },
+    { category: 'Base Style', id: 'bauhaus' },
+  ];
+  const effective = activeFilters(
+    { Color: ['muted', 'vivid'], 'Base Style': ['naivefolk'] },
+    catalog,
+  );
+  assert.deepEqual(effective, { 'Base Style': ['naivefolk'] });
+  assert.equal(matchesFilters({ 'Base Style': ['naivefolk'] }, effective), true);
+  assert.equal(matchesFilters({ 'Base Style': ['bauhaus'] }, effective), false);
+  assert.deepEqual(activeFilters({ Color: [] }, catalog), {});
+});
+
+test('filters have no selection limit and builder handoff retains every unresolved candidate', () => {
+  let filters = {};
+  for (const id of ['a', 'b', 'c', 'd', 'e']) filters = toggleFilter(filters, 'Color', id);
+  assert.deepEqual(pendingBuilderFilters(filters, false), { Color: ['a', 'b', 'c', 'd', 'e'] });
+  assert.deepEqual(pendingBuilderFilters({ Color: ['a', 'b', 'c'] }, false), {});
+  const singles = {
+    Outline: ['coloronly', 'outlineonly'],
+    'Aspect Ratio': ['1:1', '4:5'],
+    Complexity: ['2', '3'],
+  };
+  assert.deepEqual(pendingBuilderFilters(singles, false), singles);
+  assert.deepEqual(pendingBuilderFilters({ Outline: singles.Outline }, true), {});
+});
 
 test('All and Design show shared filters while illustration and photo expose their own options', () => {
   for (const type of ['all', 'design'] as const) {

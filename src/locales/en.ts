@@ -1,4 +1,14 @@
 const translation: Record<string, string> = {
+  Newest: 'New',
+  Oldest: 'Old',
+  'A–Z': 'A–Z',
+  'Z–A': 'Z–A',
+  'Refine filter choices': 'Refine filter choices',
+  'Choose builder options to generate a prompt.':
+    'Choose which filter options to use in the builder before generating or saving a prompt.',
+  'Choose up to {{limit}} for {{category}}.': 'Choose up to {{limit}} for {{category}}.',
+  'Apply choices': 'Apply choices',
+
   '{{count}} results': '{{count}} results',
   'Generate Prompt label': 'Generate Prompt',
   Filter: 'Filter',

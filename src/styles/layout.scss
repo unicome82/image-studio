@@ -3,13 +3,18 @@
 
 .workspace {
   --detail-width: 320px;
+  --gallery-padding: 32px;
+  --gallery-left: 0px;
+  --gallery-right: 0px;
   display: grid;
   grid-template-columns: minmax(0, 1fr);
   align-items: start;
   &.with-builder {
+    --gallery-left: var(--builder-width, 280px);
     grid-template-columns: var(--builder-width, 280px) minmax(0, 1fr);
   }
   &.with-detail {
+    --gallery-right: var(--detail-width);
     grid-template-columns: minmax(0, 1fr) var(--detail-width);
   }
   &.with-builder.with-detail {
@@ -17,16 +22,27 @@
   }
   @media (min-width: 1700px) {
     --detail-width: 352px;
+    --gallery-padding: 40px;
   }
   @media (max-width: 1252px) {
     --detail-width: 292px;
+    --gallery-padding: 24px;
   }
   @media (max-width: $tablet) {
     &.with-builder,
     &.with-detail,
     &.with-builder.with-detail {
+      --gallery-left: 0px;
+      --gallery-right: 0px;
       grid-template-columns: minmax(0, 1fr);
     }
+    --gallery-padding: 32px;
+    &.with-detail .compose-floating {
+      visibility: hidden;
+    }
+  }
+  @media (max-width: $mobile) {
+    --gallery-padding: 20px;
   }
 }
 .gallery {
@@ -34,18 +50,12 @@
   flex-direction: column;
   min-height: calc(100dvh - var(--panel-top));
   min-width: 0;
-  padding: 28px 32px 88px;
-  @media (min-width: 1700px) {
-    padding-inline: 40px;
-  }
-  @media (max-width: 1252px) {
-    padding-inline: 24px;
-  }
+  padding: 28px var(--gallery-padding) 88px;
   @media (max-width: $tablet) {
-    padding: 32px 32px 88px;
+    padding: 32px var(--gallery-padding) 88px;
   }
   @media (max-width: $mobile) {
-    padding: 20px 20px 88px;
+    padding: 20px var(--gallery-padding) 88px;
   }
 }
 .mobile-scrim,
@@ -56,6 +66,9 @@
   @media (max-width: $tablet) {
     @include panel-scrim;
     z-index: 40;
+  }
+  @media (max-width: $mobile) {
+    display: none;
   }
 }
 .detail-scrim {

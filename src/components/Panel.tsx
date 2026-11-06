@@ -6,8 +6,16 @@ interface Props {
   close: () => void;
   children: ReactNode;
   fullscreen?: boolean;
+  drawer?: boolean;
 }
-export default function Panel({ className, label, close, children, fullscreen = false }: Props) {
+export default function Panel({
+  className,
+  label,
+  close,
+  children,
+  fullscreen = false,
+  drawer = false,
+}: Props) {
   const mobile = useMediaQuery('(max-width: 600px)');
   const ref = useRef<HTMLDialogElement>(null);
   useEffect(() => {
@@ -22,8 +30,19 @@ export default function Panel({ className, label, close, children, fullscreen = 
   return mobile || fullscreen ? (
     <dialog
       ref={ref}
-      className={`${className} fullscreen-panel`}
+      className={`${className} fullscreen-panel${drawer ? ' drawer-panel' : ''}`}
       aria-label={label}
+      onClick={(event) => {
+        if (!drawer || event.target !== event.currentTarget) return;
+        const bounds = event.currentTarget.getBoundingClientRect();
+        if (
+          event.clientX < bounds.left ||
+          event.clientX > bounds.right ||
+          event.clientY < bounds.top ||
+          event.clientY > bounds.bottom
+        )
+          close();
+      }}
       onCancel={(e) => {
         e.preventDefault();
         close();

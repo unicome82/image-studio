@@ -10,10 +10,16 @@ import {
   complexityLabels,
   isTypographyEnabled,
 } from '../../utils/promptBuilder';
+import { builderFilterLimit } from '../../utils/filters';
 import type { Option, Selection } from '../../utils/promptBuilder';
 interface Props {
   reset: () => void;
   catalog: Option[];
+  filterCatalog: Option[];
+  pending: Selection;
+  pendingSelection: Selection;
+  choosePending: (category: string, id: string) => void;
+  applyPending: () => void;
   selection: Selection;
   toggle: (category: string, id: string) => void;
   removeOption: (category: string, id: string) => void;
@@ -32,6 +38,12 @@ interface Props {
 export default function Builder(p: Props) {
   const { t } = useTranslation();
   const design = p.type === 'design';
+  const pending = Object.entries(p.pending);
+  const resolving = pending.length > 0;
+  const canApply = pending.every(([category]) => {
+    const count = p.pendingSelection[category]?.length ?? 0;
+    return count > 0 && count <= builderFilterLimit(category);
+  });
   const tabsId = useId();
   const categories = builderCategories(p.photo).filter((category) => category !== 'Outline');
   const selectedOptions = (
@@ -48,6 +60,7 @@ export default function Builder(p: Props) {
     <div className="prompt-actions">
       <SavePrompt
         save={p.save}
+        disabled={resolving}
         prompt={p.prompt}
         selected={{
           catalog: p.catalog,
@@ -57,7 +70,11 @@ export default function Builder(p: Props) {
           complexity: p.complexity,
         }}
       />
-      <button className="primary builder-copy" onClick={() => p.copy(p.prompt)}>
+      <button
+        className="primary builder-copy"
+        disabled={resolving}
+        onClick={() => p.copy(p.prompt)}
+      >
         <Icon name="content_copy" size="14" />
         {t('Copy')}
       </button>
@@ -73,7 +90,11 @@ export default function Builder(p: Props) {
       <div className="builder-viewport">
         <div className="builder-wrap builder-heading">
           <h2 className="builder-title">
-            <label htmlFor={`${tabsId}-subject`}>{t('What would you like to draw?')}</label>
+            {resolving ? (
+              t('Refine filter choices')
+            ) : (
+              <label htmlFor={`${tabsId}-subject`}>{t('What would you like to draw?')}</label>
+            )}
             <button
               className="icon-button"
               aria-label={t('Reset Builder')}
@@ -95,157 +116,220 @@ export default function Builder(p: Props) {
         </div>
         <div className="builder-scroll">
           <div className="builder-wrap">
-            {!design && (
-              <input
-                id={`${tabsId}-subject`}
-                className="builder-subject"
-                placeholder={t('Random generation if left blank')}
-                value={p.fields.Subject ?? ''}
-                onChange={(e) => p.setFields({ ...p.fields, Subject: e.target.value })}
-              />
-            )}
-            <section className="option-section builder-type">
-              <OptionChoices
-                title="Type"
-                multiple={false}
-                collapsible={false}
-                options={[
-                  { id: 'illustration', label: 'Illustration' },
-                  { id: 'photo', label: 'Photo' },
-                  { id: 'design', label: 'Design' },
-                ]}
-                selected={[p.type]}
-                choose={(type) => p.setType(type as Props['type'])}
-              />
-            </section>
-            {design ? (
-              <p className="builder-unavailable">{t('Design prompts are not available yet.')}</p>
-            ) : (
-              <>
-                {!p.photo && (
-                  <section className="option-section">
+            {resolving ? (
+              <section className="builder-resolution">
+                <p>{t('Choose builder options to generate a prompt.')}</p>
+                {pending.map(([category, ids]) => (
+                  <section className="option-section" key={category}>
+                    <p className="builder-resolution-limit">
+                      {t('Choose up to {{limit}} for {{category}}.', {
+                        limit: builderFilterLimit(category),
+                        category: t(
+                          category === 'Base Style'
+                            ? 'Style'
+                            : category === 'Aspect Ratio'
+                              ? 'Aspect ratio'
+                              : category,
+                        ),
+                      })}
+                    </p>
                     <OptionChoices
-                      title="Outline"
-                      multiple={false}
-                      options={p.catalog
-                        .filter((o) => o.category === 'Outline')
-                        .map((o) => ({ id: o.id, label: o.label }))}
-                      selected={p.selection.Outline ?? ['coloronly']}
-                      choose={(id) => p.toggle('Outline', id)}
+                      title={
+                        category === 'Base Style'
+                          ? 'Style'
+                          : category === 'Aspect Ratio'
+                            ? 'Aspect ratio'
+                            : category
+                      }
+                      options={ids.map((id) => ({
+                        id,
+                        label: (
+                          p.filterCatalog.find(
+                            (option) => option.category === category && option.id === id,
+                          )?.label ?? id
+                        ).replace(' Modern', ''),
+                      }))}
+                      selected={p.pendingSelection[category] ?? []}
+                      choose={(id) => p.choosePending(category, id)}
+                      multiple={builderFilterLimit(category) > 1}
+                      collapsible={false}
                     />
                   </section>
+                ))}
+                <button
+                  className="primary builder-resolution-action"
+                  disabled={!canApply}
+                  onClick={p.applyPending}
+                >
+                  {t('Apply choices')}
+                </button>
+              </section>
+            ) : (
+              <>
+                {!design && (
+                  <input
+                    id={`${tabsId}-subject`}
+                    className="builder-subject"
+                    placeholder={t('Random generation if left blank')}
+                    value={p.fields.Subject ?? ''}
+                    onChange={(e) => p.setFields({ ...p.fields, Subject: e.target.value })}
+                  />
                 )}
-                <section className="option-section">
+                <section className="option-section builder-type">
                   <OptionChoices
-                    title="Aspect ratio"
+                    title="Type"
                     multiple={false}
                     collapsible={false}
                     options={[
-                      ...new Set(['1:1', '4:3', '3:4', '16:9', '9:16', p.fields['Aspect Ratio']]),
-                    ]
-                      .filter(Boolean)
-                      .map((ratio) => ({ id: ratio, label: ratio }))}
-                    selected={[p.fields['Aspect Ratio'] || '1:1']}
-                    choose={(ratio) => p.setFields({ ...p.fields, 'Aspect Ratio': ratio })}
+                      { id: 'illustration', label: 'Illustration' },
+                      { id: 'photo', label: 'Photo' },
+                      { id: 'design', label: 'Design' },
+                    ]}
+                    selected={[p.type]}
+                    choose={(type) => p.setType(type as Props['type'])}
                   />
                 </section>
-                <section className="option-section complexity-option">
-                  <OptionChoices
-                    title="Complexity"
-                    multiple={false}
-                    collapsible={false}
-                    options={complexityLabels.map((label, index) => ({
-                      id: String(index + 1),
-                      label,
-                    }))}
-                    selected={[String(p.complexity)]}
-                    choose={(level) => p.setComplexity(Number(level))}
-                  />
-                </section>
-                {categories.map((category) => {
-                  const preferred = [
-                    'naivefolk',
-                    'midcentury',
-                    'bauhaus',
-                    'flatcolor',
-                    'handdrawn',
-                    'risograph',
-                    'vivid',
-                    'pastel',
-                    'muted',
-                    'minimal',
-                    'centered',
-                    'asymmetric',
-                  ];
-                  const options = p.catalog
-                    .filter((o) => o.category === category)
-                    .sort(
-                      (a, b) =>
-                        (preferred.indexOf(a.id) < 0 ? 100 : preferred.indexOf(a.id)) -
-                        (preferred.indexOf(b.id) < 0 ? 100 : preferred.indexOf(b.id)),
-                    );
-                  return (
-                    <section className="option-section" key={category}>
+                {design ? (
+                  <p className="builder-unavailable">
+                    {t('Design prompts are not available yet.')}
+                  </p>
+                ) : (
+                  <>
+                    {!p.photo && (
+                      <section className="option-section">
+                        <OptionChoices
+                          title="Outline"
+                          multiple={false}
+                          options={p.catalog
+                            .filter((o) => o.category === 'Outline')
+                            .map((o) => ({ id: o.id, label: o.label }))}
+                          selected={p.selection.Outline ?? ['coloronly']}
+                          choose={(id) => p.toggle('Outline', id)}
+                        />
+                      </section>
+                    )}
+                    <section className="option-section">
                       <OptionChoices
-                        title={category === 'Base Style' ? 'Style' : category}
-                        options={options.map((o) => ({
-                          id: o.id,
-                          label: o.label.replace(' Modern', ''),
-                        }))}
-                        selected={p.selection[category] ?? []}
-                        headerControl={
-                          category === 'Typography' ? (
-                            <button
-                              className="typography-toggle"
-                              role="switch"
-                              aria-label={t('Typography')}
-                              aria-checked={isTypographyEnabled(p.fields)}
-                              onClick={() =>
-                                p.setFields({
-                                  ...p.fields,
-                                  'Typography Enabled': isTypographyEnabled(p.fields)
-                                    ? 'false'
-                                    : 'true',
-                                })
-                              }
-                            >
-                              <span />
-                            </button>
-                          ) : undefined
-                        }
-                        showOptions={category !== 'Typography' || isTypographyEnabled(p.fields)}
-                        collapsible={category !== 'Typography'}
-                        multiple
-                        afterHeading={
-                          category === 'Typography' && isTypographyEnabled(p.fields) ? (
-                            <input
-                              className="typography-input"
-                              aria-label={t('Typography text')}
-                              placeholder={t('Text (optional)')}
-                              value={p.fields.Text ?? ''}
-                              onChange={(e) => p.setFields({ ...p.fields, Text: e.target.value })}
-                            />
-                          ) : undefined
-                        }
-                        choose={(id) => p.toggle(category, id)}
+                        title="Aspect ratio"
+                        multiple={false}
+                        collapsible={false}
+                        options={[
+                          ...new Set([
+                            '1:1',
+                            '4:3',
+                            '3:4',
+                            '16:9',
+                            '9:16',
+                            p.fields['Aspect Ratio'],
+                          ]),
+                        ]
+                          .filter(Boolean)
+                          .map((ratio) => ({ id: ratio, label: ratio }))}
+                        selected={[p.fields['Aspect Ratio'] || '1:1']}
+                        choose={(ratio) => p.setFields({ ...p.fields, 'Aspect Ratio': ratio })}
                       />
                     </section>
-                  );
-                })}
-                <section className="option-section inputs">
-                  <h3>
-                    <label htmlFor="builder-direction">{t('Your direction')}</label>
-                  </h3>
-                  <textarea
-                    id="builder-direction"
-                    rows={4}
-                    value={p.fields['Additional Instructions'] ?? ''}
-                    onChange={(e) =>
-                      p.setFields({ ...p.fields, 'Additional Instructions': e.target.value })
-                    }
-                    placeholder={t('Add your direction\u2026')}
-                  />
-                </section>
+                    <section className="option-section complexity-option">
+                      <OptionChoices
+                        title="Complexity"
+                        multiple={false}
+                        collapsible={false}
+                        options={complexityLabels.map((label, index) => ({
+                          id: String(index + 1),
+                          label,
+                        }))}
+                        selected={[String(p.complexity)]}
+                        choose={(level) => p.setComplexity(Number(level))}
+                      />
+                    </section>
+                    {categories.map((category) => {
+                      const preferred = [
+                        'naivefolk',
+                        'midcentury',
+                        'bauhaus',
+                        'flatcolor',
+                        'handdrawn',
+                        'risograph',
+                        'vivid',
+                        'pastel',
+                        'muted',
+                        'minimal',
+                        'centered',
+                        'asymmetric',
+                      ];
+                      const options = p.catalog
+                        .filter((o) => o.category === category)
+                        .sort(
+                          (a, b) =>
+                            (preferred.indexOf(a.id) < 0 ? 100 : preferred.indexOf(a.id)) -
+                            (preferred.indexOf(b.id) < 0 ? 100 : preferred.indexOf(b.id)),
+                        );
+                      return (
+                        <section className="option-section" key={category}>
+                          <OptionChoices
+                            title={category === 'Base Style' ? 'Style' : category}
+                            options={options.map((o) => ({
+                              id: o.id,
+                              label: o.label.replace(' Modern', ''),
+                            }))}
+                            selected={p.selection[category] ?? []}
+                            headerControl={
+                              category === 'Typography' ? (
+                                <button
+                                  className="typography-toggle"
+                                  role="switch"
+                                  aria-label={t('Typography')}
+                                  aria-checked={isTypographyEnabled(p.fields)}
+                                  onClick={() =>
+                                    p.setFields({
+                                      ...p.fields,
+                                      'Typography Enabled': isTypographyEnabled(p.fields)
+                                        ? 'false'
+                                        : 'true',
+                                    })
+                                  }
+                                >
+                                  <span />
+                                </button>
+                              ) : undefined
+                            }
+                            showOptions={category !== 'Typography' || isTypographyEnabled(p.fields)}
+                            collapsible={category !== 'Typography'}
+                            multiple
+                            afterHeading={
+                              category === 'Typography' && isTypographyEnabled(p.fields) ? (
+                                <input
+                                  className="typography-input"
+                                  aria-label={t('Typography text')}
+                                  placeholder={t('Text (optional)')}
+                                  value={p.fields.Text ?? ''}
+                                  onChange={(e) =>
+                                    p.setFields({ ...p.fields, Text: e.target.value })
+                                  }
+                                />
+                              ) : undefined
+                            }
+                            choose={(id) => p.toggle(category, id)}
+                          />
+                        </section>
+                      );
+                    })}
+                    <section className="option-section inputs">
+                      <h3>
+                        <label htmlFor="builder-direction">{t('Your direction')}</label>
+                      </h3>
+                      <textarea
+                        id="builder-direction"
+                        rows={4}
+                        value={p.fields['Additional Instructions'] ?? ''}
+                        onChange={(e) =>
+                          p.setFields({ ...p.fields, 'Additional Instructions': e.target.value })
+                        }
+                        placeholder={t('Add your direction\u2026')}
+                      />
+                    </section>
+                  </>
+                )}
               </>
             )}
           </div>
@@ -255,7 +339,13 @@ export default function Builder(p: Props) {
             <div className="builder-fullscreen-output-scroll">
               <section className="builder-fullscreen-selected" aria-label={t('Selected')}>
                 <h3>{t('Selected')}</h3>
-                {selectedOptions}
+                {resolving ? (
+                  <p className="builder-resolution-message" role="status">
+                    {t('Choose builder options to generate a prompt.')}
+                  </p>
+                ) : (
+                  selectedOptions
+                )}
               </section>
               <section className="builder-fullscreen-prompt">
                 <h3>

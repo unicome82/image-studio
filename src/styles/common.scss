@@ -353,6 +353,7 @@ textarea {
   z-index: 30;
   @include flex-row($gap: 24px);
   padding: 20px;
+  border-bottom: 1px solid $line;
   background: $page;
   &-search {
     @include flex-row;
@@ -833,7 +834,14 @@ textarea {
 
 // Gallery filters and prompt entry
 .results-heading {
-  margin-bottom: 16px;
+  position: sticky;
+  top: var(--panel-top);
+  z-index: 20;
+  margin: -12px calc(-1 * var(--gallery-padding)) 16px;
+  padding: 12px var(--gallery-padding);
+  border-bottom: 1px solid $line;
+  background: $results-background;
+  backdrop-filter: blur(8px);
   .section-heading {
     margin-bottom: 0;
     gap: 12px;
@@ -852,7 +860,10 @@ textarea {
   }
 }
 .filter-summary {
+  max-height: min(160px, 25dvh);
   margin-top: 12px;
+  overflow-y: auto;
+  overscroll-behavior: contain;
   .selected-options {
     max-height: none;
     margin: 0;
@@ -874,8 +885,11 @@ textarea {
 .compose-floating {
   --compose-reveal: 0;
   position: fixed;
-  right: 24px;
+  right: calc(var(--gallery-right, 0px) + var(--gallery-padding, 32px));
   bottom: max(24px, env(safe-area-inset-bottom));
+  max-width: calc(
+    100vw - var(--gallery-left, 0px) - var(--gallery-right, 0px) - 2 * var(--gallery-padding, 32px)
+  );
   z-index: 30;
   flex-direction: row-reverse;
   column-gap: calc(var(--compose-reveal) * 8px);
@@ -892,6 +906,7 @@ textarea {
     flex-shrink: 0;
   }
   &-label {
+    min-width: 0;
     max-width: calc(var(--compose-reveal) * 16em);
     overflow: hidden;
     opacity: var(--compose-reveal);
@@ -912,7 +927,6 @@ textarea {
     }
   }
   @media (max-width: $mobile) {
-    right: 16px;
     bottom: max(16px, env(safe-area-inset-bottom));
   }
 }
@@ -927,6 +941,30 @@ textarea {
   }
   .builder-footer {
     border-top: 1px solid $line;
+  }
+  @media (max-width: $mobile) {
+    &.fullscreen-panel.drawer-panel {
+      inset: 0 auto 0 0;
+      width: calc(100% - 80px);
+      max-width: none;
+      height: 100dvh;
+      &[open] {
+        animation: filter-slide-in var(--transition-duration) ease-out;
+      }
+      &::backdrop {
+        background: $filter-backdrop;
+        backdrop-filter: blur(8px);
+      }
+    }
+  }
+}
+
+@keyframes filter-slide-in {
+  from {
+    transform: translateX(-100%);
+  }
+  to {
+    transform: translateX(0);
   }
 }
 
@@ -1411,6 +1449,24 @@ textarea {
       flex: 1;
       min-height: 120px;
     }
+  }
+  &-resolution {
+    p {
+      color: $muted;
+      font-size: var(--text-small, 12px);
+    }
+    &-limit {
+      margin-bottom: 8px;
+    }
+    &-message {
+      color: $muted;
+      font-size: var(--text-small, 12px);
+    }
+  }
+  .builder-resolution-action {
+    @include prompt-action-button;
+    @include uppercase-text;
+    margin-top: 16px;
   }
   &-unavailable {
     color: $muted;

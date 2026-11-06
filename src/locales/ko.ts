@@ -1,4 +1,14 @@
 const translation: Record<string, string> = {
+  Newest: '최신',
+  Oldest: '과거',
+  'A–Z': '가–하',
+  'Z–A': '하–가',
+  'Refine filter choices': '빌더 옵션 선택',
+  'Choose builder options to generate a prompt.':
+    '프롬프트 생성·저장 전에 빌더에서 사용할 필터 옵션을 골라주세요.',
+  'Choose up to {{limit}} for {{category}}.': '{{category}}: 최대 {{limit}}개를 골라주세요.',
+  'Apply choices': '선택 적용',
+
   '{{count}} results': '{{count}}개',
   'Generate Prompt label': 'Generate Prompt',
   Filter: '필터',

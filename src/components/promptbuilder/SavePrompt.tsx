@@ -7,6 +7,7 @@ interface Props {
   save: (name: string) => boolean;
   prompt: string;
   selected: Omit<SelectedOptionsProps, 'remove'>;
+  disabled?: boolean;
 }
 function SaveDialog({ save, prompt, selected, close }: Props & { close: () => void }) {
   const { t } = useTranslation();
@@ -113,13 +114,14 @@ function SaveDialog({ save, prompt, selected, close }: Props & { close: () => vo
     document.body,
   );
 }
-export default function SavePrompt({ save, prompt, selected }: Props) {
+export default function SavePrompt({ save, prompt, selected, disabled = false }: Props) {
   const { t } = useTranslation();
   const [open, setOpen] = useState(false);
   return (
     <div className="save-prompt-control">
       <button
         className="secondary save-prompt-button"
+        disabled={disabled}
         aria-haspopup="dialog"
         aria-expanded={open}
         onClick={() => setOpen(true)}

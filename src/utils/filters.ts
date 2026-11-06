@@ -1,4 +1,4 @@
-import { builderCategories, type Selection } from './promptBuilder.ts';
+import { builderCategories, type Option, type Selection } from './promptBuilder.ts';
 
 export type FilterType = 'all' | 'illustration' | 'photo' | 'design';
 
@@ -17,6 +17,35 @@ export function filterCategories(type: FilterType): string[] {
 export function retainFilters(filters: Selection, type: FilterType): Selection {
   const allowed = new Set(filterCategories(type));
   return Object.fromEntries(Object.entries(filters).filter(([category]) => allowed.has(category)));
+}
+
+export function activeFilters(
+  filters: Selection,
+  catalog: Pick<Option, 'category' | 'id'>[],
+): Selection {
+  return Object.fromEntries(
+    Object.entries(filters).filter(([category, ids]) => {
+      const options = catalog.filter((option) => option.category === category);
+      return (
+        ids.length > 0 &&
+        !(options.length > 0 && options.every((option) => ids.includes(option.id)))
+      );
+    }),
+  );
+}
+
+export function builderFilterLimit(category: string): number {
+  return ['Outline', 'Aspect Ratio', 'Complexity'].includes(category) ? 1 : 3;
+}
+
+export function pendingBuilderFilters(filters: Selection, photo: boolean): Selection {
+  const categories = [...builderCategories(photo), 'Aspect Ratio', 'Complexity'];
+  return Object.fromEntries(
+    Object.entries(filters).filter(
+      ([category, ids]) =>
+        categories.includes(category) && ids.length > builderFilterLimit(category),
+    ),
+  );
 }
 
 // OR within a category, AND between categories. Missing metadata never implies a match.

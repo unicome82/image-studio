@@ -16,10 +16,10 @@ export default function CollectionSort({
         value={value}
         change={(next) => change(next as SortOrder)}
         options={[
-          { value: 'newest', label: t('Recently saved') },
-          { value: 'oldest', label: t('Oldest saved') },
-          { value: 'name-asc', label: t('Name A–Z') },
-          { value: 'name-desc', label: t('Name Z–A') },
+          { value: 'newest', label: t('Newest') },
+          { value: 'oldest', label: t('Oldest') },
+          { value: 'name-asc', label: t('A–Z') },
+          { value: 'name-desc', label: t('Z–A') },
         ]}
       />
     </div>

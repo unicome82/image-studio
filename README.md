@@ -7,21 +7,36 @@ panel filters the gallery, favorites, and saved style sets. Its heading is a sin
 All / Illustration / Photo / Design dropdown. All and Design show shared options;
 Illustration and Photo add their own categories. Type changes keep shared choices
 and clear incompatible categories. The restart icon clears filters and search,
-preserving the current type. No selected options means all records of that type.
-Options use OR within each category and AND across categories.
+preserving the current type. When the panel is closed, its type selector appears
+immediately after the results toolbar's filter icon, keeping the same selection.
+Filter selection is unlimited. No selected options, or every available option in
+a category, means that category does not restrict results, including records with
+missing option metadata. Other categories remain active. Options use OR within
+each category and AND across categories.
 
 The results toolbar contains the filter toggle, a small result count, and thumbnail
-size or collection sorting controls. Selected filters appear as removable chips
-without an extra heading, and the chip row disappears when empty. The old top
-navigation and ALL / SELECTED labels are removed.
+size or collection sorting controls. The toolbar sticks during scrolling with
+8px backdrop blur; the main header has a bottom border. Selected filters appear
+as removable chips without an extra heading, and the chip row disappears when
+empty. Fully selected categories are omitted from the active chips. The old top
+navigation and ALL / SELECTED labels are removed. Collection sorting uses compact
+New / Old / A–Z / Z–A labels (최신 / 과거 / 가–하 / 하–가 in Korean).
 
 The bottom-right floating button shows an icon at rest. On hover or keyboard focus,
 GENERATE PROMPT slides out to its left, keeping the icon anchored at the right.
-Touch devices open the builder on the first tap without requiring hover. Motion
-follows the reduced-motion preference. Both this button and the panel's Generate
+Its right edge follows the gallery content, moving left of an open detail panel;
+the expanded label stays inside the gallery. Touch devices open the builder on
+the first tap without requiring hover. On mobile the filter panel slides in from
+the left, leaving 80px on the right over a black 80% backdrop with 8px blur. Tap
+outside, press Escape, or use X to close. Motion follows reduced-motion settings. Both this button and the panel's Generate
 prompt button open the full-screen builder. Closing and reopening preserves the
 draft. Newly changed filters seed the builder, while builder edits do not filter
-the gallery. Its restart icon clears the draft and optional choices, restoring
+the gallery. The builder keeps its three-option limit (one for outline, ratio,
+and complexity). When transferred filters exceed a limit, the builder lists every
+candidate and asks the user to choose within that limit; prompt output, copying,
+and saving stay disabled until those choices are applied. No candidates are
+silently truncated, and unfinished choices survive closing/reopening the builder.
+Its restart icon clears the draft and optional choices, restoring
 the standard ratio, complexity, and Color Only outline mode.
 
 Gallery placeholders currently have type, style/technique, and dimension metadata.
