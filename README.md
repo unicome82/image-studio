@@ -75,7 +75,10 @@ hover backgrounds are limited to desktop pointer devices. The larger logo and bo
 320px screens.
 
 Save-dialog fields use separate, explicitly associated labels and controls, with
-headings matching Selected.
+headings matching Selected. Read-only selected values in save dialogs and saved
+style sets, and image-detail tags, share `option-tags`: orange 12px text with a
+literal # prefix, no chip border/background, and natural wrapping. Editable
+builder/filter chips keep their removal controls.
 
 Save prompt pre-fills the editable name from Subject when the save dialog opens,
 trimming surrounding whitespace and respecting its 80-character limit. Editing

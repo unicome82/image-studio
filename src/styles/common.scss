@@ -756,13 +756,19 @@ textarea {
     }
   }
 }
-.tags {
+.tags,
+.option-tags {
   display: flex;
   flex-wrap: wrap;
   gap: 2px 8px;
-  color: $tag-text;
   font-size: var(--text-small, 12px);
   overflow-wrap: anywhere;
+}
+.tags {
+  color: $tag-text;
+}
+.option-tags {
+  color: $selected-summary;
 }
 
 // ImagePreview
@@ -1246,12 +1252,6 @@ textarea {
   h3 {
     @include builder-option-heading;
   }
-  .selected-options {
-    max-height: none;
-    margin-right: 0;
-    padding-right: 0;
-    overflow: visible;
-  }
 }
 .save-style-dialog {
   width: min(520px, calc(100vw - 28px));
@@ -1378,11 +1378,6 @@ textarea {
   margin-top: 16px;
   h3 {
     @include builder-option-heading;
-  }
-  .selected-options {
-    max-height: none;
-    margin-right: 0;
-    overflow: visible;
   }
 }
 .preset-prompt {
@@ -1587,7 +1582,7 @@ textarea {
     z-index: 3;
     background: $sticky-background;
     backdrop-filter: blur(8px);
-    @include flex-row($gap: 8px, $justify: space-between);
+    @include flex-row($gap: 0, $justify: space-between);
     flex-shrink: 0;
     padding: 12px 20px;
   }

@@ -32,37 +32,55 @@ export default function SelectedOptions({
             option.category === 'Outline' && option.id === (selection.Outline?.[0] ?? 'coloronly'),
         )
       : undefined;
+  const fixedOptions = [
+    { key: 'ratio', title: t('Aspect ratio'), label: fields['Aspect Ratio'] || '1:1' },
+    { key: 'complexity', title: t('Complexity'), label: t(complexityLabels[complexity - 1]) },
+    ...(outline ? [{ key: 'outline', title: t('Outline'), label: t(outline.label) }] : []),
+  ];
+  const optionLabel = (option: Option) =>
+    t(option.label.replace(' Modern', '').replace(/\s+illustration\b/gi, ''));
+  if (!remove) {
+    const tags = [
+      ...fixedOptions,
+      ...options.map((option) => ({
+        key: `${option.category}:${option.id}`,
+        title: `${t(option.category)}: ${optionLabel(option)}`,
+        label: optionLabel(option),
+      })),
+    ];
+    return (
+      <div className="option-tags" role="group" aria-label={t('Selected options')}>
+        {tags.map((tag) => (
+          <span key={tag.key} title={tag.title}>
+            #{tag.label}
+          </span>
+        ))}
+      </div>
+    );
+  }
   return (
     <div className="selected-options" role="group" aria-label={t('Selected options')}>
-      <span className="selected-option fixed-option" title={t('Aspect ratio')}>
-        {fields['Aspect Ratio'] || '1:1'}
-      </span>
-      <span className="selected-option fixed-option" title={t('Complexity')}>
-        {t(complexityLabels[complexity - 1])}
-      </span>
-      {outline && (
-        <span className="selected-option fixed-option" title={t('Outline')}>
-          {t(outline.label)}
+      {fixedOptions.map((option) => (
+        <span className="selected-option fixed-option" key={option.key} title={option.title}>
+          {option.label}
         </span>
-      )}
+      ))}
       {options.map((option) => {
-        const label = t(option.label.replace(' Modern', '').replace(/\s+illustration\b/gi, ''));
+        const label = optionLabel(option);
         return (
           <span
-            className={'selected-option' + (remove ? '' : ' fixed-option')}
+            className="selected-option"
             key={`${option.category}:${option.id}`}
             title={`${t(option.category)}: ${label}`}
           >
             <span className="selected-option-label">{label}</span>
-            {remove && (
-              <button
-                className="selected-option-remove"
-                aria-label={t('Remove {{label}} option', { label })}
-                onClick={() => remove(option.category, option.id)}
-              >
-                <Icon name="close" size="16" />
-              </button>
-            )}
+            <button
+              className="selected-option-remove"
+              aria-label={t('Remove {{label}} option', { label })}
+              onClick={() => remove(option.category, option.id)}
+            >
+              <Icon name="close" size="16" />
+            </button>
           </span>
         );
       })}

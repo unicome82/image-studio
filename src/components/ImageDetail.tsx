@@ -65,7 +65,7 @@ export default function ImageDetail(p: Props) {
             toggle={p.toggleBookmark}
           />
         </div>
-        <div className="tags">
+        <div className="option-tags">
           <span>#{image.group}</span>
           <span>#{p.photo ? 'photo' : 'illustration'}</span>
         </div>
