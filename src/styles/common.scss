@@ -1013,9 +1013,18 @@ textarea {
   @media (max-width: $mobile) {
     &.fullscreen-panel.drawer-panel {
       inset: 0 auto 0 0;
-      width: calc(100% - 60px);
+      width: 100%;
       max-width: none;
       height: 100dvh;
+      transform: translateX(var(--drawer-drag-x, 0px));
+      transition: transform var(--transition-duration) ease-out;
+      &[data-dragging] {
+        transition: none;
+      }
+      .builder-heading,
+      .builder-scroll {
+        touch-action: pan-y pinch-zoom;
+      }
       &[open] {
         animation: filter-slide-in var(--transition-duration) ease-out;
       }
@@ -1024,8 +1033,8 @@ textarea {
         pointer-events: none;
       }
       &::backdrop {
-        background: $filter-backdrop;
-        backdrop-filter: blur(8px);
+        background: transparent;
+        backdrop-filter: none;
       }
     }
   }
@@ -1042,7 +1051,7 @@ textarea {
 
 @keyframes filter-slide-out {
   from {
-    transform: translateX(0);
+    transform: translateX(var(--drawer-close-start, 0px));
   }
   to {
     transform: translateX(-100%);

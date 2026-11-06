@@ -33,8 +33,10 @@ GENERATE PROMPT slides into view to the right of the icon without an opacity fad
 Its right edge follows the gallery content, moving left of an open detail panel;
 the expanded label stays inside the gallery. Touch devices open the builder on
 the first tap without requiring hover. On mobile the filter panel slides in from
-the left, leaving 60px on the right over a black 50% backdrop with 8px blur. Tap
-outside, press Escape, or use X to close. Motion follows reduced-motion settings. Both this button and the panel's Generate
+the left at full width with a transparent, unblurred backdrop. Swipe left, press
+Escape, or use X to close. A sufficiently long horizontal swipe follows the
+finger; short swipes return to the open position. Vertical scrolling and the
+selected chips’ horizontal scrolling retain their normal behavior. Motion follows reduced-motion settings. Both this button and the panel's Generate
 prompt button open the full-screen builder. The full builder viewport scrolls;
 the option body no longer has its own scrollbar. Its heading and output remain
 sticky with 8px backdrop blur, so content passes beneath them. Selected and Prompt
