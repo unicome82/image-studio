@@ -1,4 +1,6 @@
 const translation: Record<string, string> = {
+  '{{count}} results': '{{count}} results',
+  'Generate Prompt label': 'Generate Prompt',
   Filter: 'Filter',
   'Reset filters': 'Reset filters',
   'Close filters': 'Close filters',

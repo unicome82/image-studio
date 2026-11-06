@@ -458,95 +458,6 @@ textarea {
   }
 }
 
-// Navigation
-.navigation {
-  --type-toggle-height: 36px;
-  position: sticky;
-  top: env(safe-area-inset-top, 0px);
-  z-index: 25;
-  display: flex;
-  align-items: stretch;
-  height: var(--nav-height);
-  padding: 0 0 0 20px;
-  border-bottom: 1px solid $line;
-  background: rgba($white, 0.5);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  font-size: $nav-font-size;
-  button {
-    font-size: var(--button-font-size, 14px);
-    text-transform: none;
-    letter-spacing: normal;
-    border: 0;
-    background: transparent;
-  }
-  @media (max-width: $mobile) {
-    border-bottom: 0;
-  }
-  .builder-toggle,
-  .builder-toggle.active,
-  .type-dropdown .builder-select-trigger,
-  .style-tabs button,
-  .style-tabs button.active {
-    border: 0;
-    background: transparent;
-    color: $ink;
-  }
-}
-.builder-toggle {
-  @include flex-row($justify: center, $display: inline-flex);
-  flex-shrink: 0;
-  width: var(--type-toggle-height);
-  align-self: center;
-  height: var(--type-toggle-height);
-  padding: 0;
-  margin-left: -8px;
-  border: 1px solid $secondary-border;
-  border-radius: 6px;
-  background: $prompt-background;
-  color: $ink;
-  &:hover {
-    filter: brightness(1.08);
-  }
-  &.active {
-    background: $ai-gradient;
-    color: $white;
-    border: 0;
-  }
-}
-.style-tabs {
-  display: flex;
-  align-self: stretch;
-  flex: 1;
-  min-width: 0;
-  overflow-x: auto;
-  overflow-y: hidden;
-  scrollbar-width: none;
-  touch-action: pan-x pan-y;
-  user-select: none;
-  &::-webkit-scrollbar {
-    display: none;
-  }
-  &.dragging,
-  &.dragging button {
-    cursor: grabbing;
-  }
-  button {
-    background: transparent;
-    padding: 0 calc(4em / 5);
-    border: 0;
-    color: $ink;
-    line-height: 1;
-    white-space: nowrap;
-    opacity: 0.4;
-    &.active {
-      opacity: 1;
-    }
-    &:hover {
-      color: $ink;
-    }
-  }
-}
 .thumbnail-sizes {
   @include flex-row;
   margin-right: -8px;
@@ -562,17 +473,6 @@ textarea {
     }
   }
 }
-.type-dropdown {
-  align-self: center;
-  flex-shrink: 0;
-  margin-inline: calc(1em / 2);
-  .builder-select-trigger {
-    height: var(--type-toggle-height);
-    padding-inline: calc(1em / 2);
-    border-radius: 6px;
-  }
-}
-
 .site-footer {
   margin-top: auto;
   padding: 32px 0;
@@ -937,16 +837,22 @@ textarea {
   .section-heading {
     margin-bottom: 0;
     gap: 12px;
-    h2 {
-      flex-shrink: 0;
-    }
+  }
+  &-start {
+    @include flex-row($gap: 12px);
+    min-width: 0;
+  }
+  .filter-toggle {
+    flex-shrink: 0;
+  }
+  .result-count {
+    color: $muted;
+    font-size: var(--text-small, 12px);
+    white-space: nowrap;
   }
 }
 .filter-summary {
   margin-top: 12px;
-  h3 {
-    @include builder-option-heading;
-  }
   .selected-options {
     max-height: none;
     margin: 0;
@@ -966,22 +872,56 @@ textarea {
   }
 }
 .compose-floating {
+  --compose-reveal: 0;
   position: fixed;
   right: 24px;
   bottom: max(24px, env(safe-area-inset-bottom));
   z-index: 30;
-  min-height: 48px;
-  padding: 0 20px;
+  flex-direction: row-reverse;
+  column-gap: calc(var(--compose-reveal) * 8px);
+  min-width: 48px;
+  height: 48px;
+  padding: 0 12px;
+  border: 0;
   border-radius: 24px;
   box-shadow: 0 4px 20px rgba($black, 0.16);
+  transition:
+    column-gap var(--transition-duration),
+    background var(--transition-duration);
+  > .material-symbol {
+    flex-shrink: 0;
+  }
+  &-label {
+    max-width: calc(var(--compose-reveal) * 16em);
+    overflow: hidden;
+    opacity: var(--compose-reveal);
+    transform: translateX(calc((1 - var(--compose-reveal)) * 12px));
+    white-space: nowrap;
+    transition:
+      max-width var(--transition-duration) ease,
+      opacity var(--transition-duration) ease,
+      transform var(--transition-duration) ease;
+    @include uppercase-text;
+  }
+  &:focus-visible {
+    --compose-reveal: 1;
+  }
+  @media (hover: hover) {
+    &:hover {
+      --compose-reveal: 1;
+    }
+  }
   @media (max-width: $mobile) {
     right: 16px;
     bottom: max(16px, env(safe-area-inset-bottom));
-    min-height: 48px;
-    padding-inline: 16px;
   }
 }
 .filter-panel {
+  .filter-type .builder-select-trigger {
+    font-size: var(--text-title, 16px);
+    font-weight: 700;
+    text-transform: none;
+  }
   .builder-scroll {
     flex: 1;
   }

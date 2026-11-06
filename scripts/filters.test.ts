@@ -2,10 +2,37 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import {
   filterMetadata,
+  filterCategories,
   matchesFilters,
   normalizeRatio,
   toggleFilter,
+  retainFilters,
 } from '../src/utils/filters.ts';
+
+test('All and Design show shared filters while illustration and photo expose their own options', () => {
+  for (const type of ['all', 'design'] as const) {
+    assert.ok(filterCategories(type).includes('Color'));
+    assert.ok(!filterCategories(type).includes('Base Style'));
+    assert.ok(!filterCategories(type).includes('Photography'));
+    assert.ok(!filterCategories(type).includes('Outline'));
+  }
+  assert.ok(filterCategories('illustration').includes('Base Style'));
+  assert.ok(filterCategories('photo').includes('Photography'));
+});
+
+test('changing type preserves shared selections and drops incompatible filters without mutation', () => {
+  const filters = {
+    'Base Style': ['naivefolk'],
+    Outline: ['coloronly'],
+    Color: ['muted'],
+    'Aspect Ratio': ['4:5'],
+  };
+  const expected = { Color: ['muted'], 'Aspect Ratio': ['4:5'] };
+  assert.deepEqual(retainFilters(filters, 'photo'), expected);
+  assert.deepEqual(retainFilters(filters, 'all'), expected);
+  assert.deepEqual(retainFilters(filters, 'illustration'), filters);
+  assert.deepEqual(filters['Base Style'], ['naivefolk']);
+});
 
 test('empty filters include records even when they have no option metadata', () => {
   assert.equal(matchesFilters({}, {}), true);

@@ -1,4 +1,6 @@
 const translation: Record<string, string> = {
+  '{{count}} results': '{{count}}개',
+  'Generate Prompt label': 'Generate Prompt',
   Filter: '필터',
   'Reset filters': '필터 초기화',
   'Close filters': '필터 닫기',

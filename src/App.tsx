@@ -4,13 +4,19 @@ import Icon from './components/Icon';
 import { useEffect, useRef, useState, type CSSProperties } from 'react';
 import catalog from 'virtual:prompt-catalog';
 import Header from './components/Header';
-import Navigation from './components/Navigation';
 import Gallery from './components/Gallery';
 import CollectionSort from './components/CollectionSort';
 import { sortCollection, type CollectionSort as SortOrder } from './utils/collectionSort';
 import { imageName } from './utils/imageName';
 import Filter, { SelectedFilters } from './components/Filter';
-import { filterMetadata, matchesFilters, normalizeRatio, toggleFilter } from './utils/filters';
+import {
+  filterMetadata,
+  matchesFilters,
+  normalizeRatio,
+  retainFilters,
+  toggleFilter,
+  type FilterType,
+} from './utils/filters';
 import ImageDetail from './components/ImageDetail';
 import type { GalleryTile as Tile } from './types';
 import ImagePreview from './components/ImagePreview';
@@ -34,13 +40,6 @@ const initial: Selection = {
 const filterCatalog = [
   ...catalog.filter((option) => option.category !== 'Complexity'),
   ...[
-    {
-      category: 'Type',
-      options: [
-        { id: 'illustration', label: 'Illustration' },
-        { id: 'photo', label: 'Photo' },
-      ],
-    },
     {
       category: 'Aspect Ratio',
       options: [
@@ -154,12 +153,11 @@ export default function App() {
     }
   });
   const [query, setQuery] = useState('');
-  const [photo, setPhoto] = useState(false);
+  const [filterType, setFilterType] = useState<FilterType>('all');
   const [builderType, setBuilderType] = useState<'illustration' | 'photo' | 'design'>(
     'illustration',
   );
   const builderPhoto = builderType === 'photo';
-  const [active, setActive] = useState('all');
   const [largeThumbnails, setLargeThumbnails] = useState(false);
   const [illustrationSelection, setIllustrationSelection] = useState(initial);
   const [photoSelection, setPhotoSelection] = useState<Selection>({
@@ -178,33 +176,24 @@ export default function App() {
   const [selected, setSelected] = useState<Tile | null>(null);
   const [bookmarks, setBookmarks] = useState(storedBookmarks);
   const [onlySaved, setOnlySaved] = useState(false);
-  const collectionView = onlySaved || presetOpen;
-  const showBuilder = builder;
   const [toast, setToast] = useState('');
   const [toastVersion, setToastVersion] = useState(0);
   const [modal, setModal] = useState<'prompt' | 'image' | null>(null);
   const modalRef = useRef<HTMLDialogElement>(null);
   const selection = builderPhoto ? photoSelection : illustrationSelection;
   const setSelection = builderPhoto ? setPhotoSelection : setIllustrationSelection;
-  const currentGroups = photo ? photoGroups : groups;
   const prompt =
     builderType === 'design'
       ? ''
       : makePrompt(catalog, selection, complexity, fields, builderPhoto);
-  const sources =
-    onlySaved || filters.Type?.length === 2
-      ? [
-          { photo: false, groups },
-          { photo: true, groups: photoGroups },
-        ]
-      : filters.Type?.length === 1
-        ? [
-            {
-              photo: filters.Type[0] === 'photo',
-              groups: filters.Type[0] === 'photo' ? photoGroups : groups,
-            },
-          ]
-        : [{ photo, groups: currentGroups }];
+  const sources = [
+    { photo: false, groups },
+    { photo: true, groups: photoGroups },
+  ].filter(
+    (source) =>
+      filterType === 'all' ||
+      (source.photo ? filterType === 'photo' : filterType === 'illustration'),
+  );
   const tileGroups = sources.flatMap((source) =>
     source.groups
       .filter((group) =>
@@ -263,6 +252,8 @@ export default function App() {
   const visiblePresets = sortCollection(
     presets.filter(
       (preset) =>
+        (filterType === 'all' ||
+          (preset.photo ? filterType === 'photo' : filterType === 'illustration')) &&
         preset.name.toLowerCase().includes(query.trim().toLowerCase()) &&
         matchesFilters(
           filterMetadata(
@@ -288,36 +279,33 @@ export default function App() {
     }
     const next = toggleFilter(filters, category, id);
     setFilters(next);
-    if (category === 'Type' && next.Type.length === 1) setPhoto(next.Type[0] === 'photo');
-    setActive('all');
     setSelected(null);
   }
   function resetFilters() {
     setFilters({});
     setQuery('');
-    setActive('all');
+    setSelected(null);
+  }
+  function changeFilterType(type: FilterType) {
+    setFilterType(type);
+    setFilters((previous) => retainFilters(previous, type));
     setSelected(null);
   }
   function openComposer() {
-    const composerPhoto =
-      filters.Type?.length === 1
-        ? filters.Type[0] === 'photo'
-        : filters.Photography?.length
-          ? true
-          : photo;
-    const signature = JSON.stringify([filters, composerPhoto]);
+    const composerPhoto = filterType === 'photo';
+    const signature = JSON.stringify([filters, filterType]);
     const relevant = Object.fromEntries(
       Object.entries(filters).filter(
         ([category, ids]) => builderCategories(composerPhoto).includes(category) && ids.length,
       ),
     );
-    if (signature !== appliedFilters.current && Object.values(filters).some((ids) => ids.length)) {
+    if (signature !== appliedFilters.current) {
       if (filters['Aspect Ratio']?.length === 1)
         setFields((previous) => ({ ...previous, 'Aspect Ratio': filters['Aspect Ratio'][0] }));
       if (filters.Complexity?.length === 1) setComplexity(Number(filters.Complexity[0]));
       const update = composerPhoto ? setPhotoSelection : setIllustrationSelection;
       update((previous) => ({ ...previous, ...relevant }));
-      setBuilderType(composerPhoto ? 'photo' : 'illustration');
+      setBuilderType(filterType === 'design' ? 'design' : composerPhoto ? 'photo' : 'illustration');
     }
     appliedFilters.current = signature;
     if (matchMedia('(max-width: 1000px)').matches) setBuilder(false);
@@ -368,28 +356,6 @@ export default function App() {
       setModal('prompt');
     }
   }
-  function navigate(id: string) {
-    setPresetOpen(false);
-    setActive(id);
-    setFilters((previous) => ({
-      ...previous,
-      'Base Style': [],
-      Technique: [],
-      Photography: [],
-      ...(id === 'all'
-        ? {}
-        : { [photo ? 'Photography' : id === 'risograph' ? 'Technique' : 'Base Style']: [id] }),
-    }));
-    setSelected(null);
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  }
-  function switchType(value: boolean) {
-    setPresetOpen(false);
-    setPhoto(value);
-    setFilters({});
-    setSelected(null);
-    setActive('all');
-  }
   function persistPresets(next: StylePreset[]) {
     try {
       localStorage.setItem(presetKey, JSON.stringify(next));
@@ -432,7 +398,7 @@ export default function App() {
     }
     return persistPresets(presets.map((p) => (p.id === id ? { ...p, name: name.trim() } : p)));
   }
-  const detailPhoto = selected ? selected.id.startsWith('photo-') : photo;
+  const detailPhoto = selected ? selected.id.startsWith('photo-') : filterType === 'photo';
   const selectedOption = selected
     ? catalog.find(
         (o) =>
@@ -462,13 +428,12 @@ export default function App() {
   );
   const detailPrompt = selectedOption?.prompt ?? '';
   return (
-    <div className={collectionView ? 'collection-view' : undefined}>
+    <>
       <Header
         home={() => {
-          setPhoto(false);
+          setFilterType('all');
           setFilters({});
           setComposerOpen(false);
-          setActive('all');
           setQuery('');
           setOnlySaved(false);
           setPresetOpen(false);
@@ -499,24 +464,13 @@ export default function App() {
           window.scrollTo({ top: 0 });
         }}
       />
-      {!collectionView && (
-        <Navigation
-          builder={builder}
-          photo={photo}
-          active={active}
-          groups={currentGroups}
-          toggleBuilder={() => setBuilder(!builder)}
-          switchType={switchType}
-          navigate={navigate}
-        />
-      )}
       <div
         className={
-          'workspace ' + (showBuilder ? 'with-builder ' : '') + (selected ? 'with-detail' : '')
+          'workspace ' + (builder ? 'with-builder ' : '') + (selected ? 'with-detail' : '')
         }
         style={{ '--builder-width': `${builderWidth}px` } as CSSProperties}
       >
-        {showBuilder && (
+        {builder && (
           <>
             <button
               className="mobile-scrim"
@@ -528,8 +482,8 @@ export default function App() {
               resize={setBuilderWidth}
               catalog={filterCatalog}
               filters={filters}
-              photo={photo}
-              allTypes={collectionView || filters.Type?.length === 2}
+              type={filterType}
+              setType={changeFilterType}
               toggle={chooseFilter}
               reset={resetFilters}
               close={() => setBuilder(false)}
@@ -545,21 +499,21 @@ export default function App() {
         >
           <div className="results-heading">
             <div className="section-heading">
-              <h2>
-                {t(presetOpen ? 'Saved style sets' : onlySaved ? 'Favorites' : 'All')}
-                <span>{resultCount}</span>
-              </h2>
+              <div className="results-heading-start">
+                <button
+                  className="icon-button filter-toggle"
+                  aria-label={t('Toggle filters')}
+                  aria-pressed={builder}
+                  aria-expanded={builder}
+                  onClick={() => setBuilder(!builder)}
+                >
+                  <Icon name="filter_list" size="20" />
+                </button>
+                <span className="result-count" role="status" aria-live="polite">
+                  {t('{{count}} results', { count: resultCount })}
+                </span>
+              </div>
               <div className="gallery-heading-actions">
-                {collectionView && (
-                  <button
-                    className="icon-button"
-                    aria-label={t('Toggle filters')}
-                    aria-pressed={builder}
-                    onClick={() => setBuilder(!builder)}
-                  >
-                    <Icon name="filter_list" size="20" />
-                  </button>
-                )}
                 {presetOpen ? (
                   <CollectionSort value={presetSort} change={setPresetSort} />
                 ) : onlySaved ? (
@@ -656,10 +610,12 @@ export default function App() {
       <button
         className="primary compose-floating"
         onClick={openComposer}
-        aria-label={t('Write prompt')}
+        aria-label={t('Generate prompt')}
       >
         <Icon name="auto_awesome" size="24" className="fill" />
-        <span>{t('Write prompt')}</span>
+        <span className="compose-floating-label" aria-hidden="true">
+          {t('Generate Prompt label')}
+        </span>
       </button>
       {composerOpen && (
         <Builder
@@ -744,6 +700,6 @@ export default function App() {
           </div>,
           Array.from(document.querySelectorAll('dialog[open]')).at(-1) ?? document.body,
         )}
-    </div>
+    </>
   );
 }

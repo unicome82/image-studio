@@ -1,4 +1,23 @@
-import type { Selection } from './promptBuilder';
+import { builderCategories, type Selection } from './promptBuilder.ts';
+
+export type FilterType = 'all' | 'illustration' | 'photo' | 'design';
+
+export function filterCategories(type: FilterType): string[] {
+  const shared = ['Aspect Ratio', 'Complexity'];
+  return [
+    ...shared,
+    ...(type === 'illustration'
+      ? builderCategories(false)
+      : type === 'photo'
+        ? builderCategories(true)
+        : ['Color', 'Composition', 'Texture', 'Typography']),
+  ];
+}
+
+export function retainFilters(filters: Selection, type: FilterType): Selection {
+  const allowed = new Set(filterCategories(type));
+  return Object.fromEntries(Object.entries(filters).filter(([category]) => allowed.has(category)));
+}
 
 // OR within a category, AND between categories. Missing metadata never implies a match.
 export function matchesFilters(metadata: Selection, filters: Selection): boolean {

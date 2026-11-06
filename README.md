@@ -3,23 +3,32 @@
 ## Filter preview (`preview/filter`)
 
 The experimental UI is available at `/image-studio/preview/filter/`. The left
-panel filters the gallery, favorites, and saved style sets. No selected options
-means all records in the current view. Options use OR within each category and
-AND across categories; the result heading displays removable Selected chips.
-The panel's restart icon clears filters and search.
+panel filters the gallery, favorites, and saved style sets. Its heading is a single
+All / Illustration / Photo / Design dropdown. All and Design show shared options;
+Illustration and Photo add their own categories. Type changes keep shared choices
+and clear incompatible categories. The restart icon clears filters and search,
+preserving the current type. No selected options means all records of that type.
+Options use OR within each category and AND across categories.
 
-Both the bottom-right Write prompt floating button and the panel's Generate
-prompt button open the full-screen prompt builder. Closing and reopening it
-preserves the draft. Newly changed filters seed the builder, while edits in the
-builder do not filter the gallery. Its restart icon clears the draft and optional
-choices, restoring the standard ratio, complexity, and Color Only outline mode.
+The results toolbar contains the filter toggle, a small result count, and thumbnail
+size or collection sorting controls. Selected filters appear as removable chips
+without an extra heading, and the chip row disappears when empty. The old top
+navigation and ALL / SELECTED labels are removed.
+
+The bottom-right floating button shows an icon at rest. On hover or keyboard focus,
+GENERATE PROMPT slides out to its left, keeping the icon anchored at the right.
+Touch devices open the builder on the first tap without requiring hover. Motion
+follows the reduced-motion preference. Both this button and the panel's Generate
+prompt button open the full-screen builder. Closing and reopening preserves the
+draft. Newly changed filters seed the builder, while builder edits do not filter
+the gallery. Its restart icon clears the draft and optional choices, restoring
+the standard ratio, complexity, and Color Only outline mode.
 
 Gallery placeholders currently have type, style/technique, and dimension metadata.
 They do not have inferred color, texture, typography, outline, or complexity tags;
 filtering by missing metadata produces no matches. Saved style sets use their
 stored options, ratio, and complexity. Preview and main share browser storage.
 The sections below describe the original main UI where behavior differs.
-
 
 React + TypeScript + SCSS personal image gallery. The current interface uses solid-color placeholders; no images are generated or uploaded.
 

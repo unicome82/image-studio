@@ -3,15 +3,17 @@ import Panel from './Panel';
 import Icon from './Icon';
 import OptionChoices from './promptbuilder/OptionChoices';
 import ResizeHandle from './promptbuilder/ResizeHandle';
-import { builderCategories, type Option, type Selection } from '../utils/promptBuilder';
+import type { Option, Selection } from '../utils/promptBuilder';
+import { filterCategories, type FilterType } from '../utils/filters';
+import BuilderSelect from './promptbuilder/BuilderSelect';
 
 interface Props {
   width: number;
   resize: (width: number) => void;
   catalog: Option[];
   filters: Selection;
-  photo: boolean;
-  allTypes: boolean;
+  type: FilterType;
+  setType: (type: FilterType) => void;
   toggle: (category: string, id: string) => void;
   reset: () => void;
   close: () => void;
@@ -25,8 +27,20 @@ export default function Filter(p: Props) {
       <ResizeHandle width={p.width} resize={p.resize} />
       <div className="builder-viewport">
         <div className="builder-wrap builder-heading">
-          <h2 className="builder-title">
-            {t('Filter')}
+          <div className="builder-title filter-type">
+            <BuilderSelect
+              label={t('Image type')}
+              value={p.type}
+              options={(['all', 'illustration', 'photo', 'design'] as const).map((value) => ({
+                value,
+                label: t(
+                  { all: 'All', illustration: 'Illustration', photo: 'Photo', design: 'Design' }[
+                    value
+                  ],
+                ),
+              }))}
+              change={(value) => p.setType(value as FilterType)}
+            />
             <button
               className="icon-button"
               aria-label={t('Reset filters')}
@@ -35,7 +49,7 @@ export default function Filter(p: Props) {
             >
               <Icon name="restart_alt" size="20" />
             </button>
-          </h2>
+          </div>
           <div className="builder-mobile-close">
             <button
               className="icon-button close-button"
@@ -48,15 +62,7 @@ export default function Filter(p: Props) {
         </div>
         <div className="builder-scroll">
           <div className="builder-wrap">
-            {[
-              ...new Set([
-                'Type',
-                'Aspect Ratio',
-                'Complexity',
-                ...builderCategories(p.photo),
-                ...(p.allTypes ? builderCategories(!p.photo) : []),
-              ]),
-            ].map((category) => (
+            {filterCategories(p.type).map((category) => (
               <section className="option-section" key={category}>
                 <OptionChoices
                   title={
@@ -102,7 +108,6 @@ export function SelectedFilters({
   if (!options.length) return null;
   return (
     <div className="filter-summary">
-      <h3>{t('Selected')}</h3>
       <div className="selected-options" role="group" aria-label={t('Selected filters')}>
         {options.map((option) => {
           const label = t(option.label.replace(' Modern', '').replace(/\s+illustration\b/gi, ''));
