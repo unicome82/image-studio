@@ -67,7 +67,7 @@ table {
 :root {
   --nav-height: 44px;
   --header-visible: 76px;
-  --panel-top: calc(var(--header-visible) + var(--nav-height));
+  --panel-top: calc(max(var(--header-visible), env(safe-area-inset-top, 0px)) + var(--nav-height));
   --transition-duration: 0.3s;
   @media (max-width: $mobile) {
     --header-visible: 80px;
@@ -110,6 +110,7 @@ html {
   }
 }
 body {
+  padding-bottom: env(safe-area-inset-bottom, 0px);
   background: $page;
   color: $ink;
   font-family: 'Pretendard', sans-serif;

@@ -302,6 +302,8 @@ textarea {
     background: $page;
     color: $ink;
     &[open] {
+      padding: env(safe-area-inset-top, 0px) env(safe-area-inset-right, 0px)
+        env(safe-area-inset-bottom, 0px) env(safe-area-inset-left, 0px);
       @include flex-column;
     }
     &::backdrop {
@@ -389,6 +391,7 @@ textarea {
     @include flex-row($gap: 8px);
     flex-shrink: 0;
     margin-left: auto;
+    margin-right: -8px;
     .icon-button {
       width: 36px;
       height: 36px;
@@ -408,7 +411,8 @@ textarea {
     }
   }
   @media (max-width: $mobile) {
-    padding-block: calc(3em / 4);
+    padding-top: calc(3em / 4 + env(safe-area-inset-top, 0px));
+    padding-bottom: calc(3em / 4);
     gap: calc(1em / 4);
     &-actions {
       gap: 0;
@@ -457,7 +461,7 @@ textarea {
 .navigation {
   --type-toggle-height: 36px;
   position: sticky;
-  top: 0;
+  top: env(safe-area-inset-top, 0px);
   z-index: 25;
   display: flex;
   align-items: stretch;
@@ -816,7 +820,6 @@ textarea {
     }
     &-actions {
       padding-inline: 20px;
-      padding-bottom: max(20px, env(safe-area-inset-bottom));
     }
   }
 }
