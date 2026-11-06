@@ -425,7 +425,7 @@ textarea {
 
 // Navigation
 .navigation {
-  --type-toggle-height: #{$compact-control-size};
+  --type-toggle-height: 36px;
   position: sticky;
   top: 0;
   z-index: 25;
@@ -433,30 +433,29 @@ textarea {
   align-items: stretch;
   height: var(--nav-height);
   padding: 0 $content-padding;
-  border-bottom: 1px solid $line;
-  background: $page;
+  background: rgba($white, 0.5);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
   font-size: $nav-font-size;
   button {
-    font-size: var(--button-font-size, inherit);
+    font-size: var(--button-font-size, 14px);
     text-transform: none;
     letter-spacing: normal;
+    border: 0;
+    background: transparent;
   }
   @media (max-width: $mobile) {
     padding: 0;
     padding-left: 8px;
-    button {
-      border: 0;
-      background: transparent;
-    }
-    .builder-toggle,
-    .builder-toggle.active,
-    .type-dropdown .builder-select-trigger,
-    .style-tabs button,
-    .style-tabs button.active {
-      border: 0;
-      background: transparent;
-      color: $ink;
-    }
+  }
+  .builder-toggle,
+  .builder-toggle.active,
+  .type-dropdown .builder-select-trigger,
+  .style-tabs button,
+  .style-tabs button.active {
+    border: 0;
+    background: transparent;
+    color: $ink;
   }
 }
 .builder-toggle {
@@ -485,11 +484,11 @@ textarea {
   padding: 0 8px;
   button {
     height: var(--type-toggle-height);
-    padding: 0 1em;
-    border: 1px solid transparent;
+    padding: 0 calc(4em / 5);
+    border: 0;
     border-radius: 6px;
     background: transparent;
-    color: $muted;
+    color: $ink;
     white-space: nowrap;
     &[aria-pressed='true'] {
       background: transparent;
@@ -507,12 +506,23 @@ textarea {
   align-self: stretch;
   flex: 1;
   min-width: 0;
-  overflow: auto;
+  overflow-x: auto;
+  overflow-y: hidden;
+  scrollbar-width: none;
+  touch-action: pan-x pan-y;
+  user-select: none;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+  &.dragging,
+  &.dragging button {
+    cursor: grabbing;
+  }
   button {
     background: transparent;
-    padding: 0 1em;
-    border-bottom: 2px solid transparent;
-    color: $tab-text;
+    padding: 0 calc(4em / 5);
+    border: 0;
+    color: $ink;
     line-height: 1;
     white-space: nowrap;
     &.active {
@@ -521,11 +531,6 @@ textarea {
     }
     &:hover {
       color: $ink;
-    }
-  }
-  @media (max-width: $mobile) {
-    button {
-      padding-inline: calc(4em / 5);
     }
   }
 }

@@ -2,6 +2,7 @@ import { useTranslation } from 'react-i18next';
 import Icon from './Icon';
 import BuilderSelect from './promptbuilder/BuilderSelect';
 import { useMediaQuery } from '../utils/useMediaQuery';
+import { useHorizontalScroll } from '../utils/useHorizontalScroll';
 interface Props {
   builder: boolean;
   photo: boolean;
@@ -13,6 +14,7 @@ interface Props {
 }
 export default function Navigation(p: Props) {
   const { t } = useTranslation();
+  const scrollRef = useHorizontalScroll();
   const mobile = useMediaQuery('(max-width: 600px)');
   return (
     <nav className="navigation" aria-label={t('Gallery navigation')}>
@@ -23,7 +25,7 @@ export default function Navigation(p: Props) {
         aria-expanded={p.builder}
         onClick={p.toggleBuilder}
       >
-        <Icon name="auto_awesome" size="16" className="fill" />
+        <Icon name="auto_awesome" size="20" className="fill" />
       </button>
       {mobile ? (
         <div className="type-dropdown">
@@ -47,7 +49,7 @@ export default function Navigation(p: Props) {
           </button>
         </div>
       )}
-      <div className="style-tabs" aria-label={t('Style filters')}>
+      <div ref={scrollRef} className="style-tabs" aria-label={t('Style filters')}>
         <button className={p.active === 'all' ? 'active' : ''} onClick={() => p.navigate('all')}>
           {t('All')}
         </button>
