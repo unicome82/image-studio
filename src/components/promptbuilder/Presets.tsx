@@ -88,20 +88,20 @@ export default function Presets(p: Props) {
                   />
                 </div>
                 <div
-                  className="prompt-textarea preset-prompt"
+                  className="prompt-textarea"
                   aria-label={t('{{name}} prompt', { name: title })}
                   role="region"
                   tabIndex={0}
                 >
-                  <div className="preset-prompt-text">{prompt}</div>
                   <button
-                    className="icon-button preset-copy"
+                    className="icon-button"
                     aria-label={t('Copy {{name}} prompt', { name: title })}
                     title={t('Copy prompt')}
                     onClick={() => p.copy(prompt)}
                   >
                     <Icon name="content_copy" size="16" />
                   </button>
+                  {prompt}
                 </div>
               </article>
             );
