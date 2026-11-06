@@ -53,7 +53,7 @@ export default function LanguageMenu() {
     >
       <button
         ref={trigger}
-        className={'icon-button language-trigger' + (open ? ' active' : '')}
+        className={'icon-button' + (open ? ' active' : '')}
         aria-label={t('Language')}
         aria-haspopup="menu"
         aria-expanded={open}

@@ -1385,7 +1385,7 @@ textarea,
       gap: 4px;
       font-size: 12px;
     }
-    :is(.preset-edit, .preset-delete) {
+    .icon-button {
       &,
       &:hover {
         background: transparent;

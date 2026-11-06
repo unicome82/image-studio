@@ -111,7 +111,7 @@ export default function Header(p: Props) {
           <Icon name="favorite" size="20" className={p.showBookmarks ? 'fill' : ''} />
         </button>
         <button
-          className={'icon-button preset-toggle ' + (p.showPrompts ? 'active' : '')}
+          className={'icon-button' + (p.showPrompts ? ' active' : '')}
           aria-label={t('Open saved style sets')}
           aria-pressed={p.showPrompts}
           onClick={p.togglePrompts}

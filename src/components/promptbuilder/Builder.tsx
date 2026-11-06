@@ -187,7 +187,7 @@ export default function Builder(p: Props) {
                   value={p.fields.Subject ?? ''}
                   onChange={(e) => p.setFields({ ...p.fields, Subject: e.target.value })}
                 />
-                <section className="option-section builder-type">
+                <section className="option-section">
                   <OptionChoices
                     title="Type"
                     multiple={false}

@@ -58,7 +58,7 @@ export default function Presets(p: Props) {
                     ) : (
                       <>
                         <button
-                          className="icon-button preset-edit"
+                          className="icon-button"
                           aria-label={t('Edit {{name}} settings', { name: title })}
                           title={t('Edit style set')}
                           onClick={() => p.edit(preset)}
@@ -66,7 +66,7 @@ export default function Presets(p: Props) {
                           <Icon name="edit" size="16" />
                         </button>
                         <button
-                          className="icon-button preset-delete"
+                          className="icon-button"
                           aria-label={t('Delete {{name}}', { name: title })}
                           title={t('Delete style set')}
                           onClick={() => setDeleting(preset.id)}

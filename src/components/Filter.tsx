@@ -40,7 +40,7 @@ export default function Filter(p: Props) {
       <ResizeHandle width={p.width} resize={p.resize} />
       <div className="builder-viewport">
         <div className="builder-wrap builder-heading">
-          <div className="builder-title filter-type">
+          <div className="builder-title">
             <FilterTypeSelect type={p.type} setType={p.setType} />
             <button
               className="icon-button"
