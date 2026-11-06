@@ -1252,12 +1252,21 @@ textarea {
   }
   &-fullscreen-toggle {
     flex-shrink: 0;
+    @media (max-width: $mobile) {
+      display: none;
+    }
   }
   &-unavailable {
     color: $muted;
     font-size: var(--text-small, 12px);
   }
+  &-heading {
+    @include flex-row($gap: 8px, $justify: space-between);
+    flex-shrink: 0;
+    padding-bottom: 0;
+  }
   &-title {
+    flex: 1;
     @include flex-row($justify: space-between);
     margin: 12px 0;
     color: $black;
@@ -1266,6 +1275,9 @@ textarea {
   }
   &-scroll {
     @include scroll-area;
+    > .builder-wrap {
+      padding-top: 0;
+    }
   }
   &-mobile-close {
     display: none;
@@ -1343,7 +1355,7 @@ textarea {
       display: flex;
       justify-content: flex-end;
       flex-shrink: 0;
-      padding: 8px 16px 0;
+      padding: 0;
     }
     &-footer {
       &-heading {
@@ -1359,6 +1371,7 @@ textarea {
   padding: 12px 0;
   h3 {
     @include builder-option-heading;
+    min-height: var(--icon-button-size, #{$option-control-height});
     span {
       font-weight: 400;
 

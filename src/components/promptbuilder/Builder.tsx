@@ -52,28 +52,30 @@ export default function Builder(p: Props) {
       close={() => (fullscreen ? setFullscreen(false) : p.close())}
     >
       {!fullscreen && <ResizeHandle width={p.width} resize={p.resize} />}
-      <div className="builder-mobile-close">
-        <button
-          className="icon-button close-button"
-          aria-label={t('Close Builder')}
-          onClick={p.close}
-        >
-          <Icon name="close" size="24" className="w200" />
-        </button>
+      <div className="builder-wrap builder-heading">
+        <h2 className="builder-title">
+          <label htmlFor={`${tabsId}-subject`}>{t('What would you like to draw?')}</label>
+          <button
+            className="icon-button builder-fullscreen-toggle"
+            aria-label={t(fullscreen ? 'Exit Builder fullscreen' : 'View Builder fullscreen')}
+            aria-pressed={fullscreen}
+            onClick={() => setFullscreen(!fullscreen)}
+          >
+            <Icon name={fullscreen ? 'fullscreen_exit' : 'fullscreen'} size="20" />
+          </button>
+        </h2>
+        <div className="builder-mobile-close">
+          <button
+            className="icon-button close-button"
+            aria-label={t('Close Builder')}
+            onClick={p.close}
+          >
+            <Icon name="close" size="24" className="w200" />
+          </button>
+        </div>
       </div>
       <div className="builder-scroll">
         <div className="builder-wrap">
-          <h2 className="builder-title">
-            <label htmlFor={`${tabsId}-subject`}>{t('What would you like to draw?')}</label>
-            <button
-              className="icon-button builder-fullscreen-toggle"
-              aria-label={t(fullscreen ? 'Exit Builder fullscreen' : 'View Builder fullscreen')}
-              aria-pressed={fullscreen}
-              onClick={() => setFullscreen(!fullscreen)}
-            >
-              <Icon name={fullscreen ? 'fullscreen_exit' : 'fullscreen'} size="20" />
-            </button>
-          </h2>
           <section className="option-section builder-type">
             <OptionChoices
               title="Type"
