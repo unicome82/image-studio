@@ -214,6 +214,15 @@
     scrollbar-color: var(--scrollbar-thumb) transparent;
   }
 }
+:is(html, body) {
+  &::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+  @supports not selector(::-webkit-scrollbar) {
+    scrollbar-width: auto;
+  }
+}
 textarea {
   &::-webkit-scrollbar-track,
   &::-webkit-scrollbar-thumb {
