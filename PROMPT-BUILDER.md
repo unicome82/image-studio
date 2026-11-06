@@ -34,7 +34,7 @@ IMAGE STUDIO의 **부가 메뉴**로 스타일 조합용 영문 지시문을 생
 5. **Custom Input:** 최상단 라벨 없는 Subject input으로 피사체를 입력하고 Your direction textarea로 추가 지시를 입력. Aspect ratio(1:1/4:3/3:4/16:9/9:16)는 상위 독립 옵션으로 선택. 기존 프리셋의 Subject는 주제 입력란에 보존하고 Negative Prompt는 이름표와 함께 Your direction으로 합쳐 보존하며, Text는 별도 Typography 입력칸에 보존
 6. **Copy Prompt:** 영문 지시문 복사
 7. **Save Preset:** 스타일명·선택값·복잡도·입력값 저장/목록 조회·복사/이름 수정/삭제; Save 클릭 시 스타일명 입력·프롬프트 미리보기·Cancel·Save가 있는 팝업 제공. 저장 목록은 본문 페이지에서 실제 콘텐츠 폭에 따라 최대 3열로 표시. 이름 바로 옆에 편집 아이콘, 하단에 저장값으로 재구성한 전체 프롬프트와 Copy 버튼을 제공하며 Load 버튼은 사용하지 않는다. LocalStorage 사용(기기 간 동기화 없음)
-8. **Complexity Control:** 전체 이미지 복잡도 5단계 셀렉트, 기본 Balanced. UI·생성 프롬프트에는 숫자 없이 단계명만 표시하고, 트랙 높이는 1px. 내부 저장값 1~5는 기존 프리셋 호환용으로 유지
+8. **Complexity Control:** 전체 이미지 복잡도 5단계 슬라이더, 기본 Balanced. UI·생성 프롬프트에는 숫자 없이 단계명만 표시하고, 트랙 높이는 1px. 내부 저장값 1~5는 기존 프리셋 호환용으로 유지
 9. **Rendering Mode:** 컬러만 / 컬러 + 윤곽선 / 윤곽선만 중 하나 선택, 기본값 Color Only. 프리셋 저장·프롬프트 재구성에 포함하며 기존 프리셋에 값이 없으면 기본값 적용.
 
 ### Rendering Mode
@@ -111,7 +111,7 @@ Combine the selected prompt file instructions while preserving their defining ch
 - 스타일 선택·레퍼런스 미리보기·표현 방식 단일 선택·복잡도·입력·결과·복사·저장 UI 제공
 - Typography는 예외로 제목 옆 토글 ON일 때 제목 바로 아래 공통 높이 28px의 입력창, 그 아래 전체 옵션을 표시한다. OFF일 때 입력창과 옵션은 숨기며 별도 펼치기·접기 버튼은 사용하지 않는다.
 - 다른 카테고리는 접힌 상태에서 최대 한 줄만 표시하고, 실제 버튼 폭을 측정해 Builder 너비에 맞게 개수를 조절한다. 옵션 버튼 옆의 `…` 버튼으로 전체 목록을 펼치거나 접는다. 접힌 행의 폭 계산에 `…` 버튼과 간격을 포함한다. 선택 상태 표시와 반응형 구성 유지
-- 옵션 버튼 상하 패딩 3.5px, 옵션 타이틀은 10px bold 회색, 전체 UI 폰트는 최소 10px. Outline은 Aspect ratio 바로 위에 배치. 본문·textarea·저장 팝업을 포함한 모든 스크롤바는 6px, radius 0, 화살표와 thumb/track 간격 제거
+- 옵션 타이틀과 전체 UI 글자는 최소 12px. 버튼 패딩은 공통 em 비율·모바일 2px 단위를 사용. Outline은 Aspect ratio 바로 위에 배치. 본문·textarea·저장 팝업을 포함한 모든 스크롤바는 6px, radius 0, 화살표와 thumb/track 간격 제거
 - 옵션 사이 구분선 제거. Builder 기본 폭 248px, 데스크톱에서 최소 220px~최대 420px까지 우측 경계 드래그로 조절. 경계의 방향키·Home·End 조작 지원. 모바일 전체 화면 팝업은 너비 조절 제외
 - Public `reference/`의 기존 이미지·프롬프트와 공개 GitHub 조회 경로 재사용; Cloudflare API를 전제로 하지 않음
 - 필요한 컴포넌트는 `src/components/promptbuilder/`, 생성 로직은 `src/utils/promptBuilder.ts`에 배치하되 기존 구조에 맞게 조정
@@ -127,9 +127,9 @@ Combine the selected prompt file instructions while preserving their defining ch
 
 `IMAGE-STUDIO.md`를 먼저 읽고 현재 프로젝트 구조를 확인한다. **우선 Step 1만 진행**하고 나머지는 요청 시 실행한다. 불필요한 파일·기능을 추가하지 않는다.
 
-- Subject 위에 Outline·Aspect ratio·Complexity를 옵션명 없이 테두리·배경 없는 자동 너비 셀렉트 행으로 배치한다. Subject는 생성·복사·스타일셋 저장에 포함하며 언어 변경 시 원문을 유지한다. Selected 영역은 우측 음수 마진과 같은 크기 패딩으로 스크롤바를 패널 우측 경계에 정렬한다.
+- Subject 위에 Outline·Aspect ratio의 옵션 버튼과 Complexity의 5단계 슬라이더를 배치한다. Subject는 생성·복사·스타일셋 저장에 포함하며 언어 변경 시 원문을 유지한다. Selected 영역은 우측 음수 마진과 같은 크기 패딩으로 스크롤바를 패널 우측 경계에 정렬한다.
 
-- Selected에는 비율·복잡도·Outline의 값만 표시한다. 필터 X는 회전 없이 opacity 0.5에서 hover 시 1로 전환한다. Selected·Prompt 탭은 옵션 제목 스타일을 공유하며, 빌더 단일 선택은 언어 메뉴와 같은 커스텀 드롭다운과 6×4px 화살표를 사용한다. Typography 표시명에서 Typography·Lettering·Handwriting 접미어를 생략하되 프롬프트 원문은 유지한다.
+- Selected에는 비율·복잡도·Outline의 값만 표시한다. 필터 X는 회전 없이 opacity 0.5에서 hover 시 1로 전환한다. Selected·Prompt 탭은 옵션 제목 스타일을 공유하며, Outline·Aspect ratio는 고정 순서의 단일 선택 옵션 버튼, Complexity는 단계명을 표시하는 슬라이더를 사용한다. Typography 표시명에서 Typography·Lettering·Handwriting 접미어를 생략하되 프롬프트 원문은 유지한다.
 
 - Subject 미입력 시 선택 설정·추가 지시에 맞는 랜덤 피사체와 장면을 정해 추가 질문 없이 이미지를 생성하도록 지시한다. 미입력 안내를 Subject 아래 표시한다. 모바일에서는 카테고리 옵션을 모두 펼치고 접기 버튼을 숨긴다.
 

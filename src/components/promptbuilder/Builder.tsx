@@ -3,7 +3,6 @@ import { useTranslation } from 'react-i18next';
 import Icon from '../Icon';
 import OptionChoices from './OptionChoices';
 import SelectedOptions from './SelectedOptions';
-import BuilderSelect from './BuilderSelect';
 import ResizeHandle from './ResizeHandle';
 import SavePrompt from './SavePrompt';
 import Panel from '../Panel';
@@ -56,36 +55,50 @@ export default function Builder(p: Props) {
       <div className="builder-scroll">
         <div className="builder-wrap">
           <div className="builder-primary-inputs">
-            <div className="builder-selects">
+            <div className="builder-controls">
               {!p.photo && (
-                <BuilderSelect
-                  label={t('Outline')}
-                  value={p.selection.Outline?.[0] ?? 'coloronly'}
-                  change={(value) => p.toggle('Outline', value)}
-                  options={p.catalog
-                    .filter((o) => o.category === 'Outline')
-                    .map((o) => ({ value: o.id, label: t(o.label) }))}
-                />
+                <section className="option-section">
+                  <OptionChoices
+                    title="Outline"
+                    multiple={false}
+                    options={p.catalog
+                      .filter((o) => o.category === 'Outline')
+                      .map((o) => ({ id: o.id, label: o.label }))}
+                    selected={p.selection.Outline ?? ['coloronly']}
+                    choose={(id) => p.toggle('Outline', id)}
+                  />
+                </section>
               )}
-              <BuilderSelect
-                label={t('Aspect ratio')}
-                value={p.fields['Aspect Ratio'] || '1:1'}
-                change={(value) => p.setFields({ ...p.fields, 'Aspect Ratio': value })}
-                options={[
-                  ...new Set(['1:1', '4:3', '3:4', '16:9', '9:16', p.fields['Aspect Ratio']]),
-                ]
-                  .filter(Boolean)
-                  .map((ratio) => ({ value: ratio, label: ratio }))}
-              />
-              <BuilderSelect
-                label={t('Complexity')}
-                value={String(p.complexity)}
-                change={(value) => p.setComplexity(Number(value))}
-                options={complexityLabels.map((label, index) => ({
-                  value: String(index + 1),
-                  label: t(label),
-                }))}
-              />
+              <section className="option-section">
+                <OptionChoices
+                  title="Aspect ratio"
+                  multiple={false}
+                  collapsible={false}
+                  options={[
+                    ...new Set(['1:1', '4:3', '3:4', '16:9', '9:16', p.fields['Aspect Ratio']]),
+                  ]
+                    .filter(Boolean)
+                    .map((ratio) => ({ id: ratio, label: ratio }))}
+                  selected={[p.fields['Aspect Ratio'] || '1:1']}
+                  choose={(ratio) => p.setFields({ ...p.fields, 'Aspect Ratio': ratio })}
+                />
+              </section>
+              <section className="option-section complexity-option">
+                <h3>
+                  {t('Complexity')}
+                  <span>{t(complexityLabels[p.complexity - 1])}</span>
+                </h3>
+                <input
+                  aria-label={t('Complexity')}
+                  aria-valuetext={t(complexityLabels[p.complexity - 1])}
+                  type="range"
+                  min="1"
+                  max="5"
+                  step="1"
+                  value={p.complexity}
+                  onChange={(e) => p.setComplexity(Number(e.target.value))}
+                />
+              </section>
             </div>
             <input
               aria-label={t('Subject')}

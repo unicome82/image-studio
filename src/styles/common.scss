@@ -73,7 +73,7 @@
   @include flex-row($justify: space-between);
   min-height: 56px;
   border-bottom: 1px solid $line;
-  font-size: var(--font-10, 10px);
+  font-size: var(--font-10, 12px);
   font-weight: 600;
   @media (max-width: $mobile) {
     min-height: 52px;
@@ -85,20 +85,15 @@
   margin-bottom: 16px;
   h2 {
     @include flex-row($gap: 12px);
-    font-size: var(--font-19, 19px);
-    font-weight: 500;
+    font-size: 20px;
+    font-weight: 900;
     span {
       padding: calc(1em / 6) calc(1em / 2);
       border-radius: 8px;
       background: $secondary-hover-background;
       color: $count-text;
-      font-size: var(--font-12, 12px);
+      font-size: var(--font-12, 14px);
       font-weight: 400;
-    }
-  }
-  @media (max-width: $mobile) {
-    h2 {
-      font-size: var(--font-18, 18px);
     }
   }
 }
@@ -150,7 +145,7 @@
   padding: calc(12em / 11) calc(20em / 11);
   border-radius: 8px;
   @include selected-surface;
-  font-size: var(--font-11, 11px);
+  font-size: var(--font-11, 12px);
   transform: translateX(-50%);
 }
 .favorite-pulse {
@@ -344,7 +339,7 @@
       border: 0;
       background: transparent;
       color: $ink;
-      font-size: var(--font-12, 12px);
+      font-size: var(--font-12, 14px);
       &::-webkit-search-cancel-button {
         -webkit-appearance: none;
       }
@@ -449,7 +444,7 @@
   &.active {
     background: $ai-gradient;
     color: $white;
-    border-color: $selected-border;
+    border: 0;
   }
 }
 .type-tabs {
@@ -572,13 +567,13 @@
     pointer-events: none;
   }
   &-title {
-    font-size: var(--font-13, 13px);
+    font-size: var(--font-13, 14px);
     font-weight: 500;
     overflow-wrap: anywhere;
   }
   &-tags {
     opacity: 0.7;
-    font-size: var(--font-10, 10px);
+    font-size: var(--font-10, 12px);
     overflow-wrap: anywhere;
   }
   &.selected {
@@ -618,7 +613,7 @@
   text-align: center;
   h2 {
     color: $ink;
-    font-size: var(--font-20, 20px);
+    font-size: var(--font-20, 24px);
     font-weight: 400;
   }
 }
@@ -645,7 +640,10 @@
   }
   &-scroll {
     @include scroll-area;
-    padding: 8px 24px 20px;
+    padding: 0 24px;
+    @media (max-width: $tablet) {
+      padding-block: 8px 20px;
+    }
   }
   &-preview {
     position: relative;
@@ -691,7 +689,7 @@
   }
   &-title {
     min-width: 0;
-    font-size: var(--font-12, 12px);
+    font-size: var(--font-12, 14px);
     font-weight: 700;
     text-transform: none;
     letter-spacing: normal;
@@ -711,7 +709,7 @@
   &-prompt {
     padding: 16px 0;
     color: $prompt-text;
-    font-size: var(--font-10, 10px);
+    font-size: var(--font-10, 12px);
     line-height: 1.3;
     letter-spacing: normal;
     white-space: pre-wrap;
@@ -755,7 +753,7 @@
   gap: 4px;
   span {
     color: $tag-text;
-    font-size: var(--font-10, 10px);
+    font-size: var(--font-10, 12px);
   }
 }
 
@@ -905,7 +903,7 @@
   }
   &[aria-pressed='true'],
   &[aria-pressed='true']:hover {
-    border-color: $selected-border;
+    border: 0;
     background: transparent;
     color: $ink;
   }
@@ -961,6 +959,44 @@
   }
 }
 
+// Complexity slider
+.complexity-option {
+  input[type='range'] {
+    appearance: none;
+    height: $input-height;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    cursor: pointer;
+    &::-webkit-slider-runnable-track {
+      height: 1px;
+      border: 0;
+      background: $gray-300;
+    }
+    &::-webkit-slider-thumb {
+      appearance: none;
+      width: 12px;
+      height: 12px;
+      margin-top: calc((1px - 12px) / 2);
+      border: 0;
+      border-radius: 50%;
+      background: $ink;
+    }
+    &::-moz-range-track {
+      height: 1px;
+      border: 0;
+      background: $gray-300;
+    }
+    &::-moz-range-thumb {
+      width: 12px;
+      height: 12px;
+      border: 0;
+      border-radius: 50%;
+      background: $ink;
+    }
+  }
+}
+
 // SelectedOptions
 .selected-options {
   display: flex;
@@ -981,7 +1017,7 @@
   background: $prompt-background;
   color: rgba($ink, 0.6);
   border-radius: 4px;
-  font-size: var(--font-10, 10px);
+  font-size: var(--font-10, 12px);
   &-label {
     min-width: 0;
     overflow: hidden;
@@ -1111,7 +1147,7 @@
       height: $input-height;
       padding: 0 calc(4em / 5);
       gap: 4px;
-      font-size: var(--button-font-size, 10px);
+      font-size: var(--button-font-size, 12px);
     }
     :is(.preset-copy, .preset-delete) {
       &,
@@ -1128,7 +1164,7 @@
   min-width: 0;
   h3 {
     min-width: 0;
-    font-size: var(--font-15, 15px);
+    font-size: var(--font-15, 16px);
     font-weight: 500;
 
     text-transform: none;
@@ -1166,7 +1202,7 @@
   gap: 16px;
   padding: 32px 0 52px;
   color: $muted;
-  font-size: var(--font-12, 12px);
+  font-size: var(--font-12, 14px);
 }
 
 // Builder
@@ -1196,10 +1232,10 @@
     gap: 8px;
     padding-block: 12px 0;
   }
-  &-selects {
-    position: relative;
-    @include flex-row($gap: 12px);
-    flex-wrap: wrap;
+  &-controls {
+    .option-section {
+      padding-block: 8px;
+    }
   }
   &-scroll {
     @include scroll-area;
@@ -1228,7 +1264,7 @@
       @include flex-row($gap: 16px);
       [role='tab'] {
         @include builder-option-heading;
-        font-size: var(--button-font-size, 10px);
+        font-size: var(--button-font-size, 12px);
         min-height: var(--option-height, auto);
         font-weight: 500;
         margin-bottom: 0;
@@ -1291,7 +1327,7 @@
 }
 .subject-hint {
   color: $muted;
-  font-size: var(--font-10, 10px);
+  font-size: var(--font-10, 12px);
   line-height: 1.5;
 }
 .option-section {
