@@ -42,13 +42,6 @@
   color: $white;
 }
 
-@mixin builder-heading($font-size, $margin-bottom) {
-  margin-bottom: $margin-bottom;
-  color: $heading-muted;
-  font-size: $font-size;
-  font-weight: 400;
-}
-
 @mixin button-frame {
   @include flex-row($gap: 8px, $justify: center, $display: inline-flex);
   padding: calc(12em / 11);
@@ -76,6 +69,9 @@
 }
 
 @mixin builder-option-heading {
-  @include builder-heading($font-size: var(--text-small, 12px), $margin-bottom: 8px);
+  margin-bottom: 8px;
+  color: $heading-muted;
+  font-size: $option-heading-font-size;
+  font-weight: 500;
   @include flex-row($gap: 8px, $justify: space-between);
 }

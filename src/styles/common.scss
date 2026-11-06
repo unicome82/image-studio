@@ -711,7 +711,6 @@ textarea {
     margin-top: 16px;
     h3 {
       @include builder-option-heading;
-      color: $black;
       .icon-button {
         width: var(--icon-button-size, 24px);
         height: var(--icon-button-size, 24px);
@@ -1273,16 +1272,16 @@ textarea {
       @include flex-row($gap: 16px);
       [role='tab'] {
         @include builder-option-heading;
-        font-size: $option-heading-font-size;
         min-height: var(--option-height, auto);
-        font-weight: 500;
         margin-bottom: 0;
         padding: 0;
         @include uppercase-text;
       }
       [aria-selected='true'] {
-        font-weight: 700;
         color: $black;
+      }
+      [aria-selected='false'] {
+        opacity: 0.5;
       }
     }
     &.collapsed {
@@ -1337,7 +1336,6 @@ textarea {
   padding: 12px 0;
   h3 {
     @include builder-option-heading;
-    font-size: $option-heading-font-size;
     span {
       font-weight: 400;
 
