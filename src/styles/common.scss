@@ -474,12 +474,9 @@ textarea,
   }
   .brand-logo {
     flex-shrink: 0;
-    width: 20px;
-    height: 20px;
-    @media (max-width: $mobile) {
-      width: 24px;
-      height: 24px;
-    }
+    width: calc(1em * 5 / 4);
+    height: 1em;
+    overflow: visible;
   }
 }
 .saved-toggle {

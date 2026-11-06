@@ -1,6 +1,6 @@
 export default function Logo() {
   return (
-    <svg className="brand-logo" viewBox="360 320 584 584" aria-hidden="true" focusable="false">
+    <svg className="brand-logo" viewBox="376 446 550 440" aria-hidden="true" focusable="false">
       <defs>
         <mask id="brand-logo-mask">
           <rect x="360" y="320" width="584" height="584" fill="#fff" />
