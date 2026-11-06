@@ -33,7 +33,7 @@ GENERATE PROMPT slides into view to the right of the icon without an opacity fad
 Its right edge follows the gallery content, moving left of an open detail panel;
 the expanded label stays inside the gallery. Touch devices open the builder on
 the first tap without requiring hover. On mobile the filter panel slides in from
-the left, leaving 80px on the right over a black 80% backdrop with 8px blur. Tap
+the left, leaving 60px on the right over a black 50% backdrop with 8px blur. Tap
 outside, press Escape, or use X to close. Motion follows reduced-motion settings. Both this button and the panel's Generate
 prompt button open the full-screen builder. The full builder viewport scrolls;
 the option body no longer has its own scrollbar. Its heading and output remain
@@ -64,8 +64,8 @@ Design prompts include canonical format and style instructions from
 type for reconstruction after reload. Complexity labels range from Very Low to
 Very High (매우 낮음–매우 높음); Korean option names omit redundant suffixes.
 On mobile, the results chip row scrolls horizontally without wrapping, the filter
-animates closed before opening the builder, and editable fields use 16px text to
-avoid focus zoom. The larger logo and bounded, content-width copy toast also fit
+animates closed before opening the builder, and editable fields use 13px text on desktop and mobile (search and generated
+prompts retain their own sizes). The larger logo and bounded, content-width copy toast also fit
 320px screens.
 
 Save prompt pre-fills the editable name from Subject when the save dialog opens,

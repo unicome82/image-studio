@@ -24,9 +24,9 @@ const translation: Record<string, string> = {
   'Z–A': '하–가',
   'Refine filter choices': '빌더 옵션 선택',
   'Choose builder options to generate a prompt.':
-    '프롬프트 생성에 사용할 옵션을 골라주세요. 옵션당 최대 3개까지 선택 가능합니다.',
+    '프롬프트 생성에 사용할 옵션을 골라주세요.\n옵션당 최대 3개까지 선택 가능합니다.',
   'Choose up to {{limit}} for {{category}}.': '{{category}}: 최대 {{limit}}개를 골라주세요.',
-  'Apply choices': '선택 적용',
+  'Apply choices': '다음',
 
   '{{count}} results': '{{count}}개',
   'Generate Prompt label': 'Generate Prompt',
@@ -126,6 +126,8 @@ const translation: Record<string, string> = {
   'Saved style sets': '저장된 스타일셋',
   'Saved prompts': '저장된 프롬프트',
   Prompts: '프롬프트',
+  'Save a prompt to collect your style sets here.':
+    '프롬프트를 저장해 나만의 스타일셋을 모아보세요.',
   'No saved style sets': '저장된 스타일셋이 없습니다',
   'Rename style set': '스타일셋 이름 변경',
   'Confirm rename': '이름 변경 확인',

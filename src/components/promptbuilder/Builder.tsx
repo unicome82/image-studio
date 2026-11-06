@@ -114,14 +114,16 @@ export default function Builder(p: Props) {
             ) : (
               <label htmlFor={`${tabsId}-subject`}>{t('What would you like to draw?')}</label>
             )}
-            <button
-              className="icon-button"
-              aria-label={t('Reset Builder')}
-              title={t('Reset Builder')}
-              onClick={p.reset}
-            >
-              <Icon name="refresh" size="20" />
-            </button>
+            {!resolving && (
+              <button
+                className="icon-button"
+                aria-label={t('Reset Builder')}
+                title={t('Reset Builder')}
+                onClick={p.reset}
+              >
+                <Icon name="refresh" size="20" />
+              </button>
+            )}
           </h2>
           <div className="builder-composer-close">
             <button

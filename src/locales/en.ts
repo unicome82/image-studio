@@ -24,9 +24,9 @@ const translation: Record<string, string> = {
   'Z–A': 'Z–A',
   'Refine filter choices': 'Refine filter choices',
   'Choose builder options to generate a prompt.':
-    'Choose the options to use in your prompt. Select up to 3 options per category.',
+    'Choose the options to use in your prompt.\nSelect up to 3 options per category.',
   'Choose up to {{limit}} for {{category}}.': 'Choose up to {{limit}} for {{category}}.',
-  'Apply choices': 'Apply choices',
+  'Apply choices': 'Next',
 
   '{{count}} results': '{{count}} results',
   'Generate Prompt label': 'Generate Prompt',
@@ -126,6 +126,8 @@ const translation: Record<string, string> = {
   'Saved style sets': 'Saved style sets',
   'Saved prompts': 'Saved prompts',
   Prompts: 'Prompts',
+  'Save a prompt to collect your style sets here.':
+    'Save a prompt to collect your style sets here.',
   'No saved style sets': 'No saved style sets',
   'Rename style set': 'Rename style set',
   'Confirm rename': 'Confirm rename',

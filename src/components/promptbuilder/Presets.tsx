@@ -20,9 +20,9 @@ export default function Presets(p: Props) {
     <section className="presets-page" aria-label={t('Saved style sets')}>
       <div className="preset-list">
         {p.presets.length === 0 ? (
-          <div className="preset-empty">
-            <Icon name="collections_bookmark" size="22" />
-            <p>{t('No saved style sets')}</p>
+          <div className="empty-state" role="status">
+            <h2>{t('No saved style sets')}</h2>
+            <p>{t('Save a prompt to collect your style sets here.')}</p>
           </div>
         ) : (
           p.presets.map((preset) => {
