@@ -11,7 +11,6 @@ export default function CollectionSort({
   const { t } = useTranslation();
   return (
     <div className="collection-sort">
-      <span>{t('Sort')}</span>
       <BuilderSelect
         label={t('Sort')}
         value={value}
