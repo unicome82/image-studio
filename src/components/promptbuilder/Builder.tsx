@@ -6,6 +6,7 @@ import SelectedOptions from './SelectedOptions';
 import ResizeHandle from './ResizeHandle';
 import SavePrompt from './SavePrompt';
 import Panel from '../Panel';
+import { useMediaQuery } from '../../utils/useMediaQuery';
 import {
   builderCategories,
   complexityLabels,
@@ -34,6 +35,8 @@ interface Props {
 export default function Builder(p: Props) {
   const { t } = useTranslation();
   const [fullscreen, setFullscreen] = useState(false);
+  const mobile = useMediaQuery('(max-width: 600px)');
+  const fullscreenView = fullscreen && !mobile;
   const design = p.type === 'design';
   const configuration = JSON.stringify([p.selection, p.fields, p.complexity, p.type]);
   const [outputCollapsed, setOutputCollapsed] = useState(false);
@@ -44,24 +47,59 @@ export default function Builder(p: Props) {
   }, [configuration]);
   const tabsId = useId();
   const categories = builderCategories(p.photo).filter((category) => category !== 'Outline');
+  const selectedOptions = (
+    <SelectedOptions
+      catalog={p.catalog}
+      selection={p.selection}
+      fields={p.fields}
+      photo={p.photo}
+      complexity={p.complexity}
+      remove={p.removeOption}
+    />
+  );
+  const promptActions = (
+    <div className="prompt-actions">
+      <SavePrompt
+        save={p.save}
+        prompt={p.prompt}
+        selected={{
+          catalog: p.catalog,
+          selection: p.selection,
+          fields: p.fields,
+          photo: p.photo,
+          complexity: p.complexity,
+        }}
+      />
+      <button className="primary builder-copy" onClick={() => p.copy(p.prompt)}>
+        <Icon name="content_copy" size="14" />
+        {t('Copy')}
+      </button>
+    </div>
+  );
   return (
     <Panel
-      className={'builder' + (fullscreen ? ' builder-fullscreen' : '')}
+      className={'builder' + (fullscreenView ? ' builder-fullscreen' : '')}
       label={t('Prompt Builder')}
-      fullscreen={fullscreen}
-      close={() => (fullscreen ? setFullscreen(false) : p.close())}
+      fullscreen={fullscreenView}
+      close={() => (fullscreenView ? setFullscreen(false) : p.close())}
     >
-      {!fullscreen && <ResizeHandle width={p.width} resize={p.resize} />}
+      {!fullscreenView && <ResizeHandle width={p.width} resize={p.resize} />}
       <div className="builder-wrap builder-heading">
         <h2 className="builder-title">
           <label htmlFor={`${tabsId}-subject`}>{t('What would you like to draw?')}</label>
           <button
-            className="icon-button builder-fullscreen-toggle"
-            aria-label={t(fullscreen ? 'Exit Builder fullscreen' : 'View Builder fullscreen')}
-            aria-pressed={fullscreen}
+            className={
+              'icon-button builder-fullscreen-toggle' + (fullscreenView ? ' close-button' : '')
+            }
+            aria-label={t(fullscreenView ? 'Exit Builder fullscreen' : 'View Builder fullscreen')}
+            aria-pressed={fullscreenView}
             onClick={() => setFullscreen(!fullscreen)}
           >
-            <Icon name={fullscreen ? 'fullscreen_exit' : 'fullscreen'} size="20" />
+            <Icon
+              name={fullscreenView ? 'close' : 'fullscreen'}
+              size={fullscreenView ? '24' : '20'}
+              className={fullscreenView ? 'w200' : ''}
+            />
           </button>
         </h2>
         <div className="builder-mobile-close">
@@ -229,112 +267,116 @@ export default function Builder(p: Props) {
           )}
         </div>
       </div>
-      {!design && (
-        <div className={'builder-footer' + (outputCollapsed ? ' collapsed' : '')}>
-          <div className="builder-wrap">
-            <div className="builder-footer-heading">
-              <div className="builder-footer-tabs" role="tablist" aria-label={t('Builder output')}>
-                {['Selected', 'Prompt'].map((tab, index) => (
+      {!design &&
+        (fullscreenView ? (
+          <div className="builder-fullscreen-output">
+            <div className="builder-fullscreen-output-scroll">
+              <section className="builder-fullscreen-selected" aria-label={t('Selected')}>
+                <h3>{t('Selected')}</h3>
+                {selectedOptions}
+              </section>
+              <section className="builder-fullscreen-prompt">
+                <h3>
+                  <label htmlFor={`${tabsId}-fullscreen-prompt`}>{t('Prompt')}</label>
+                </h3>
+                <textarea
+                  id={`${tabsId}-fullscreen-prompt`}
+                  className="prompt-textarea"
+                  aria-label={t('Builder prompt')}
+                  readOnly
+                  value={p.prompt}
+                />
+              </section>
+            </div>
+            {promptActions}
+          </div>
+        ) : (
+          <div className={'builder-footer' + (outputCollapsed ? ' collapsed' : '')}>
+            <div className="builder-wrap">
+              <div className="builder-footer-heading">
+                <div
+                  className="builder-footer-tabs"
+                  role="tablist"
+                  aria-label={t('Builder output')}
+                >
+                  {['Selected', 'Prompt'].map((tab, index) => (
+                    <button
+                      key={tab}
+                      id={`${tabsId}-tab-${index}`}
+                      role="tab"
+                      aria-selected={showPrompt === (index === 1)}
+                      aria-controls={`${tabsId}-panel`}
+                      tabIndex={showPrompt === (index === 1) ? 0 : -1}
+                      onClick={() => {
+                        setGenerated(index === 1 ? configuration : null);
+                        setOutputCollapsed(false);
+                      }}
+                      onKeyDown={(event) => {
+                        if (!['ArrowLeft', 'ArrowRight', 'Home', 'End'].includes(event.key)) return;
+                        event.preventDefault();
+                        const next = event.key === 'Home' ? 0 : event.key === 'End' ? 1 : 1 - index;
+                        setGenerated(next === 1 ? configuration : null);
+                        setOutputCollapsed(false);
+                        document.getElementById(`${tabsId}-tab-${next}`)?.focus();
+                      }}
+                    >
+                      {t(tab)}
+                    </button>
+                  ))}
+                </div>
+                <button
+                  className="choice-toggle builder-output-toggle"
+                  aria-label={t(
+                    outputCollapsed ? 'Expand Builder output' : 'Collapse Builder output',
+                  )}
+                  aria-expanded={!outputCollapsed}
+                  aria-controls={`${tabsId}-content`}
+                  onClick={() => setOutputCollapsed(!outputCollapsed)}
+                >
+                  <Icon name={outputCollapsed ? 'expand_more' : 'expand_less'} size="16" />
+                </button>
+              </div>
+              <div
+                className="builder-output"
+                key={showPrompt ? 'prompt' : 'selected'}
+                id={`${tabsId}-panel`}
+                role="tabpanel"
+                aria-labelledby={`${tabsId}-tab-${showPrompt ? 1 : 0}`}
+              >
+                <div
+                  id={`${tabsId}-content`}
+                  className="builder-output-content"
+                  hidden={outputCollapsed}
+                >
+                  {showPrompt ? (
+                    <textarea
+                      className="prompt-textarea"
+                      aria-label={t('Builder prompt')}
+                      readOnly
+                      value={p.prompt}
+                    />
+                  ) : (
+                    selectedOptions
+                  )}
+                </div>
+                {showPrompt ? (
+                  promptActions
+                ) : (
                   <button
-                    key={tab}
-                    id={`${tabsId}-tab-${index}`}
-                    role="tab"
-                    aria-selected={showPrompt === (index === 1)}
-                    aria-controls={`${tabsId}-panel`}
-                    tabIndex={showPrompt === (index === 1) ? 0 : -1}
+                    className="primary generate-prompt"
                     onClick={() => {
-                      setGenerated(index === 1 ? configuration : null);
+                      setGenerated(configuration);
                       setOutputCollapsed(false);
-                    }}
-                    onKeyDown={(event) => {
-                      if (!['ArrowLeft', 'ArrowRight', 'Home', 'End'].includes(event.key)) return;
-                      event.preventDefault();
-                      const next = event.key === 'Home' ? 0 : event.key === 'End' ? 1 : 1 - index;
-                      setGenerated(next === 1 ? configuration : null);
-                      setOutputCollapsed(false);
-                      document.getElementById(`${tabsId}-tab-${next}`)?.focus();
                     }}
                   >
-                    {t(tab)}
+                    <Icon name="auto_awesome" size="16" className="fill" />
+                    {t('Generate prompt')}
                   </button>
-                ))}
-              </div>
-              <button
-                className="choice-toggle builder-output-toggle"
-                aria-label={t(
-                  outputCollapsed ? 'Expand Builder output' : 'Collapse Builder output',
-                )}
-                aria-expanded={!outputCollapsed}
-                aria-controls={`${tabsId}-content`}
-                onClick={() => setOutputCollapsed(!outputCollapsed)}
-              >
-                <Icon name={outputCollapsed ? 'expand_more' : 'expand_less'} size="16" />
-              </button>
-            </div>
-            <div
-              className="builder-output"
-              key={showPrompt ? 'prompt' : 'selected'}
-              id={`${tabsId}-panel`}
-              role="tabpanel"
-              aria-labelledby={`${tabsId}-tab-${showPrompt ? 1 : 0}`}
-            >
-              <div
-                id={`${tabsId}-content`}
-                className="builder-output-content"
-                hidden={outputCollapsed}
-              >
-                {showPrompt ? (
-                  <textarea
-                    className="prompt-textarea"
-                    aria-label={t('Builder prompt')}
-                    readOnly
-                    value={p.prompt}
-                  />
-                ) : (
-                  <SelectedOptions
-                    catalog={p.catalog}
-                    selection={p.selection}
-                    fields={p.fields}
-                    photo={p.photo}
-                    complexity={p.complexity}
-                    remove={p.removeOption}
-                  />
                 )}
               </div>
-              {showPrompt ? (
-                <div className="prompt-actions">
-                  <SavePrompt
-                    save={p.save}
-                    prompt={p.prompt}
-                    selected={{
-                      catalog: p.catalog,
-                      selection: p.selection,
-                      fields: p.fields,
-                      photo: p.photo,
-                      complexity: p.complexity,
-                    }}
-                  />
-                  <button className="primary builder-copy" onClick={() => p.copy(p.prompt)}>
-                    <Icon name="content_copy" size="14" />
-                    {t('Copy')}
-                  </button>
-                </div>
-              ) : (
-                <button
-                  className="primary generate-prompt"
-                  onClick={() => {
-                    setGenerated(configuration);
-                    setOutputCollapsed(false);
-                  }}
-                >
-                  <Icon name="auto_awesome" size="16" className="fill" />
-                  {t('Generate prompt')}
-                </button>
-              )}
             </div>
           </div>
-        </div>
-      )}
+        ))}
     </Panel>
   );
 }

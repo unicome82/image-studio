@@ -1247,7 +1247,61 @@ textarea {
     border: 0;
     background: $page;
     &[open] {
+      display: grid;
+      grid-template-columns: minmax(0, 7fr) minmax(280px, 3fr);
+      grid-template-rows: auto minmax(0, 1fr);
+    }
+    > .builder-heading {
+      grid-column: 1 / -1;
+    }
+    > .builder-scroll {
+      grid-column: 1;
+      min-width: 0;
+    }
+  }
+  &-fullscreen-output {
+    grid-column: 2;
+    grid-row: 2;
+    min-width: 0;
+    min-height: 0;
+    @include flex-column;
+    border-left: 1px solid $line;
+    &-scroll {
+      @include scroll-area;
       @include flex-column;
+      gap: 20px;
+      padding: $content-padding;
+    }
+    h3 {
+      @include builder-option-heading;
+    }
+    .selected-options {
+      max-height: none;
+      margin: 0;
+      padding: 0;
+      overflow: visible;
+    }
+    > .prompt-actions {
+      flex-shrink: 0;
+      margin: 0;
+      padding: $content-padding;
+      border-top: 1px solid $line;
+      background: $page;
+      button {
+        @include uppercase-text;
+      }
+    }
+  }
+  &-fullscreen-selected {
+    flex-shrink: 0;
+  }
+  &-fullscreen-prompt {
+    @include flex-column;
+    flex: 1;
+    min-height: 160px;
+    .prompt-textarea {
+      flex: 1;
+      min-height: 120px;
     }
   }
   &-fullscreen-toggle {
