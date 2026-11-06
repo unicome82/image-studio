@@ -48,7 +48,7 @@ export default function Header(p: Props) {
         }}
       >
         <Logo />
-        IMAGE STUDIO
+        {!mobile && 'IMAGE STUDIO'}
       </a>
       {mobile && (
         <button
