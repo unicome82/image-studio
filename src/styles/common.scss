@@ -637,11 +637,18 @@ textarea {
   top: var(--panel-top);
   @include flex-column;
   min-height: 0;
+  overflow-y: auto;
+  overscroll-behavior: contain;
   height: calc(100dvh - var(--panel-top));
   padding: 0;
   border-left: 1px solid $line;
   background: $page;
   > .panel-heading {
+    position: sticky;
+    top: 0;
+    z-index: 3;
+    background: rgba($page, 0.7);
+    backdrop-filter: blur(8px);
     flex-shrink: 0;
     gap: 8px;
     min-height: 0;
@@ -652,7 +659,7 @@ textarea {
     }
   }
   &-scroll {
-    @include scroll-area;
+    flex-shrink: 0;
     padding: 0 24px;
     @media (max-width: $tablet) {
       padding-block: 8px 20px;
@@ -727,9 +734,11 @@ textarea {
   &-actions {
     position: sticky;
     bottom: 0;
+    z-index: 3;
+    backdrop-filter: blur(8px);
     flex-shrink: 0;
     padding: 12px 24px 20px;
-    background: $page;
+    background: rgba($page, 0.7);
   }
   @media (max-width: $tablet) {
     position: fixed;
@@ -971,7 +980,7 @@ textarea {
   flex-wrap: wrap;
   gap: 4px;
   max-height: 96px;
-  margin: 0 (-$content-padding) 20px 0;
+  margin-right: -$content-padding;
   padding-right: $content-padding;
   overflow: auto;
 }
@@ -980,6 +989,9 @@ textarea {
   max-width: 100%;
   min-width: 0;
   height: 22px;
+  @media (max-width: $mobile) {
+    height: 24px;
+  }
   padding: 0 calc(2em / 3) 0 calc(4em / 5);
   border: 1px solid $prompt-border;
   background: $prompt-background;
@@ -1284,6 +1296,9 @@ textarea {
       padding: 8px 16px 0;
     }
     &-footer {
+      &-heading {
+        margin-top: 12px;
+      }
       .prompt-textarea {
         height: clamp(112px, 29cqw, 144px);
       }
