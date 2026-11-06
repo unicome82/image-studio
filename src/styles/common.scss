@@ -381,6 +381,10 @@ textarea {
     @include flex-row($gap: 8px);
     flex-shrink: 0;
     margin-left: auto;
+    .icon-button {
+      width: 36px;
+      height: 36px;
+    }
   }
   @media (max-width: $mobile) {
     gap: calc(1em / 4);
@@ -1261,6 +1265,7 @@ textarea {
     font-size: $option-font-size;
   }
   button {
+    font-size: 12px;
     flex-shrink: 0;
     height: 28px;
     padding: 0 calc(4em / 5);
@@ -1405,6 +1410,7 @@ textarea {
   }
   &-scroll {
     @include scroll-area;
+    padding: 20px;
     > .builder-wrap {
       padding: 0;
     }
