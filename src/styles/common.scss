@@ -456,16 +456,16 @@
     padding: 0 1em;
     border: 1px solid transparent;
     border-radius: 6px;
-    background: $prompt-background;
+    background: transparent;
     color: $muted;
     white-space: nowrap;
     &[aria-pressed='true'] {
-      background: $white;
+      background: transparent;
       border-color: $selected-border;
       color: $ink;
     }
     &[aria-pressed='false']:hover {
-      background: $prompt-background;
+      background: transparent;
       color: $ink;
     }
   }
@@ -477,7 +477,7 @@
   min-width: 0;
   overflow: auto;
   button {
-    background: $prompt-background;
+    background: transparent;
     padding: 0 1em;
     border-bottom: 2px solid transparent;
     color: $tab-text;
@@ -507,7 +507,7 @@
       padding-inline: calc(1em / 2);
       border: 1px solid $selected-border;
       border-radius: 6px;
-      background: $prompt-background;
+      background: transparent;
       color: $ink;
     }
   }
@@ -903,11 +903,12 @@
   }
   &[aria-pressed='true'],
   &[aria-pressed='true']:hover {
-    border: 0;
+    border: 1px solid $selected-border;
     background: transparent;
     color: $ink;
   }
   @media (max-width: $mobile) {
+    --button-font-size: 13px;
     padding-block: round(nearest, calc(2em / 11), 2px);
   }
 }
@@ -1001,18 +1002,18 @@
 .selected-options {
   display: flex;
   flex-wrap: wrap;
-  gap: 4px;
+  gap: 0;
   max-height: 96px;
   margin: 0 (-$content-padding) 20px 0;
   padding-right: $content-padding;
   overflow: auto;
 }
 .selected-option {
-  @include flex-row($gap: 4px, $display: inline-flex);
+  @include flex-row($gap: 0, $display: inline-flex);
   max-width: 100%;
   min-width: 0;
-  height: var(--chip-height, 20px);
-  padding: 0 calc(2em / 5) 0 calc(4em / 5);
+  height: max(28px, var(--chip-height, 20px));
+  padding: 0 calc(2em / 3) 0 calc(4em / 5);
   border: 1px solid $prompt-border;
   background: $prompt-background;
   color: rgba($ink, 0.6);
@@ -1025,12 +1026,12 @@
     text-overflow: ellipsis;
   }
   .selected-option-remove {
-    margin-right: -4px;
+    margin-right: -8px;
     opacity: 0.5;
     @include grid-center;
     flex-shrink: 0;
-    width: var(--chip-height, 16px);
-    height: var(--chip-height, 16px);
+    width: 28px;
+    height: 28px;
     padding: 0;
   }
   &-remove {
@@ -1227,15 +1228,8 @@
   &-wrap {
     padding-inline: $content-padding;
   }
-  &-primary-inputs {
-    display: grid;
-    gap: 8px;
-    padding-block: 12px 0;
-  }
-  &-controls {
-    .option-section {
-      padding-block: 8px;
-    }
+  &-subject {
+    margin-top: 12px;
   }
   &-scroll {
     @include scroll-area;
@@ -1249,7 +1243,7 @@
     width: var(--toggle-width, 20px);
     height: var(--toggle-height, 12px);
     padding: var(--toggle-padding, 2px);
-    border-radius: 12px;
+    border-radius: 999px;
     background: $toggle-background;
   }
   &-footer {
@@ -1326,6 +1320,7 @@
   }
 }
 .subject-hint {
+  margin-top: 8px;
   color: $muted;
   font-size: var(--font-10, 12px);
   line-height: 1.5;
@@ -1334,6 +1329,7 @@
   padding: 12px 0;
   h3 {
     @include builder-option-heading;
+    font-size: 10px;
     span {
       font-weight: 400;
 
@@ -1352,7 +1348,7 @@
     display: block;
     width: var(--toggle-thumb, 8px);
     height: var(--toggle-thumb, 8px);
-    border-radius: 8px;
+    border-radius: 50%;
     background: $white;
     transition: transform var(--transition-duration);
   }

@@ -71,6 +71,7 @@ table {
   --transition-duration: 0.3s;
   @media (max-width: $mobile) {
     --header-visible: 80px;
+    --input-height: 32px;
     --nav-height: round(nearest, clamp(52px, 14cqw, 64px), 4px);
     --nav-control-height: round(nearest, clamp(36px, 9cqw, 44px), 4px);
     --control-height: round(nearest, clamp(44px, 11cqw, 52px), 4px);
@@ -79,9 +80,9 @@ table {
     --chip-height: round(nearest, clamp(32px, 8cqw, 40px), 4px);
     --button-font-size: round(nearest, clamp(12px, calc(10px + 1cqw), 16px), 2px);
     --font-10: 12px;
-    --font-11: 16px;
-    --font-12: 16px;
-    --font-13: 16px;
+    --font-11: 14px;
+    --font-12: 14px;
+    --font-13: 14px;
     --font-15: 16px;
     --font-16: 16px;
     --font-18: 20px;
@@ -95,11 +96,11 @@ table {
     --icon-22: 24px;
     --icon-24: 28px;
     --icon-32: 36px;
-    --toggle-width: 44px;
-    --toggle-height: 26px;
-    --toggle-padding: 3px;
-    --toggle-thumb: 20px;
-    --toggle-offset: 18px;
+    --toggle-width: 22px;
+    --toggle-height: 12px;
+    --toggle-padding: 2px;
+    --toggle-thumb: 8px;
+    --toggle-offset: 10px;
   }
   @media (prefers-reduced-motion: reduce) {
     --transition-duration: 0s;
@@ -178,7 +179,7 @@ input {
 textarea {
   display: block;
   @include field-surface;
-  padding: calc(4em / 5);
+  padding: 0.6em 0.8em;
   color: $ink;
   line-height: 1.3;
   resize: none;

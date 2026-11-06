@@ -54,63 +54,58 @@ export default function Builder(p: Props) {
       </div>
       <div className="builder-scroll">
         <div className="builder-wrap">
-          <div className="builder-primary-inputs">
-            <div className="builder-controls">
-              {!p.photo && (
-                <section className="option-section">
-                  <OptionChoices
-                    title="Outline"
-                    multiple={false}
-                    options={p.catalog
-                      .filter((o) => o.category === 'Outline')
-                      .map((o) => ({ id: o.id, label: o.label }))}
-                    selected={p.selection.Outline ?? ['coloronly']}
-                    choose={(id) => p.toggle('Outline', id)}
-                  />
-                </section>
-              )}
-              <section className="option-section">
-                <OptionChoices
-                  title="Aspect ratio"
-                  multiple={false}
-                  collapsible={false}
-                  options={[
-                    ...new Set(['1:1', '4:3', '3:4', '16:9', '9:16', p.fields['Aspect Ratio']]),
-                  ]
-                    .filter(Boolean)
-                    .map((ratio) => ({ id: ratio, label: ratio }))}
-                  selected={[p.fields['Aspect Ratio'] || '1:1']}
-                  choose={(ratio) => p.setFields({ ...p.fields, 'Aspect Ratio': ratio })}
-                />
-              </section>
-              <section className="option-section complexity-option">
-                <h3>
-                  {t('Complexity')}
-                  <span>{t(complexityLabels[p.complexity - 1])}</span>
-                </h3>
-                <input
-                  aria-label={t('Complexity')}
-                  aria-valuetext={t(complexityLabels[p.complexity - 1])}
-                  type="range"
-                  min="1"
-                  max="5"
-                  step="1"
-                  value={p.complexity}
-                  onChange={(e) => p.setComplexity(Number(e.target.value))}
-                />
-              </section>
-            </div>
-            <input
-              aria-label={t('Subject')}
-              aria-describedby={`${tabsId}-subject-hint`}
-              placeholder={t('What would you like to draw?')}
-              value={p.fields.Subject ?? ''}
-              onChange={(e) => p.setFields({ ...p.fields, Subject: e.target.value })}
+          <input
+            className="builder-subject"
+            aria-label={t('Subject')}
+            aria-describedby={`${tabsId}-subject-hint`}
+            placeholder={t('What would you like to draw?')}
+            value={p.fields.Subject ?? ''}
+            onChange={(e) => p.setFields({ ...p.fields, Subject: e.target.value })}
+          />
+          <p id={`${tabsId}-subject-hint`} className="subject-hint">
+            {t('Leave blank to generate an image with a random subject.')}
+          </p>
+          {!p.photo && (
+            <section className="option-section">
+              <OptionChoices
+                title="Outline"
+                multiple={false}
+                options={p.catalog
+                  .filter((o) => o.category === 'Outline')
+                  .map((o) => ({ id: o.id, label: o.label }))}
+                selected={p.selection.Outline ?? ['coloronly']}
+                choose={(id) => p.toggle('Outline', id)}
+              />
+            </section>
+          )}
+          <section className="option-section">
+            <OptionChoices
+              title="Aspect ratio"
+              multiple={false}
+              collapsible={false}
+              options={[...new Set(['1:1', '4:3', '3:4', '16:9', '9:16', p.fields['Aspect Ratio']])]
+                .filter(Boolean)
+                .map((ratio) => ({ id: ratio, label: ratio }))}
+              selected={[p.fields['Aspect Ratio'] || '1:1']}
+              choose={(ratio) => p.setFields({ ...p.fields, 'Aspect Ratio': ratio })}
             />
-            <p id={`${tabsId}-subject-hint`} className="subject-hint">
-              {t('Leave blank to generate an image with a random subject.')}
-            </p>
-          </div>
+          </section>
+          <section className="option-section complexity-option">
+            <h3>
+              {t('Complexity')}
+              <span>{t(complexityLabels[p.complexity - 1])}</span>
+            </h3>
+            <input
+              aria-label={t('Complexity')}
+              aria-valuetext={t(complexityLabels[p.complexity - 1])}
+              type="range"
+              min="1"
+              max="5"
+              step="1"
+              value={p.complexity}
+              onChange={(e) => p.setComplexity(Number(e.target.value))}
+            />
+          </section>
           {categories.map((category) => {
             const preferred = [
               'naivefolk',
