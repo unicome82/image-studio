@@ -99,7 +99,7 @@ export default function Builder(p: Props) {
       />
       <button className="primary" disabled={resolving} onClick={() => p.copy(p.prompt)}>
         <Icon name="content_copy" size="14" />
-        {t('Copy')}
+        {t('Copy prompt')}
       </button>
     </div>
   );
