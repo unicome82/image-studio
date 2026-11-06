@@ -461,6 +461,9 @@ textarea,
   }
 }
 .brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
   white-space: nowrap;
   font-size: var(--text-brand, 16px);
   font-weight: 900;
@@ -468,6 +471,15 @@ textarea,
   letter-spacing: 0;
   @media (max-width: $mobile) {
     font-size: round(nearest, clamp(16px, 4.6cqw, 20px), 2px);
+  }
+  .brand-logo {
+    flex-shrink: 0;
+    width: 20px;
+    height: 20px;
+    @media (max-width: $mobile) {
+      width: 24px;
+      height: 24px;
+    }
   }
 }
 .saved-toggle {

@@ -3,6 +3,7 @@ import { mobileQuery, useMediaQuery } from '../utils/useMediaQuery';
 import { useTranslation } from 'react-i18next';
 import Icon from './Icon';
 import LanguageMenu from './LanguageMenu';
+import Logo from './Logo';
 interface Props {
   home: () => void;
   query: string;
@@ -46,6 +47,7 @@ export default function Header(p: Props) {
           p.home();
         }}
       >
+        <Logo />
         IMAGE STUDIO
       </a>
       {mobile && (
