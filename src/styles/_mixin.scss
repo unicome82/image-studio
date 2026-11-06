@@ -5,6 +5,27 @@
   backdrop-filter: blur($popup-blur);
 }
 
+// Fade the sticky surface and its blur, leaving foreground controls fully opaque.
+@mixin sticky-surface($direction: to bottom) {
+  isolation: isolate;
+  background: transparent;
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+    background: linear-gradient(
+      $direction,
+      rgba($white, 0.96),
+      rgba($white, 0.88) calc(100% - 24px),
+      rgba($white, 0)
+    );
+    backdrop-filter: blur(8px);
+    mask-image: linear-gradient($direction, $black calc(100% - 24px), transparent);
+  }
+}
+
 @mixin flex-row($gap: null, $justify: null, $display: flex) {
   display: $display;
   align-items: center;

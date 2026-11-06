@@ -645,8 +645,7 @@ textarea {
     position: sticky;
     top: 0;
     z-index: 3;
-    background: $sticky-background;
-    backdrop-filter: blur(8px);
+    @include sticky-surface;
     flex-shrink: 0;
     gap: 8px;
     min-height: 0;
@@ -733,10 +732,9 @@ textarea {
     position: sticky;
     bottom: 0;
     z-index: 3;
-    backdrop-filter: blur(8px);
+    @include sticky-surface(to top);
     flex-shrink: 0;
     padding: 20px 24px;
-    background: $sticky-background;
   }
   @media (max-width: $tablet) {
     position: fixed;
@@ -859,8 +857,7 @@ textarea {
   z-index: 20;
   margin: 0 calc(-1 * var(--gallery-padding));
   padding: 12px var(--gallery-padding);
-  background: $results-background;
-  backdrop-filter: blur(8px);
+  @include sticky-surface;
   .section-heading {
     margin-bottom: 0;
     gap: 12px;
@@ -1164,6 +1161,8 @@ textarea {
 
 // Shared collapsible editable selections
 .selection-summary {
+  position: relative;
+  isolation: isolate;
   display: flex;
   align-items: flex-start;
   flex-shrink: 0;
@@ -1184,8 +1183,21 @@ textarea {
     margin: 0;
     overflow: visible;
   }
+  > .choice-toggle {
+    position: relative;
+    z-index: 2;
+  }
   &.collapsed {
     align-items: center;
+    &::after {
+      content: '';
+      position: absolute;
+      inset: 0 -8px 0 auto;
+      width: 56px;
+      z-index: 1;
+      pointer-events: none;
+      background: linear-gradient(to right, rgba($white, 0), rgba($white, 0.88) 60%, $white);
+    }
     .selection-summary-content {
       max-height: none;
       overflow-x: auto;
@@ -1495,8 +1507,7 @@ textarea {
         height: auto;
         max-height: 60dvh;
         border-left: 0;
-        background: $sticky-background;
-        backdrop-filter: blur(8px);
+        @include sticky-surface(to top);
         .builder-fullscreen-prompt {
           flex: none;
           .prompt-textarea {
@@ -1512,8 +1523,7 @@ textarea {
     z-index: 3;
     align-self: start;
     height: calc(100dvh - var(--composer-heading-height));
-    background: $sticky-background;
-    backdrop-filter: blur(8px);
+    @include sticky-surface;
     grid-column: 2;
     grid-row: 2;
     min-width: 0;
@@ -1587,8 +1597,7 @@ textarea {
     position: sticky;
     top: 0;
     z-index: 3;
-    background: $sticky-background;
-    backdrop-filter: blur(8px);
+    @include sticky-surface;
     @include flex-row($gap: 0, $justify: space-between);
     flex-shrink: 0;
     padding: 12px 20px;
@@ -1630,8 +1639,7 @@ textarea {
     position: sticky;
     bottom: 0;
     z-index: 3;
-    background: $sticky-background;
-    backdrop-filter: blur(8px);
+    @include sticky-surface(to top);
     flex-shrink: 0;
     padding: 0;
   }

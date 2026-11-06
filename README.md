@@ -23,7 +23,10 @@ the category title or chevron reopens it without changing choices or typed text.
 
 The results toolbar contains the filter toggle, a numeric-only count, and thumbnail
 size or collection sorting controls. The toolbar sticks during scrolling with
-8px backdrop blur; the main header has a bottom border. Selected filters appear
+8px backdrop blur; sticky top edges fade white to transparent, and sticky bottom
+surfaces fade transparent to white. The surface and blur share a fade mask while
+controls remain opaque. Collapsed editable selections also fade gently toward
+the right-side ellipsis control. The main header has a bottom border. Selected filters appear
 as removable chips without an extra heading, and the chip row disappears when
 empty. Fully selected categories are omitted from the active chips. The old top
 navigation and ALL / SELECTED labels are removed. Collection sorting uses compact
