@@ -1280,6 +1280,8 @@ textarea {
   top: var(--panel-top);
   @include flex-column;
   min-height: 0;
+  overflow-y: auto;
+  overscroll-behavior: contain;
   height: calc(100dvh - var(--panel-top));
   padding: 0;
   border-right: 1px solid $line;
@@ -1317,6 +1319,7 @@ textarea {
       border-bottom: 1px solid $line;
     }
     > .builder-scroll {
+      @include scroll-area;
       grid-column: 1;
       min-width: 0;
     }
@@ -1394,7 +1397,8 @@ textarea {
     font-weight: 700;
   }
   &-scroll {
-    @include scroll-area;
+    flex: none;
+    overflow: visible;
     padding: 20px;
     > .builder-wrap {
       padding: 0;
@@ -1476,12 +1480,6 @@ textarea {
       top: 0;
       width: 100%;
       height: 100dvh;
-      overflow-y: auto;
-      overscroll-behavior: contain;
-    }
-    &-scroll {
-      flex: none;
-      overflow: visible;
     }
     &-mobile-close {
       display: flex;
