@@ -957,12 +957,35 @@ textarea {
 .filter-panel {
   .filter-mobile-summary {
     margin-bottom: 16px;
-    h3 {
-      @include builder-option-heading;
+    display: flex;
+    align-items: flex-start;
+    gap: 4px;
+    &-content {
+      flex: 1;
+      min-width: 0;
     }
     .filter-summary {
       max-height: min(120px, 20dvh);
-      margin-top: 8px;
+      margin-top: 0;
+    }
+    &.collapsed {
+      align-items: center;
+      .filter-summary {
+        max-height: none;
+        overflow-x: auto;
+        overflow-y: hidden;
+        scrollbar-width: none;
+        &::-webkit-scrollbar {
+          display: none;
+        }
+      }
+      .selected-options {
+        width: max-content;
+        flex-wrap: nowrap;
+      }
+      .selected-option {
+        flex-shrink: 0;
+      }
     }
   }
   .builder-scroll {
@@ -970,6 +993,9 @@ textarea {
   }
   .builder-footer {
     border-top: 1px solid $line;
+    @media (max-width: $mobile) {
+      border-top: 0;
+    }
   }
   @media (max-width: $mobile) {
     &.fullscreen-panel.drawer-panel {
@@ -1086,6 +1112,9 @@ textarea {
   color: $muted;
   font-size: var(--text-small, 12px);
   overflow-wrap: anywhere;
+  &.has-selection {
+    color: $selected-summary;
+  }
 }
 .option-choice {
   @include flex-row($gap: 3px, $display: inline-flex);
@@ -1120,9 +1149,9 @@ textarea {
   margin-right: -8px;
   @include flex-row($justify: center, $display: inline-flex);
   flex-shrink: 0;
-  height: var(--icon-button-size, #{$option-control-height});
-  width: var(--icon-button-size, #{$option-control-height});
-  min-width: var(--icon-button-size, #{$option-control-height});
+  height: 28px;
+  width: 28px;
+  min-width: 28px;
   padding: 0;
   border: 1px solid transparent;
   border-radius: 4px;
@@ -1482,8 +1511,8 @@ textarea {
     &-scroll {
       @include scroll-area;
       @include flex-column;
-      gap: 20px;
-      padding: $content-padding;
+      gap: 0;
+      padding: 20px 20px 0;
     }
     h3 {
       @include builder-option-heading;

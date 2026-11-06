@@ -52,8 +52,12 @@ Its circular-arrow reset icon clears the draft and optional choices, restoring
 the standard ratio, complexity, and Color Only outline mode.
 
 On mobile, the filter footer repeats active selections as removable chips above
-the existing Generate prompt button. The summary scrolls within a capped area
-when needed and disappears when no filters restrict results.
+the existing Generate prompt button, without a title or top divider. This summary
+starts collapsed as a horizontally scrollable single row; a 28px toggle expands
+it into a wrapped, height-capped list. It disappears when no filters restrict
+results. Filter and builder collapse controls are 28px squares; collapsed option
+summaries highlight selected values in orange. The builder output scroll area
+uses 20px 20px 0 padding and no gap.
 
 Design prompts include canonical format and style instructions from
 `reference/design/`, preserve Subject and typography text, and save their design

@@ -101,7 +101,12 @@ export default function OptionChoices({
               </div>
             </>
           ) : (
-            <p className="option-summary" title={unfiltered ? t('All') : labels.join(', ')}>
+            <p
+              className={
+                'option-summary' + (labels.length > 0 && !unfiltered ? ' has-selection' : '')
+              }
+              title={unfiltered ? t('All') : labels.join(', ')}
+            >
               {summary}
             </p>
           )}
