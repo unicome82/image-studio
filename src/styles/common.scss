@@ -732,9 +732,9 @@ textarea {
     position: sticky;
     bottom: 0;
     z-index: 3;
-    @include sticky-surface(to top);
+    @include sticky-surface;
     flex-shrink: 0;
-    padding: 20px 24px;
+    padding: 20px;
   }
   @media (max-width: $tablet) {
     position: fixed;
@@ -857,7 +857,7 @@ textarea {
   z-index: 20;
   margin: 0 calc(-1 * var(--gallery-padding));
   padding: 12px var(--gallery-padding);
-  @include sticky-surface;
+  @include sticky-surface($results-background);
   .section-heading {
     margin-bottom: 0;
     gap: 12px;
@@ -1507,7 +1507,7 @@ textarea {
         height: auto;
         max-height: 60dvh;
         border-left: 0;
-        @include sticky-surface(to top);
+        @include sticky-surface;
         .builder-fullscreen-prompt {
           flex: none;
           .prompt-textarea {
@@ -1639,7 +1639,7 @@ textarea {
     position: sticky;
     bottom: 0;
     z-index: 3;
-    @include sticky-surface(to top);
+    @include sticky-surface;
     flex-shrink: 0;
     padding: 0;
   }
