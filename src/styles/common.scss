@@ -50,7 +50,7 @@
   border: 1px solid $line;
   border-radius: 8px;
   background: $page;
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+  box-shadow: 0 4px 16px rgba($black, 0.08);
 }
 .dropdown-option {
   @include flex-row($gap: 12px, $justify: space-between);
@@ -660,7 +660,7 @@ textarea {
     position: sticky;
     top: 0;
     z-index: 3;
-    background: #ffffff66;
+    background: $sticky-background;
     backdrop-filter: blur(8px);
     flex-shrink: 0;
     gap: 8px;
@@ -751,7 +751,7 @@ textarea {
     backdrop-filter: blur(8px);
     flex-shrink: 0;
     padding: 12px 24px 20px;
-    background: #ffffff66;
+    background: $sticky-background;
   }
   @media (max-width: $tablet) {
     position: fixed;
@@ -1327,12 +1327,12 @@ textarea {
   &-heading {
     @include flex-row($gap: 8px, $justify: space-between);
     flex-shrink: 0;
-    padding-bottom: 0;
+    padding: 12px 20px;
   }
   &-title {
     flex: 1;
     @include flex-row($justify: space-between);
-    margin: 0 0 12px;
+    margin: 0;
     color: $black;
     font-size: var(--text-title, 16px);
     font-weight: 700;
@@ -1358,7 +1358,6 @@ textarea {
   &-footer {
     flex-shrink: 0;
     padding: 0;
-    border-top: 1px solid $line;
     &-heading {
       @include flex-row($gap: 16px, $justify: space-between);
       margin-bottom: 16px;
@@ -1421,7 +1420,7 @@ textarea {
     &-footer {
       position: sticky;
       z-index: 3;
-      background: #ffffff66;
+      background: $sticky-background;
       backdrop-filter: blur(8px);
     }
     &-heading {
