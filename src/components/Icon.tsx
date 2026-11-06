@@ -17,29 +17,19 @@ export type IconName =
   | 'more_horiz'
   | 'expand_less'
   | 'expand_more';
+export type IconSize = `${12 | 14 | 16 | 18 | 20 | 22 | 24 | 28 | 32 | 36}`;
 interface Props {
   name: IconName;
-  size?: number;
+  size?: IconSize;
   className?: string;
-  fill?: boolean;
-  weight?: number;
 }
-/** Google Material Symbols Outlined, loaded through the jsDelivr CDN. */
-export default function Icon({
-  name,
-  size = 18,
-  className = '',
-  fill = false,
-  weight = 400,
-}: Props) {
-  const pixelSize = Math.max(2, Math.round(size / 2) * 2);
-  const fluidSize = `var(--icon-${pixelSize}, ${pixelSize}px)`;
+/** Size is an HTML attribute; weight and fill are CSS classes, with no inline dimensions. */
+export default function Icon({ name, size = '20', className = '' }: Props) {
   return (
     <span
+      {...{ size }}
       className={`material-symbol ${className}`.trim()}
       data-icon={name}
-      {...(fill ? { fill: '' } : {})}
-      style={{ fontSize: fluidSize, width: fluidSize, height: fluidSize, fontWeight: weight }}
       aria-hidden="true"
     >
       {name}

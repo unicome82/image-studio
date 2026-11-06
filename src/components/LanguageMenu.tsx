@@ -67,7 +67,7 @@ export default function LanguageMenu() {
           }
         }}
       >
-        <Icon name="language" size={20} />
+        <Icon name="language" size="20" />
       </button>
       {open && (
         <div
@@ -117,7 +117,7 @@ export default function LanguageMenu() {
               }}
             >
               {label}
-              {i18n.resolvedLanguage === code && <Icon name="check" size={16} />}
+              {i18n.resolvedLanguage === code && <Icon name="check" size="16" />}
             </button>
           ))}
         </div>

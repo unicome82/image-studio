@@ -432,7 +432,7 @@ export default function App() {
             aria-label={t('Close dialog')}
             onClick={() => setModal(null)}
           >
-            <Icon name="close" size={24} weight={200} />
+            <Icon name="close" size="24" className="w200" />
           </button>
         </div>
         <textarea
@@ -442,7 +442,7 @@ export default function App() {
           value={copyFallback || prompt}
         />
         <button className="primary" onClick={() => copy(copyFallback || prompt)}>
-          <Icon name="content_copy" size={14} />
+          <Icon name="content_copy" size="14" />
           {t('Copy')}
         </button>
       </dialog>
@@ -452,7 +452,7 @@ export default function App() {
       {toast &&
         createPortal(
           <div className="toast" role="status">
-            <Icon name="check" size={16} />
+            <Icon name="check" size="16" />
             {t(toast)}
           </div>,
           Array.from(document.querySelectorAll('dialog[open]')).at(-1) ?? document.body,

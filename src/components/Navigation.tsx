@@ -23,7 +23,7 @@ export default function Navigation(p: Props) {
         aria-expanded={p.builder}
         onClick={p.toggleBuilder}
       >
-        <Icon name="auto_awesome" size={16} fill />
+        <Icon name="auto_awesome" size="16" className="fill" />
       </button>
       {mobile ? (
         <div className="type-dropdown">

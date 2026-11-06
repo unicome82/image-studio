@@ -128,7 +128,7 @@ export default function BuilderSelect({ label, value, options, disabled, change 
               }}
             >
               {option.label}
-              {value === option.value && <Icon name="check" size={16} />}
+              {value === option.value && <Icon name="check" size="16" />}
             </button>
           ))}
         </div>

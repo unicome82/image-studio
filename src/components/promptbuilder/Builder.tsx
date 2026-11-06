@@ -49,7 +49,7 @@ export default function Builder(p: Props) {
           aria-label={t('Close Builder')}
           onClick={p.close}
         >
-          <Icon name="close" size={24} weight={200} />
+          <Icon name="close" size="24" className="w200" />
         </button>
       </div>
       <div className="builder-scroll">
@@ -226,7 +226,7 @@ export default function Builder(p: Props) {
               aria-controls={`${tabsId}-content`}
               onClick={() => setOutputCollapsed(!outputCollapsed)}
             >
-              <Icon name={outputCollapsed ? 'expand_more' : 'expand_less'} size={16} />
+              <Icon name={outputCollapsed ? 'expand_more' : 'expand_less'} size="16" />
             </button>
           </div>
           <div
@@ -263,7 +263,7 @@ export default function Builder(p: Props) {
               <div className="prompt-actions">
                 <SavePrompt save={p.save} prompt={p.prompt} />
                 <button className="primary builder-copy" onClick={() => p.copy(p.prompt)}>
-                  <Icon name="content_copy" size={14} />
+                  <Icon name="content_copy" size="14" />
                   {t('Copy')}
                 </button>
               </div>
@@ -275,7 +275,7 @@ export default function Builder(p: Props) {
                   setOutputCollapsed(false);
                 }}
               >
-                <Icon name="auto_awesome" size={16} fill />
+                <Icon name="auto_awesome" size="16" className="fill" />
                 {t('Generate prompt')}
               </button>
             )}

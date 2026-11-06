@@ -148,7 +148,7 @@ export default function ImagePreview({ image, close }: { image: PreviewImage; cl
         aria-label={t('Close image preview')}
         onClick={close}
       >
-        <Icon name="close" size={32} weight={200} />
+        <Icon name="close" size="32" className="w200" />
       </button>
     </dialog>,
     document.body,

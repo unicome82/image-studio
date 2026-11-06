@@ -34,7 +34,7 @@
   border: 1px solid $input-border;
   border-radius: 4px;
   background: $white;
-  font-size: var(--font-10, 12px);
+  font-size: var(--text-small, 12px);
 }
 
 @mixin selected-surface {
@@ -76,6 +76,6 @@
 }
 
 @mixin builder-option-heading {
-  @include builder-heading($font-size: var(--font-10, 12px), $margin-bottom: 8px);
+  @include builder-heading($font-size: var(--text-small, 12px), $margin-bottom: 8px);
   @include flex-row($gap: 8px, $justify: space-between);
 }

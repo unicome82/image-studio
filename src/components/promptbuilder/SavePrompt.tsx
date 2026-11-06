@@ -51,7 +51,7 @@ function SaveDialog({ save, prompt, close }: Props & { close: () => void }) {
           aria-label={t('Close save style')}
           onClick={close}
         >
-          <Icon name="close" size={24} weight={200} />
+          <Icon name="close" size="24" className="w200" />
         </button>
       </div>
       <form

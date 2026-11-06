@@ -56,7 +56,7 @@ export default function Header(p: Props) {
           aria-expanded={searchOpen}
           onClick={() => setSearchOpen(true)}
         >
-          <Icon name="search" size={20} />
+          <Icon name="search" size="20" />
         </button>
       )}
       {(!mobile || searchOpen) && (
@@ -70,7 +70,7 @@ export default function Header(p: Props) {
           }}
           className={'header-search' + (mobile ? ' mobile-search-overlay' : '')}
         >
-          <Icon name="search" size={16} />
+          <Icon name="search" size="16" />
           <input
             ref={searchInput}
             type="search"
@@ -88,7 +88,7 @@ export default function Header(p: Props) {
                 searchInput.current?.focus();
               }}
             >
-              <Icon name="close" size={14} />
+              <Icon name="close" size="14" />
             </button>
           )}
           {mobile && (
@@ -97,7 +97,7 @@ export default function Header(p: Props) {
               aria-label={t('Close search')}
               onClick={closeSearch}
             >
-              <Icon name="close" size={24} weight={200} />
+              <Icon name="close" size="24" className="w200" />
             </button>
           )}
         </label>
@@ -117,7 +117,11 @@ export default function Header(p: Props) {
             p.toggleBookmarks();
           }}
         >
-          <Icon name="favorite" size={20} fill={p.showBookmarks} />
+          <Icon
+            name="favorite"
+            size={mobile ? '24' : '20'}
+            className={p.showBookmarks ? 'fill' : ''}
+          />
         </button>
         <button
           className={'icon-button preset-toggle ' + (p.showPrompts ? 'active' : '')}
@@ -125,7 +129,7 @@ export default function Header(p: Props) {
           aria-pressed={p.showPrompts}
           onClick={p.togglePrompts}
         >
-          <Icon name="format_list_bulleted" size={20} />
+          <Icon name="format_list_bulleted" size="20" />
         </button>
         <LanguageMenu />
       </div>

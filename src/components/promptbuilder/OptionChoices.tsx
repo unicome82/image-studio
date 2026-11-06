@@ -81,7 +81,7 @@ export default function OptionChoices({
             aria-controls={rowId}
             onClick={() => setExpanded(!expanded)}
           >
-            <Icon name={expanded ? 'expand_less' : 'expand_more'} size={16} />
+            <Icon name={expanded ? 'expand_less' : 'expand_more'} size="16" />
           </button>
         )}
       </h3>

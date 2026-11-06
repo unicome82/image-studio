@@ -20,8 +20,8 @@
 }
 .icon-button {
   @include flex-row($justify: center, $display: inline-flex);
-  width: var(--control-height, 32px);
-  height: var(--control-height, 32px);
+  width: var(--icon-button-size, 32px);
+  height: var(--icon-button-size, 32px);
   padding: 0;
   border-radius: 8px;
   &:hover:not(.active):not(.close-button) {
@@ -73,7 +73,7 @@
   @include flex-row($justify: space-between);
   min-height: 56px;
   border-bottom: 1px solid $line;
-  font-size: var(--font-10, 12px);
+  font-size: var(--text-small, 12px);
   font-weight: 600;
   @media (max-width: $mobile) {
     min-height: 52px;
@@ -92,7 +92,7 @@
       border-radius: 8px;
       background: $secondary-hover-background;
       color: $count-text;
-      font-size: var(--font-12, 14px);
+      font-size: var(--text-label, 14px);
       font-weight: 400;
     }
   }
@@ -145,7 +145,7 @@
   padding: calc(12em / 11) calc(20em / 11);
   border-radius: 8px;
   @include selected-surface;
-  font-size: var(--font-11, 12px);
+  font-size: var(--text-input, 12px);
   transform: translateX(-50%);
 }
 .favorite-pulse {
@@ -185,13 +185,13 @@
     margin: 0;
     padding: 0;
     border: 0;
-    border-radius: 8px;
+    border-radius: 0;
     background: transparent;
     box-shadow: none;
   }
   &::-webkit-scrollbar-thumb {
     border: 0;
-    border-radius: 8px;
+    border-radius: 0;
     background: var(--scrollbar-thumb);
     background-clip: border-box;
     box-shadow: none;
@@ -226,10 +226,10 @@
     scrollbar-width: auto;
   }
 }
-:is(html, body, .builder, .builder *) {
+textarea {
   &::-webkit-scrollbar-track,
   &::-webkit-scrollbar-thumb {
-    border-radius: 0;
+    border-radius: 8px;
   }
 }
 
@@ -237,9 +237,11 @@
 .material-symbol {
   display: inline-block;
   flex-shrink: 0;
+  max-inline-size: 1em;
   overflow: hidden;
   font-family: 'Material Symbols Outlined';
-  font-weight: normal;
+  font-size: 20px;
+  font-weight: 400;
   font-style: normal;
   line-height: 1;
   letter-spacing: normal;
@@ -251,7 +253,17 @@
   font-optical-sizing: auto;
   font-variation-settings: 'FILL' 0;
   -webkit-font-smoothing: antialiased;
-  &[fill],
+  @each $size in 12, 14, 16, 18, 20, 22, 24, 28, 32, 36 {
+    &[size='#{$size}'] {
+      font-size: $size * 1px;
+      @media (max-width: $mobile) {
+        font-size: max(20px, $size * 1px);
+      }
+    }
+  }
+  &.w200 {
+    font-weight: 200;
+  }
   &.fill {
     font-variation-settings: 'FILL' 1;
   }
@@ -288,8 +300,8 @@
   top: 8px;
   right: 8px;
   @include grid-center;
-  width: var(--control-height, 32px);
-  height: var(--control-height, 32px);
+  width: var(--icon-button-size, 32px);
+  height: var(--icon-button-size, 32px);
   padding: 0;
   border-radius: 8px;
   background: transparent;
@@ -298,7 +310,6 @@
     color: $favorite;
   }
   @media (max-width: $mobile) {
-    --icon-24: calc(9rem / 8);
     &.tile-bookmark {
       top: 0;
       right: 0;
@@ -339,7 +350,7 @@
       border: 0;
       background: transparent;
       color: $ink;
-      font-size: var(--font-12, 14px);
+      font-size: var(--text-label, 14px);
       &::-webkit-search-cancel-button {
         -webkit-appearance: none;
       }
@@ -365,7 +376,7 @@
 }
 .brand {
   white-space: nowrap;
-  font-size: var(--font-16, 16px);
+  font-size: var(--text-brand, 16px);
   font-weight: 900;
   @include uppercase-text;
   @media (max-width: $mobile) {
@@ -425,6 +436,21 @@
     font-size: var(--button-font-size, inherit);
     text-transform: none;
     letter-spacing: normal;
+  }
+  @media (max-width: $mobile) {
+    button {
+      border: 0;
+      background: transparent;
+    }
+    .builder-toggle,
+    .builder-toggle.active,
+    .type-dropdown .builder-select-trigger,
+    .style-tabs button,
+    .style-tabs button.active {
+      border: 0;
+      background: transparent;
+      color: $ink;
+    }
   }
 }
 .builder-toggle {
@@ -524,7 +550,7 @@
   columns: 152px;
   column-gap: 12px;
   @media (max-width: $mobile) {
-    columns: 3;
+    columns: 2;
     column-gap: 8px;
   }
 }
@@ -567,13 +593,13 @@
     pointer-events: none;
   }
   &-title {
-    font-size: var(--font-13, 14px);
+    font-size: var(--text-body, 14px);
     font-weight: 500;
     overflow-wrap: anywhere;
   }
   &-tags {
     opacity: 0.7;
-    font-size: var(--font-10, 12px);
+    font-size: var(--text-small, 12px);
     overflow-wrap: anywhere;
   }
   &.selected {
@@ -613,7 +639,7 @@
   text-align: center;
   h2 {
     color: $ink;
-    font-size: var(--font-20, 24px);
+    font-size: var(--text-empty-title, 24px);
     font-weight: 400;
   }
 }
@@ -632,7 +658,7 @@
     flex-shrink: 0;
     gap: 8px;
     min-height: 0;
-    padding: 4px 24px;
+    padding: 12px 24px 4px;
     border-bottom: 0;
     .icon-button {
       flex-shrink: 0;
@@ -650,7 +676,7 @@
     @include grid-center;
     width: 100%;
     margin: 0 auto 16px;
-    border-radius: 8px;
+    border-radius: 0;
     &::before {
       content: '';
       position: absolute;
@@ -680,8 +706,8 @@
     &-copy {
       @include grid-center;
       flex-shrink: 0;
-      width: var(--control-height, 24px);
-      height: var(--control-height, 24px);
+      width: var(--icon-button-size, 24px);
+      height: var(--icon-button-size, 24px);
       padding: 0;
       color: inherit;
       background: transparent;
@@ -689,7 +715,7 @@
   }
   &-title {
     min-width: 0;
-    font-size: var(--font-12, 14px);
+    font-size: var(--text-label, 14px);
     font-weight: 700;
     text-transform: none;
     letter-spacing: normal;
@@ -701,15 +727,15 @@
       @include builder-option-heading;
       color: $black;
       .icon-button {
-        width: var(--control-height, 24px);
-        height: var(--control-height, 24px);
+        width: var(--icon-button-size, 24px);
+        height: var(--icon-button-size, 24px);
       }
     }
   }
   &-prompt {
     padding: 16px 0;
     color: $prompt-text;
-    font-size: var(--font-10, 12px);
+    font-size: var(--text-small, 12px);
     line-height: 1.3;
     letter-spacing: normal;
     white-space: pre-wrap;
@@ -735,9 +761,6 @@
       height: 100dvh;
       border-left: 0;
     }
-    > .panel-heading {
-      padding-inline: 20px;
-    }
     &-scroll {
       padding-inline: 20px;
     }
@@ -753,7 +776,7 @@
   gap: 4px;
   span {
     color: $tag-text;
-    font-size: var(--font-10, 12px);
+    font-size: var(--text-small, 12px);
   }
 }
 
@@ -944,9 +967,9 @@
   margin-right: -8px;
   @include flex-row($justify: center, $display: inline-flex);
   flex-shrink: 0;
-  height: $option-control-height;
-  width: $option-control-height;
-  min-width: $option-control-height;
+  height: var(--icon-button-size, #{$option-control-height});
+  width: var(--icon-button-size, #{$option-control-height});
+  min-width: var(--icon-button-size, #{$option-control-height});
   padding: 0;
   border: 1px solid transparent;
   border-radius: 4px;
@@ -1012,13 +1035,13 @@
   @include flex-row($gap: 0, $display: inline-flex);
   max-width: 100%;
   min-width: 0;
-  height: max(28px, var(--chip-height, 20px));
+  height: max(var(--icon-button-size, 28px), var(--chip-height, 20px));
   padding: 0 calc(2em / 3) 0 calc(4em / 5);
   border: 1px solid $prompt-border;
   background: $prompt-background;
   color: rgba($ink, 0.6);
   border-radius: 4px;
-  font-size: var(--font-10, 12px);
+  font-size: var(--text-small, 12px);
   &-label {
     min-width: 0;
     overflow: hidden;
@@ -1030,8 +1053,8 @@
     opacity: 0.5;
     @include grid-center;
     flex-shrink: 0;
-    width: 28px;
-    height: 28px;
+    width: var(--icon-button-size, 28px);
+    height: var(--icon-button-size, 28px);
     padding: 0;
   }
   &-remove {
@@ -1113,8 +1136,8 @@
   }
   .icon-button {
     flex-shrink: 0;
-    width: $input-height;
-    height: $input-height;
+    width: var(--icon-button-size, #{$input-height});
+    height: var(--icon-button-size, #{$input-height});
   }
 }
 .preset-list {
@@ -1165,7 +1188,7 @@
   min-width: 0;
   h3 {
     min-width: 0;
-    font-size: var(--font-15, 16px);
+    font-size: var(--text-title, 16px);
     font-weight: 500;
 
     text-transform: none;
@@ -1203,7 +1226,7 @@
   gap: 16px;
   padding: 32px 0 52px;
   color: $muted;
-  font-size: var(--font-12, 14px);
+  font-size: var(--text-label, 14px);
 }
 
 // Builder
@@ -1322,7 +1345,7 @@
 .subject-hint {
   margin-top: 8px;
   color: $muted;
-  font-size: var(--font-10, 12px);
+  font-size: var(--text-small, 12px);
   line-height: 1.5;
 }
 .option-section {

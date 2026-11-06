@@ -30,7 +30,7 @@ export default function ImageDetail(p: Props) {
             aria-label={t('Copy image name')}
             onClick={() => p.copy(imageName(image))}
           >
-            <Icon name="content_copy" size={16} />
+            <Icon name="content_copy" size="16" />
           </button>
         </div>
         <button
@@ -38,7 +38,7 @@ export default function ImageDetail(p: Props) {
           aria-label={t('Close image detail')}
           onClick={p.close}
         >
-          <Icon name="close" size={24} weight={200} />
+          <Icon name="close" size="24" className="w200" />
         </button>
       </div>
       <div className="detail-scroll">
@@ -75,7 +75,7 @@ export default function ImageDetail(p: Props) {
               aria-label={t('Copy style prompt')}
               onClick={() => p.copy(p.stylePrompt)}
             >
-              <Icon name="content_copy" size={14} />
+              <Icon name="content_copy" size="16" />
             </button>
           </h3>
           <p className="detail-prompt" aria-label={t('Selected style prompt')}>
@@ -90,7 +90,7 @@ export default function ImageDetail(p: Props) {
           disabled
           title={t('Add an image and connect an authorized publishing workflow to publish')}
         >
-          <Icon name="cloud_upload" size={14} />
+          <Icon name="cloud_upload" size="14" />
           {t('Publish')}
         </button>
       </div>
