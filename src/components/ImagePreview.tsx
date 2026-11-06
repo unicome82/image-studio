@@ -62,6 +62,29 @@ export default function ImagePreview({ image, close }: { image: PreviewImage; cl
     el?.addEventListener('wheel', wheel, { passive: false });
     return () => el?.removeEventListener('wheel', wheel);
   }, []);
+  function downloadImage() {
+    // The gallery currently renders color samples, so export the same visual at its native size.
+    const canvas = document.createElement('canvas');
+    canvas.width = image.width;
+    canvas.height = image.height;
+    const context = canvas.getContext('2d');
+    if (!context) return;
+    context.fillStyle = image.color;
+    context.fillRect(0, 0, canvas.width, canvas.height);
+    canvas.toBlob((blob) => {
+      if (!blob) return;
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.href = url;
+      link.download = `${imageName(image)
+        .replace(/\.[^.]+$/, '')
+        .replace(/[<>:"/\\|?*]/g, '_')}.png`;
+      document.body.append(link);
+      link.click();
+      link.remove();
+      window.setTimeout(() => URL.revokeObjectURL(url), 60000);
+    }, 'image/png');
+  }
   const ratio = image.width / image.height;
   const width = Math.min(
     Math.max(1, viewport.width - 32),
@@ -143,6 +166,15 @@ export default function ImagePreview({ image, close }: { image: PreviewImage; cl
           }}
         />
       </div>
+      <button
+        type="button"
+        className="image-viewer-download"
+        aria-label={t('Download sample PNG')}
+        title={t('Download sample PNG')}
+        onClick={downloadImage}
+      >
+        <Icon name="download" size="32" className="w200" />
+      </button>
       <button
         className="image-viewer-close close-button"
         aria-label={t('Close image preview')}

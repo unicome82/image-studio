@@ -866,7 +866,8 @@ textarea {
     user-select: none;
     cursor: default;
   }
-  &-close {
+  &-close,
+  &-download {
     position: absolute;
     top: max(12px, env(safe-area-inset-top));
     right: max(12px, env(safe-area-inset-right));
@@ -878,6 +879,9 @@ textarea {
     border-radius: 0;
     background: transparent;
     color: $white;
+  }
+  &-download {
+    right: calc(max(12px, env(safe-area-inset-right, 0px)) + 56px);
   }
 }
 

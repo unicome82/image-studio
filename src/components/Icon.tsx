@@ -8,6 +8,7 @@ export type IconName =
   | 'content_copy'
   | 'close'
   | 'cloud_upload'
+  | 'download'
   | 'auto_awesome'
   | 'search'
   | 'check'

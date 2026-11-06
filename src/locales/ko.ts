@@ -1,4 +1,5 @@
 const translation: Record<string, string> = {
+  'Download sample PNG': '샘플 PNG 다운로드',
   'Try another keyword or explore a different style.':
     '다른 검색어를 입력하거나 새로운 스타일을 둘러보세요.',
   'Tap the heart on an image to collect your favorites here.':
