@@ -8,6 +8,7 @@ import type { Option, Selection } from '../utils/promptBuilder';
 import { activeFilters, filterCategories, type FilterType } from '../utils/filters';
 import BuilderSelect from './promptbuilder/BuilderSelect';
 import { useMediaQuery } from '../utils/useMediaQuery';
+import { optionLabelKey } from '../utils/optionChoices';
 
 interface Props {
   width: number;
@@ -78,6 +79,7 @@ export default function Filter(p: Props) {
                     .map((option) => ({
                       id: option.id,
                       label: option.label.replace(' Modern', ''),
+                      category,
                     }))}
                   allIsUnfiltered
                   selected={p.filters[category] ?? []}
@@ -147,7 +149,7 @@ export function SelectedFilters({
     <div className="filter-summary">
       <div className="selected-options" role="group" aria-label={t('Selected filters')}>
         {options.map((option) => {
-          const value = t(option.label.replace(' Modern', '').replace(/\s+illustration\b/gi, ''));
+          const value = t(optionLabelKey(option));
           const label = option.category === 'Complexity' ? `${t('Complexity')} ${value}` : value;
           return (
             <span

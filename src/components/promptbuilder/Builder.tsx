@@ -163,6 +163,7 @@ export default function Builder(p: Props) {
                             (option) => option.category === category && option.id === id,
                           )?.label ?? id
                         ).replace(' Modern', ''),
+                        category,
                       }))}
                       selected={p.pendingSelection[category] ?? []}
                       choose={(id) => p.choosePending(category, id)}
@@ -268,6 +269,7 @@ export default function Builder(p: Props) {
                         options={options.map((o) => ({
                           id: o.id,
                           label: o.label.replace(' Modern', ''),
+                          category,
                         }))}
                         selected={p.selection[category] ?? []}
                         headerControl={

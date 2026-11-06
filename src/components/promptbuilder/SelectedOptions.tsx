@@ -3,6 +3,7 @@ import Icon from '../Icon';
 import type { Option, Selection } from '../../utils/promptBuilder';
 import { complexityUiLabels as complexityLabels } from '../../utils/promptBuilder';
 import { selectedBuilderOptions } from '../../utils/selectedOptions';
+import { optionLabelKey } from '../../utils/optionChoices';
 export interface SelectedOptionsProps {
   catalog: Option[];
   selection: Selection;
@@ -48,8 +49,7 @@ export default function SelectedOptions({
     },
     ...(outline ? [{ key: 'outline', title: t('Outline'), label: t(outline.label) }] : []),
   ];
-  const optionLabel = (option: Option) =>
-    t(option.label.replace(' Modern', '').replace(/\s+illustration\b/gi, ''));
+  const optionLabel = (option: Option) => t(optionLabelKey(option));
   if (!remove) {
     const tags = [
       ...fixedOptions,

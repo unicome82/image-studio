@@ -1,11 +1,12 @@
 import { useTranslation } from 'react-i18next';
-import { prioritizeSelectedOptions } from '../../utils/optionChoices';
+import { optionLabelKey, prioritizeSelectedOptions } from '../../utils/optionChoices';
 import Icon from '../Icon';
 import OptionSummary from './OptionSummary';
 import { useId, useMemo, useState, type ReactNode } from 'react';
 interface Choice {
   id: string;
   label: string;
+  category?: string;
 }
 interface Props {
   title: string;
@@ -40,7 +41,7 @@ export default function OptionChoices({
   const [expanded, setExpanded] = useState(true);
   const isExpanded = !collapsible || expanded;
   const canCollapse = collapsible && showOptions && options.length > 0;
-  const label = (option: Choice) => t(option.label.replace(/\s+illustration\b/gi, ''));
+  const label = (option: Choice) => t(optionLabelKey(option));
   const labels = options.filter((option) => selected.includes(option.id)).map(label);
   const unfiltered = allIsUnfiltered && (labels.length === 0 || labels.length === options.length);
   return (
