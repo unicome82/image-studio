@@ -41,9 +41,6 @@ export default function Presets(p: Props) {
                   <div className="preset-item-actions">
                     {deleting === preset.id ? (
                       <>
-                        <button className="secondary" onClick={() => setDeleting(null)}>
-                          {t('Cancel')}
-                        </button>
                         <button
                           className="primary"
                           aria-label={t('Confirm delete {{name}}', { name: title })}
@@ -53,6 +50,9 @@ export default function Presets(p: Props) {
                           }}
                         >
                           {t('Delete')}
+                        </button>
+                        <button className="secondary" onClick={() => setDeleting(null)}>
+                          {t('Cancel')}
                         </button>
                       </>
                     ) : (
