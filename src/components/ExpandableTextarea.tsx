@@ -30,7 +30,7 @@ export default function ExpandableTextarea(props: TextareaHTMLAttributes<HTMLTex
         aria-controls={id}
         onClick={() => setExpanded(!expanded)}
       >
-        <Icon name={expanded ? 'fullscreen_exit' : 'fullscreen'} size="20" />
+        <Icon name={expanded ? 'fullscreen_exit' : 'fullscreen'} size="24" />
       </button>
     </div>
   );

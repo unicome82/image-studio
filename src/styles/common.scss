@@ -224,6 +224,14 @@
   }
 }
 textarea {
+  --scrollbar-thumb: transparent;
+  scrollbar-gutter: stable;
+  scrollbar-width: thin;
+  scrollbar-color: transparent transparent;
+  &:hover {
+    --scrollbar-thumb: #{$scrollbar-hover};
+    scrollbar-color: $scrollbar-hover transparent;
+  }
   &::-webkit-scrollbar-track,
   &::-webkit-scrollbar-thumb {
     border-radius: 8px;
@@ -686,7 +694,7 @@ textarea {
   .textarea-size-toggle {
     position: absolute;
     top: 4px;
-    right: 4px;
+    right: 12px;
     width: 36px;
     height: 36px;
     background: $page;
@@ -695,7 +703,7 @@ textarea {
     pointer-events: none;
   }
   textarea {
-    padding-right: 44px;
+    padding-right: 56px;
   }
   &:hover .textarea-size-toggle,
   &:focus-within .textarea-size-toggle,
@@ -1461,6 +1469,9 @@ textarea {
     .prompt-textarea {
       height: 96px;
     }
+  }
+  &-output-content {
+    margin-bottom: 20px;
   }
   &-output {
     animation: output-reveal var(--transition-duration) ease-out;

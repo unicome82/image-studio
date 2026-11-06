@@ -88,11 +88,6 @@ export default function Gallery(p: Props) {
       ))}
       {!total && (
         <div className="empty-state" role="status">
-          <Icon
-            name={p.emptyMessage === 'No bookmarks' ? 'favorite' : 'search'}
-            size="36"
-            className="w200"
-          />
           <h2>{t(p.emptyMessage)}</h2>
           <p>
             {t(
