@@ -1,6 +1,4 @@
 const translation: Record<string, string> = {
-  'Expand text area': '입력 영역 크게 보기',
-  'Collapse text area': '입력 영역 작게 보기',
   'Try another keyword or explore a different style.':
     '다른 검색어를 입력하거나 새로운 스타일을 둘러보세요.',
   'Tap the heart on an image to collect your favorites here.':

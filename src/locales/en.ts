@@ -1,6 +1,4 @@
 const translation: Record<string, string> = {
-  'Expand text area': 'Expand text area',
-  'Collapse text area': 'Collapse text area',
   'Try another keyword or explore a different style.':
     'Try another keyword or explore a different style.',
   'Tap the heart on an image to collect your favorites here.':

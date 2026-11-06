@@ -1,4 +1,3 @@
-import ExpandableTextarea from '../ExpandableTextarea';
 import { useTranslation } from 'react-i18next';
 import Icon from '../Icon';
 import { useState } from 'react';
@@ -129,7 +128,7 @@ export default function Presets(p: Props) {
                     </div>
                   </div>
                 )}
-                <ExpandableTextarea
+                <textarea
                   className="prompt-textarea preset-prompt"
                   aria-label={t('{{name}} prompt', { name: preset.name })}
                   value={prompt}

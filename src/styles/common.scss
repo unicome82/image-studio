@@ -688,42 +688,6 @@ textarea {
   }
 }
 
-.expandable-textarea {
-  position: relative;
-  min-width: 0;
-  .textarea-size-toggle {
-    position: absolute;
-    top: 4px;
-    right: 12px;
-    width: 36px;
-    height: 36px;
-    background: $page;
-    border: 1px solid $line;
-    opacity: 0;
-    pointer-events: none;
-  }
-  textarea {
-    padding-right: 56px;
-  }
-  &:hover .textarea-size-toggle,
-  &:focus-within .textarea-size-toggle,
-  &.expanded .textarea-size-toggle {
-    opacity: 1;
-    pointer-events: auto;
-  }
-  &.expanded textarea {
-    height: 56dvh;
-    min-height: 240px;
-    max-height: none;
-  }
-  @media (hover: none) {
-    &:not(:focus-within):not(.expanded) .textarea-size-toggle {
-      opacity: 0;
-      pointer-events: none;
-    }
-  }
-}
-
 // ImageDetail
 .detail {
   position: sticky;
@@ -1379,10 +1343,6 @@ textarea {
     @include flex-column;
     flex: 1;
     min-height: 160px;
-    .expandable-textarea {
-      display: flex;
-      flex: 1;
-    }
     .prompt-textarea {
       flex: 1;
       min-height: 120px;

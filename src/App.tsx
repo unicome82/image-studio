@@ -1,4 +1,3 @@
-import ExpandableTextarea from './components/ExpandableTextarea';
 import { createPortal } from 'react-dom';
 import { useTranslation } from 'react-i18next';
 import Icon from './components/Icon';
@@ -452,7 +451,7 @@ export default function App() {
             <Icon name="close" size="24" className="w200" />
           </button>
         </div>
-        <ExpandableTextarea
+        <textarea
           className="prompt-textarea"
           readOnly
           aria-label={t('Full prompt')}

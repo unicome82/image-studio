@@ -1,4 +1,3 @@
-import ExpandableTextarea from '../ExpandableTextarea';
 import { useEffect, useId, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import Icon from '../Icon';
@@ -256,7 +255,7 @@ export default function Builder(p: Props) {
                 <h3>
                   <label htmlFor="builder-direction">{t('Your direction')}</label>
                 </h3>
-                <ExpandableTextarea
+                <textarea
                   id="builder-direction"
                   rows={4}
                   value={p.fields['Additional Instructions'] ?? ''}
@@ -282,7 +281,7 @@ export default function Builder(p: Props) {
                 <h3>
                   <label htmlFor={`${tabsId}-fullscreen-prompt`}>{t('Prompt')}</label>
                 </h3>
-                <ExpandableTextarea
+                <textarea
                   id={`${tabsId}-fullscreen-prompt`}
                   className="prompt-textarea"
                   aria-label={t('Builder prompt')}
@@ -352,7 +351,7 @@ export default function Builder(p: Props) {
                   hidden={outputCollapsed}
                 >
                   {showPrompt ? (
-                    <ExpandableTextarea
+                    <textarea
                       className="prompt-textarea"
                       aria-label={t('Builder prompt')}
                       readOnly
