@@ -555,6 +555,7 @@ textarea {
 }
 
 .site-footer {
+  margin-top: auto;
   padding: 32px 0;
   color: $muted;
   font-size: 12px;
@@ -664,10 +665,50 @@ textarea {
   gap: 20px;
   color: $muted;
   text-align: center;
+  p {
+    max-width: 360px;
+    line-height: 1.6;
+  }
   h2 {
     color: $ink;
     font-size: var(--text-empty-title, 24px);
     font-weight: 400;
+  }
+}
+
+.expandable-textarea {
+  position: relative;
+  min-width: 0;
+  .textarea-size-toggle {
+    position: absolute;
+    top: 4px;
+    right: 4px;
+    width: 36px;
+    height: 36px;
+    background: $page;
+    border: 1px solid $line;
+    opacity: 0;
+    pointer-events: none;
+  }
+  textarea {
+    padding-right: 44px;
+  }
+  &:hover .textarea-size-toggle,
+  &:focus-within .textarea-size-toggle,
+  &.expanded .textarea-size-toggle {
+    opacity: 1;
+    pointer-events: auto;
+  }
+  &.expanded textarea {
+    height: 56dvh;
+    min-height: 240px;
+    max-height: none;
+  }
+  @media (hover: none) {
+    &:not(:focus-within):not(.expanded) .textarea-size-toggle {
+      opacity: 0;
+      pointer-events: none;
+    }
   }
 }
 
@@ -1021,7 +1062,7 @@ textarea {
   gap: 4px;
   max-height: 96px;
   margin-right: -$content-padding;
-  padding: 20px 0;
+  padding: 0;
   overflow: auto;
 }
 .selected-option {
@@ -1305,7 +1346,7 @@ textarea {
     .selected-options {
       max-height: none;
       margin: 0;
-      padding: 20px 0;
+      padding: 0;
       overflow: visible;
     }
     > .prompt-actions {
@@ -1325,6 +1366,10 @@ textarea {
     @include flex-column;
     flex: 1;
     min-height: 160px;
+    .expandable-textarea {
+      display: flex;
+      flex: 1;
+    }
     .prompt-textarea {
       flex: 1;
       min-height: 120px;
@@ -1341,6 +1386,11 @@ textarea {
     font-size: var(--text-small, 12px);
   }
   &-heading {
+    position: sticky;
+    top: 0;
+    z-index: 3;
+    background: $sticky-background;
+    backdrop-filter: blur(8px);
     @include flex-row($gap: 8px, $justify: space-between);
     flex-shrink: 0;
     padding: 12px 20px;
@@ -1356,7 +1406,7 @@ textarea {
   &-scroll {
     @include scroll-area;
     > .builder-wrap {
-      padding-top: 0;
+      padding: 0;
     }
   }
   &-mobile-close {
@@ -1372,6 +1422,11 @@ textarea {
     background: $toggle-background;
   }
   &-footer {
+    position: sticky;
+    bottom: 0;
+    z-index: 3;
+    background: $sticky-background;
+    backdrop-filter: blur(8px);
     flex-shrink: 0;
     padding: 0;
     &-heading {
@@ -1429,16 +1484,6 @@ textarea {
       height: 100dvh;
       overflow-y: auto;
       overscroll-behavior: contain;
-    }
-    &-heading,
-    &-footer {
-      position: sticky;
-      z-index: 3;
-      background: $sticky-background;
-      backdrop-filter: blur(8px);
-    }
-    &-heading {
-      top: 0;
     }
     &-scroll {
       flex: none;

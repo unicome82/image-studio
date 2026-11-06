@@ -1,4 +1,13 @@
 const translation: Record<string, string> = {
+  'Expand text area': 'Expand text area',
+  'Collapse text area': 'Collapse text area',
+  'Try another keyword or explore a different style.':
+    'Try another keyword or explore a different style.',
+  'Tap the heart on an image to collect your favorites here.':
+    'Tap the heart on an image to collect your favorites here.',
+  'Explore another style to find your next inspiration.':
+    'Explore another style to find your next inspiration.',
+
   'Copyright notice': '© {{year}} IMAGE STUDIO. All rights reserved.',
   'Thumbnail size': 'Thumbnail size',
   'Small thumbnails': 'Small thumbnails',
@@ -107,7 +116,7 @@ const translation: Record<string, string> = {
   'Style set updated': 'Style set updated',
   'Style set saved': 'Style set saved',
   'Style set deleted': 'Style set deleted',
-  'No results': 'No results',
+  'No results': 'No matching images yet',
   'No bookmarks': 'No bookmarks',
   'No images': 'No images',
   'Image Studio — A space for visual ideas': 'Image Studio — A space for visual ideas',

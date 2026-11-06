@@ -1,3 +1,4 @@
+import ExpandableTextarea from './components/ExpandableTextarea';
 import { createPortal } from 'react-dom';
 import { useTranslation } from 'react-i18next';
 import Icon from './components/Icon';
@@ -326,8 +327,6 @@ export default function App() {
         builder={builder}
         photo={photo}
         active={active}
-        largeThumbnails={largeThumbnails}
-        setLargeThumbnails={setLargeThumbnails}
         groups={currentGroups}
         toggleBuilder={() => setBuilder(!builder)}
         switchType={switchType}
@@ -395,6 +394,7 @@ export default function App() {
           ) : (
             <Gallery
               largeThumbnails={largeThumbnails}
+              setLargeThumbnails={setLargeThumbnails}
               groups={displayGroups.filter((group) => group.id === 'all' || group.tiles.length > 0)}
               bookmarks={bookmarks}
               selectedId={selected?.id}
@@ -452,7 +452,7 @@ export default function App() {
             <Icon name="close" size="24" className="w200" />
           </button>
         </div>
-        <textarea
+        <ExpandableTextarea
           className="prompt-textarea"
           readOnly
           aria-label={t('Full prompt')}

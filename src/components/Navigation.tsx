@@ -6,8 +6,6 @@ interface Props {
   builder: boolean;
   photo: boolean;
   active: string;
-  largeThumbnails: boolean;
-  setLargeThumbnails: (large: boolean) => void;
   groups: { id: string; label: string }[];
   toggleBuilder: () => void;
   switchType: (photo: boolean) => void;
@@ -42,26 +40,6 @@ export default function Navigation(p: Props) {
         <button className={p.active === 'all' ? 'active' : ''} onClick={() => p.navigate('all')}>
           {t('All')}
         </button>
-        <div className="thumbnail-sizes" role="group" aria-label={t('Thumbnail size')}>
-          <button
-            className="icon-button"
-            aria-label={t('Small thumbnails')}
-            title={t('Small thumbnails')}
-            aria-pressed={!p.largeThumbnails}
-            onClick={() => p.setLargeThumbnails(false)}
-          >
-            <Icon name="grid_view" size="20" />
-          </button>
-          <button
-            className="icon-button"
-            aria-label={t('Large thumbnails')}
-            title={t('Large thumbnails')}
-            aria-pressed={p.largeThumbnails}
-            onClick={() => p.setLargeThumbnails(true)}
-          >
-            <Icon name="view_agenda" size="20" />
-          </button>
-        </div>
         {p.groups.map((group) => (
           <button
             key={group.id}

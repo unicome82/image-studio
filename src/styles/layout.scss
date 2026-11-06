@@ -30,6 +30,9 @@
   }
 }
 .gallery {
+  display: flex;
+  flex-direction: column;
+  min-height: calc(100dvh - var(--panel-top));
   min-width: 0;
   padding: 28px 32px 0;
   @media (min-width: 1700px) {

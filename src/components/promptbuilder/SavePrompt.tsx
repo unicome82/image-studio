@@ -1,3 +1,4 @@
+import ExpandableTextarea from '../ExpandableTextarea';
 import { useTranslation } from 'react-i18next';
 import Icon from '../Icon';
 import SelectedOptions, { type SelectedOptionsProps } from './SelectedOptions';
@@ -86,15 +87,15 @@ function SaveDialog({ save, prompt, selected, close }: Props & { close: () => vo
           <h3>{t('Selected')}</h3>
           <SelectedOptions {...selected} />
         </div>
-        <label className="save-style-label">
-          {t('Prompt preview')}
-          <textarea
+        <div className="save-style-label">
+          <span>{t('Prompt preview')}</span>
+          <ExpandableTextarea
             className="prompt-textarea"
             aria-label={t('Prompt preview')}
             readOnly
             value={prompt}
           />
-        </label>
+        </div>
         {error && (
           <p className="save-style-error" role="alert">
             {t(error)}

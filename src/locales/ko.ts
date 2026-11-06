@@ -1,4 +1,13 @@
 const translation: Record<string, string> = {
+  'Expand text area': '입력 영역 크게 보기',
+  'Collapse text area': '입력 영역 작게 보기',
+  'Try another keyword or explore a different style.':
+    '다른 검색어를 입력하거나 새로운 스타일을 둘러보세요.',
+  'Tap the heart on an image to collect your favorites here.':
+    '마음에 드는 이미지의 하트를 눌러 이곳에 모아보세요.',
+  'Explore another style to find your next inspiration.':
+    '다른 스타일에서 새로운 영감을 찾아보세요.',
+
   'Copyright notice': '© {{year}} IMAGE STUDIO. All rights reserved.',
   'Thumbnail size': '썸네일 크기',
   'Small thumbnails': '작게 보기',
@@ -107,7 +116,7 @@ const translation: Record<string, string> = {
   'Style set updated': '스타일셋을 수정했습니다',
   'Style set saved': '스타일셋을 저장했습니다',
   'Style set deleted': '스타일셋을 삭제했습니다',
-  'No results': '검색 결과가 없습니다',
+  'No results': '일치하는 이미지를 찾지 못했어요',
   'No bookmarks': '북마크가 없습니다',
   'No images': '이미지가 없습니다',
   'Image Studio — A space for visual ideas': '이미지 스튜디오 — 시각적 아이디어를 위한 공간',

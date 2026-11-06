@@ -1,9 +1,11 @@
 import { useTranslation } from 'react-i18next';
+import Icon from './Icon';
 import FavoriteButton from './FavoriteButton';
 import { imageName } from '../utils/imageName';
 import type { GallerySection, GalleryTile } from '../types';
 interface Props {
   largeThumbnails: boolean;
+  setLargeThumbnails: (large: boolean) => void;
   groups: GallerySection[];
   bookmarks: string[];
   selectedId?: string;
@@ -23,6 +25,26 @@ export default function Gallery(p: Props) {
               {t(group.label)}
               <span>{group.tiles.length}</span>
             </h2>
+            <div className="thumbnail-sizes" role="group" aria-label={t('Thumbnail size')}>
+              <button
+                className="icon-button"
+                aria-label={t('Small thumbnails')}
+                title={t('Small thumbnails')}
+                aria-pressed={!p.largeThumbnails}
+                onClick={() => p.setLargeThumbnails(false)}
+              >
+                <Icon name="grid_view" size="20" className={!p.largeThumbnails ? 'fill' : ''} />
+              </button>
+              <button
+                className="icon-button"
+                aria-label={t('Large thumbnails')}
+                title={t('Large thumbnails')}
+                aria-pressed={p.largeThumbnails}
+                onClick={() => p.setLargeThumbnails(true)}
+              >
+                <Icon name="view_agenda" size="20" className={p.largeThumbnails ? 'fill' : ''} />
+              </button>
+            </div>
           </div>
           <div className={'image-grid' + (p.largeThumbnails ? ' large' : '')}>
             {group.tiles.map((tile) => (
@@ -65,8 +87,22 @@ export default function Gallery(p: Props) {
         </section>
       ))}
       {!total && (
-        <div className="empty-state">
+        <div className="empty-state" role="status">
+          <Icon
+            name={p.emptyMessage === 'No bookmarks' ? 'favorite' : 'search'}
+            size="36"
+            className="w200"
+          />
           <h2>{t(p.emptyMessage)}</h2>
+          <p>
+            {t(
+              p.emptyMessage === 'No results'
+                ? 'Try another keyword or explore a different style.'
+                : p.emptyMessage === 'No bookmarks'
+                  ? 'Tap the heart on an image to collect your favorites here.'
+                  : 'Explore another style to find your next inspiration.',
+            )}
+          </p>
         </div>
       )}
     </>
