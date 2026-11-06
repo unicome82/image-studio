@@ -39,13 +39,15 @@ prompt button open the full-screen builder. The full builder viewport scrolls;
 the option body no longer has its own scrollbar. Its heading and output remain
 sticky with 8px backdrop blur, so content passes beneath them. Selected and Prompt
 can be collapsed independently without clearing settings or hiding Save/Copy.
+Prompt starts collapsed on mobile and expanded on desktop.
 On mobile, collapsing output sections frees room for the options. Closing and
 reopening preserves the
 draft. Newly changed filters seed the builder, while builder edits do not filter
 the gallery. The builder keeps its three-option limit (one for outline, ratio,
 and complexity). When transferred filters exceed a limit, the builder lists every
 candidate and asks the user to choose within that limit. This selection step shows
-only the instructions and option choices; Selected, Prompt, Save, and Copy return
+only the instructions and option choices, with each limit beside its category
+heading rather than repeated explanatory paragraphs; Selected, Prompt, Save, and Copy return
 after applying the choices. Design Format is single-select. No candidates are
 silently truncated, and unfinished choices survive closing/reopening the builder.
 Its circular-arrow reset icon clears the draft and optional choices, restoring
@@ -69,6 +71,9 @@ their own sizes). Mobile input, select, and textarea elements, including read-on
 prompts, use 16px to avoid iOS focus zoom without disabling pinch zoom. Button
 hover backgrounds are limited to desktop pointer devices. The larger logo and bounded, content-width copy toast also fit
 320px screens.
+
+Save-dialog fields use separate, explicitly associated labels and controls, with
+headings matching Selected.
 
 Save prompt pre-fills the editable name from Subject when the save dialog opens,
 trimming surrounding whitespace and respecting its 80-character limit. Editing

@@ -5,6 +5,7 @@ import OptionChoices from './OptionChoices';
 import SelectedOptions from './SelectedOptions';
 import SavePrompt from './SavePrompt';
 import Panel from '../Panel';
+import { useMediaQuery } from '../../utils/useMediaQuery';
 import {
   builderCategories,
   complexityUiLabels as complexityLabels,
@@ -63,7 +64,8 @@ export default function Builder(p: Props) {
     return () => observer.disconnect();
   }, []);
   const [selectedCollapsed, setSelectedCollapsed] = useState(false);
-  const [promptCollapsed, setPromptCollapsed] = useState(false);
+  const mobile = useMediaQuery('(max-width: 600px)');
+  const [promptCollapsed, setPromptCollapsed] = useState(mobile);
   const categories = builderCategories(p.photo, design).filter(
     (category) => category !== 'Outline',
   );
@@ -142,21 +144,8 @@ export default function Builder(p: Props) {
                 <p>{t('Choose builder options to generate a prompt.')}</p>
                 {pending.map(([category, ids]) => (
                   <section className="option-section" key={category}>
-                    {builderFilterLimit(category) === 1 && (
-                      <p className="builder-resolution-limit">
-                        {t('Choose up to {{limit}} for {{category}}.', {
-                          limit: builderFilterLimit(category),
-                          category: t(
-                            category === 'Base Style'
-                              ? 'Style'
-                              : category === 'Aspect Ratio'
-                                ? 'Aspect ratio'
-                                : category,
-                          ),
-                        })}
-                      </p>
-                    )}
                     <OptionChoices
+                      headerControl={t('Up to {{count}}', { count: builderFilterLimit(category) })}
                       title={
                         category === 'Base Style'
                           ? 'Style'

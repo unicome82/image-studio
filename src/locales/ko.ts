@@ -23,9 +23,8 @@ const translation: Record<string, string> = {
   'A–Z': '이름순',
   'Z–A': '하–가',
   'Refine filter choices': '빌더 옵션 선택',
-  'Choose builder options to generate a prompt.':
-    '프롬프트 생성에 사용할 옵션을 골라주세요.\n옵션당 최대 3개까지 선택 가능합니다.',
-  'Choose up to {{limit}} for {{category}}.': '{{category}}: 최대 {{limit}}개를 골라주세요.',
+  'Choose builder options to generate a prompt.': '프롬프트 생성에 사용할 옵션을 골라주세요.',
+  'Up to {{count}}': '최대 {{count}}개',
   'Apply choices': '다음',
 
   '{{count}} results': '{{count}}개',

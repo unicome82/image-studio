@@ -1,7 +1,7 @@
 import { useTranslation } from 'react-i18next';
 import Icon from '../Icon';
 import SelectedOptions, { type SelectedOptionsProps } from './SelectedOptions';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useId, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 interface Props {
   save: (name: string) => boolean;
@@ -12,6 +12,7 @@ interface Props {
 function SaveDialog({ save, prompt, selected, close }: Props & { close: () => void }) {
   const { t } = useTranslation();
   const ref = useRef<HTMLDialogElement>(null);
+  const fieldId = useId();
   const [name, setName] = useState(() => (selected.fields.Subject ?? '').trim().slice(0, 80));
   const [error, setError] = useState('');
   useEffect(() => {
@@ -68,10 +69,12 @@ function SaveDialog({ save, prompt, selected, close }: Props & { close: () => vo
             );
         }}
       >
-        <label className="save-style-label">
-          {t('Style name')}
+        <div className="save-style-field">
+          <h3>
+            <label htmlFor={`${fieldId}-name`}>{t('Style name')}</label>
+          </h3>
           <input
-            aria-label={t('Style name')}
+            id={`${fieldId}-name`}
             value={name}
             maxLength={80}
             placeholder={t('Style name')}
@@ -82,19 +85,16 @@ function SaveDialog({ save, prompt, selected, close }: Props & { close: () => vo
               setError('');
             }}
           />
-        </label>
-        <div className="save-style-selected">
+        </div>
+        <div className="save-style-field">
           <h3>{t('Selected')}</h3>
           <SelectedOptions {...selected} />
         </div>
-        <div className="save-style-label">
-          <span>{t('Prompt preview')}</span>
-          <textarea
-            className="prompt-textarea"
-            aria-label={t('Prompt preview')}
-            readOnly
-            value={prompt}
-          />
+        <div className="save-style-field">
+          <h3>
+            <label htmlFor={`${fieldId}-prompt`}>{t('Prompt preview')}</label>
+          </h3>
+          <textarea id={`${fieldId}-prompt`} className="prompt-textarea" readOnly value={prompt} />
         </div>
         {error && (
           <p className="save-style-error" role="alert">

@@ -23,9 +23,8 @@ const translation: Record<string, string> = {
   'A–Z': 'A–Z',
   'Z–A': 'Z–A',
   'Refine filter choices': 'Refine filter choices',
-  'Choose builder options to generate a prompt.':
-    'Choose the options to use in your prompt.\nSelect up to 3 options per category.',
-  'Choose up to {{limit}} for {{category}}.': 'Choose up to {{limit}} for {{category}}.',
+  'Choose builder options to generate a prompt.': 'Choose the options to use in your prompt.',
+  'Up to {{count}}': 'Up to {{count}}',
   'Apply choices': 'Next',
 
   '{{count}} results': '{{count}} results',
