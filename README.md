@@ -13,7 +13,11 @@ control styling, keeping the same selection.
 Filter selection is unlimited. No selected options, or every available option in
 a category, means that category does not restrict results, including records with
 missing option metadata. Other categories remain active. Options use OR within
-each category and AND across categories.
+each category and AND across categories. Options start expanded. Collapsing a
+category replaces its buttons with a text summary of selected options (two names
+plus a remaining count when needed). Empty and fully selected filter categories
+summarize as All; an empty builder category summarizes as None selected. Clicking
+the category title or chevron reopens it without changing choices or typed text.
 
 The results toolbar contains the filter toggle, a numeric-only count, and thumbnail
 size or collection sorting controls. The toolbar sticks during scrolling with
@@ -30,8 +34,12 @@ the expanded label stays inside the gallery. Touch devices open the builder on
 the first tap without requiring hover. On mobile the filter panel slides in from
 the left, leaving 80px on the right over a black 80% backdrop with 8px blur. Tap
 outside, press Escape, or use X to close. Motion follows reduced-motion settings. Both this button and the panel's Generate
-prompt button open the full-screen builder. On mobile its heading and output are
-sticky with 8px backdrop blur. Closing and reopening preserves the
+prompt button open the full-screen builder. The full builder viewport scrolls;
+the option body no longer has its own scrollbar. Its heading and output remain
+sticky with 8px backdrop blur, so content passes beneath them. Selected and Prompt
+can be collapsed independently without clearing settings or hiding Save/Copy.
+On mobile, collapsing output sections frees room for the options. Closing and
+reopening preserves the
 draft. Newly changed filters seed the builder, while builder edits do not filter
 the gallery. The builder keeps its three-option limit (one for outline, ratio,
 and complexity). When transferred filters exceed a limit, the builder lists every
@@ -40,6 +48,18 @@ and saving stay disabled until those choices are applied. No candidates are
 silently truncated, and unfinished choices survive closing/reopening the builder.
 Its restart icon clears the draft and optional choices, restoring
 the standard ratio, complexity, and Color Only outline mode.
+
+On mobile, the filter footer repeats active selections as removable chips above
+the existing Generate prompt button. The summary scrolls within a capped area
+when needed and disappears when no filters restrict results.
+
+Save prompt pre-fills the editable name from Subject when the save dialog opens,
+trimming surrounding whitespace and respecting its 80-character limit. Editing
+the title does not change Subject; an empty Subject leaves the name empty. The
+shared prompt action row has no top margin. Detail actions use 20px vertical and
+24px horizontal padding on desktop and mobile. Common control and state classes
+remain composed; unused marker classes and the old collapsed-row drag code were
+removed.
 
 Gallery placeholders currently have type, style/technique, and dimension metadata.
 They do not have inferred color, texture, typography, outline, or complexity tags;

@@ -53,7 +53,7 @@ export default function Presets(p: Props) {
                       required
                     />
                     <button
-                      className="secondary rename-cancel"
+                      className="secondary"
                       aria-label={t('Cancel rename')}
                       type="button"
                       onClick={() => setEditing(null)}

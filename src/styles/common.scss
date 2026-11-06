@@ -101,7 +101,6 @@
 }
 .prompt-actions {
   @include flex-row($gap: 8px);
-  margin-top: 12px;
   > .save-prompt-control {
     flex: 1;
     min-width: 0;
@@ -718,7 +717,7 @@ textarea {
     z-index: 3;
     backdrop-filter: blur(8px);
     flex-shrink: 0;
-    padding: 12px 24px 20px;
+    padding: 20px 24px;
     background: $sticky-background;
   }
   @media (max-width: $tablet) {
@@ -735,9 +734,6 @@ textarea {
       border-left: 0;
     }
     &-scroll {
-      padding-inline: 20px;
-    }
-    &-actions {
       padding-inline: 20px;
     }
   }
@@ -931,6 +927,16 @@ textarea {
   }
 }
 .filter-panel {
+  .filter-mobile-summary {
+    margin-bottom: 16px;
+    h3 {
+      @include builder-option-heading;
+    }
+    .filter-summary {
+      max-height: min(120px, 20dvh);
+      margin-top: 8px;
+    }
+  }
   .builder-scroll {
     flex: 1;
   }
@@ -1015,10 +1021,30 @@ textarea {
   margin-inline: -$content-padding;
   min-width: 0;
 }
-.pills {
+.option-list {
   @include flex-row($gap: 4px);
   flex-wrap: wrap;
   min-width: 0;
+  padding-inline: $content-padding;
+}
+.option-heading {
+  .option-heading-label {
+    padding: 0;
+    border: 0;
+    background: transparent;
+    color: inherit;
+    font: inherit;
+    text-align: left;
+    text-transform: inherit;
+    letter-spacing: inherit;
+  }
+}
+.option-summary {
+  margin: 0;
+  padding-inline: $content-padding;
+  color: $muted;
+  font-size: var(--text-small, 12px);
+  overflow-wrap: anywhere;
 }
 .option-choice {
   @include flex-row($gap: 3px, $display: inline-flex);
@@ -1047,34 +1073,6 @@ textarea {
   @media (max-width: $mobile) {
     --button-font-size: 13px;
     padding-block: round(nearest, calc(2em / 11), 2px);
-  }
-}
-.choice-row {
-  padding-inline: $content-padding;
-  &.collapsed {
-    flex-wrap: nowrap;
-    overflow-x: auto;
-    overflow-y: hidden;
-    overscroll-behavior-x: contain;
-    scrollbar-width: none;
-    touch-action: pan-x pan-y;
-    -webkit-overflow-scrolling: touch;
-    user-select: none;
-    cursor: grab;
-  }
-  &.collapsed::-webkit-scrollbar {
-    display: none;
-    width: 0;
-    height: 0;
-  }
-  &.expanded {
-    flex-wrap: wrap;
-  }
-  &.dragging {
-    &,
-    .option-choice {
-      cursor: grabbing;
-    }
   }
 }
 .choice-toggle {
@@ -1356,9 +1354,6 @@ textarea {
     text-transform: none;
     letter-spacing: normal;
   }
-  .prompt-actions {
-    gap: 8px;
-  }
   &-viewport {
     @include flex-column;
     flex: 1;
@@ -1382,42 +1377,58 @@ textarea {
     margin: 0;
     border: 0;
     background: $page;
+    --composer-heading-height: 56px;
     &[open] > .builder-viewport {
       display: grid;
       grid-template-columns: minmax(0, 7fr) minmax(280px, 3fr);
-      grid-template-rows: auto minmax(0, 1fr);
+      grid-template-rows: auto auto;
+      align-content: start;
     }
     > .builder-viewport > .builder-heading {
       grid-column: 1 / -1;
       border-bottom: 1px solid $line;
     }
     > .builder-viewport > .builder-scroll {
-      @include scroll-area;
       grid-column: 1;
+      grid-row: 2;
       min-width: 0;
     }
     @media (max-width: $mobile) {
+      --composer-heading-height: 60px;
       &[open] > .builder-viewport {
-        grid-template-columns: minmax(0, 1fr);
-        grid-template-rows: auto minmax(0, 1fr) minmax(240px, 42dvh);
+        display: flex;
+      }
+      > .builder-viewport > .builder-scroll {
+        flex: 1 0 auto;
       }
       .builder-fullscreen-output {
-        position: sticky;
+        top: auto;
         bottom: 0;
-        z-index: 3;
-        grid-column: 1;
-        grid-row: 3;
+        flex: none;
+        align-self: stretch;
+        height: auto;
+        max-height: 60dvh;
         border-left: 0;
         border-top: 1px solid $line;
         background: $sticky-background;
         backdrop-filter: blur(8px);
-        > .prompt-actions {
-          background: transparent;
+        .builder-fullscreen-prompt {
+          flex: none;
+          .prompt-textarea {
+            height: 160px;
+          }
         }
       }
     }
   }
   &-fullscreen-output {
+    position: sticky;
+    top: var(--composer-heading-height);
+    z-index: 3;
+    align-self: start;
+    height: calc(100dvh - var(--composer-heading-height));
+    background: $sticky-background;
+    backdrop-filter: blur(8px);
     grid-column: 2;
     grid-row: 2;
     min-width: 0;
@@ -1441,9 +1452,8 @@ textarea {
     }
     > .prompt-actions {
       flex-shrink: 0;
-      margin: 0;
       padding: $content-padding;
-      background: $page;
+      background: transparent;
       button {
         @include uppercase-text;
       }
@@ -1455,7 +1465,18 @@ textarea {
   &-fullscreen-prompt {
     @include flex-column;
     flex: 1;
-    min-height: 160px;
+    min-height: 0;
+    &.collapsed {
+      flex: none;
+    }
+    &-content {
+      @include flex-column;
+      flex: 1;
+      min-height: 0;
+      &[hidden] {
+        display: none;
+      }
+    }
     .prompt-textarea {
       flex: 1;
       min-height: 120px;

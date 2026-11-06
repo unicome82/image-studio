@@ -12,7 +12,7 @@ interface Props {
 function SaveDialog({ save, prompt, selected, close }: Props & { close: () => void }) {
   const { t } = useTranslation();
   const ref = useRef<HTMLDialogElement>(null);
-  const [name, setName] = useState('');
+  const [name, setName] = useState(() => (selected.fields.Subject ?? '').trim().slice(0, 80));
   const [error, setError] = useState('');
   useEffect(() => {
     const previous = document.body.style.overflow;

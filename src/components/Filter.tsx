@@ -4,8 +4,9 @@ import Icon from './Icon';
 import OptionChoices from './promptbuilder/OptionChoices';
 import ResizeHandle from './promptbuilder/ResizeHandle';
 import type { Option, Selection } from '../utils/promptBuilder';
-import { filterCategories, type FilterType } from '../utils/filters';
+import { activeFilters, filterCategories, type FilterType } from '../utils/filters';
 import BuilderSelect from './promptbuilder/BuilderSelect';
+import { useMediaQuery } from '../utils/useMediaQuery';
 
 interface Props {
   width: number;
@@ -22,6 +23,8 @@ interface Props {
 
 export default function Filter(p: Props) {
   const { t } = useTranslation();
+  const mobile = useMediaQuery('(max-width: 600px)');
+  const selectedFilters = activeFilters(p.filters, p.catalog);
   return (
     <Panel className="builder filter-panel" label={t('Filter')} close={p.close} drawer>
       <ResizeHandle width={p.width} resize={p.resize} />
@@ -66,6 +69,7 @@ export default function Filter(p: Props) {
                       id: option.id,
                       label: option.label.replace(' Modern', ''),
                     }))}
+                  allIsUnfiltered
                   selected={p.filters[category] ?? []}
                   choose={(id) => p.toggle(category, id)}
                 />
@@ -75,6 +79,12 @@ export default function Filter(p: Props) {
         </div>
         <div className="builder-footer">
           <div className="builder-wrap">
+            {mobile && Object.keys(selectedFilters).length > 0 && (
+              <section className="filter-mobile-summary" aria-label={t('Selected filters')}>
+                <h3>{t('Selected filters')}</h3>
+                <SelectedFilters catalog={p.catalog} filters={selectedFilters} remove={p.toggle} />
+              </section>
+            )}
             <button className="primary generate-prompt" onClick={p.compose}>
               <Icon name="auto_awesome" size="20" className="fill" />
               {t('Generate prompt')}

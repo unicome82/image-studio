@@ -1,4 +1,9 @@
 const translation: Record<string, string> = {
+  'None selected': '선택 없음',
+  '{{options}} and {{count}} more': '{{options}} 외 {{count}}개',
+  'Expand {{title}} section': '{{title}} 펼치기',
+  'Collapse {{title}} section': '{{title}} 접기',
+
   Newest: '최신',
   Oldest: '과거',
   'A–Z': '가–하',

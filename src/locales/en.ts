@@ -1,4 +1,9 @@
 const translation: Record<string, string> = {
+  'None selected': 'None selected',
+  '{{options}} and {{count}} more': '{{options}} and {{count}} more',
+  'Expand {{title}} section': 'Expand {{title}} section',
+  'Collapse {{title}} section': 'Collapse {{title}} section',
+
   Newest: 'New',
   Oldest: 'Old',
   'A–Z': 'A–Z',

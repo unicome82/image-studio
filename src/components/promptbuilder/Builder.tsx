@@ -1,4 +1,4 @@
-import { useId } from 'react';
+import { useId, useLayoutEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import Icon from '../Icon';
 import OptionChoices from './OptionChoices';
@@ -45,6 +45,25 @@ export default function Builder(p: Props) {
     return count > 0 && count <= builderFilterLimit(category);
   });
   const tabsId = useId();
+  const viewportRef = useRef<HTMLDivElement>(null);
+  const headingRef = useRef<HTMLDivElement>(null);
+  useLayoutEffect(() => {
+    const heading = headingRef.current;
+    if (!heading) return;
+    const measure = () => {
+      if (heading.offsetHeight > 0)
+        viewportRef.current?.style.setProperty(
+          '--composer-heading-height',
+          `${heading.offsetHeight}px`,
+        );
+    };
+    const observer = new ResizeObserver(measure);
+    observer.observe(heading);
+    measure();
+    return () => observer.disconnect();
+  }, []);
+  const [selectedCollapsed, setSelectedCollapsed] = useState(false);
+  const [promptCollapsed, setPromptCollapsed] = useState(false);
   const categories = builderCategories(p.photo).filter((category) => category !== 'Outline');
   const selectedOptions = (
     <SelectedOptions
@@ -70,11 +89,7 @@ export default function Builder(p: Props) {
           complexity: p.complexity,
         }}
       />
-      <button
-        className="primary builder-copy"
-        disabled={resolving}
-        onClick={() => p.copy(p.prompt)}
-      >
+      <button className="primary" disabled={resolving} onClick={() => p.copy(p.prompt)}>
         <Icon name="content_copy" size="14" />
         {t('Copy')}
       </button>
@@ -87,8 +102,8 @@ export default function Builder(p: Props) {
       fullscreen
       close={p.close}
     >
-      <div className="builder-viewport">
-        <div className="builder-wrap builder-heading">
+      <div className="builder-viewport" ref={viewportRef}>
+        <div className="builder-wrap builder-heading" ref={headingRef}>
           <h2 className="builder-title">
             {resolving ? (
               t('Refine filter choices')
@@ -179,7 +194,6 @@ export default function Builder(p: Props) {
                   <OptionChoices
                     title="Type"
                     multiple={false}
-                    collapsible={false}
                     options={[
                       { id: 'illustration', label: 'Illustration' },
                       { id: 'photo', label: 'Photo' },
@@ -212,7 +226,6 @@ export default function Builder(p: Props) {
                       <OptionChoices
                         title="Aspect ratio"
                         multiple={false}
-                        collapsible={false}
                         options={[
                           ...new Set([
                             '1:1',
@@ -229,11 +242,10 @@ export default function Builder(p: Props) {
                         choose={(ratio) => p.setFields({ ...p.fields, 'Aspect Ratio': ratio })}
                       />
                     </section>
-                    <section className="option-section complexity-option">
+                    <section className="option-section">
                       <OptionChoices
                         title="Complexity"
                         multiple={false}
-                        collapsible={false}
                         options={complexityLabels.map((label, index) => ({
                           id: String(index + 1),
                           label,
@@ -294,7 +306,6 @@ export default function Builder(p: Props) {
                               ) : undefined
                             }
                             showOptions={category !== 'Typography' || isTypographyEnabled(p.fields)}
-                            collapsible={category !== 'Typography'}
                             multiple
                             afterHeading={
                               category === 'Typography' && isTypographyEnabled(p.fields) ? (
@@ -338,26 +349,62 @@ export default function Builder(p: Props) {
           <div className="builder-fullscreen-output">
             <div className="builder-fullscreen-output-scroll">
               <section className="builder-fullscreen-selected" aria-label={t('Selected')}>
-                <h3>{t('Selected')}</h3>
-                {resolving ? (
-                  <p className="builder-resolution-message" role="status">
-                    {t('Choose builder options to generate a prompt.')}
-                  </p>
-                ) : (
-                  selectedOptions
-                )}
+                <h3>
+                  {t('Selected')}
+                  <button
+                    className="choice-toggle"
+                    aria-label={t(
+                      selectedCollapsed ? 'Expand {{title}} section' : 'Collapse {{title}} section',
+                      { title: t('Selected') },
+                    )}
+                    aria-expanded={!selectedCollapsed}
+                    aria-controls={`${tabsId}-selected-content`}
+                    onClick={() => setSelectedCollapsed(!selectedCollapsed)}
+                  >
+                    <Icon name={selectedCollapsed ? 'expand_more' : 'expand_less'} size="16" />
+                  </button>
+                </h3>
+                <div id={`${tabsId}-selected-content`} hidden={selectedCollapsed}>
+                  {resolving ? (
+                    <p className="builder-resolution-message" role="status">
+                      {t('Choose builder options to generate a prompt.')}
+                    </p>
+                  ) : (
+                    selectedOptions
+                  )}
+                </div>
               </section>
-              <section className="builder-fullscreen-prompt">
+              <section
+                className={'builder-fullscreen-prompt' + (promptCollapsed ? ' collapsed' : '')}
+              >
                 <h3>
                   <label htmlFor={`${tabsId}-fullscreen-prompt`}>{t('Prompt')}</label>
+                  <button
+                    className="choice-toggle"
+                    aria-label={t(
+                      promptCollapsed ? 'Expand {{title}} section' : 'Collapse {{title}} section',
+                      { title: t('Prompt') },
+                    )}
+                    aria-expanded={!promptCollapsed}
+                    aria-controls={`${tabsId}-prompt-content`}
+                    onClick={() => setPromptCollapsed(!promptCollapsed)}
+                  >
+                    <Icon name={promptCollapsed ? 'expand_more' : 'expand_less'} size="16" />
+                  </button>
                 </h3>
-                <textarea
-                  id={`${tabsId}-fullscreen-prompt`}
-                  className="prompt-textarea"
-                  aria-label={t('Builder prompt')}
-                  readOnly
-                  value={p.prompt}
-                />
+                <div
+                  id={`${tabsId}-prompt-content`}
+                  className="builder-fullscreen-prompt-content"
+                  hidden={promptCollapsed}
+                >
+                  <textarea
+                    id={`${tabsId}-fullscreen-prompt`}
+                    className="prompt-textarea"
+                    aria-label={t('Builder prompt')}
+                    readOnly
+                    value={p.prompt}
+                  />
+                </div>
               </section>
             </div>
             {promptActions}
