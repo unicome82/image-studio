@@ -1,8 +1,8 @@
 # Image Studio
 
-## Filter preview (`preview/filter`)
+## Filter panel
 
-The experimental UI is available at `/image-studio/preview/filter/`. The left
+The left
 panel filters the gallery, favorites, and saved style sets. Its heading is a single
 All / Illustration / Photo / Design dropdown. All shows shared options; Illustration, Photo, and Design add their own
 categories. Design has six formats and six design styles, with shared color,
@@ -27,7 +27,8 @@ size or collection sorting controls. The toolbar sticks during scrolling with
 editable selections fade gently toward the right-side ellipsis control. The main
 header has a bottom border. Selected filters appear
 as removable chips without an extra heading, and the chip row disappears when
-empty. Fully selected categories are omitted from the active chips. The old top
+empty. The image type is shown only by the type dropdown, never as a
+selected chip. Fully selected categories are omitted from the active chips. The old top
 navigation and ALL / SELECTED labels are removed. Collection sorting uses compact
 New / Old / A–Z labels (최신순 / 과거순 / 이름순 in Korean).
 
@@ -36,9 +37,8 @@ GENERATE PROMPT slides into view to the right of the icon without an opacity fad
 Its right edge follows the gallery content, moving left of an open detail panel;
 the expanded label stays inside the gallery. Touch devices open the builder on
 the first tap without requiring hover. On mobile the filter panel slides in from
-the left at full width with a transparent, unblurred backdrop. Swipe left, press
-Escape, or use X to close. A sufficiently long horizontal swipe follows the
-finger; short swipes return to the open position. Vertical scrolling and the
+the left at full width with a transparent, unblurred backdrop. Press Escape or
+use X to close; there is no swipe-to-close gesture. Vertical scrolling and the
 selected chips’ horizontal scrolling retain their normal behavior. Motion follows reduced-motion settings. Both this button and the panel's Generate
 prompt button open the full-screen builder. The full builder viewport scrolls;
 the option body no longer has its own scrollbar. Its heading and output remain
@@ -117,7 +117,7 @@ npm run build
 npm run preview
 ```
 
-The gallery includes compact single-row Illustration/Photo and style navigation, gallery search, local bookmarks, responsive Builder and detail panels (full-screen dialogs on mobile), self-contained copyable prompts, and image preview. All displays a continuous masonry layout with a total count; style tabs filter it. Masonry uses fixed small columns (approximately 152px on desktop, three columns on mobile), preserving aspect ratios. The small/large icon controls immediately after All switch desktop column targets between 152px and 304px and mobile layouts between two columns and one column. Current placeholders use varied sample dimensions, with no generated images. The header scrolls out of view while navigation stays sticky. Illustration and Photo retain independent selections, and hidden illustration options never enter Photo prompts. Publish stays disabled until real assets and a safe, authorized publishing workflow are connected. Public reading does not authorize repository writes. No upload or simulated CDN approval occurs.
+The gallery includes the left filter panel (no top navigation or style tabs), gallery search, local bookmarks, responsive Builder and detail panels (full-screen dialogs on mobile), self-contained copyable prompts, and image preview. All displays a continuous masonry layout with a total count; style tabs filter it. Masonry uses fixed small columns (approximately 152px on desktop, three columns on mobile), preserving aspect ratios. The small/large icon controls immediately after All switch desktop column targets between 152px and 304px and mobile layouts between two columns and one column. Current placeholders use varied sample dimensions, with no generated images. The header scrolls out of view while navigation stays sticky. Illustration and Photo retain independent selections, and hidden illustration options never enter Photo prompts. Publish stays disabled until real assets and a safe, authorized publishing workflow are connected. Public reading does not authorize repository writes. No upload or simulated CDN approval occurs.
 
 ## Structure
 
@@ -137,7 +137,7 @@ Use Save in Builder to save current settings, or Save in image detail to save th
 
 ## Compact Builder
 
-Builder starts at 280px wide on desktop. Drag its right edge between 280px and 600px, or focus the separator and use arrow keys, Home, and End. Mobile remains a full-screen panel. The navigation Builder icon button matches the Illustration/Photo toggle height (28px on desktop and mobile). Option separators are removed. Collapsed options show all choices in a single horizontally scrollable row with a hidden scrollbar, mouse-wheel horizontal movement, mouse dragging without accidental selection, and native left/right touch swipes. A chevron on the right of each heading switches to the wrapped full list. No options are removed or measured to fit. Material Symbols expand_more and expand_less indicate expansion state, while Typography continues to use only its own switch. Option buttons use compact padding, and Builder option titles use regular gray text. Selected options lead only in multi-select categories; single-select Rendering Mode and Aspect Ratio retain their original order. A fourth option leaves all three selections intact and shows a limit toast. Builder buttons use 11px regular text in their original case, a 4px radius, and 4px spacing; expand/collapse controls are 24px squares. Builder section titles retain their compact styling. Buttons use uppercase labels; redundant Illustration suffixes are omitted from style choices and filters. Internal scrollbars are 6px wide with 8px rounded thumbs, using black at 0.1 opacity and 0.4 when their area is hovered. Document scrollbars are black regardless of hover. Outline is directly above the separate Aspect ratio option; Your direction is one textarea. Older saved Subject/Negative Prompt fields are preserved as labeled lines in that textarea; saved Text is kept in the separate optional Typography input. Typography defaults OFF. Its compact switch sits directly beside the title. Turn on its title-side switch to show the text input directly beneath its heading, followed by all typography choices. Single-line inputs, including typography, saved-set renaming, and the Save dialog, share a 28px height; the header search area and header icon buttons are 32px. Option buttons remain 24px tall. Typography uses no expand/collapse button; OFF hides its input and choices. If enabled with no text, the generated instruction asks the AI to choose suitable wording freely. OFF omits the text and typography options. The switch and text persist in saved style sets. Complexity uses five fixed-order, single-select option buttons and names only in the UI and copied prompt. Numeric levels remain internal for saved-set compatibility.
+The filter panel starts at 280px wide on desktop. Drag its right edge between 280px and 600px, or focus the separator and use arrow keys, Home, and End. Builder always opens as a full-screen dialog without width resizing. The navigation Builder icon button matches the Illustration/Photo toggle height (28px on desktop and mobile). Option separators are removed. Collapsed options show all choices in a single horizontally scrollable row with a hidden scrollbar, mouse-wheel horizontal movement, mouse dragging without accidental selection, and native left/right touch swipes. A chevron on the right of each heading switches to the wrapped full list. No options are removed or measured to fit. Material Symbols expand_more and expand_less indicate expansion state, while Typography continues to use only its own switch. Option buttons use compact padding, and Builder option titles use regular gray text. Selected options lead only in multi-select categories; single-select Rendering Mode and Aspect Ratio retain their original order. A fourth option leaves all three selections intact and shows a limit toast. Builder buttons use 11px regular text in their original case, a 4px radius, and 4px spacing; expand/collapse controls are 24px squares. Builder section titles retain their compact styling. Buttons use uppercase labels; redundant Illustration suffixes are omitted from style choices and filters. Internal scrollbars are 6px wide with 8px rounded thumbs, using black at 0.1 opacity and 0.4 when their area is hovered. Document scrollbars are black regardless of hover. Outline is directly above the separate Aspect ratio option; Your direction is one textarea. Older saved Subject/Negative Prompt fields are preserved as labeled lines in that textarea; saved Text is kept in the separate optional Typography input. Typography defaults OFF. Its compact switch sits directly beside the title. Turn on its title-side switch to show the text input directly beneath its heading, followed by all typography choices. Single-line inputs, including typography, saved-set renaming, and the Save dialog, share a 28px height; the header search area and header icon buttons are 32px. Option buttons remain 24px tall. Typography uses no expand/collapse button; OFF hides its input and choices. If enabled with no text, the generated instruction asks the AI to choose suitable wording freely. OFF omits the text and typography options. The switch and text persist in saved style sets. Complexity uses five fixed-order, single-select option buttons and names only in the UI and copied prompt. Numeric levels remain internal for saved-set compatibility.
 
 ## Image preview and fonts
 

@@ -993,10 +993,6 @@ textarea,
       width: 100%;
       max-width: none;
       height: 100dvh;
-      .builder-heading,
-      .builder-scroll {
-        touch-action: pan-y pinch-zoom;
-      }
       &[open] {
         animation: filter-slide-in var(--transition-duration) ease-out;
       }
