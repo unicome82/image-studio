@@ -65,7 +65,7 @@ export default function ImageDetail(p: Props) {
             toggle={p.toggleBookmark}
           />
         </div>
-        <SelectedOptions {...p.saveOptions} />
+        <SelectedOptions {...p.saveOptions} english />
         <section className="detail-section">
           <h3>
             {t('Style prompt')}

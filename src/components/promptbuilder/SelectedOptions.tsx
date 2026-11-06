@@ -11,6 +11,7 @@ export interface SelectedOptionsProps {
   design?: boolean;
   complexity: number;
   remove?: (category: string, id: string) => void;
+  english?: boolean;
 }
 export default function SelectedOptions({
   catalog,
@@ -20,8 +21,9 @@ export default function SelectedOptions({
   design = false,
   complexity,
   remove,
+  english = false,
 }: SelectedOptionsProps) {
-  const { t } = useTranslation();
+  const { t } = useTranslation(undefined, english ? { lng: 'en' } : undefined);
   const options = selectedBuilderOptions(catalog, selection, fields, photo, design).filter(
     (option) => option.category !== 'Outline',
   );
