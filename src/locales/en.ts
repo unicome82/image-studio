@@ -1,4 +1,5 @@
 const translation: Record<string, string> = {
+  'Copyright notice': '© {{year}} IMAGE STUDIO. All rights reserved.',
   'Thumbnail size': 'Thumbnail size',
   'Small thumbnails': 'Small thumbnails',
   'Large thumbnails': 'Large thumbnails',

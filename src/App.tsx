@@ -406,6 +406,9 @@ export default function App() {
               toggleBookmark={toggleBookmark}
             />
           )}
+          <footer className="site-footer">
+            {t('Copyright notice', { year: new Date().getFullYear() })}
+          </footer>
         </main>
         {selected && (
           <>
