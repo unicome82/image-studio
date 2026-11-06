@@ -967,44 +967,6 @@ textarea {
   }
 }
 
-// Complexity slider
-.complexity-option {
-  input[type='range'] {
-    appearance: none;
-    height: $input-height;
-    padding: 0;
-    border: 0;
-    background: transparent;
-    cursor: pointer;
-    &::-webkit-slider-runnable-track {
-      height: 1px;
-      border: 0;
-      background: $gray-300;
-    }
-    &::-webkit-slider-thumb {
-      appearance: none;
-      width: 12px;
-      height: 12px;
-      margin-top: calc((1px - 12px) / 2);
-      border: 0;
-      border-radius: 50%;
-      background: $ink;
-    }
-    &::-moz-range-track {
-      height: 1px;
-      border: 0;
-      background: $gray-300;
-    }
-    &::-moz-range-thumb {
-      width: 12px;
-      height: 12px;
-      border: 0;
-      border-radius: 50%;
-      background: $ink;
-    }
-  }
-}
-
 // SelectedOptions
 .selected-options {
   display: flex;

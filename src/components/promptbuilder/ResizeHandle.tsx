@@ -1,7 +1,7 @@
 import { useTranslation } from 'react-i18next';
 import { useEffect, useRef, useState } from 'react';
-export const builderMinWidth = 220;
-export const builderMaxWidth = 420;
+export const builderMinWidth = 280;
+export const builderMaxWidth = 600;
 export default function ResizeHandle({
   width,
   resize,

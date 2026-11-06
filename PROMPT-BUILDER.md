@@ -127,9 +127,9 @@ Combine the selected prompt file instructions while preserving their defining ch
 
 `IMAGE-STUDIO.md`를 먼저 읽고 현재 프로젝트 구조를 확인한다. **우선 Step 1만 진행**하고 나머지는 요청 시 실행한다. 불필요한 파일·기능을 추가하지 않는다.
 
-- Subject를 최상위에 배치하고 아래에 Outline·Aspect ratio 버튼과 Complexity 슬라이더를 별도 그룹 래퍼 없이 배치한다. Subject는 생성·복사·스타일셋 저장에 포함하며 언어 변경 시 원문을 유지한다. Selected 영역은 우측 음수 마진과 같은 크기 패딩으로 스크롤바를 패널 우측 경계에 정렬한다.
+- Subject를 최상위에 배치하고 아래에 Outline·Aspect ratio 버튼과 Complexity 단일 선택 옵션 버튼를 별도 그룹 래퍼 없이 배치한다. Subject는 생성·복사·스타일셋 저장에 포함하며 언어 변경 시 원문을 유지한다. Selected 영역은 우측 음수 마진과 같은 크기 패딩으로 스크롤바를 패널 우측 경계에 정렬한다.
 
-- Selected에는 비율·복잡도·Outline의 값만 표시한다. 필터 X는 회전 없이 opacity 0.5에서 hover 시 1로 전환한다. Selected·Prompt 탭은 옵션 제목 스타일을 공유하며, Outline·Aspect ratio는 고정 순서의 단일 선택 옵션 버튼, Complexity는 단계명을 표시하는 슬라이더를 사용한다. Typography 표시명에서 Typography·Lettering·Handwriting 접미어를 생략하되 프롬프트 원문은 유지한다.
+- Selected에는 비율·복잡도·Outline의 값만 표시한다. 필터 X는 회전 없이 opacity 0.5에서 hover 시 1로 전환한다. Selected·Prompt 탭은 옵션 제목 스타일을 공유하며, Outline·Aspect ratio는 고정 순서의 단일 선택 옵션 버튼, Complexity는 단계명을 표시하는 고정 순서의 단일 선택 옵션 버튼을 사용한다. Typography 표시명에서 Typography·Lettering·Handwriting 접미어를 생략하되 프롬프트 원문은 유지한다.
 
 - Subject 미입력 시 선택 설정·추가 지시에 맞는 랜덤 피사체와 장면을 정해 추가 질문 없이 이미지를 생성하도록 지시한다. 미입력 안내를 Subject 아래 표시한다. 모바일에서는 카테고리 옵션을 모두 펼치고 접기 버튼을 숨긴다.
 

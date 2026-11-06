@@ -90,19 +90,13 @@ export default function Builder(p: Props) {
             />
           </section>
           <section className="option-section complexity-option">
-            <h3>
-              {t('Complexity')}
-              <span>{t(complexityLabels[p.complexity - 1])}</span>
-            </h3>
-            <input
-              aria-label={t('Complexity')}
-              aria-valuetext={t(complexityLabels[p.complexity - 1])}
-              type="range"
-              min="1"
-              max="5"
-              step="1"
-              value={p.complexity}
-              onChange={(e) => p.setComplexity(Number(e.target.value))}
+            <OptionChoices
+              title="Complexity"
+              multiple={false}
+              collapsible={false}
+              options={complexityLabels.map((label, index) => ({ id: String(index + 1), label }))}
+              selected={[String(p.complexity)]}
+              choose={(level) => p.setComplexity(Number(level))}
             />
           </section>
           {categories.map((category) => {

@@ -94,7 +94,7 @@ function storedBookmarks(): string[] {
 export default function App() {
   const { t } = useTranslation();
   const [copyFallback, setCopyFallback] = useState('');
-  const [builderWidth, setBuilderWidth] = useState(248);
+  const [builderWidth, setBuilderWidth] = useState(280);
   const [builder, setBuilder] = useState(() => window.innerWidth > 1100);
   const [presetOpen, setPresetOpen] = useState(false);
   const [presets, setPresets] = useState<StylePreset[]>(() => {

@@ -7,13 +7,13 @@
   grid-template-columns: minmax(0, 1fr);
   align-items: start;
   &.with-builder {
-    grid-template-columns: var(--builder-width, 248px) minmax(0, 1fr);
+    grid-template-columns: var(--builder-width, 280px) minmax(0, 1fr);
   }
   &.with-detail {
     grid-template-columns: minmax(0, 1fr) var(--detail-width);
   }
   &.with-builder.with-detail {
-    grid-template-columns: var(--builder-width, 248px) minmax(0, 1fr) var(--detail-width);
+    grid-template-columns: var(--builder-width, 280px) minmax(0, 1fr) var(--detail-width);
   }
   @media (min-width: 1700px) {
     --detail-width: 352px;
