@@ -5,7 +5,7 @@
 The left
 panel filters the gallery, favorites, and saved style sets. Its heading is a single
 All / Illustration / Photo / Design dropdown. All shows shared options; Illustration, Photo, and Design add their own
-categories. Design has six formats and six design styles, with shared color,
+categories. Design has thirteen formats and six design styles, with shared color,
 composition, texture, and typography options. Type changes keep shared choices
 and clear incompatible categories. The circular-arrow reset icon clears filters and search,
 preserving the current type. When the panel is closed, its type selector appears
@@ -55,7 +55,8 @@ and complexity). When transferred filters exceed a limit, the builder lists ever
 candidate and asks the user to choose within that limit. This selection step shows
 only the instructions and option choices, with each limit beside its category
 heading rather than repeated explanatory paragraphs; Selected, Prompt, Save, and Copy return
-after applying the choices. Design Format is single-select. No candidates are
+after applying the choices. Design Format is single-select and suggests its
+default ratio (for example Website 16:9, App Screen 9:16) until the user picks a ratio. No candidates are
 silently truncated, and unfinished choices survive closing/reopening the builder.
 Its circular-arrow reset icon clears the draft and optional choices, restoring
 the standard ratio, complexity, and Color Only outline mode.

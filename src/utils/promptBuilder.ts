@@ -8,6 +8,22 @@ export interface Option {
 export type Selection = Record<string, string[]>;
 export const levels = ['verysimple', 'simple', 'balanced', 'detailed', 'intricate'];
 export const complexityLabels = ['Very Simple', 'Simple', 'Balanced', 'Detailed', 'Intricate'];
+// Suggested ratio when a design format is chosen; a ratio the user picked stays.
+export const designFormatRatios: Record<string, string> = {
+  poster: '3:4',
+  logo: '1:1',
+  packaging: '3:4',
+  infographic: '3:4',
+  iconset: '1:1',
+  pattern: '1:1',
+  greetingcard: '3:4',
+  website: '16:9',
+  emblem: '1:1',
+  product: '1:1',
+  character: '3:4',
+  appscreen: '9:16',
+  signage: '16:9',
+};
 export const complexityUiLabels = ['Very Low', 'Low', 'Medium', 'High', 'Very High'];
 // Keep the subject editable while preserving older presets' negative instructions.
 export function compactFields(fields: Record<string, string>): Record<string, string> {

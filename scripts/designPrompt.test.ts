@@ -6,6 +6,7 @@ import {
   makePrompt,
   builderCategories,
   toggleOption,
+  designFormatRatios,
   type Option,
 } from '../src/utils/promptBuilder.ts';
 import { parsePresets } from '../src/utils/presets.ts';
@@ -122,4 +123,11 @@ test('design categories are separate; format is single-select and style keeps th
       'Design Style': ['swiss', 'bauhaus', 'retro', 'memphis'],
     },
   );
+});
+test('every design format has a suggested default ratio', () => {
+  const formats = readdirSync('reference/design/format');
+  assert.equal(formats.length, 13);
+  assert.deepEqual(Object.keys(designFormatRatios).sort(), [...formats].sort());
+  assert.equal(designFormatRatios.website, '16:9');
+  assert.equal(designFormatRatios.appscreen, '9:16');
 });

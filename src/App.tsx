@@ -31,6 +31,7 @@ import {
   complexityUiLabels as complexityLabels,
   makePrompt,
   toggleOption,
+  designFormatRatios,
   type Selection,
 } from './utils/promptBuilder';
 const initial: Selection = {
@@ -224,6 +225,8 @@ export default function App() {
   });
   const [complexity, setComplexity] = useState(3);
   const [fields, setFields] = useState<Record<string, string>>(defaultFields);
+  // Once the user picks a ratio, design formats stop suggesting their default ratio.
+  const ratioChosen = useRef(false);
   const [selected, setSelected] = useState<Tile | null>(null);
   const [bookmarks, setBookmarks] = useState(storedBookmarks);
   const [onlySaved, setOnlySaved] = useState(false);
@@ -368,6 +371,7 @@ export default function App() {
           : {}),
         ...(effectiveFilters.Typography?.length ? { 'Typography Enabled': 'true' } : {}),
       }));
+      if (effectiveFilters['Aspect Ratio']?.length === 1) ratioChosen.current = true;
       if (effectiveFilters.Complexity?.length === 1)
         setComplexity(Number(effectiveFilters.Complexity[0]));
       const update = composerDesign
@@ -417,11 +421,13 @@ export default function App() {
       ),
     );
     setSelection((previous) => ({ ...previous, ...resolved }));
-    if (pendingSelection['Aspect Ratio']?.length)
+    if (pendingSelection['Aspect Ratio']?.length) {
+      ratioChosen.current = true;
       setFields((previous) => ({
         ...previous,
         'Aspect Ratio': pendingSelection['Aspect Ratio'][0],
       }));
+    }
     if (pendingSelection.Complexity?.length) setComplexity(Number(pendingSelection.Complexity[0]));
     setPendingChoices({});
     setPendingSelection({});
@@ -514,8 +520,10 @@ export default function App() {
         fields,
         pendingChoices,
         pendingSelection,
+        ratioChosen: ratioChosen.current,
       };
       builderBackup.current = () => {
+        ratioChosen.current = draft.ratioChosen;
         setBuilderType(draft.builderType);
         setIllustrationSelection(draft.illustrationSelection);
         setPhotoSelection(draft.photoSelection);
@@ -537,6 +545,7 @@ export default function App() {
     update(structuredClone(preset.selection));
     setComplexity(preset.complexity);
     setFields({ ...defaultFields, ...preset.fields });
+    ratioChosen.current = true;
     setPendingChoices({});
     setPendingSelection({});
     setEditingPreset(preset.id);
@@ -789,6 +798,7 @@ export default function App() {
             setDesignSelection({});
             setComplexity(3);
             setFields(defaultFields);
+            ratioChosen.current = false;
           }}
           catalog={catalog}
           filterCatalog={filterCatalog}
@@ -803,6 +813,8 @@ export default function App() {
               setToast('You can select up to 3 options.');
               setToastVersion((version) => version + 1);
             } else setSelection(next);
+            if (cat === 'Design Format' && !ratioChosen.current && designFormatRatios[id])
+              setFields({ ...fields, 'Aspect Ratio': designFormatRatios[id] });
           }}
           removeOption={(category, id) =>
             setSelection((previous) => ({
@@ -813,7 +825,10 @@ export default function App() {
           complexity={complexity}
           setComplexity={setComplexity}
           fields={fields}
-          setFields={setFields}
+          setFields={(next) => {
+            if (next['Aspect Ratio'] !== fields['Aspect Ratio']) ratioChosen.current = true;
+            setFields(next);
+          }}
           photo={builderPhoto}
           type={builderType}
           setType={setBuilderType}
