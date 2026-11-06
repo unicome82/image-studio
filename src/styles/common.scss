@@ -636,7 +636,7 @@ textarea {
   @include flex-column;
   min-height: 0;
   overflow-y: auto;
-  overscroll-behavior: contain;
+  overscroll-behavior: none;
   height: calc(100dvh - var(--panel-top));
   padding: 0;
   border-left: 1px solid $line;
@@ -884,7 +884,7 @@ textarea {
   margin-top: 12px;
   padding: 0;
   overflow-y: auto;
-  overscroll-behavior: contain;
+  overscroll-behavior: none;
   .selected-options {
     max-height: none;
     margin: 0;
@@ -1172,6 +1172,7 @@ textarea {
     flex: 1;
     min-width: 0;
     overflow: visible;
+    overscroll-behavior: none;
   }
   .filter-summary {
     max-height: none;
@@ -1220,6 +1221,7 @@ textarea {
 
 // SelectedOptions
 .selected-options {
+  overscroll-behavior: none;
   display: flex;
   flex-wrap: wrap;
   gap: 4px;
@@ -1287,7 +1289,7 @@ textarea {
   margin: auto;
   padding: 0 24px 24px;
   overflow: auto;
-  overscroll-behavior: contain;
+  overscroll-behavior: none;
   border: 1px solid $dialog-border;
   border-radius: 8px;
   background: $page;
@@ -1453,7 +1455,7 @@ textarea {
     min-height: 0;
     overflow-x: hidden;
     overflow-y: auto;
-    overscroll-behavior: contain;
+    overscroll-behavior: none;
   }
   &-wrap {
     padding: $content-padding;
