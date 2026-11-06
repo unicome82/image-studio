@@ -91,15 +91,6 @@ export default function Header(p: Props) {
               <Icon name="close" size="14" />
             </button>
           )}
-          {mobile && (
-            <button
-              className="icon-button close-button"
-              aria-label={t('Close search')}
-              onClick={closeSearch}
-            >
-              <Icon name="close" size="24" className="w200" />
-            </button>
-          )}
         </label>
       )}
       <div className="header-actions">
