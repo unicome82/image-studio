@@ -392,27 +392,25 @@ textarea {
     .icon-button {
       width: 36px;
       height: 36px;
+      &,
+      &.active,
+      &:hover {
+        background: transparent;
+        color: $black;
+      }
+      .material-symbol {
+        opacity: 0.4;
+      }
+      &.active .material-symbol {
+        opacity: 1;
+        font-variation-settings: 'FILL' 1;
+      }
     }
   }
   @media (max-width: $mobile) {
     gap: calc(1em / 4);
     &-actions {
       gap: 0;
-      .icon-button {
-        &,
-        &.active,
-        &:hover {
-          background: transparent;
-          color: $black;
-        }
-        .material-symbol {
-          opacity: 0.4;
-        }
-        &.active .material-symbol {
-          opacity: 1;
-          font-variation-settings: 'FILL' 1;
-        }
-      }
     }
   }
 }
@@ -426,21 +424,9 @@ textarea {
   }
 }
 .saved-toggle {
-  @media (min-width: 601px) {
-    &[aria-pressed='false']:hover .material-symbol {
-      opacity: 0.5;
-    }
-  }
   color: $black;
   position: relative;
   flex-shrink: 0;
-}
-.saved-toggle,
-.preset-toggle {
-  &.active {
-    @include selected-surface;
-    background: $black;
-  }
 }
 .mobile-search-trigger {
   display: none;
@@ -1202,7 +1188,7 @@ textarea {
   border-radius: 8px;
   &-heading {
     @include flex-row($gap: 4px);
-    min-height: $input-height;
+    min-height: 32px;
   }
   &-actions {
     @include flex-row($gap: 4px);
@@ -1210,7 +1196,7 @@ textarea {
     margin-left: auto;
     .primary,
     .secondary {
-      height: $input-height;
+      height: 32px;
       padding: 0 calc(4em / 5);
       gap: 4px;
       font-size: 12px;
@@ -1246,14 +1232,14 @@ textarea {
 .preset-rename {
   @include flex-row($gap: 4px);
   input {
-    height: 28px;
+    height: 32px;
     flex: 1;
     font-size: $option-font-size;
   }
   button {
     font-size: 12px;
     flex-shrink: 0;
-    height: 28px;
+    height: 32px;
     padding: 0 calc(4em / 5);
   }
   .rename-confirm {
