@@ -285,7 +285,7 @@ export default function App() {
     detailPreset.fields,
     photo,
   );
-  const detailPrompt = selectedOption ? `Read ${selectedOption.path}.` : '';
+  const detailPrompt = selectedOption?.prompt ?? '';
   return (
     <>
       <Header

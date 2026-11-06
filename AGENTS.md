@@ -9,7 +9,7 @@
 - 공통 버튼은 `primary`, `secondary`, `icon-button`, 메뉴는 `dropdown-menu`, `dropdown-option` 클래스를 재사용한다. 컴포넌트별 스타일 파일은 두지 않고 common의 공통 클래스와 구역별 중첩 규칙을 재사용한다. 반응형 판별은 `useMediaQuery`를 공유한다.
 - 아이콘은 `Icon.tsx`와 버전 고정 jsDelivr Material Symbols Outlined를 사용한다. 로컬 아이콘이나 별도 라이브러리를 추가하지 않는다. 심볼 크기는 size="20" 형식의 속성, 굵기는 w200 클래스, 채움은 fill 클래스로 관리한다. 아이콘의 inline width·height는 사용하지 않는다. 모바일 심볼은 최소 20px, 아이콘 버튼은 36×36px이다.
 - Pretendard는 버전 고정 CDN을 사용한다. UI 문구는 i18next와 `src/locales/en.ts`, `ko.ts`에서 관리한다. 언어 변경으로 영문 프롬프트·경로·ID·사용자 입력·파일명을 바꾸지 않는다.
-- `reference/**/prompt.md`가 프롬프트 상세 내용의 단일 원본이다. UI 작업 중 원문·레퍼런스 이미지를 변경하거나 복제하지 않는다. 이미지 생성은 별도 사용자 요청이 있을 때만 진행한다.
+- `reference/**/prompt.md`가 프롬프트 상세 내용의 단일 원본이다. UI 작업 중 원문·레퍼런스 이미지를 변경하거나 복제하지 않는다. 선택 프롬프트 출력에는 빌드 시 원본 MD 본문을 포함하고 파일 읽기 지시·경로를 출력하지 않는다. 원본 MD는 변경하지 않고 저장 설정에는 본문을 복제하지 않는다. 이미지 생성은 별도 사용자 요청이 있을 때만 진행한다.
 
 ## 공통 디자인
 
@@ -17,9 +17,9 @@
 - 고정 길이는 가능한 4px 단위, 폰트·심볼은 필요한 경우 2px 단위 정수를 사용한다. 버튼·입력·메뉴의 비례 패딩은 em을 사용하고 소수점 길이 대신 정수 비율 calc 또는 round를 사용한다.
 - 버튼·탭 글자는 medium(500), 옵션 제목·Selected·Prompt 탭·상세 섹션 제목은 11px·medium(500)·공통 회색을 공유하고, 선택 탭은 검정·미선택 탭은 opacity 0.5이다. 빌더·내비 버튼은 원래 대소문자, 나머지 텍스트 버튼은 대문자와 자간 calc(1em / 20)을 사용한다.
 - 높이 36px 동작 버튼과 둥근 내비 버튼은 radius 6px, 스타일셋 목록 버튼·빌더 옵션·입력·textarea는 4px, 일반 팝업·메뉴는 8px이다. Typography 토글은 12px 예외를 유지한다.
-- 일반 입력·textarea는 흰색이고 resize는 비활성화한다. 생성 프롬프트는 공통 `prompt-textarea` 배경·테두리·회색 글자를 사용한다. 버튼 기본 테두리는 transparent로 초기화한다.
+- 일반 입력·textarea는 흰색이고 resize는 비활성화한다. 생성 프롬프트는 공통 `prompt-textarea` 배경·테두리·회색 글자를 사용한다. 입력 포커스 테두리는 공통 진한 회색을 사용한다. 버튼 기본 테두리는 transparent로 초기화한다.
 - 데스크톱 입력 높이는 28px, 헤더 검색 높이는 32px, 헤더·내비 버튼은 공통 `$compact-control-size` 28px이다. 전체 글자는 최소 12px이며 옵션 제목·하단 탭·상세 섹션 제목은 공통 11px 예외를 사용한다. PC 검색·본문·내비는 14px, 빌더 옵션·입력·보조 제목은 12px, 옵션 버튼 높이는 28px이다. .section-heading h2는 모든 화면에서 20px·900이다.
-- 스크롤바는 textarea의 radius 8px 예외 외에는 6px·radius 0이며 화살표와 thumb/track 간격을 제거한다. 내부 thumb는 검정 알파 0.1에서 영역 hover 시 0.4, 문서 스크롤바는 검정을 사용한다.
+- 스크롤바는 textarea의 radius 8px 예외 외에는 6px·radius 0이며 화살표와 thumb/track 간격을 제거한다. 내부 thumb는 검정 알파 0.1에서 영역 hover 시 0.4, 문서 스크롤바도 같은 색상과 폭을 사용한다.
 - 팝업 배경은 `popup-backdrop` 믹스인의 검정 알파 0.7·blur 8px을 공유한다. X는 hover 배경 없이 심볼만 180도 회전하며 음수 우측 마진으로 정렬한다. 필터 X와 스타일셋 이름 수정 취소 X는 예외로 회전하지 않는다.
 
 ## 헤더·내비·갤러리·상세

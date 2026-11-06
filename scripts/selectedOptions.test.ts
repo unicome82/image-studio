@@ -2,12 +2,18 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { selectedBuilderOptions } from '../src/utils/selectedOptions.ts';
 const catalog = [
-  { id: 'style', category: 'Base Style', label: 'Style', path: 'style' },
-  { id: 'same', category: 'Color', label: 'Color', path: 'color' },
-  { id: 'same', category: 'Texture', label: 'Texture', path: 'texture' },
-  { id: 'type', category: 'Typography', label: 'Type', path: 'type' },
-  { id: 'film', category: 'Photography', label: 'Film', path: 'film' },
-  { id: 'outline', category: 'Outline', label: 'Outline', path: 'outline' },
+  { id: 'style', category: 'Base Style', label: 'Style', path: 'style', prompt: 'CONTENT_style' },
+  { id: 'same', category: 'Color', label: 'Color', path: 'color', prompt: 'CONTENT_color' },
+  { id: 'same', category: 'Texture', label: 'Texture', path: 'texture', prompt: 'CONTENT_texture' },
+  { id: 'type', category: 'Typography', label: 'Type', path: 'type', prompt: 'CONTENT_type' },
+  { id: 'film', category: 'Photography', label: 'Film', path: 'film', prompt: 'CONTENT_film' },
+  {
+    id: 'outline',
+    category: 'Outline',
+    label: 'Outline',
+    path: 'outline',
+    prompt: 'CONTENT_outline',
+  },
 ];
 test('Summary follows active image type, Typography switch, and category-scoped selection IDs', () => {
   const selection = {

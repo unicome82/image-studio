@@ -17,7 +17,7 @@ npm run build
 npm run preview
 ```
 
-The gallery includes compact single-row Illustration/Photo and style navigation, gallery search, local bookmarks, responsive Builder and detail panels (full-screen dialogs on mobile), copyable file-reference prompts, and image preview. All displays a continuous masonry layout with a total count; style tabs filter it. Masonry uses fixed small columns (approximately 152px on desktop, three columns on mobile), preserving aspect ratios. The thumbnail size control has been removed for now. Current placeholders use varied sample dimensions, with no generated images. The header scrolls out of view while navigation stays sticky. Illustration and Photo retain independent selections, and hidden illustration options never enter Photo prompts. Publish stays disabled until real assets and a safe, authorized publishing workflow are connected. Public reading does not authorize repository writes. No upload or simulated CDN approval occurs.
+The gallery includes compact single-row Illustration/Photo and style navigation, gallery search, local bookmarks, responsive Builder and detail panels (full-screen dialogs on mobile), self-contained copyable prompts, and image preview. All displays a continuous masonry layout with a total count; style tabs filter it. Masonry uses fixed small columns (approximately 152px on desktop, three columns on mobile), preserving aspect ratios. The thumbnail size control has been removed for now. Current placeholders use varied sample dimensions, with no generated images. The header scrolls out of view while navigation stays sticky. Illustration and Photo retain independent selections, and hidden illustration options never enter Photo prompts. Publish stays disabled until real assets and a safe, authorized publishing workflow are connected. Public reading does not authorize repository writes. No upload or simulated CDN approval occurs.
 
 ## Structure
 
@@ -25,7 +25,7 @@ The gallery includes compact single-row Illustration/Photo and style navigation,
 - `reference/options/{category}/{id}/prompt.md`: independent option instructions.
 - `src/components/promptbuilder/`: Builder controls.
 - `src/utils/promptBuilder.ts`: selection and prompt-reference logic.
-- `vite.config.ts`: reads only title/category/ID/path metadata from existing prompt files. Prompt bodies and images are not bundled into the site. They remain independently managed files in the public repository.
+- `vite.config.ts`: reads title/category/ID/path metadata and canonical Markdown prompt text from existing files. Selected prompt bodies are included in generated/copyable prompts so they work without file access. Images are not bundled; reference files remain the single source.
 
 Bookmarks are stored in this browser only. Placeholder details describe the placeholder's style rather than pretending that a generated image has creation settings. Both `image-studio` and `image-assets` are intended to be Public. Files committed to either repository and their Git history are publicly readable, even before CDN approval. Publish means approved copying to `image-assets`, not making a private image public.
 

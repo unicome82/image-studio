@@ -2,7 +2,7 @@ import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 import { readdirSync, readFileSync } from 'node:fs';
 import { join } from 'node:path';
-// Expose names and paths only. Private prompt bodies and images never enter the build.
+// Bundle canonical prompt text so copied prompts work without repository access. Images stay out.
 function catalog(dir = 'reference'): object[] {
   return readdirSync(dir, { withFileTypes: true }).flatMap((entry) => {
     const path = join(dir, entry.name);
@@ -15,6 +15,7 @@ function catalog(dir = 'reference'): object[] {
         category: text.match(/\*\*Category:\*\* (.+)/)?.[1],
         id: text.match(/\*\*Style ID:\*\* `([^`]+)`/)?.[1],
         path,
+        prompt: text.trim(),
       },
     ];
   });

@@ -17,28 +17,36 @@ test('conflicts prefer newest selection; style mixes cap at three', () => {
     ['a', 'b', 'c'],
   );
 });
-test('only existing selected paths; typography requires its switch, photography requires photo', () => {
+test('only selected prompt bodies; typography requires its switch, photography requires photo', () => {
   const catalog = [
-    { id: 'folk', label: 'Folk', category: 'Base Style', path: 'reference/folk/prompt.md' },
+    {
+      id: 'folk',
+      label: 'Folk',
+      category: 'Base Style',
+      path: 'reference/folk/prompt.md',
+      prompt: 'CONTENT_reference_folk_prompt_md',
+    },
     {
       id: 'groovy',
       label: 'Groovy',
       category: 'Typography',
       path: 'reference/options/typography/groovy/prompt.md',
+      prompt: 'CONTENT_reference_options_typography_groovy_prompt_md',
     },
     {
       id: 'film',
       label: 'Film',
       category: 'Photography',
       path: 'reference/options/photography/film/prompt.md',
+      prompt: 'CONTENT_reference_options_photography_film_prompt_md',
     },
   ];
   const sel = { 'Base Style': ['folk', 'missing'], Typography: ['groovy'], Photography: ['film'] };
   const text = makePrompt(catalog, sel, 3, { Text: '' }, false);
-  assert.ok(text.includes('reference/folk/prompt.md'));
+  assert.ok(text.includes('CONTENT_reference_folk_prompt_md'));
   assert.ok(!text.includes('/missing/'));
-  assert.ok(!text.includes('/groovy/'));
-  assert.ok(!text.includes('/film/'));
+  assert.ok(!text.includes('CONTENT_reference_options_typography_groovy_prompt_md'));
+  assert.ok(!text.includes('CONTENT_reference_options_photography_film_prompt_md'));
   const full = makePrompt(
     catalog,
     sel,
@@ -46,36 +54,46 @@ test('only existing selected paths; typography requires its switch, photography 
     { Text: 'EXACT TEXT', 'Typography Enabled': 'true' },
     true,
   );
-  assert.ok(full.includes('/groovy/'));
-  assert.ok(full.includes('/film/'));
+  assert.ok(full.includes('CONTENT_reference_options_typography_groovy_prompt_md'));
+  assert.ok(full.includes('CONTENT_reference_options_photography_film_prompt_md'));
   assert.ok(full.includes('Text: EXACT TEXT'));
 });
 test('Photo prompt excludes hidden illustration options and preserves shared options', () => {
   const catalog = [
-    { id: 'folk', label: 'Folk', category: 'Base Style', path: 'reference/folk/prompt.md' },
+    {
+      id: 'folk',
+      label: 'Folk',
+      category: 'Base Style',
+      path: 'reference/folk/prompt.md',
+      prompt: 'CONTENT_reference_folk_prompt_md',
+    },
     {
       id: 'risograph',
       label: 'Risograph',
       category: 'Technique',
       path: 'reference/options/technique/risograph/prompt.md',
+      prompt: 'CONTENT_reference_options_technique_risograph_prompt_md',
     },
     {
       id: 'coloronly',
       label: 'Color Only',
       category: 'Outline',
       path: 'reference/options/outline/coloronly/prompt.md',
+      prompt: 'CONTENT_reference_options_outline_coloronly_prompt_md',
     },
     {
       id: 'film',
       label: 'Film',
       category: 'Photography',
       path: 'reference/options/photography/film/prompt.md',
+      prompt: 'CONTENT_reference_options_photography_film_prompt_md',
     },
     {
       id: 'muted',
       label: 'Muted',
       category: 'Color',
       path: 'reference/options/color/muted/prompt.md',
+      prompt: 'CONTENT_reference_options_color_muted_prompt_md',
     },
   ];
   const result = makePrompt(
@@ -91,17 +109,23 @@ test('Photo prompt excludes hidden illustration options and preserves shared opt
     {},
     true,
   );
-  assert.ok(result.includes('/photography/film/'));
-  assert.ok(result.includes('/color/muted/'));
-  assert.ok(!result.includes('/folk/'));
-  assert.ok(!result.includes('/technique/'));
-  assert.ok(!result.includes('/outline/'));
+  assert.ok(result.includes('CONTENT_reference_options_photography_film_prompt_md'));
+  assert.ok(result.includes('CONTENT_reference_options_color_muted_prompt_md'));
+  assert.ok(!result.includes('CONTENT_reference_folk_prompt_md'));
+  assert.ok(!result.includes('CONTENT_reference_options_technique_risograph_prompt_md'));
+  assert.ok(!result.includes('CONTENT_reference_options_outline_coloronly_prompt_md'));
   assert.ok(!result.includes('Rendering Mode'));
 });
 import { parsePresets } from '../src/utils/presets.ts';
 test('saved style sets validate storage, remove stale IDs and retain fields and type', () => {
   const catalog = [
-    { id: 'folk', label: 'Folk', category: 'Base Style', path: 'reference/folk/prompt.md' },
+    {
+      id: 'folk',
+      label: 'Folk',
+      category: 'Base Style',
+      path: 'reference/folk/prompt.md',
+      prompt: 'CONTENT_reference_folk_prompt_md',
+    },
   ];
   const valid = {
     id: '1',
@@ -148,12 +172,14 @@ test('compact direction preserves legacy preset fields and typography text', () 
       label: 'Groovy',
       category: 'Typography',
       path: 'reference/options/typography/groovy/prompt.md',
+      prompt: 'CONTENT_reference_options_typography_groovy_prompt_md',
     },
     {
       id: 'detailed',
       label: 'Detailed',
       category: 'Complexity',
       path: 'reference/options/complexity/detailed/prompt.md',
+      prompt: 'CONTENT_reference_options_complexity_detailed_prompt_md',
     },
   ];
   const result = makePrompt(
@@ -163,7 +189,7 @@ test('compact direction preserves legacy preset fields and typography text', () 
     { ...fields, 'Typography Enabled': 'true' },
     false,
   );
-  assert.ok(result.includes('/typography/groovy/'));
+  assert.ok(result.includes('CONTENT_reference_options_typography_groovy_prompt_md'));
   assert.ok(result.includes('Complexity: Detailed'));
   assert.ok(!/Complexity:\s*\d/.test(result));
   assert.ok(result.includes('Muted light'));
@@ -176,14 +202,15 @@ test('Typography defaults off, supports automatic text when enabled, and restore
       label: 'Groovy',
       category: 'Typography',
       path: 'reference/options/typography/groovy/prompt.md',
+      prompt: 'CONTENT_reference_options_typography_groovy_prompt_md',
     },
   ];
   const selection = { Typography: ['groovy'] };
   const off = makePrompt(catalog, selection, 3, { Text: 'HIDDEN' }, false);
-  assert.ok(!off.includes('/groovy/'));
+  assert.ok(!off.includes('CONTENT_reference_options_typography_groovy_prompt_md'));
   assert.ok(!off.includes('HIDDEN'));
   const auto = makePrompt(catalog, selection, 3, { 'Typography Enabled': 'true', Text: '' }, false);
-  assert.ok(auto.includes('/groovy/'));
+  assert.ok(auto.includes('CONTENT_reference_options_typography_groovy_prompt_md'));
   assert.ok(auto.includes('Choose suitable wording freely'));
   assert.ok(!auto.includes('Typography Enabled:'));
   const exact = makePrompt(
@@ -224,4 +251,51 @@ test('Blank subjects request random image content while explicit subjects remain
     assert.ok(prompt.includes('Subject: A cat in Seoul'));
     assert.ok(!prompt.includes('Generate an image with a random subject'));
   }
+});
+
+import { readFileSync } from 'node:fs';
+import type { Option } from '../src/utils/promptBuilder.ts';
+test('copied prompts contain canonical MD bodies, selected complexity and no file-reading instructions', () => {
+  const paths = [
+    'reference/naivefolk/prompt.md',
+    'reference/options/color/muted/prompt.md',
+    'reference/options/complexity/balanced/prompt.md',
+    'reference/options/typography/groovy/prompt.md',
+    'reference/options/photography/film/prompt.md',
+  ];
+  const catalog: Option[] = paths.map((path) => {
+    const prompt = readFileSync(path, 'utf8').trim();
+    return {
+      path,
+      prompt,
+      label: prompt.match(/^## (.+)$/m)![1],
+      category: prompt.match(/\*\*Category:\*\* (.+)/)![1],
+      id: prompt.match(/\*\*Style ID:\*\* `([^`]+)`/)![1],
+    };
+  });
+  const selection = {
+    'Base Style': ['naivefolk'],
+    Color: ['muted'],
+    Typography: ['groovy'],
+    Photography: ['film'],
+  };
+  for (const photo of [false, true]) {
+    const result = makePrompt(
+      catalog,
+      selection,
+      3,
+      { Subject: 'A fox', 'Typography Enabled': 'true', Text: 'FOX' },
+      photo,
+    );
+    for (const option of catalog) {
+      const included = photo ? option.category !== 'Base Style' : option.category !== 'Photography';
+      assert.equal(result.includes(option.prompt), included, option.path);
+    }
+    assert.ok(!result.includes('.md'));
+    assert.ok(!result.includes('Read only'));
+    assert.ok(result.includes('Subject: A fox'));
+    assert.ok(result.includes('Text: FOX'));
+  }
+  const withoutTypography = makePrompt(catalog, selection, 3, {}, false);
+  assert.ok(!withoutTypography.includes(catalog.find((o) => o.category === 'Typography')!.prompt));
 });

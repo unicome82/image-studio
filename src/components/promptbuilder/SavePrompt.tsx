@@ -83,6 +83,7 @@ function SaveDialog({ save, prompt, selected, close }: Props & { close: () => vo
           />
         </label>
         <div className="save-style-selected">
+          <h3>{t('Selected')}</h3>
           <SelectedOptions {...selected} />
         </div>
         <label className="save-style-label">

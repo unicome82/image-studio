@@ -3,6 +3,7 @@ export interface Option {
   label: string;
   category: string;
   path: string;
+  prompt: string;
 }
 export type Selection = Record<string, string[]>;
 export const levels = ['verysimple', 'simple', 'balanced', 'detailed', 'intricate'];
@@ -86,8 +87,8 @@ export function makePrompt(
   const level = catalog.find((o) => o.category === 'Complexity' && o.id === levels[complexity - 1]);
   const options = [...chosen, ...(level ? [level] : [])];
   return [
-    'Read only the selected prompt files below. Do not assume missing files exist.',
-    ...options.map((o) => o.path),
+    'Create an image using the selected prompt instructions below.',
+    ...options.map((o) => o.prompt),
     '',
     ...(!fields.Subject?.trim()
       ? [

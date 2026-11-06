@@ -66,44 +66,16 @@ Color는 팔레트를, Rendering Mode는 채움과 윤곽선의 표현 방식을
 - `Subject → Base Style → Technique → Typography → Rendering Mode → Color → Texture → Composition → Photography → Complexity → Aspect Ratio → Additional Instructions → Negative Prompt` 순서
 - 선택하지 않은 항목은 생략, Subject·Text는 사용자 입력 그대로 유지
 - Typography는 옵션 제목 옆 ON/OFF 토글로 제어하며 기본 OFF. ON이면 스타일 선택과 별도 문구 input을 활성화한다. 문구가 있으면 그대로 사용하고 비어 있으면 AI가 적절한 문구를 자유롭게 정하도록 지시한다. OFF에서는 저장된 문구·Typography 옵션을 생성 지시문에서 제외한다. 토글 상태와 입력값은 스타일셋에 저장한다.
-- Rendering Mode의 표시명과 선택한 실제 프롬프트 경로를 출력한다. 채움·윤곽선에 관한 스타일·기법·질감 지침과 충돌하면 Rendering Mode를 우선하고, 나머지 스타일 특징은 유지한다. 사진 스타일을 선택해도 같은 표현 규칙을 적용한다.
+- Rendering Mode의 표시명과 선택한 실제 프롬프트 본문을 출력한다. 채움·윤곽선에 관한 스타일·기법·질감 지침과 충돌하면 Rendering Mode를 우선하고, 나머지 스타일 특징은 유지한다. 사진 스타일을 선택해도 같은 표현 규칙을 적용한다.
 - Base Style은 `reference/{id}/prompt.md`, 옵션은 `reference/options/{category}/{id}/prompt.md`에 연결한다. Rendering Mode의 경로 카테고리는 `outline`이다. Complexity는 1~5를 위 표의 파일에 연결한다.
 - 위 선택 목록의 링크가 Builder ID와 실제 파일의 매핑이다. ID·표시명은 각 파일의 Category·Style ID·제목에서 읽으며 별도 목록이나 상세 설명 데이터를 복제하지 않는다. 동일 ID가 다른 카테고리에 있으면 카테고리와 ID를 함께 식별자로 사용한다.
-- **실제로 존재하는 파일만** 선택한 항목의 경로로 출력하고 해당 파일을 읽도록 지시한다. Typography는 ON일 때, Photography는 사진 기반 결과를 요청할 때만 포함한다.
+- **실제로 존재하는 파일만** 선택한 항목의 원문 본문을 출력하며, 파일 경로를 읽으라는 지시는 출력하지 않는다. Typography는 ON일 때, Photography는 사진 기반 결과를 요청할 때만 포함한다.
 - 파일이 없는 옵션은 표시명만 전달
 - 스타일 상세 설명·Mix Prompt를 별도 데이터로 중복 관리하지 않음
 
-**출력 예시**
+**출력 방식**
 
-```text
-Read only the selected prompt files listed below. Do not assume missing files exist.
-
-reference/naivefolk/prompt.md
-reference/midcentury/prompt.md
-reference/options/technique/risograph/prompt.md
-reference/options/typography/groovy/prompt.md
-reference/options/outline/coloronly/prompt.md
-reference/options/color/muted/prompt.md
-reference/options/texture/papergrain/prompt.md
-reference/options/composition/asymmetric/prompt.md
-reference/options/complexity/verysimple/prompt.md
-
-Base Style: naivefolk, midcentury
-Technique: risograph
-Typography: groovy
-Rendering Mode: Color Only
-Color: muted
-Texture: papergrain
-Composition: asymmetric
-Complexity: Very Simple
-Subject: A woman holding a flower
-Text: FLOWER
-Aspect Ratio: 3:4
-
-Combine the selected prompt file instructions while preserving their defining characteristics. Generate an image based on these settings.
-```
-
-이 출력은 **파일 접근 권한이 있는 AI 코딩 도구용 지시문**이다. 저장소는 Public이지만, 일반 이미지 생성 서비스가 GitHub의 `.md`를 자동으로 읽는다고 가정하지 않는다. 도구의 파일 또는 URL 접근 기능을 확인한다.
+선택된 스타일·기법·색상·Typography·Rendering Mode·Complexity의 MD 본문을 원본에서 빌드 시 읽어 출력에 포함한다. 선택하지 않았거나 현재 유형에서 숨겨진 옵션은 제외한다. Subject·Text·Aspect Ratio·추가 지시와 선택 요약, 충돌 우선순위 규칙을 함께 출력한다. 복사한 프롬프트만으로 사용할 수 있으며 외부 도구의 파일 또는 URL 접근을 요구하지 않는다. LocalStorage에는 기존처럼 선택 ID·설정만 저장하고 본문을 중복 저장하지 않는다.
 
 ## 6. 연동 및 UI
 
