@@ -234,6 +234,17 @@ textarea {
   }
 }
 
+@media (max-width: $mobile) {
+  :not(textarea) {
+    scrollbar-width: none;
+    &::-webkit-scrollbar {
+      display: none;
+      width: 0;
+      height: 0;
+    }
+  }
+}
+
 // Icon
 .material-symbol {
   display: inline-block;
@@ -653,7 +664,7 @@ textarea {
     position: sticky;
     top: 0;
     z-index: 3;
-    background: rgba($page, 0.7);
+    background: #ffffff66;
     backdrop-filter: blur(8px);
     flex-shrink: 0;
     gap: 8px;
@@ -744,7 +755,7 @@ textarea {
     backdrop-filter: blur(8px);
     flex-shrink: 0;
     padding: 12px 24px 20px;
-    background: rgba($page, 0.7);
+    background: #ffffff66;
   }
   @media (max-width: $tablet) {
     position: fixed;
@@ -1034,6 +1045,15 @@ textarea {
 }
 
 // SavePrompt
+.save-style-selected {
+  margin-top: 16px;
+  .selected-options {
+    max-height: none;
+    margin-right: 0;
+    padding-right: 0;
+    overflow: visible;
+  }
+}
 .save-style-dialog {
   width: min(520px, calc(100vw - 28px));
   max-height: calc(100dvh - 40px);
@@ -1303,6 +1323,7 @@ textarea {
   }
   .generate-prompt {
     @include prompt-action-button;
+    margin-top: 12px;
     width: 100%;
   }
   @media (max-width: $tablet) {

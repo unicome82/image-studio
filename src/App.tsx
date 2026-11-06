@@ -416,6 +416,7 @@ export default function App() {
               bookmarked={bookmarks.includes(selected.id)}
               stylePrompt={detailPrompt}
               savePreview={detailSavePrompt}
+              saveOptions={{ catalog, ...detailPreset }}
               save={(name) => savePreset(name, undefined, detailPreset)}
               copy={copy}
               toggleBookmark={() => toggleBookmark(selected.id)}

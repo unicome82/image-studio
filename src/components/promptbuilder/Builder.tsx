@@ -301,7 +301,17 @@ export default function Builder(p: Props) {
               </div>
               {showPrompt ? (
                 <div className="prompt-actions">
-                  <SavePrompt save={p.save} prompt={p.prompt} />
+                  <SavePrompt
+                    save={p.save}
+                    prompt={p.prompt}
+                    selected={{
+                      catalog: p.catalog,
+                      selection: p.selection,
+                      fields: p.fields,
+                      photo: p.photo,
+                      complexity: p.complexity,
+                    }}
+                  />
                   <button className="primary builder-copy" onClick={() => p.copy(p.prompt)}>
                     <Icon name="content_copy" size="14" />
                     {t('Copy')}

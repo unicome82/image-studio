@@ -3,13 +3,13 @@ import Icon from '../Icon';
 import type { Option, Selection } from '../../utils/promptBuilder';
 import { complexityLabels } from '../../utils/promptBuilder';
 import { selectedBuilderOptions } from '../../utils/selectedOptions';
-interface Props {
+export interface SelectedOptionsProps {
   catalog: Option[];
   selection: Selection;
   fields: Record<string, string>;
   photo: boolean;
   complexity: number;
-  remove: (category: string, id: string) => void;
+  remove?: (category: string, id: string) => void;
 }
 export default function SelectedOptions({
   catalog,
@@ -18,7 +18,7 @@ export default function SelectedOptions({
   photo,
   complexity,
   remove,
-}: Props) {
+}: SelectedOptionsProps) {
   const { t } = useTranslation();
   const options = selectedBuilderOptions(catalog, selection, fields, photo).filter(
     (option) => option.category !== 'Outline',
@@ -46,18 +46,20 @@ export default function SelectedOptions({
         const label = t(option.label.replace(' Modern', '').replace(/\s+illustration\b/gi, ''));
         return (
           <span
-            className="selected-option"
+            className={'selected-option' + (remove ? '' : ' fixed-option')}
             key={`${option.category}:${option.id}`}
             title={`${t(option.category)}: ${label}`}
           >
             <span className="selected-option-label">{label}</span>
-            <button
-              className="selected-option-remove"
-              aria-label={t('Remove {{label}} option', { label })}
-              onClick={() => remove(option.category, option.id)}
-            >
-              <Icon name="close" size="16" />
-            </button>
+            {remove && (
+              <button
+                className="selected-option-remove"
+                aria-label={t('Remove {{label}} option', { label })}
+                onClick={() => remove(option.category, option.id)}
+              >
+                <Icon name="close" size="16" />
+              </button>
+            )}
           </span>
         );
       })}

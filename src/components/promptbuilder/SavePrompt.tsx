@@ -1,12 +1,14 @@
 import { useTranslation } from 'react-i18next';
 import Icon from '../Icon';
+import SelectedOptions, { type SelectedOptionsProps } from './SelectedOptions';
 import { useEffect, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 interface Props {
   save: (name: string) => boolean;
   prompt: string;
+  selected: Omit<SelectedOptionsProps, 'remove'>;
 }
-function SaveDialog({ save, prompt, close }: Props & { close: () => void }) {
+function SaveDialog({ save, prompt, selected, close }: Props & { close: () => void }) {
   const { t } = useTranslation();
   const ref = useRef<HTMLDialogElement>(null);
   const [name, setName] = useState('');
@@ -80,6 +82,9 @@ function SaveDialog({ save, prompt, close }: Props & { close: () => void }) {
             }}
           />
         </label>
+        <div className="save-style-selected">
+          <SelectedOptions {...selected} />
+        </div>
         <label className="save-style-label">
           {t('Prompt preview')}
           <textarea
@@ -107,7 +112,7 @@ function SaveDialog({ save, prompt, close }: Props & { close: () => void }) {
     document.body,
   );
 }
-export default function SavePrompt({ save, prompt }: Props) {
+export default function SavePrompt({ save, prompt, selected }: Props) {
   const { t } = useTranslation();
   const [open, setOpen] = useState(false);
   return (
@@ -120,7 +125,9 @@ export default function SavePrompt({ save, prompt }: Props) {
       >
         {t('Save')}
       </button>
-      {open && <SaveDialog save={save} prompt={prompt} close={() => setOpen(false)} />}
+      {open && (
+        <SaveDialog save={save} prompt={prompt} selected={selected} close={() => setOpen(false)} />
+      )}
     </div>
   );
 }

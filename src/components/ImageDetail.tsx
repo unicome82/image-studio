@@ -4,6 +4,7 @@ import FavoriteButton from './FavoriteButton';
 import { imageName } from '../utils/imageName';
 import Panel from './Panel';
 import SavePrompt from './promptbuilder/SavePrompt';
+import type { SelectedOptionsProps } from './promptbuilder/SelectedOptions';
 import type { GalleryTile } from '../types';
 interface Props {
   image: GalleryTile;
@@ -11,6 +12,7 @@ interface Props {
   bookmarked: boolean;
   stylePrompt: string;
   savePreview: string;
+  saveOptions: Omit<SelectedOptionsProps, 'remove'>;
   save: (name: string) => boolean;
   copy: (text: string) => void;
   toggleBookmark: () => void;
@@ -84,7 +86,7 @@ export default function ImageDetail(p: Props) {
         </section>
       </div>
       <div className="prompt-actions detail-actions">
-        <SavePrompt key={image.id} prompt={p.savePreview} save={p.save} />
+        <SavePrompt key={image.id} prompt={p.savePreview} save={p.save} selected={p.saveOptions} />
         <button
           className="primary"
           disabled
