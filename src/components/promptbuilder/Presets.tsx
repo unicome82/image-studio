@@ -26,7 +26,7 @@ export default function Presets(p: Props) {
       <div className="preset-list">
         {p.presets.length === 0 ? (
           <div className="preset-empty">
-            <Icon name="format_list_bulleted" size="22" />
+            <Icon name="collections_bookmark" size="22" />
             <p>{t('No saved style sets')}</p>
           </div>
         ) : (

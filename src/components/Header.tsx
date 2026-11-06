@@ -125,7 +125,7 @@ export default function Header(p: Props) {
           aria-pressed={p.showPrompts}
           onClick={p.togglePrompts}
         >
-          <Icon name="format_list_bulleted" size="20" />
+          <Icon name="collections_bookmark" size="20" />
         </button>
         <LanguageMenu />
       </div>

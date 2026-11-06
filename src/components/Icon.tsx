@@ -13,7 +13,7 @@ export type IconName =
   | 'check'
   | 'fullscreen'
   | 'fullscreen_exit'
-  | 'format_list_bulleted'
+  | 'collections_bookmark'
   | 'save'
   | 'edit'
   | 'delete'
