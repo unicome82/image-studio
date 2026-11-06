@@ -1159,7 +1159,15 @@ textarea {
 
 // Presets
 .presets-page {
+  --icon-button-size: 32px;
+  --input-height: 32px;
   container-type: inline-size;
+  button,
+  input {
+    height: 32px;
+    min-height: 32px;
+    max-height: 32px;
+  }
   button {
     border-radius: 4px;
   }
@@ -1197,7 +1205,6 @@ textarea {
     margin-left: auto;
     .primary,
     .secondary {
-      height: 32px;
       padding: 0 calc(4em / 5);
       gap: 4px;
       font-size: 12px;
@@ -1233,14 +1240,12 @@ textarea {
 .preset-rename {
   @include flex-row($gap: 4px);
   input {
-    height: 32px;
     flex: 1;
     font-size: $option-font-size;
   }
   button {
     font-size: 12px;
     flex-shrink: 0;
-    height: 32px;
     padding: 0 calc(4em / 5);
   }
   .rename-confirm {
