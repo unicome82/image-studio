@@ -1,4 +1,4 @@
-import { builderCategories, type Option, type Selection } from './promptBuilder.ts';
+import { builderCategories, optionLimit, type Option, type Selection } from './promptBuilder.ts';
 
 export type FilterType = 'all' | 'illustration' | 'photo' | 'design';
 
@@ -37,7 +37,7 @@ export function activeFilters(
 }
 
 export function builderFilterLimit(category: string): number {
-  return ['Outline', 'Design Format', 'Aspect Ratio', 'Complexity'].includes(category) ? 1 : 3;
+  return category === 'Aspect Ratio' || category === 'Complexity' ? 1 : optionLimit(category);
 }
 
 export function pendingBuilderFilters(

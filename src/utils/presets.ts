@@ -1,4 +1,4 @@
-import type { Option, Selection } from './promptBuilder';
+import { optionLimit, type Option, type Selection } from './promptBuilder.ts';
 export interface StylePreset {
   id: string;
   photo: boolean;
@@ -44,7 +44,7 @@ export function parsePresets(raw: string | null, catalog: Option[]): StylePreset
                 catalog.some((o) => o.category === category && o.id === id),
             ),
           ),
-        ].slice(0, category === 'Outline' || category === 'Design Format' ? 1 : 3);
+        ].slice(0, optionLimit(category));
       }
       const fields = Object.fromEntries(
         Object.entries(item.fields).filter(

@@ -8,9 +8,11 @@ import Panel from '../Panel';
 import SelectionSummary from '../SelectionSummary';
 import { useMediaQuery } from '../../utils/useMediaQuery';
 import {
+  aspectRatios,
   builderCategories,
   complexityUiLabels as complexityLabels,
   isTypographyEnabled,
+  optionLimit,
 } from '../../utils/promptBuilder';
 import { builderFilterLimit } from '../../utils/filters';
 import type { Option, Selection } from '../../utils/promptBuilder';
@@ -219,9 +221,7 @@ export default function Builder(p: Props) {
                   <OptionChoices
                     title="Aspect ratio"
                     multiple={false}
-                    options={[
-                      ...new Set(['1:1', '4:3', '3:4', '16:9', '9:16', p.fields['Aspect Ratio']]),
-                    ]
+                    options={[...new Set([...aspectRatios, p.fields['Aspect Ratio']])]
                       .filter(Boolean)
                       .map((ratio) => ({ id: ratio, label: ratio }))}
                     selected={[p.fields['Aspect Ratio'] || '1:1']}
@@ -293,7 +293,7 @@ export default function Builder(p: Props) {
                           ) : undefined
                         }
                         showOptions={category !== 'Typography' || isTypographyEnabled(p.fields)}
-                        multiple={category !== 'Design Format'}
+                        multiple={optionLimit(category) > 1}
                         afterHeading={
                           category === 'Typography' && isTypographyEnabled(p.fields) ? (
                             <input

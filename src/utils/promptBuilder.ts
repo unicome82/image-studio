@@ -24,6 +24,25 @@ export const designFormatRatios: Record<string, string> = {
   appscreen: '9:16',
   signage: '16:9',
 };
+export const aspectRatios = ['1:1', '4:3', '3:4', '16:9', '9:16'];
+export const maxSelections = 3;
+// Single-select categories take one option; the rest allow up to maxSelections.
+export function optionLimit(category: string): number {
+  return category === 'Outline' || category === 'Design Format' ? 1 : maxSelections;
+}
+const conflicts: Record<string, string[]> = {
+  warm: ['cool'],
+  cool: ['warm'],
+  vivid: ['muted', 'pastel'],
+  muted: ['vivid', 'neon'],
+  pastel: ['vivid', 'neon'],
+  neon: ['muted', 'pastel'],
+  clean: ['papergrain', 'filmgrain', 'distressed', 'digitalnoise', 'roughprint'],
+  symmetric: ['asymmetric'],
+  asymmetric: ['symmetric'],
+  centered: ['diagonal'],
+  diagonal: ['centered'],
+};
 export const complexityUiLabels = ['Very Low', 'Low', 'Medium', 'High', 'Very High'];
 // Keep the subject editable while preserving older presets' negative instructions.
 export function compactFields(fields: Record<string, string>): Record<string, string> {
@@ -51,22 +70,8 @@ export function builderCategories(photo: boolean, design = false): string[] {
 }
 export function toggleOption(selection: Selection, category: string, id: string): Selection {
   const current = selection[category] ?? [];
-  if (category === 'Outline' || category === 'Design Format')
-    return { ...selection, [category]: [id] };
-  if (!current.includes(id) && current.length >= 3) return selection;
-  const conflicts: Record<string, string[]> = {
-    warm: ['cool'],
-    cool: ['warm'],
-    vivid: ['muted', 'pastel'],
-    muted: ['vivid', 'neon'],
-    pastel: ['vivid', 'neon'],
-    neon: ['muted', 'pastel'],
-    clean: ['papergrain', 'filmgrain', 'distressed', 'digitalnoise', 'roughprint'],
-    symmetric: ['asymmetric'],
-    asymmetric: ['symmetric'],
-    centered: ['diagonal'],
-    diagonal: ['centered'],
-  };
+  if (optionLimit(category) === 1) return { ...selection, [category]: [id] };
+  if (!current.includes(id) && current.length >= maxSelections) return selection;
   const next = current.includes(id)
     ? current.filter((x) => x !== id)
     : [

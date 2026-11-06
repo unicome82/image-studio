@@ -31,6 +31,8 @@ import {
   complexityUiLabels as complexityLabels,
   makePrompt,
   toggleOption,
+  aspectRatios,
+  maxSelections,
   designFormatRatios,
   type Selection,
 } from './utils/promptBuilder';
@@ -41,6 +43,8 @@ const initial: Selection = {
   Outline: ['coloronly'],
   Composition: ['asymmetric'],
 };
+// Sample tile heights at a 1200px width; their ratios also seed the ratio filter.
+const sampleHeights = [1500, 900, 1800, 1200, 1600, 1000, 1400, 1900];
 const filterCatalog = [
   ...catalog.filter((option) => option.category !== 'Complexity'),
   ...[
@@ -48,14 +52,8 @@ const filterCatalog = [
       category: 'Aspect Ratio',
       options: [
         ...new Set([
-          '1:1',
-          '4:3',
-          '3:4',
-          '16:9',
-          '9:16',
-          ...[1500, 900, 1800, 1200, 1600, 1000, 1400, 1900].map((height) =>
-            normalizeRatio(`1200:${height}`),
-          ),
+          ...aspectRatios,
+          ...sampleHeights.map((height) => normalizeRatio(`1200:${height}`)),
         ]),
       ].map((ratio) => ({ id: ratio, label: ratio })),
     },
@@ -234,16 +232,12 @@ export default function App() {
   const [toastVersion, setToastVersion] = useState(0);
   const [modal, setModal] = useState<'prompt' | 'image' | null>(null);
   const modalRef = useRef<HTMLDialogElement>(null);
-  const selection = builderDesign
-    ? designSelection
-    : builderPhoto
-      ? photoSelection
-      : illustrationSelection;
-  const setSelection = builderDesign
-    ? setDesignSelection
-    : builderPhoto
-      ? setPhotoSelection
-      : setIllustrationSelection;
+  const selections = {
+    illustration: [illustrationSelection, setIllustrationSelection],
+    photo: [photoSelection, setPhotoSelection],
+    design: [designSelection, setDesignSelection],
+  } as const;
+  const [selection, setSelection] = selections[builderType];
   const prompt =
     Object.keys(pendingChoices).length > 0
       ? ''
@@ -274,7 +268,7 @@ export default function App() {
             color,
             index,
             width: 1200,
-            height: [1500, 900, 1800, 1200, 1600, 1000, 1400, 1900][index],
+            height: sampleHeights[index],
           }))
           .filter(
             (tile) =>
@@ -374,13 +368,9 @@ export default function App() {
       if (effectiveFilters['Aspect Ratio']?.length === 1) ratioChosen.current = true;
       if (effectiveFilters.Complexity?.length === 1)
         setComplexity(Number(effectiveFilters.Complexity[0]));
-      const update = composerDesign
-        ? setDesignSelection
-        : composerPhoto
-          ? setPhotoSelection
-          : setIllustrationSelection;
-      update((previous) => ({ ...previous, ...relevant }));
-      setBuilderType(filterType === 'design' ? 'design' : composerPhoto ? 'photo' : 'illustration');
+      const composerType = composerDesign ? 'design' : composerPhoto ? 'photo' : 'illustration';
+      selections[composerType][1]((previous) => ({ ...previous, ...relevant }));
+      setBuilderType(composerType);
     }
     appliedFilters.current = signature;
     if (builder && matchMedia('(max-width: 600px)').matches) {
@@ -396,9 +386,8 @@ export default function App() {
       return;
     }
     const next = toggleFilter(pendingSelection, category, id);
-    if (next[category].length > 3) {
-      setToast('You can select up to 3 options.');
-      setToastVersion((version) => version + 1);
+    if (next[category].length > maxSelections) {
+      showLimitToast();
       return;
     }
     setPendingSelection(next);
@@ -432,6 +421,12 @@ export default function App() {
     setPendingChoices({});
     setPendingSelection({});
   }
+  // Bump the version so a repeated message restarts its timer.
+  function showToast(message: string) {
+    setToast(message);
+    setToastVersion((version) => version + 1);
+  }
+  const showLimitToast = () => showToast('You can select up to 3 options.');
   const toggleBookmark = (id: string) =>
     setBookmarks((prev) => (prev.includes(id) ? prev.filter((x) => x !== id) : [...prev, id]));
   useEffect(() => {
@@ -470,9 +465,9 @@ export default function App() {
   async function copy(text: string) {
     try {
       await navigator.clipboard.writeText(text);
-      setToast('Copied to clipboard');
+      showToast('Copied to clipboard');
     } catch {
-      setToast('Clipboard unavailable. Select and copy the prompt manually.');
+      showToast('Clipboard unavailable. Select and copy the prompt manually.');
       setCopyFallback(text);
       setModal('prompt');
     }
@@ -483,7 +478,7 @@ export default function App() {
       setPresets(next);
       return true;
     } catch {
-      setToast('Could not save. Browser storage is unavailable or full.');
+      showToast('Could not save. Browser storage is unavailable or full.');
       return false;
     }
   }
@@ -504,7 +499,7 @@ export default function App() {
     const saved = persistPresets(
       id ? presets.map((p) => (p.id === id ? value : p)) : [value, ...presets],
     );
-    if (saved) setToast(id ? 'Style set updated' : 'Style set saved');
+    if (saved) showToast(id ? 'Style set updated' : 'Style set saved');
     if (saved && id) closeComposer();
     return saved;
   }
@@ -535,14 +530,8 @@ export default function App() {
       };
     }
     const type = preset.design ? 'design' : preset.photo ? 'photo' : 'illustration';
-    const update =
-      type === 'design'
-        ? setDesignSelection
-        : type === 'photo'
-          ? setPhotoSelection
-          : setIllustrationSelection;
     setBuilderType(type);
-    update(structuredClone(preset.selection));
+    selections[type][1](structuredClone(preset.selection));
     setComplexity(preset.complexity);
     setFields({ ...defaultFields, ...preset.fields });
     ratioChosen.current = true;
@@ -727,7 +716,7 @@ export default function App() {
               edit={editPreset}
               remove={(id) => {
                 if (persistPresets(presets.filter((p) => p.id !== id)))
-                  setToast('Style set deleted');
+                  showToast('Style set deleted');
               }}
               copy={copy}
             />
@@ -809,10 +798,8 @@ export default function App() {
           selection={selection}
           toggle={(cat, id) => {
             const next = toggleOption(selection, cat, id);
-            if (next === selection) {
-              setToast('You can select up to 3 options.');
-              setToastVersion((version) => version + 1);
-            } else setSelection(next);
+            if (next === selection) showLimitToast();
+            else setSelection(next);
             if (cat === 'Design Format' && !ratioChosen.current && designFormatRatios[id])
               setFields({ ...fields, 'Aspect Ratio': designFormatRatios[id] });
           }}
