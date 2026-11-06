@@ -28,7 +28,7 @@ editable selections fade gently toward the right-side ellipsis control. The main
 header has a bottom border. Selected filters appear
 as removable chips without an extra heading, and the chip row disappears when
 empty. The image type is shown only by the type dropdown, never as a
-selected chip. Fully selected categories are omitted from the active chips. The old top
+selected chip or thumbnail tag. Fully selected categories are omitted from the active chips. The old top
 navigation and ALL / SELECTED labels are removed. Collection sorting uses compact
 New / Old / A–Z labels (최신순 / 과거순 / 이름순 in Korean).
 

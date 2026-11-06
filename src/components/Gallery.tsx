@@ -38,7 +38,6 @@ export default function Gallery(p: Props) {
                     <span className="tile-title">{imageName(tile)}</span>
                     <span className="tags">
                       <span>#{tile.group}</span>
-                      <span>#{t(tile.id.startsWith('photo-') ? 'Photo' : 'Illustration')}</span>
                     </span>
                   </span>
                 </button>
