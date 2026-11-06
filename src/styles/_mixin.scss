@@ -35,6 +35,9 @@
   border-radius: 4px;
   background: $white;
   font-size: var(--text-small, 12px);
+  &:focus {
+    border-color: $black;
+  }
 }
 
 @mixin selected-surface {
@@ -85,4 +88,7 @@
   font-size: 10px;
   line-height: 1.3;
   letter-spacing: normal;
+  &:focus {
+    border-color: $black;
+  }
 }

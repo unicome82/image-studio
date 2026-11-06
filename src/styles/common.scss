@@ -74,7 +74,7 @@
   @include flex-row($justify: space-between);
   min-height: 56px;
   border-bottom: 1px solid $line;
-  font-size: var(--text-small, 12px);
+  font-size: 16px;
   font-weight: 600;
   @media (max-width: $mobile) {
     min-height: 52px;
@@ -343,6 +343,9 @@ textarea {
     border: 1px solid $option-hover-border;
     border-radius: 999px;
     color: $ink;
+    &:focus-within {
+      border-color: $black;
+    }
     input {
       width: 100%;
       min-width: 0;
@@ -582,10 +585,9 @@ textarea {
     font-weight: 500;
     overflow-wrap: anywhere;
   }
-  &-tags {
+  .tags {
     opacity: 0.7;
-    font-size: var(--text-small, 12px);
-    overflow-wrap: anywhere;
+    color: inherit;
   }
   &.selected {
     .tile-main::before,
@@ -700,7 +702,7 @@ textarea {
   }
   &-title {
     min-width: 0;
-    font-size: var(--text-label, 14px);
+    font-size: inherit;
     font-weight: 700;
     text-transform: none;
     letter-spacing: normal;
@@ -754,11 +756,10 @@ textarea {
 .tags {
   display: flex;
   flex-wrap: wrap;
-  gap: 4px;
-  span {
-    color: $tag-text;
-    font-size: var(--text-small, 12px);
-  }
+  gap: 4px 8px;
+  color: $tag-text;
+  font-size: var(--text-small, 12px);
+  overflow-wrap: anywhere;
 }
 
 // ImagePreview
@@ -1106,7 +1107,7 @@ textarea {
   border-radius: 8px;
   &-heading {
     @include flex-row($gap: 4px);
-    min-height: 36px;
+    min-height: $input-height;
   }
   &-actions {
     @include flex-row($gap: 4px);
@@ -1150,6 +1151,7 @@ textarea {
 .preset-rename {
   @include flex-row($gap: 4px);
   input {
+    height: 28px;
     flex: 1;
     font-size: $option-font-size;
   }
