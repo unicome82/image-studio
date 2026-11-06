@@ -3,6 +3,10 @@ name: Deploy Image Studio to GitHub Pages
 on:
   push:
     branches: [main]
+  workflow_run:
+    workflows: [Request Image Studio preview deployment]
+    types: [completed]
+    branches: ['preview/*']
   workflow_dispatch:
 
 permissions:
@@ -14,10 +18,14 @@ concurrency:
 
 jobs:
   build:
+    if: github.event_name != 'workflow_run' || github.event.workflow_run.conclusion == 'success'
     runs-on: ubuntu-latest
     steps:
       - name: Check out source
         uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 0
       - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
@@ -31,12 +39,39 @@ jobs:
         run: npm test
       - name: Build
         run: npm run build
+      - name: Assemble main site and branch previews
+        shell: bash
+        run: |
+          set -euo pipefail
+          site="$RUNNER_TEMP/pages-site"
+          source="$RUNNER_TEMP/preview-source"
+          mkdir -p "$site"
+          cp -a dist/. "$site/"
+          while IFS= read -r ref; do
+            name="${ref#refs/remotes/origin/preview/}"
+            if [[ ! "$name" =~ ^[a-z0-9][a-z0-9-]*$ ]]; then
+              echo "::error::Preview names must contain lowercase letters, numbers, and hyphens: $name"
+              exit 1
+            fi
+            git worktree add --detach "$source" "$ref"
+            (
+              cd "$source"
+              npm ci --no-audit --no-fund
+              npm run format:check
+              npm test
+              npm run build -- --base=./
+            )
+            mkdir -p "$site/preview/$name"
+            cp -a "$source/dist/." "$site/preview/$name/"
+            git worktree remove --force "$source"
+            echo "Preview: /preview/$name/" >> "$GITHUB_STEP_SUMMARY"
+          done < <(git for-each-ref --format='%(refname)' refs/remotes/origin/preview/)
       - name: Configure Pages
         uses: actions/configure-pages@v5
       - name: Upload site
         uses: actions/upload-pages-artifact@v3
         with:
-          path: dist
+          path: ${{ runner.temp }}/pages-site
   deploy:
     needs: build
     runs-on: ubuntu-latest

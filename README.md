@@ -60,6 +60,37 @@ npm run build
 
 The Pages workflow checks formatting before tests and build.
 
+### Branch previews on GitHub Pages
+
+The Pages workflow publishes `main` at the existing site root and branches named
+`preview/<name>` at `preview/<name>/` beneath that root. For example,
+`preview/filter` is published at
+`https://unicome82.github.io/image-studio/preview/filter/`.
+Preview names must use lowercase letters, numbers, and hyphens, starting with a
+letter or number. The trailing slash is required for relative asset paths.
+
+First merge the workflow configuration into `main`. Then create a preview branch
+from `main` and push changes there. Keep Pages configured to use GitHub Actions.
+The preview request workflow triggers the Pages workflow through `workflow_run`,
+so deployment runs from `main`. The `github-pages` environment can keep its
+existing deployment rule that allows only `main`; preview branches need no direct
+environment deployment permission.
+
+Every push to `main` or `preview/*` rebuilds `main` and all current preview branches
+into one Pages artifact. This preserves previews when the main site is updated
+and keeps the root site built from `main`. Each preview must pass formatting,
+tests, and build; a failure prevents the entire new artifact from being deployed,
+leaving the previously deployed site available. Only trusted repository branches
+are built; fork pull requests are not deployed.
+
+After testing, merge the preview changes into `main`. Delete the preview branch
+when finished, then run the Pages workflow from `main` (or push to `main`) to
+remove its preview directory. Each run rebuilds every preview, so keep only active
+preview branches to limit Actions usage. Preview URLs are publicly accessible.
+The URLs share the same browser origin and LocalStorage, so favorites and saved
+style sets are shared with the main site; use a separate browser profile when
+testing storage changes.
+
 ## Languages
 
 The header uses vertical padding instead of a fixed height. The three rightmost header buttons share an 8px gap. The rightmost globe icon opens a custom language menu for English and Korean, with a right-side check for the current language, no resting selection background, and hover highlighting using i18next and react-i18next. UI translations are maintained in `src/locales/en.ts` and `src/locales/ko.ts`; initialization is in `src/i18n.ts`. The first visit follows the browser language (Korean or English fallback). Language selection is saved in LocalStorage when available and updates the document language and page title. Generated prompts, reference files, saved IDs, and user-entered content remain unchanged when switching languages.
