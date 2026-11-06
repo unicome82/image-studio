@@ -89,9 +89,15 @@ export default function Filter(p: Props) {
         </div>
         <div className="builder-footer">
           <div className="builder-wrap">
-            {mobile && Object.keys(selectedFilters).length > 0 && (
+            {mobile && (p.type !== 'all' || Object.keys(selectedFilters).length > 0) && (
               <SelectionSummary label={t('Selected filters')}>
-                <SelectedFilters catalog={p.catalog} filters={selectedFilters} remove={p.toggle} />
+                <SelectedFilters
+                  catalog={p.catalog}
+                  filters={selectedFilters}
+                  remove={p.toggle}
+                  type={p.type}
+                  setType={p.setType}
+                />
               </SelectionSummary>
             )}
             <div className="filter-actions">
@@ -139,15 +145,31 @@ export function SelectedFilters({
   catalog,
   filters,
   remove,
-}: Pick<Props, 'catalog' | 'filters'> & { remove: Props['toggle'] }) {
+  type,
+  setType,
+}: Pick<Props, 'catalog' | 'filters' | 'type' | 'setType'> & { remove: Props['toggle'] }) {
   const { t } = useTranslation();
   const options = catalog.filter((option) => filters[option.category]?.includes(option.id));
-  if (!options.length) return null;
+  if (!options.length && type === 'all') return null;
+  const typeLabel = t(type === 'photo' ? 'Photo' : type === 'design' ? 'Design' : 'Illustration');
   return (
     <div className="filter-summary">
       <div className="selected-options" role="group" aria-label={t('Selected filters')}>
+        {type !== 'all' && (
+          <span className="selected-option" title={t('Type')}>
+            <span className="selected-option-label">{typeLabel}</span>
+            <button
+              className="selected-option-remove"
+              aria-label={t('Remove {{label}} option', { label: typeLabel })}
+              onClick={() => setType('all')}
+            >
+              <Icon name="close" size="16" />
+            </button>
+          </span>
+        )}
         {options.map((option) => {
-          const label = t(option.label.replace(' Modern', '').replace(/\s+illustration\b/gi, ''));
+          const value = t(option.label.replace(' Modern', '').replace(/\s+illustration\b/gi, ''));
+          const label = option.category === 'Complexity' ? `${t('Complexity')} ${value}` : value;
           return (
             <span
               className="selected-option"

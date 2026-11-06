@@ -659,11 +659,13 @@ export default function App() {
                 )}
               </div>
             </div>
-            {Object.keys(effectiveFilters).length > 0 && (
+            {(filterType !== 'all' || Object.keys(effectiveFilters).length > 0) && (
               <SelectionSummary label={t('Selected filters')}>
                 <SelectedFilters
                   catalog={filterCatalog}
                   filters={effectiveFilters}
+                  type={filterType}
+                  setType={changeFilterType}
                   remove={chooseFilter}
                 />
               </SelectionSummary>

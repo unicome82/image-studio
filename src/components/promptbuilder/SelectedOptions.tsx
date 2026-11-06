@@ -33,8 +33,17 @@ export default function SelectedOptions({
         )
       : undefined;
   const fixedOptions = [
+    {
+      key: 'type',
+      title: t('Type'),
+      label: t(design ? 'Design' : photo ? 'Photo' : 'Illustration'),
+    },
     { key: 'ratio', title: t('Aspect ratio'), label: fields['Aspect Ratio'] || '1:1' },
-    { key: 'complexity', title: t('Complexity'), label: t(complexityLabels[complexity - 1]) },
+    {
+      key: 'complexity',
+      title: t('Complexity'),
+      label: `${t('Complexity')} ${t(complexityLabels[complexity - 1])}`,
+    },
     ...(outline ? [{ key: 'outline', title: t('Outline'), label: t(outline.label) }] : []),
   ];
   const optionLabel = (option: Option) =>
