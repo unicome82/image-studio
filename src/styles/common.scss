@@ -349,7 +349,7 @@ textarea {
   position: relative;
   z-index: 30;
   @include flex-row($gap: 24px);
-  padding: 20px $content-padding 20px 32px;
+  padding: 0 20px;
   background: $page;
   &-search {
     @include flex-row;
@@ -396,7 +396,6 @@ textarea {
   }
   @media (max-width: $mobile) {
     gap: calc(1em / 4);
-    padding: calc(3em / 4);
     &-actions {
       gap: 0;
       .icon-button {
@@ -423,7 +422,6 @@ textarea {
   font-weight: 900;
   @include uppercase-text;
   @media (max-width: $mobile) {
-    margin-left: 8px;
     font-size: round(nearest, clamp(12px, 3cqw, 16px), 2px);
   }
 }
@@ -477,7 +475,7 @@ textarea {
   display: flex;
   align-items: stretch;
   height: var(--nav-height);
-  padding: 0 $content-padding;
+  padding: 0 20px;
   border-bottom: 1px solid $line;
   background: rgba($white, 0.5);
   backdrop-filter: blur(12px);
@@ -491,8 +489,6 @@ textarea {
     background: transparent;
   }
   @media (max-width: $mobile) {
-    padding: 0;
-    padding-left: 8px;
     border-bottom: 0;
   }
   .builder-toggle,
@@ -512,6 +508,7 @@ textarea {
   align-self: center;
   height: var(--type-toggle-height);
   padding: 0;
+  margin-left: -8px;
   border: 1px solid $secondary-border;
   border-radius: 6px;
   background: $prompt-background;
@@ -1279,9 +1276,8 @@ textarea {
   position: sticky;
   top: var(--panel-top);
   @include flex-column;
+  min-width: 0;
   min-height: 0;
-  overflow-y: auto;
-  overscroll-behavior: contain;
   height: calc(100dvh - var(--panel-top));
   padding: 0;
   border-right: 1px solid $line;
@@ -1294,6 +1290,15 @@ textarea {
   }
   .prompt-actions {
     gap: 8px;
+  }
+  &-viewport {
+    @include flex-column;
+    flex: 1;
+    min-width: 0;
+    min-height: 0;
+    overflow-x: hidden;
+    overflow-y: auto;
+    overscroll-behavior: contain;
   }
   &-wrap {
     padding: $content-padding;
@@ -1309,16 +1314,16 @@ textarea {
     margin: 0;
     border: 0;
     background: $page;
-    &[open] {
+    &[open] > .builder-viewport {
       display: grid;
       grid-template-columns: minmax(0, 7fr) minmax(280px, 3fr);
       grid-template-rows: auto minmax(0, 1fr);
     }
-    > .builder-heading {
+    > .builder-viewport > .builder-heading {
       grid-column: 1 / -1;
       border-bottom: 1px solid $line;
     }
-    > .builder-scroll {
+    > .builder-viewport > .builder-scroll {
       @include scroll-area;
       grid-column: 1;
       min-width: 0;
