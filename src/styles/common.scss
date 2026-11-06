@@ -1213,8 +1213,8 @@ textarea {
   .typography-toggle {
     @include flex-row($display: inline-flex);
     flex-shrink: 0;
-    width: var(--toggle-width, 20px);
-    height: var(--toggle-height, 12px);
+    width: var(--toggle-width, 22px);
+    height: var(--toggle-height, 14px);
     padding: var(--toggle-padding, 2px);
     border-radius: 999px;
     background: $toggle-background;
@@ -1311,8 +1311,8 @@ textarea {
 .typography-toggle {
   span {
     display: block;
-    width: var(--toggle-thumb, 8px);
-    height: var(--toggle-thumb, 8px);
+    width: var(--toggle-thumb, 10px);
+    height: var(--toggle-thumb, 10px);
     border-radius: 50%;
     background: $white;
     transition: transform var(--transition-duration);
