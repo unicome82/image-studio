@@ -18,6 +18,8 @@ interface Props {
   toggle: (category: string, id: string) => void;
   reset: () => void;
   close: () => void;
+  closing: boolean;
+  closed: () => void;
   compose: () => void;
 }
 
@@ -26,7 +28,14 @@ export default function Filter(p: Props) {
   const mobile = useMediaQuery('(max-width: 600px)');
   const selectedFilters = activeFilters(p.filters, p.catalog);
   return (
-    <Panel className="builder filter-panel" label={t('Filter')} close={p.close} drawer>
+    <Panel
+      className="builder filter-panel"
+      label={t('Filter')}
+      close={p.close}
+      drawer
+      closing={p.closing}
+      closed={p.closed}
+    >
       <ResizeHandle width={p.width} resize={p.resize} />
       <div className="builder-viewport">
         <div className="builder-wrap builder-heading">
@@ -38,7 +47,7 @@ export default function Filter(p: Props) {
               title={t('Reset filters')}
               onClick={p.reset}
             >
-              <Icon name="restart_alt" size="20" />
+              <Icon name="refresh" size="20" />
             </button>
           </div>
           <div className="builder-mobile-close">

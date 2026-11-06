@@ -11,7 +11,7 @@ export type IconName =
   | 'download'
   | 'auto_awesome'
   | 'filter_list'
-  | 'restart_alt'
+  | 'refresh'
   | 'search'
   | 'check'
   | 'fullscreen'

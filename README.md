@@ -4,9 +4,10 @@
 
 The experimental UI is available at `/image-studio/preview/filter/`. The left
 panel filters the gallery, favorites, and saved style sets. Its heading is a single
-All / Illustration / Photo / Design dropdown. All and Design show shared options;
-Illustration and Photo add their own categories. Type changes keep shared choices
-and clear incompatible categories. The restart icon clears filters and search,
+All / Illustration / Photo / Design dropdown. All shows shared options; Illustration, Photo, and Design add their own
+categories. Design has six formats and six design styles, with shared color,
+composition, texture, and typography options. Type changes keep shared choices
+and clear incompatible categories. The circular-arrow reset icon clears filters and search,
 preserving the current type. When the panel is closed, its type selector appears
 immediately after the results toolbar's filter icon with the same typography and
 control styling, keeping the same selection.
@@ -43,15 +44,25 @@ reopening preserves the
 draft. Newly changed filters seed the builder, while builder edits do not filter
 the gallery. The builder keeps its three-option limit (one for outline, ratio,
 and complexity). When transferred filters exceed a limit, the builder lists every
-candidate and asks the user to choose within that limit; prompt output, copying,
-and saving stay disabled until those choices are applied. No candidates are
+candidate and asks the user to choose within that limit. This selection step shows
+only the instructions and option choices; Selected, Prompt, Save, and Copy return
+after applying the choices. Design Format is single-select. No candidates are
 silently truncated, and unfinished choices survive closing/reopening the builder.
-Its restart icon clears the draft and optional choices, restoring
+Its circular-arrow reset icon clears the draft and optional choices, restoring
 the standard ratio, complexity, and Color Only outline mode.
 
 On mobile, the filter footer repeats active selections as removable chips above
 the existing Generate prompt button. The summary scrolls within a capped area
 when needed and disappears when no filters restrict results.
+
+Design prompts include canonical format and style instructions from
+`reference/design/`, preserve Subject and typography text, and save their design
+type for reconstruction after reload. Complexity labels range from Very Low to
+Very High (매우 낮음–매우 높음); Korean option names omit redundant suffixes.
+On mobile, the results chip row scrolls horizontally without wrapping, the filter
+animates closed before opening the builder, and editable fields use 16px text to
+avoid focus zoom. The larger logo and bounded, content-width copy toast also fit
+320px screens.
 
 Save prompt pre-fills the editable name from Subject when the save dialog opens,
 trimming surrounding whitespace and respecting its 80-character limit. Editing

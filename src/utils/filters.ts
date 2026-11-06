@@ -8,9 +8,11 @@ export function filterCategories(type: FilterType): string[] {
     ...shared,
     ...(type === 'illustration'
       ? builderCategories(false)
-      : type === 'photo'
-        ? builderCategories(true)
-        : ['Color', 'Composition', 'Texture', 'Typography']),
+      : type === 'design'
+        ? builderCategories(false, true)
+        : type === 'photo'
+          ? builderCategories(true)
+          : ['Color', 'Composition', 'Texture', 'Typography']),
   ];
 }
 
@@ -35,11 +37,15 @@ export function activeFilters(
 }
 
 export function builderFilterLimit(category: string): number {
-  return ['Outline', 'Aspect Ratio', 'Complexity'].includes(category) ? 1 : 3;
+  return ['Outline', 'Design Format', 'Aspect Ratio', 'Complexity'].includes(category) ? 1 : 3;
 }
 
-export function pendingBuilderFilters(filters: Selection, photo: boolean): Selection {
-  const categories = [...builderCategories(photo), 'Aspect Ratio', 'Complexity'];
+export function pendingBuilderFilters(
+  filters: Selection,
+  photo: boolean,
+  design = false,
+): Selection {
+  const categories = [...builderCategories(photo, design), 'Aspect Ratio', 'Complexity'];
   return Object.fromEntries(
     Object.entries(filters).filter(
       ([category, ids]) =>
@@ -78,10 +84,11 @@ export function filterMetadata(
   photo: boolean,
   ratio: string,
   complexity?: number,
+  design = false,
 ): Selection {
   return {
     ...selection,
-    Type: [photo ? 'photo' : 'illustration'],
+    Type: [design ? 'design' : photo ? 'photo' : 'illustration'],
     'Aspect Ratio': [normalizeRatio(ratio)],
     ...(complexity === undefined ? {} : { Complexity: [String(complexity)] }),
   };

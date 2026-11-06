@@ -28,7 +28,7 @@ import { parsePresets, presetKey, type StylePreset } from './utils/presets';
 import Builder from './components/promptbuilder/Builder';
 import {
   builderCategories,
-  complexityLabels,
+  complexityUiLabels as complexityLabels,
   makePrompt,
   toggleOption,
   type Selection,
@@ -142,6 +142,34 @@ export default function App() {
   const [copyFallback, setCopyFallback] = useState('');
   const [builderWidth, setBuilderWidth] = useState(280);
   const [builder, setBuilder] = useState(() => window.innerWidth > 1100);
+  const [filterClosing, setFilterClosing] = useState(false);
+  const afterFilterClose = useRef<(() => void) | null>(null);
+  function finishFilterClose() {
+    setBuilder(false);
+    setFilterClosing(false);
+    const after = afterFilterClose.current;
+    afterFilterClose.current = null;
+    after?.();
+  }
+  function closeFilter(after?: () => void) {
+    if (filterClosing) return;
+    if (
+      builder &&
+      matchMedia('(max-width: 600px)').matches &&
+      !matchMedia('(prefers-reduced-motion: reduce)').matches
+    ) {
+      afterFilterClose.current = after ?? null;
+      setFilterClosing(true);
+    } else {
+      setBuilder(false);
+      after?.();
+    }
+  }
+  useEffect(() => {
+    if (!filterClosing) return;
+    const timer = setTimeout(finishFilterClose, 350);
+    return () => clearTimeout(timer);
+  }, [filterClosing]);
   const [composerOpen, setComposerOpen] = useState(false);
   const [filters, setFilters] = useState<Selection>({});
   const effectiveFilters = activeFilters(filters, filterCatalog);
@@ -164,6 +192,11 @@ export default function App() {
     'illustration',
   );
   const builderPhoto = builderType === 'photo';
+  const builderDesign = builderType === 'design';
+  const [designSelection, setDesignSelection] = useState<Selection>({
+    'Design Format': ['poster'],
+    'Design Style': ['minimalist'],
+  });
   const [largeThumbnails, setLargeThumbnails] = useState(false);
   const [illustrationSelection, setIllustrationSelection] = useState(initial);
   const [photoSelection, setPhotoSelection] = useState<Selection>({
@@ -186,12 +219,20 @@ export default function App() {
   const [toastVersion, setToastVersion] = useState(0);
   const [modal, setModal] = useState<'prompt' | 'image' | null>(null);
   const modalRef = useRef<HTMLDialogElement>(null);
-  const selection = builderPhoto ? photoSelection : illustrationSelection;
-  const setSelection = builderPhoto ? setPhotoSelection : setIllustrationSelection;
+  const selection = builderDesign
+    ? designSelection
+    : builderPhoto
+      ? photoSelection
+      : illustrationSelection;
+  const setSelection = builderDesign
+    ? setDesignSelection
+    : builderPhoto
+      ? setPhotoSelection
+      : setIllustrationSelection;
   const prompt =
-    builderType === 'design' || Object.keys(pendingChoices).length > 0
+    Object.keys(pendingChoices).length > 0
       ? ''
-      : makePrompt(catalog, selection, complexity, fields, builderPhoto);
+      : makePrompt(catalog, selection, complexity, fields, builderPhoto, builderDesign);
   const sources = [
     { photo: false, groups },
     { photo: true, groups: photoGroups },
@@ -259,7 +300,11 @@ export default function App() {
     presets.filter(
       (preset) =>
         (filterType === 'all' ||
-          (preset.photo ? filterType === 'photo' : filterType === 'illustration')) &&
+          (preset.design
+            ? filterType === 'design'
+            : preset.photo
+              ? filterType === 'photo'
+              : filterType === 'illustration')) &&
         preset.name.toLowerCase().includes(query.trim().toLowerCase()) &&
         matchesFilters(
           filterMetadata(
@@ -267,6 +312,7 @@ export default function App() {
             preset.photo,
             preset.fields['Aspect Ratio'] || '1:1',
             preset.complexity,
+            preset.design,
           ),
           effectiveFilters,
         ),
@@ -294,13 +340,13 @@ export default function App() {
   }
   function openComposer() {
     const composerPhoto = filterType === 'photo';
+    const composerDesign = filterType === 'design';
     const signature = JSON.stringify([effectiveFilters, filterType]);
-    const unresolved =
-      filterType === 'design' ? {} : pendingBuilderFilters(effectiveFilters, composerPhoto);
+    const unresolved = pendingBuilderFilters(effectiveFilters, composerPhoto, composerDesign);
     const relevant = Object.fromEntries(
       Object.entries(effectiveFilters).filter(
         ([category, ids]) =>
-          builderCategories(composerPhoto).includes(category) &&
+          builderCategories(composerPhoto, composerDesign).includes(category) &&
           ids.length <= builderFilterLimit(category),
       ),
     );
@@ -316,11 +362,19 @@ export default function App() {
       }));
       if (effectiveFilters.Complexity?.length === 1)
         setComplexity(Number(effectiveFilters.Complexity[0]));
-      const update = composerPhoto ? setPhotoSelection : setIllustrationSelection;
+      const update = composerDesign
+        ? setDesignSelection
+        : composerPhoto
+          ? setPhotoSelection
+          : setIllustrationSelection;
       update((previous) => ({ ...previous, ...relevant }));
       setBuilderType(filterType === 'design' ? 'design' : composerPhoto ? 'photo' : 'illustration');
     }
     appliedFilters.current = signature;
+    if (builder && matchMedia('(max-width: 600px)').matches) {
+      closeFilter(() => setComposerOpen(true));
+      return;
+    }
     if (matchMedia('(max-width: 1000px)').matches) setBuilder(false);
     setComposerOpen(true);
   }
@@ -351,7 +405,7 @@ export default function App() {
       return;
     const resolved = Object.fromEntries(
       Object.entries(pendingSelection).filter(([category]) =>
-        builderCategories(builderPhoto).includes(category),
+        builderCategories(builderPhoto, builderDesign).includes(category),
       ),
     );
     setSelection((previous) => ({ ...previous, ...resolved }));
@@ -422,7 +476,7 @@ export default function App() {
   function savePreset(
     name: string,
     id?: string,
-    snapshot?: Pick<StylePreset, 'photo' | 'selection' | 'complexity' | 'fields'>,
+    snapshot?: Pick<StylePreset, 'photo' | 'design' | 'selection' | 'complexity' | 'fields'>,
   ) {
     if (!name.trim() || (!snapshot && Object.keys(pendingChoices).length > 0)) return false;
     if (presets.some((p) => p.id !== id && p.name.toLowerCase() === name.trim().toLowerCase())) {
@@ -433,6 +487,7 @@ export default function App() {
       id: id ?? crypto.randomUUID(),
       name: name.trim(),
       photo: builderPhoto,
+      design: snapshot ? !!snapshot.design : builderDesign,
       selection: structuredClone(selection),
       complexity,
       fields: { ...fields },
@@ -528,7 +583,7 @@ export default function App() {
             <button
               className="mobile-scrim"
               aria-label={t('Close filters')}
-              onClick={() => setBuilder(false)}
+              onClick={() => closeFilter()}
             />
             <Filter
               width={builderWidth}
@@ -539,7 +594,9 @@ export default function App() {
               setType={changeFilterType}
               toggle={chooseFilter}
               reset={resetFilters}
-              close={() => setBuilder(false)}
+              close={() => closeFilter()}
+              closing={filterClosing}
+              closed={finishFilterClose}
               compose={openComposer}
             />
           </>
@@ -558,7 +615,7 @@ export default function App() {
                   aria-label={t('Toggle filters')}
                   aria-pressed={builder}
                   aria-expanded={builder}
-                  onClick={() => setBuilder(!builder)}
+                  onClick={() => (builder ? closeFilter() : setBuilder(true))}
                 >
                   <Icon name="filter_list" size="20" />
                 </button>
@@ -682,6 +739,7 @@ export default function App() {
             setPendingSelection({});
             setIllustrationSelection({ Outline: ['coloronly'] });
             setPhotoSelection({});
+            setDesignSelection({});
             setComplexity(3);
             setFields({
               Subject: '',
@@ -761,7 +819,7 @@ export default function App() {
         createPortal(
           <div className="toast" role="status">
             <Icon name="check" size="16" />
-            {t(toast)}
+            <span className="toast-message">{t(toast)}</span>
           </div>,
           Array.from(document.querySelectorAll('dialog[open]')).at(-1) ?? document.body,
         )}

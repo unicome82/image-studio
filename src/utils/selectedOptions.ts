@@ -10,8 +10,9 @@ export function selectedBuilderOptions(
   selection: Selection,
   fields: Record<string, string>,
   photo: boolean,
+  design = false,
 ): Option[] {
-  return builderCategories(photo).flatMap((category) => {
+  return builderCategories(photo, design).flatMap((category) => {
     if (category === 'Typography' && !isTypographyEnabled(fields)) return [];
     return (selection[category] ?? []).flatMap((id) =>
       catalog.filter((option) => option.category === category && option.id === id),

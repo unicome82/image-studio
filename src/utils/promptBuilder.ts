@@ -8,6 +8,7 @@ export interface Option {
 export type Selection = Record<string, string[]>;
 export const levels = ['verysimple', 'simple', 'balanced', 'detailed', 'intricate'];
 export const complexityLabels = ['Very Simple', 'Simple', 'Balanced', 'Detailed', 'Intricate'];
+export const complexityUiLabels = ['Very Low', 'Low', 'Medium', 'High', 'Very High'];
 // Keep the subject editable while preserving older presets' negative instructions.
 export function compactFields(fields: Record<string, string>): Record<string, string> {
   const direction = ['Negative Prompt']
@@ -25,14 +26,17 @@ export function compactFields(fields: Record<string, string>): Record<string, st
 export function isTypographyEnabled(fields: Record<string, string>): boolean {
   return fields['Typography Enabled'] === 'true';
 }
-export function builderCategories(photo: boolean): string[] {
-  return photo
-    ? ['Photography', 'Color', 'Composition', 'Texture', 'Typography']
-    : ['Base Style', 'Technique', 'Color', 'Composition', 'Texture', 'Typography', 'Outline'];
+export function builderCategories(photo: boolean, design = false): string[] {
+  return design
+    ? ['Design Format', 'Design Style', 'Color', 'Composition', 'Texture', 'Typography']
+    : photo
+      ? ['Photography', 'Color', 'Composition', 'Texture', 'Typography']
+      : ['Base Style', 'Technique', 'Color', 'Composition', 'Texture', 'Typography', 'Outline'];
 }
 export function toggleOption(selection: Selection, category: string, id: string): Selection {
   const current = selection[category] ?? [];
-  if (category === 'Outline') return { ...selection, [category]: [id] };
+  if (category === 'Outline' || category === 'Design Format')
+    return { ...selection, [category]: [id] };
   if (!current.includes(id) && current.length >= 3) return selection;
   const conflicts: Record<string, string[]> = {
     warm: ['cool'],
@@ -63,6 +67,7 @@ export function makePrompt(
   complexity: number,
   fields: Record<string, string>,
   photo: boolean,
+  design = false,
 ) {
   const categories = [
     'Base Style',
@@ -73,7 +78,9 @@ export function makePrompt(
     'Texture',
     'Composition',
     'Photography',
-  ].filter((category) => builderCategories(photo).includes(category));
+    'Design Format',
+    'Design Style',
+  ].filter((category) => builderCategories(photo, design).includes(category));
   const chosen = categories.flatMap((category) => {
     if (
       (category === 'Typography' && !isTypographyEnabled(fields)) ||
@@ -87,7 +94,9 @@ export function makePrompt(
   const level = catalog.find((o) => o.category === 'Complexity' && o.id === levels[complexity - 1]);
   const options = [...chosen, ...(level ? [level] : [])];
   return [
-    'Create an image using the selected prompt instructions below.',
+    design
+      ? 'Create a finished graphic design using the selected prompt instructions below.'
+      : 'Create an image using the selected prompt instructions below.',
     ...options.map((o) => o.prompt),
     '',
     ...(!fields.Subject?.trim()
@@ -108,8 +117,10 @@ export function makePrompt(
     ...chosen.map((o) => `${o.category === 'Outline' ? 'Rendering Mode' : o.category}: ${o.label}`),
     `Complexity: ${level?.label ?? complexityLabels[complexity - 1] ?? 'Balanced'}`,
     '',
-    photo
-      ? 'Create a photograph using the selected photography instructions. Preserve the requested subject, exact text, and aspect ratio.'
-      : 'Combine the selected instructions. Rendering Mode takes priority for fills and outlines; apply the color palette to line colors in Outline Only. Preserve the requested subject, exact text, and aspect ratio.',
+    design
+      ? `Combine the selected design format, style, palette, layout, and surface instructions into one coherent graphic design. Produce the design itself, not a presentation mockup. Preserve the requested subject, exact text, and aspect ratio. ${isTypographyEnabled(fields) ? 'Establish clear typographic hierarchy and readable lettering.' : 'Do not add unsolicited readable text; use unlettered visual hierarchy unless the additional instructions explicitly request text.'}`
+      : photo
+        ? 'Create a photograph using the selected photography instructions. Preserve the requested subject, exact text, and aspect ratio.'
+        : 'Combine the selected instructions. Rendering Mode takes priority for fills and outlines; apply the color palette to line colors in Outline Only. Preserve the requested subject, exact text, and aspect ratio.',
   ].join('\n');
 }

@@ -142,12 +142,20 @@
   left: 50%;
   z-index: 100;
   @include flex-row($gap: 12px);
-  max-width: 90vw;
+  width: max-content;
+  max-width: calc(100vw - 32px);
   padding: calc(12em / 11) calc(20em / 11);
   border-radius: 8px;
   @include selected-surface;
-  font-size: var(--text-input, 12px);
+  font-size: var(--text-small, 12px);
   transform: translateX(-50%);
+  .material-symbol {
+    flex-shrink: 0;
+  }
+  .toast-message {
+    min-width: 0;
+    overflow-wrap: anywhere;
+  }
 }
 .favorite-pulse {
   [data-icon='favorite'] {
@@ -376,7 +384,7 @@ textarea {
       color: $ink;
       font-size: var(--text-label, 14px);
       @media (max-width: $mobile) {
-        font-size: 13px;
+        font-size: 16px;
       }
       &::-webkit-search-cancel-button {
         -webkit-appearance: none;
@@ -426,7 +434,7 @@ textarea {
   font-weight: 900;
   @include uppercase-text;
   @media (max-width: $mobile) {
-    font-size: round(nearest, clamp(12px, 3cqw, 16px), 2px);
+    font-size: round(nearest, clamp(16px, 4.6cqw, 20px), 2px);
   }
 }
 .saved-toggle {
@@ -853,6 +861,26 @@ textarea {
     font-size: var(--text-small, 12px);
     white-space: nowrap;
   }
+  @media (max-width: $mobile) {
+    .filter-summary {
+      max-height: none;
+      overflow-x: auto;
+      overflow-y: hidden;
+      scrollbar-width: none;
+      touch-action: pan-x pan-y;
+      &::-webkit-scrollbar {
+        display: none;
+      }
+      .selected-options {
+        width: max-content;
+        max-width: none;
+        flex-wrap: nowrap;
+      }
+      .selected-option {
+        flex-shrink: 0;
+      }
+    }
+  }
 }
 .filter-summary {
   max-height: min(160px, 25dvh);
@@ -952,6 +980,10 @@ textarea {
       &[open] {
         animation: filter-slide-in var(--transition-duration) ease-out;
       }
+      &.closing[open] {
+        animation: filter-slide-out var(--transition-duration) ease-in forwards;
+        pointer-events: none;
+      }
       &::backdrop {
         background: $filter-backdrop;
         backdrop-filter: blur(8px);
@@ -966,6 +998,15 @@ textarea {
   }
   to {
     transform: translateX(0);
+  }
+}
+
+@keyframes filter-slide-out {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-100%);
   }
 }
 
@@ -1378,6 +1419,9 @@ textarea {
     border: 0;
     background: $page;
     --composer-heading-height: 56px;
+    &.resolving[open] > .builder-viewport {
+      grid-template-columns: minmax(0, 1fr);
+    }
     &[open] > .builder-viewport {
       display: grid;
       grid-template-columns: minmax(0, 7fr) minmax(280px, 3fr);

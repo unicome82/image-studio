@@ -3,6 +3,7 @@ export interface StylePreset {
   id: string;
   name: string;
   photo: boolean;
+  design?: boolean;
   selection: Selection;
   complexity: number;
   fields: Record<string, string>;
@@ -22,6 +23,8 @@ export function parsePresets(raw: string | null, catalog: Option[]): StylePreset
         typeof item.name !== 'string' ||
         !item.name.trim() ||
         typeof item.photo !== 'boolean' ||
+        (item.design !== undefined && typeof item.design !== 'boolean') ||
+        (item.design === true && item.photo) ||
         !Number.isInteger(item.complexity) ||
         item.complexity < 1 ||
         item.complexity > 5 ||
@@ -44,7 +47,7 @@ export function parsePresets(raw: string | null, catalog: Option[]): StylePreset
                 catalog.some((o) => o.category === category && o.id === id),
             ),
           ),
-        ].slice(0, category === 'Outline' ? 1 : 3);
+        ].slice(0, category === 'Outline' || category === 'Design Format' ? 1 : 3);
       }
       const fields = Object.fromEntries(
         Object.entries(item.fields).filter(
@@ -57,6 +60,7 @@ export function parsePresets(raw: string | null, catalog: Option[]): StylePreset
           id: item.id,
           name: item.name.trim(),
           photo: item.photo,
+          ...(item.design === true ? { design: true } : {}),
           selection,
           complexity: item.complexity,
           fields,

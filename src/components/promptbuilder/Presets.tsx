@@ -33,6 +33,7 @@ export default function Presets(p: Props) {
               preset.complexity,
               preset.fields,
               preset.photo,
+              preset.design,
             );
             return (
               <article className="preset-item" key={preset.id} aria-label={preset.name}>
@@ -130,6 +131,7 @@ export default function Presets(p: Props) {
                     selection={preset.selection}
                     fields={preset.fields}
                     photo={preset.photo}
+                    design={preset.design}
                     complexity={preset.complexity}
                   />
                 </div>

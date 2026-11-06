@@ -1,4 +1,18 @@
 const translation: Record<string, string> = {
+  'Design Format': 'Format',
+  'Design Style': 'Style',
+  Poster: 'Poster',
+  Logo: 'Logo',
+  Packaging: 'Packaging',
+  'Book Cover': 'Book Cover',
+  'Editorial Layout': 'Editorial Layout',
+  'Social Graphic': 'Social Graphic',
+  'Very Low': 'Very Low',
+  Low: 'Low',
+  Medium: 'Medium',
+  High: 'High',
+  'Very High': 'Very High',
+
   'None selected': 'None selected',
   '{{options}} and {{count}} more': '{{options}} and {{count}} more',
   'Expand {{title}} section': 'Expand {{title}} section',
@@ -10,7 +24,7 @@ const translation: Record<string, string> = {
   'Z–A': 'Z–A',
   'Refine filter choices': 'Refine filter choices',
   'Choose builder options to generate a prompt.':
-    'Choose which filter options to use in the builder before generating or saving a prompt.',
+    'Choose the options to use in your prompt. Select up to 3 options per category.',
   'Choose up to {{limit}} for {{category}}.': 'Choose up to {{limit}} for {{category}}.',
   'Apply choices': 'Apply choices',
 

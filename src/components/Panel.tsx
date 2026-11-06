@@ -7,6 +7,8 @@ interface Props {
   children: ReactNode;
   fullscreen?: boolean;
   drawer?: boolean;
+  closing?: boolean;
+  closed?: () => void;
 }
 export default function Panel({
   className,
@@ -15,6 +17,8 @@ export default function Panel({
   children,
   fullscreen = false,
   drawer = false,
+  closing = false,
+  closed,
 }: Props) {
   const mobile = useMediaQuery('(max-width: 600px)');
   const ref = useRef<HTMLDialogElement>(null);
@@ -30,8 +34,16 @@ export default function Panel({
   return mobile || fullscreen ? (
     <dialog
       ref={ref}
-      className={`${className} fullscreen-panel${drawer ? ' drawer-panel' : ''}`}
+      className={`${className} fullscreen-panel${drawer ? ' drawer-panel' : ''}${closing ? ' closing' : ''}`}
       aria-label={label}
+      onAnimationEnd={(event) => {
+        if (
+          closing &&
+          event.target === event.currentTarget &&
+          event.animationName === 'filter-slide-out'
+        )
+          closed?.();
+      }}
       onClick={(event) => {
         if (!drawer || event.target !== event.currentTarget) return;
         const bounds = event.currentTarget.getBoundingClientRect();
