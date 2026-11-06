@@ -1,8 +1,7 @@
 const translation: Record<string, string> = {
   'Expand Builder output': '빌더 결과 펼치기',
   'Collapse Builder output': '빌더 결과 접기',
-  'Leave blank to generate an image with a random subject.':
-    '비워두면 랜덤한 주제로 이미지를 생성해요.',
+  'Random generation if left blank': '미입력시 랜덤생성',
   'Close search': '검색 닫기',
   'What would you like to draw?': '무엇을 그릴까요?',
   Selected: '선택 항목',

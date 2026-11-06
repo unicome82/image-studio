@@ -54,17 +54,16 @@ export default function Builder(p: Props) {
       </div>
       <div className="builder-scroll">
         <div className="builder-wrap">
+          <h2 className="builder-title">
+            <label htmlFor={`${tabsId}-subject`}>{t('What would you like to draw?')}</label>
+          </h2>
           <input
+            id={`${tabsId}-subject`}
             className="builder-subject"
-            aria-label={t('Subject')}
-            aria-describedby={`${tabsId}-subject-hint`}
-            placeholder={t('What would you like to draw?')}
+            placeholder={t('Random generation if left blank')}
             value={p.fields.Subject ?? ''}
             onChange={(e) => p.setFields({ ...p.fields, Subject: e.target.value })}
           />
-          <p id={`${tabsId}-subject-hint`} className="subject-hint">
-            {t('Leave blank to generate an image with a random subject.')}
-          </p>
           {!p.photo && (
             <section className="option-section">
               <OptionChoices

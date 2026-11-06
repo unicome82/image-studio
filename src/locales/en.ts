@@ -1,8 +1,7 @@
 const translation: Record<string, string> = {
   'Expand Builder output': 'Expand Builder output',
   'Collapse Builder output': 'Collapse Builder output',
-  'Leave blank to generate an image with a random subject.':
-    'Leave blank to generate an image with a random subject.',
+  'Random generation if left blank': 'Random generation if left blank',
   'Close search': 'Close search',
   'What would you like to draw?': 'What would you like to draw?',
   Selected: 'Selected',

@@ -63,9 +63,10 @@
   letter-spacing: normal;
   &[aria-checked='true'] {
     font-weight: 500;
+    background: transparent;
   }
-  &:hover,
-  &:focus-visible {
+  &:not([aria-checked='true']):hover,
+  &:not([aria-checked='true']):focus-visible {
     background: $icon-hover-background;
   }
 }
@@ -1239,8 +1240,11 @@ textarea {
   &-wrap {
     padding-inline: $content-padding;
   }
-  &-subject {
-    margin-top: 12px;
+  &-title {
+    margin: 12px 0 8px;
+    color: $black;
+    font-size: var(--text-title, 16px);
+    font-weight: 700;
   }
   &-scroll {
     @include scroll-area;
@@ -1329,12 +1333,6 @@ textarea {
       }
     }
   }
-}
-.subject-hint {
-  margin-top: 8px;
-  color: $muted;
-  font-size: var(--text-small, 12px);
-  line-height: 1.5;
 }
 .option-section {
   padding: 12px 0;
