@@ -1,15 +1,15 @@
 export default function Logo() {
   return (
-    <svg className="brand-logo" viewBox="360 324 584 576" aria-hidden="true" focusable="false">
+    <svg className="brand-logo" viewBox="360 320 584 584" aria-hidden="true" focusable="false">
       <defs>
         <mask id="brand-logo-mask">
-          <rect x="360" y="324" width="584" height="576" fill="#fff" />
-          <circle cx="697" cy="580" r="48" />
-          <path d="M418 744 520 636Q540 616 560 636L643 722 686 678Q702 662 718 678L772 734Q790 754 778 776Q762 806 728 806H462Q428 806 412 776Q400 756 418 744Z" />
+          <rect x="360" y="320" width="584" height="584" fill="#fff" />
+          <circle cx="692" cy="570" r="48" />
+          <path d="M416 770Q416 754 427 743L524 646Q540 630 556 646L632 722Q648 738 664 722L692 694Q708 678 724 694L765 735Q776 746 776 762V782A64 64 0 0 1 712 846H480A64 64 0 0 1 416 782Z" />
         </mask>
       </defs>
       <g fill="currentColor">
-        <rect x="375" y="452" width="442" height="433" rx="105" mask="url(#brand-logo-mask)" />
+        <rect x="376" y="446" width="440" height="440" rx="104" mask="url(#brand-logo-mask)" />
         <path d="M840 336Q852 400 930 425Q852 450 840 514Q828 450 750 425Q828 400 840 336Z" />
       </g>
     </svg>
