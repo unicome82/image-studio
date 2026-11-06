@@ -857,7 +857,7 @@ textarea {
   position: sticky;
   top: var(--panel-top);
   z-index: 20;
-  margin: 0 calc(-1 * var(--gallery-padding)) 40px;
+  margin: 0 calc(-1 * var(--gallery-padding));
   padding: 12px var(--gallery-padding);
   background: $results-background;
   backdrop-filter: blur(8px);
