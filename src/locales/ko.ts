@@ -14,7 +14,6 @@ const translation: Record<string, string> = {
   'Very High': '매우 높음',
 
   'None selected': '선택 없음',
-  'and {{count}} more': '외 {{count}}개',
   'Expand {{title}} section': '{{title}} 펼치기',
   'Collapse {{title}} section': '{{title}} 접기',
 

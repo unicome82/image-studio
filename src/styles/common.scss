@@ -893,6 +893,10 @@ textarea {
     margin: 0;
     overflow: visible;
   }
+  .selected-option {
+    height: auto;
+    min-height: 28px;
+  }
 }
 .compose-floating {
   --compose-reveal: 0;
@@ -1108,17 +1112,6 @@ textarea {
     overflow: hidden;
     text-overflow: ellipsis;
   }
-  &-more {
-    flex-shrink: 0;
-    white-space: pre;
-  }
-  &-measure {
-    position: absolute;
-    width: max-content;
-    visibility: hidden;
-    pointer-events: none;
-    white-space: pre;
-  }
 }
 .option-choice {
   @include flex-row($gap: 3px, $display: inline-flex);
@@ -1179,9 +1172,7 @@ textarea {
   &-content {
     flex: 1;
     min-width: 0;
-    max-height: min(120px, 20dvh);
-    overflow: auto;
-    overscroll-behavior: contain;
+    overflow: visible;
   }
   .filter-summary {
     max-height: none;
@@ -1229,8 +1220,10 @@ textarea {
   @include flex-row($gap: 0, $display: inline-flex);
   max-width: 100%;
   min-width: 0;
-  height: auto;
-  min-height: 28px;
+  height: 22px;
+  @media (max-width: $mobile) {
+    height: 24px;
+  }
   padding: 0 calc(2em / 3) 0 calc(4em / 5);
   border: 1px solid $prompt-border;
   background: $prompt-background;
@@ -1248,12 +1241,8 @@ textarea {
     opacity: 0.5;
     @include grid-center;
     flex-shrink: 0;
-    width: 28px;
-    height: 28px;
-    @media (max-width: $mobile) {
-      width: 36px;
-      height: 36px;
-    }
+    width: 20px;
+    height: 20px;
     padding: 0;
     .material-symbol[size='16'] {
       font-size: 16px;

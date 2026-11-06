@@ -15,9 +15,9 @@ Filter selection is unlimited. No selected options, or every available option in
 a category, means that category does not restrict results, including records with
 missing option metadata. Other categories remain active. Options use OR within
 each category and AND across categories. Options start expanded. Collapsing a
-category replaces its buttons with #prefixed selected values. The summary measures
-the actual available width after font loading and on resize; it shows all values
-that fit, and a remaining count only when needed. Empty and fully selected filter categories
+category replaces its buttons with #prefixed selected values. The summary uses
+a single line with CSS ellipsis when it overflows; all values remain available
+in the title and the expanded options. No remaining count is shown. Empty and fully selected filter categories
 summarize as All; an empty builder category summarizes as None selected. Clicking
 the category title or chevron reopens it without changing choices or typed text.
 
@@ -63,7 +63,7 @@ two equal-width actions: white Generate prompt on the left and black View images
 on the right, without a title or top divider. View images closes the filter while
 keeping its selections; desktop retains its single Generate prompt action. This summary
 starts collapsed as a horizontally scrollable single row; a shared 28px ellipsis toggle expands
-it into a wrapped, height-capped list. It disappears when no filters restrict
+it into a wrapped list without a height cap or its own vertical scrollbar. It disappears when no filters restrict
 results. Filter and builder collapse controls are 28px squares; collapsed option
 summaries use orange text, including All and None selected. The builder output scroll area
 uses 20px 20px 0 padding and no gap.

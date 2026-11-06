@@ -14,7 +14,6 @@ const translation: Record<string, string> = {
   'Very High': 'Very High',
 
   'None selected': 'None selected',
-  'and {{count}} more': 'and {{count}} more',
   'Expand {{title}} section': 'Expand {{title}} section',
   'Collapse {{title}} section': 'Collapse {{title}} section',
 
