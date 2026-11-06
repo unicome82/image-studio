@@ -19,7 +19,6 @@ export default function CollectionSort({
           { value: 'newest', label: t('Newest') },
           { value: 'oldest', label: t('Oldest') },
           { value: 'name-asc', label: t('A–Z') },
-          { value: 'name-desc', label: t('Z–A') },
         ]}
       />
     </div>

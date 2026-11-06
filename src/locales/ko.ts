@@ -18,9 +18,9 @@ const translation: Record<string, string> = {
   'Expand {{title}} section': '{{title}} 펼치기',
   'Collapse {{title}} section': '{{title}} 접기',
 
-  Newest: '최신',
-  Oldest: '과거',
-  'A–Z': '가–하',
+  Newest: '최신순',
+  Oldest: '과거순',
+  'A–Z': '이름순',
   'Z–A': '하–가',
   'Refine filter choices': '빌더 옵션 선택',
   'Choose builder options to generate a prompt.':

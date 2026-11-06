@@ -77,6 +77,7 @@ table {
     --option-height: round(nearest, clamp(32px, 8cqw, 40px), 4px);
     --action-height: round(nearest, clamp(44px, 11cqw, 52px), 4px);
     --button-font-size: round(nearest, clamp(12px, calc(10px + 1cqw), 16px), 2px);
+    --text-input: 16px;
     --text-small: 12px;
     --option-heading-font-size: 11px;
     --text-label: 14px;
@@ -187,4 +188,7 @@ textarea::placeholder {
 }
 .prompt-textarea {
   @include prompt-surface;
+  @media (max-width: $mobile) {
+    font-size: 16px;
+  }
 }

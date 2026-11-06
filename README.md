@@ -26,7 +26,7 @@ size or collection sorting controls. The toolbar sticks during scrolling with
 as removable chips without an extra heading, and the chip row disappears when
 empty. Fully selected categories are omitted from the active chips. The old top
 navigation and ALL / SELECTED labels are removed. Collection sorting uses compact
-New / Old / A–Z / Z–A labels (최신 / 과거 / 가–하 / 하–가 in Korean).
+New / Old / A–Z labels (최신순 / 과거순 / 이름순 in Korean).
 
 The bottom-right floating button shows an icon at rest. On hover or keyboard focus,
 GENERATE PROMPT slides into view to the right of the icon without an opacity fade.
@@ -56,7 +56,7 @@ the existing Generate prompt button, without a title or top divider. This summar
 starts collapsed as a horizontally scrollable single row; a 28px toggle expands
 it into a wrapped, height-capped list. It disappears when no filters restrict
 results. Filter and builder collapse controls are 28px squares; collapsed option
-summaries highlight selected values in orange. The builder output scroll area
+summaries use orange text, including All and None selected. The builder output scroll area
 uses 20px 20px 0 padding and no gap.
 
 Design prompts include canonical format and style instructions from
@@ -64,8 +64,10 @@ Design prompts include canonical format and style instructions from
 type for reconstruction after reload. Complexity labels range from Very Low to
 Very High (매우 낮음–매우 높음); Korean option names omit redundant suffixes.
 On mobile, the results chip row scrolls horizontally without wrapping, the filter
-animates closed before opening the builder, and editable fields use 13px text on desktop and mobile (search and generated
-prompts retain their own sizes). The larger logo and bounded, content-width copy toast also fit
+animates closed before opening the builder, and desktop editable fields use 13px text (search and generated prompts retain
+their own sizes). Mobile input, select, and textarea elements, including read-only
+prompts, use 16px to avoid iOS focus zoom without disabling pinch zoom. Button
+hover backgrounds are limited to desktop pointer devices. The larger logo and bounded, content-width copy toast also fit
 320px screens.
 
 Save prompt pre-fills the editable name from Subject when the save dialog opens,

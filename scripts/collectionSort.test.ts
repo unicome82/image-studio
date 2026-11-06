@@ -22,11 +22,6 @@ test('Collection sort handles bookmark order and newest-first preset storage wit
     'Image 2',
     'Image 10',
   ]);
-  assert.deepEqual(names(sortCollection(bookmarks, 'name-desc', name, rank, 'en')), [
-    'Image 10',
-    'Image 2',
-    'Image 1',
-  ]);
   assert.deepEqual(names(bookmarks), ['Image 10', 'Image 2', 'Image 1']);
   const presets = [...bookmarks].reverse();
   assert.deepEqual(

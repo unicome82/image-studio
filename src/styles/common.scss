@@ -6,16 +6,20 @@
   @include button-frame;
   @include selected-surface;
   border-color: $ink;
-  &:hover:not(:disabled) {
-    background: $primary-hover-background;
+  @media (min-width: 601px) and (hover: hover) {
+    &:hover:not(:disabled) {
+      background: $primary-hover-background;
+    }
   }
 }
 .secondary {
   @include button-frame;
   background: transparent;
   border-color: $secondary-border;
-  &:hover {
-    background: $secondary-hover-background;
+  @media (min-width: 601px) and (hover: hover) {
+    &:hover {
+      background: $secondary-hover-background;
+    }
   }
 }
 .icon-button {
@@ -24,8 +28,10 @@
   height: var(--icon-button-size, 32px);
   padding: 0;
   border-radius: 8px;
-  &:hover:not(.active):not(.close-button) {
-    background: $icon-hover-background;
+  @media (min-width: 601px) and (hover: hover) {
+    &:hover:not(.active):not(.close-button) {
+      background: $icon-hover-background;
+    }
   }
 }
 .close-button {
@@ -65,9 +71,11 @@
     font-weight: 500;
     background: transparent;
   }
-  &:not([aria-checked='true']):hover,
-  &:not([aria-checked='true']):focus-visible {
-    background: $icon-hover-background;
+  @media (min-width: 601px) and (hover: hover) {
+    &:not([aria-checked='true']):hover,
+    &:not([aria-checked='true']):focus-visible {
+      background: $icon-hover-background;
+    }
   }
 }
 .panel-heading {
@@ -856,6 +864,7 @@ textarea {
     min-width: 0;
   }
   .filter-toggle {
+    margin-left: -8px;
     flex-shrink: 0;
   }
   .result-count {
@@ -1113,12 +1122,9 @@ textarea {
 .option-summary {
   margin: 0;
   padding-inline: $content-padding;
-  color: $muted;
+  color: $selected-summary;
   font-size: var(--text-small, 12px);
   overflow-wrap: anywhere;
-  &.has-selection {
-    color: $selected-summary;
-  }
 }
 .option-choice {
   @include flex-row($gap: 3px, $display: inline-flex);
