@@ -15,8 +15,9 @@ Filter selection is unlimited. No selected options, or every available option in
 a category, means that category does not restrict results, including records with
 missing option metadata. Other categories remain active. Options use OR within
 each category and AND across categories. Options start expanded. Collapsing a
-category replaces its buttons with a text summary of selected options (two names
-plus a remaining count when needed). Empty and fully selected filter categories
+category replaces its buttons with #prefixed selected values. The summary measures
+the actual available width after font loading and on resize; it shows all values
+that fit, and a remaining count only when needed. Empty and fully selected filter categories
 summarize as All; an empty builder category summarizes as None selected. Clicking
 the category title or chevron reopens it without changing choices or typed text.
 
@@ -40,7 +41,9 @@ selected chips’ horizontal scrolling retain their normal behavior. Motion foll
 prompt button open the full-screen builder. The full builder viewport scrolls;
 the option body no longer has its own scrollbar. Its heading and output remain
 sticky with 8px backdrop blur, so content passes beneath them. Selected and Prompt
-can be collapsed independently without clearing settings or hiding Save/Copy.
+use independent controls without clearing settings or hiding Save/Copy. Editable
+Selected chips use the same single-row summary and ellipsis toggle as mobile
+filter selections, without a visible Selected heading.
 Prompt starts collapsed on mobile and expanded on desktop.
 On mobile, collapsing output sections frees room for the options. Closing and
 reopening preserves the
@@ -56,8 +59,10 @@ Its circular-arrow reset icon clears the draft and optional choices, restoring
 the standard ratio, complexity, and Color Only outline mode.
 
 On mobile, the filter footer repeats active selections as removable chips above
-the existing Generate prompt button, without a title or top divider. This summary
-starts collapsed as a horizontally scrollable single row; a 28px toggle expands
+two equal-width actions: white Generate prompt on the left and black View images
+on the right, without a title or top divider. View images closes the filter while
+keeping its selections; desktop retains its single Generate prompt action. This summary
+starts collapsed as a horizontally scrollable single row; a shared 28px ellipsis toggle expands
 it into a wrapped, height-capped list. It disappears when no filters restrict
 results. Filter and builder collapse controls are 28px squares; collapsed option
 summaries use orange text, including All and None selected. The builder output scroll area
@@ -69,8 +74,8 @@ type for reconstruction after reload. Complexity labels range from Very Low to
 Very High (매우 낮음–매우 높음); Korean option names omit redundant suffixes.
 On mobile, the results chip row scrolls horizontally without wrapping, the filter
 animates closed before opening the builder, and desktop editable fields use 13px text (search and generated prompts retain
-their own sizes). Mobile input, select, and textarea elements, including read-only
-prompts, use 16px to avoid iOS focus zoom without disabling pinch zoom. Button
+their own sizes). General input and textarea text is 13px on desktop and mobile; prompt textarea
+text stays 11px, with mobile search independently using 16px. Button
 hover backgrounds are limited to desktop pointer devices. The larger logo and bounded, content-width copy toast also fit
 320px screens.
 

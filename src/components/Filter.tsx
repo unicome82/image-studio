@@ -1,6 +1,6 @@
-import { useId, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import Panel from './Panel';
+import SelectionSummary from './SelectionSummary';
 import Icon from './Icon';
 import OptionChoices from './promptbuilder/OptionChoices';
 import ResizeHandle from './promptbuilder/ResizeHandle';
@@ -26,8 +26,6 @@ interface Props {
 
 export default function Filter(p: Props) {
   const { t } = useTranslation();
-  const [summaryExpanded, setSummaryExpanded] = useState(false);
-  const summaryId = useId();
   const mobile = useMediaQuery('(max-width: 600px)');
   const selectedFilters = activeFilters(p.filters, p.catalog);
   return (
@@ -92,35 +90,24 @@ export default function Filter(p: Props) {
         <div className="builder-footer">
           <div className="builder-wrap">
             {mobile && Object.keys(selectedFilters).length > 0 && (
-              <section
-                className={'filter-mobile-summary' + (summaryExpanded ? '' : ' collapsed')}
-                aria-label={t('Selected filters')}
-              >
-                <div id={summaryId} className="filter-mobile-summary-content">
-                  <SelectedFilters
-                    catalog={p.catalog}
-                    filters={selectedFilters}
-                    remove={p.toggle}
-                  />
-                </div>
-                <button
-                  className="choice-toggle"
-                  aria-label={t(
-                    summaryExpanded ? 'Collapse {{title}} section' : 'Expand {{title}} section',
-                    { title: t('Selected filters') },
-                  )}
-                  aria-expanded={summaryExpanded}
-                  aria-controls={summaryId}
-                  onClick={() => setSummaryExpanded(!summaryExpanded)}
-                >
-                  <Icon name={summaryExpanded ? 'expand_less' : 'expand_more'} size="16" />
-                </button>
-              </section>
+              <SelectionSummary label={t('Selected filters')}>
+                <SelectedFilters catalog={p.catalog} filters={selectedFilters} remove={p.toggle} />
+              </SelectionSummary>
             )}
-            <button className="primary generate-prompt" onClick={p.compose}>
-              <Icon name="auto_awesome" size="20" className="fill" />
-              {t('Generate prompt')}
-            </button>
+            <div className="filter-actions">
+              <button
+                className={(mobile ? 'secondary' : 'primary') + ' generate-prompt'}
+                onClick={p.compose}
+              >
+                {!mobile && <Icon name="auto_awesome" size="20" className="fill" />}
+                {t('Generate prompt')}
+              </button>
+              {mobile && (
+                <button className="primary filter-view-images" onClick={p.close}>
+                  {t('View images')}
+                </button>
+              )}
+            </div>
           </div>
         </div>
       </div>

@@ -878,50 +878,20 @@ textarea {
     font-size: var(--text-small, 12px);
     white-space: nowrap;
   }
-  @media (max-width: $mobile) {
-    .filter-summary {
-      max-height: none;
-      overflow-x: auto;
-      overflow-y: hidden;
-      scrollbar-width: none;
-      touch-action: pan-x pan-y;
-      &::-webkit-scrollbar {
-        display: none;
-      }
-      .selected-options {
-        width: max-content;
-        max-width: none;
-        flex-wrap: nowrap;
-      }
-      .selected-option {
-        flex-shrink: 0;
-      }
-    }
+  .selection-summary {
+    margin: 12px 0 0;
   }
 }
 .filter-summary {
   max-height: min(160px, 25dvh);
   margin-top: 12px;
-  padding: 4px 8px;
-  scroll-padding-inline: 8px;
+  padding: 0;
   overflow-y: auto;
   overscroll-behavior: contain;
   .selected-options {
     max-height: none;
     margin: 0;
     overflow: visible;
-  }
-  .selected-option {
-    height: auto;
-    min-height: 28px;
-    &-remove {
-      width: 28px;
-      height: 28px;
-      @media (max-width: $mobile) {
-        width: 36px;
-        height: 36px;
-      }
-    }
   }
 }
 .compose-floating {
@@ -974,38 +944,29 @@ textarea {
   }
 }
 .filter-panel {
-  .filter-mobile-summary {
-    margin-bottom: 16px;
+  .filter-actions {
     display: flex;
-    align-items: flex-start;
-    gap: 4px;
-    &-content {
+    gap: 8px;
+    .generate-prompt,
+    .filter-view-images {
       flex: 1;
       min-width: 0;
+      width: auto;
+      @include prompt-action-button;
+      @include uppercase-text;
+      white-space: nowrap;
     }
-    .filter-summary {
-      max-height: min(120px, 20dvh);
-      margin-top: 0;
+    @media (max-width: 360px) {
+      --button-font-size: 12px;
     }
-    &.collapsed {
-      align-items: center;
-      .filter-summary {
-        max-height: none;
-        overflow-x: auto;
-        overflow-y: hidden;
-        scrollbar-width: none;
-        &::-webkit-scrollbar {
-          display: none;
-        }
-      }
-      .selected-options {
-        width: max-content;
-        flex-wrap: nowrap;
-      }
-      .selected-option {
-        flex-shrink: 0;
+    @media (max-width: $mobile) {
+      .generate-prompt {
+        background: $white;
       }
     }
+  }
+  .selection-summary {
+    margin-bottom: 16px;
   }
   .builder-scroll {
     flex: 1;
@@ -1135,11 +1096,29 @@ textarea {
   }
 }
 .option-summary {
+  position: relative;
+  display: flex;
   margin: 0;
   padding-inline: $content-padding;
   color: $selected-summary;
   font-size: var(--text-small, 12px);
-  overflow-wrap: anywhere;
+  white-space: nowrap;
+  &-values {
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  &-more {
+    flex-shrink: 0;
+    white-space: pre;
+  }
+  &-measure {
+    position: absolute;
+    width: max-content;
+    visibility: hidden;
+    pointer-events: none;
+    white-space: pre;
+  }
 }
 .option-choice {
   @include flex-row($gap: 3px, $display: inline-flex);
@@ -1190,6 +1169,52 @@ textarea {
   }
 }
 
+// Shared collapsible editable selections
+.selection-summary {
+  display: flex;
+  align-items: flex-start;
+  flex-shrink: 0;
+  gap: 4px;
+  margin-bottom: 20px;
+  &-content {
+    flex: 1;
+    min-width: 0;
+    max-height: min(120px, 20dvh);
+    overflow: auto;
+    overscroll-behavior: contain;
+  }
+  .filter-summary {
+    max-height: none;
+    margin: 0;
+    overflow: visible;
+  }
+  .selected-options {
+    max-height: none;
+    margin: 0;
+    overflow: visible;
+  }
+  &.collapsed {
+    align-items: center;
+    .selection-summary-content {
+      max-height: none;
+      overflow-x: auto;
+      overflow-y: hidden;
+      scrollbar-width: none;
+      &::-webkit-scrollbar {
+        display: none;
+      }
+    }
+    .selected-options {
+      width: max-content;
+      max-width: none;
+      flex-wrap: nowrap;
+    }
+    .selected-option {
+      flex-shrink: 0;
+    }
+  }
+}
+
 // SelectedOptions
 .selected-options {
   display: flex;
@@ -1204,10 +1229,8 @@ textarea {
   @include flex-row($gap: 0, $display: inline-flex);
   max-width: 100%;
   min-width: 0;
-  height: 22px;
-  @media (max-width: $mobile) {
-    height: 24px;
-  }
+  height: auto;
+  min-height: 28px;
   padding: 0 calc(2em / 3) 0 calc(4em / 5);
   border: 1px solid $prompt-border;
   background: $prompt-background;
@@ -1225,8 +1248,12 @@ textarea {
     opacity: 0.5;
     @include grid-center;
     flex-shrink: 0;
-    width: 20px;
-    height: 20px;
+    width: 28px;
+    height: 28px;
+    @media (max-width: $mobile) {
+      width: 36px;
+      height: 36px;
+    }
     padding: 0;
     .material-symbol[size='16'] {
       font-size: 16px;
@@ -1513,12 +1540,6 @@ textarea {
     h3 {
       @include builder-option-heading;
     }
-    .selected-options {
-      max-height: none;
-      margin: 0 0 20px;
-      padding: 0;
-      overflow: visible;
-    }
     > .prompt-actions {
       flex-shrink: 0;
       padding: $content-padding;
@@ -1527,9 +1548,6 @@ textarea {
         @include uppercase-text;
       }
     }
-  }
-  &-fullscreen-selected {
-    flex-shrink: 0;
   }
   &-fullscreen-prompt {
     @include flex-column;

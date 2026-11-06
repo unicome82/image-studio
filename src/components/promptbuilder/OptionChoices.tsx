@@ -1,6 +1,7 @@
 import { useTranslation } from 'react-i18next';
 import { prioritizeSelectedOptions } from '../../utils/optionChoices';
 import Icon from '../Icon';
+import OptionSummary from './OptionSummary';
 import { useId, useMemo, useState, type ReactNode } from 'react';
 interface Choice {
   id: string;
@@ -42,16 +43,6 @@ export default function OptionChoices({
   const label = (option: Choice) => t(option.label.replace(/\s+illustration\b/gi, ''));
   const labels = options.filter((option) => selected.includes(option.id)).map(label);
   const unfiltered = allIsUnfiltered && (labels.length === 0 || labels.length === options.length);
-  const summary = unfiltered
-    ? t('All')
-    : labels.length === 0
-      ? t('None selected')
-      : labels.length <= 2
-        ? labels.join(', ')
-        : t('{{options}} and {{count}} more', {
-            options: labels.slice(0, 2).join(', '),
-            count: labels.length - 2,
-          });
   return (
     <>
       <h3 className="option-heading" aria-label={t(title)}>
@@ -101,14 +92,10 @@ export default function OptionChoices({
               </div>
             </>
           ) : (
-            <p
-              className={
-                'option-summary' + (labels.length > 0 && !unfiltered ? ' has-selection' : '')
-              }
-              title={unfiltered ? t('All') : labels.join(', ')}
-            >
-              {summary}
-            </p>
+            <OptionSummary
+              labels={unfiltered ? [] : labels}
+              fallback={t(unfiltered ? 'All' : 'None selected')}
+            />
           )}
         </div>
       )}

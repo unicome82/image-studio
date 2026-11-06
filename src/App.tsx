@@ -9,6 +9,7 @@ import CollectionSort from './components/CollectionSort';
 import { sortCollection, type CollectionSort as SortOrder } from './utils/collectionSort';
 import { imageName } from './utils/imageName';
 import Filter, { FilterTypeSelect, SelectedFilters } from './components/Filter';
+import SelectionSummary from './components/SelectionSummary';
 import {
   activeFilters,
   builderFilterLimit,
@@ -658,11 +659,15 @@ export default function App() {
                 )}
               </div>
             </div>
-            <SelectedFilters
-              catalog={filterCatalog}
-              filters={effectiveFilters}
-              remove={chooseFilter}
-            />
+            {Object.keys(effectiveFilters).length > 0 && (
+              <SelectionSummary label={t('Selected filters')}>
+                <SelectedFilters
+                  catalog={filterCatalog}
+                  filters={effectiveFilters}
+                  remove={chooseFilter}
+                />
+              </SelectionSummary>
+            )}
           </div>
           {presetOpen ? (
             <Presets

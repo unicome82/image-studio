@@ -14,7 +14,7 @@ const translation: Record<string, string> = {
   'Very High': 'Very High',
 
   'None selected': 'None selected',
-  '{{options}} and {{count}} more': '{{options}} and {{count}} more',
+  'and {{count}} more': 'and {{count}} more',
   'Expand {{title}} section': 'Expand {{title}} section',
   'Collapse {{title}} section': 'Collapse {{title}} section',
 
@@ -67,6 +67,7 @@ const translation: Record<string, string> = {
   'What would you like to draw?': 'What to draw?',
   Selected: 'Selected',
   'Builder output': 'Builder output',
+  'View images': 'View images',
   'Generate prompt': 'Generate prompt',
   'Remove {{label}} option': 'Remove {{label}} option',
   'Selected options': 'Selected options',

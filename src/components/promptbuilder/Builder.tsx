@@ -5,6 +5,7 @@ import OptionChoices from './OptionChoices';
 import SelectedOptions from './SelectedOptions';
 import SavePrompt from './SavePrompt';
 import Panel from '../Panel';
+import SelectionSummary from '../SelectionSummary';
 import { useMediaQuery } from '../../utils/useMediaQuery';
 import {
   builderCategories,
@@ -63,7 +64,6 @@ export default function Builder(p: Props) {
     measure();
     return () => observer.disconnect();
   }, []);
-  const [selectedCollapsed, setSelectedCollapsed] = useState(false);
   const mobile = useMediaQuery('(max-width: 600px)');
   const [promptCollapsed, setPromptCollapsed] = useState(mobile);
   const categories = builderCategories(p.photo, design).filter(
@@ -326,26 +326,7 @@ export default function Builder(p: Props) {
         {!resolving && (
           <div className="builder-fullscreen-output">
             <div className="builder-fullscreen-output-scroll">
-              <section className="builder-fullscreen-selected" aria-label={t('Selected')}>
-                <h3>
-                  {t('Selected')}
-                  <button
-                    className="choice-toggle"
-                    aria-label={t(
-                      selectedCollapsed ? 'Expand {{title}} section' : 'Collapse {{title}} section',
-                      { title: t('Selected') },
-                    )}
-                    aria-expanded={!selectedCollapsed}
-                    aria-controls={`${tabsId}-selected-content`}
-                    onClick={() => setSelectedCollapsed(!selectedCollapsed)}
-                  >
-                    <Icon name={selectedCollapsed ? 'expand_more' : 'expand_less'} size="16" />
-                  </button>
-                </h3>
-                <div id={`${tabsId}-selected-content`} hidden={selectedCollapsed}>
-                  {selectedOptions}
-                </div>
-              </section>
+              <SelectionSummary label={t('Selected')}>{selectedOptions}</SelectionSummary>
               <section
                 className={'builder-fullscreen-prompt' + (promptCollapsed ? ' collapsed' : '')}
               >

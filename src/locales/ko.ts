@@ -14,7 +14,7 @@ const translation: Record<string, string> = {
   'Very High': '매우 높음',
 
   'None selected': '선택 없음',
-  '{{options}} and {{count}} more': '{{options}} 외 {{count}}개',
+  'and {{count}} more': '외 {{count}}개',
   'Expand {{title}} section': '{{title}} 펼치기',
   'Collapse {{title}} section': '{{title}} 접기',
 
@@ -67,6 +67,7 @@ const translation: Record<string, string> = {
   'What would you like to draw?': '무엇을 그릴까요?',
   Selected: '선택 항목',
   'Builder output': '빌더 출력',
+  'View images': '이미지 보기',
   'Generate prompt': '프롬프트 생성',
   'Remove {{label}} option': '{{label}} 옵션 제거',
   'Selected options': '선택한 옵션',
