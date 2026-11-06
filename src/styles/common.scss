@@ -240,7 +240,8 @@
   }
 }
 textarea,
-.prompt-textarea {
+.prompt-textarea,
+.detail-prompt {
   --scrollbar-thumb: transparent;
   scrollbar-gutter: stable;
   scrollbar-width: thin;
@@ -256,7 +257,7 @@ textarea,
 }
 
 @media (max-width: $mobile) {
-  :not(textarea, .prompt-textarea) {
+  :not(textarea, .prompt-textarea, .detail-prompt) {
     scrollbar-width: none;
     &::-webkit-scrollbar {
       display: none;
@@ -724,6 +725,9 @@ textarea,
   }
   &-prompt {
     @include prompt-surface;
+    max-height: min(320px, 40dvh);
+    overflow-y: auto;
+    overscroll-behavior: none;
     white-space: pre-wrap;
     overflow-wrap: anywhere;
   }
@@ -1417,6 +1421,8 @@ textarea,
 .preset-prompt {
   flex: 1;
   min-height: 160px;
+  max-height: 240px;
+  overflow-y: auto;
   margin-top: 12px;
 }
 .preset-rename {
@@ -1511,13 +1517,17 @@ textarea,
         flex: none;
         align-self: stretch;
         height: auto;
-        max-height: 60dvh;
+        max-height: 100%;
         border-left: 0;
         @include sticky-surface;
         .builder-fullscreen-prompt {
           flex: none;
           .prompt-textarea {
-            height: 160px;
+            flex: none;
+            height: min(160px, 30dvh);
+            min-height: 0;
+            max-height: min(160px, 30dvh);
+            overflow-y: auto;
           }
         }
       }

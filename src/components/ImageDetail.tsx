@@ -80,7 +80,7 @@ export default function ImageDetail(p: Props) {
               <Icon name="content_copy" size="16" />
             </button>
           </h3>
-          <p className="detail-prompt" aria-label={t('Selected style prompt')}>
+          <p className="detail-prompt" aria-label={t('Selected style prompt')} tabIndex={0}>
             {p.stylePrompt}
           </p>
         </section>
