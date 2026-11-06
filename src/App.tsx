@@ -806,12 +806,9 @@ export default function App() {
             <Icon name="close" size="24" className="w200" />
           </button>
         </div>
-        <textarea
-          className="prompt-textarea"
-          readOnly
-          aria-label={t('Full prompt')}
-          value={copyFallback || prompt}
-        />
+        <div className="prompt-textarea" aria-label={t('Full prompt')} role="region" tabIndex={0}>
+          {copyFallback || prompt}
+        </div>
         <button className="primary" onClick={() => copy(copyFallback || prompt)}>
           <Icon name="content_copy" size="14" />
           {t('Copy')}

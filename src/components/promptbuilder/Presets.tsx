@@ -135,12 +135,14 @@ export default function Presets(p: Props) {
                     complexity={preset.complexity}
                   />
                 </div>
-                <textarea
+                <div
                   className="prompt-textarea preset-prompt"
                   aria-label={t('{{name}} prompt', { name: preset.name })}
-                  value={prompt}
-                  readOnly
-                />
+                  role="region"
+                  tabIndex={0}
+                >
+                  {prompt}
+                </div>
               </article>
             );
           })

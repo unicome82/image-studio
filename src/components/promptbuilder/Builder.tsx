@@ -331,7 +331,7 @@ export default function Builder(p: Props) {
                 className={'builder-fullscreen-prompt' + (promptCollapsed ? ' collapsed' : '')}
               >
                 <h3>
-                  <label htmlFor={`${tabsId}-fullscreen-prompt`}>{t('Prompt')}</label>
+                  {t('Prompt')}
                   <button
                     className="choice-toggle"
                     aria-label={t(
@@ -350,13 +350,15 @@ export default function Builder(p: Props) {
                   className="builder-fullscreen-prompt-content"
                   hidden={promptCollapsed}
                 >
-                  <textarea
+                  <div
                     id={`${tabsId}-fullscreen-prompt`}
                     className="prompt-textarea"
                     aria-label={t('Builder prompt')}
-                    readOnly
-                    value={p.prompt}
-                  />
+                    role="region"
+                    tabIndex={0}
+                  >
+                    {p.prompt}
+                  </div>
                 </div>
               </section>
             </div>

@@ -24,6 +24,7 @@ const translation: Record<string, string> = {
   'Refine filter choices': '빌더 옵션 선택',
   'Choose builder options to generate a prompt.': '프롬프트 생성에 사용할 옵션을 골라주세요.',
   'Up to {{count}}': '최대 {{count}}개',
+  'Apply filters': '적용하기',
   'Apply choices': '다음',
 
   '{{count}} results': '{{count}}개',

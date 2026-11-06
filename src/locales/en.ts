@@ -24,6 +24,7 @@ const translation: Record<string, string> = {
   'Refine filter choices': 'Refine filter choices',
   'Choose builder options to generate a prompt.': 'Choose the options to use in your prompt.',
   'Up to {{count}}': 'Up to {{count}}',
+  'Apply filters': 'Apply',
   'Apply choices': 'Next',
 
   '{{count}} results': '{{count}} results',

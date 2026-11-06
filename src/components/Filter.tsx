@@ -96,15 +96,17 @@ export default function Filter(p: Props) {
             )}
             <div className="filter-actions">
               <button
-                className={(mobile ? 'secondary' : 'primary') + ' generate-prompt'}
+                className="primary generate-prompt"
+                aria-label={t('Generate prompt')}
+                title={t('Generate prompt')}
                 onClick={p.compose}
               >
-                {!mobile && <Icon name="auto_awesome" size="20" className="fill" />}
-                {t('Generate prompt')}
+                <Icon name="auto_awesome" size="20" className="fill" />
+                {!mobile && t('Generate prompt')}
               </button>
               {mobile && (
-                <button className="primary filter-view-images" onClick={p.close}>
-                  {t('View images')}
+                <button className="secondary filter-view-images" onClick={p.close}>
+                  {t('Apply filters')}
                 </button>
               )}
             </div>

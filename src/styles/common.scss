@@ -134,12 +134,12 @@
   &::backdrop {
     @include popup-backdrop;
   }
-  textarea {
+  .prompt-textarea {
     height: 352px;
     margin: 16px 0 16px;
   }
   @media (max-width: $mobile) {
-    textarea {
+    .prompt-textarea {
       height: 50dvh;
     }
   }
@@ -239,7 +239,8 @@
     scrollbar-width: auto;
   }
 }
-textarea {
+textarea,
+.prompt-textarea {
   --scrollbar-thumb: transparent;
   scrollbar-gutter: stable;
   scrollbar-width: thin;
@@ -255,7 +256,7 @@ textarea {
 }
 
 @media (max-width: $mobile) {
-  :not(textarea) {
+  :not(textarea, .prompt-textarea) {
     scrollbar-width: none;
     &::-webkit-scrollbar {
       display: none;
@@ -390,10 +391,7 @@ textarea {
       border: 0;
       background: transparent;
       color: $ink;
-      font-size: var(--text-label, 14px);
-      @media (max-width: $mobile) {
-        font-size: 16px;
-      }
+      font-size: var(--field-font-size);
       &::-webkit-search-cancel-button {
         -webkit-appearance: none;
       }
@@ -484,6 +482,7 @@ textarea {
     height: 36px;
     align-self: center;
     padding: 0;
+    transition: none;
     opacity: 0.4;
     &[aria-pressed='true'] {
       opacity: 1;
@@ -908,12 +907,13 @@ textarea {
   column-gap: calc(var(--compose-reveal) * 8px);
   min-width: 48px;
   height: 48px;
-  padding: 0 12px;
+  padding: 0 calc(12px + var(--compose-reveal) * 12px) 0 12px;
   border: 0;
   border-radius: 24px;
   box-shadow: 0 4px 20px rgba($black, 0.16);
   transition:
     column-gap var(--transition-duration),
+    padding-right var(--transition-duration),
     background var(--transition-duration);
   > .material-symbol {
     flex-shrink: 0;
@@ -962,6 +962,11 @@ textarea {
     }
     @media (max-width: $mobile) {
       .generate-prompt {
+        flex: 0 0 auto;
+        aspect-ratio: 1;
+        padding: 0;
+      }
+      .filter-view-images {
         background: $white;
       }
     }
@@ -984,11 +989,6 @@ textarea {
       width: 100%;
       max-width: none;
       height: 100dvh;
-      transform: translateX(var(--drawer-drag-x, 0px));
-      transition: transform var(--transition-duration) ease-out;
-      &[data-dragging] {
-        transition: none;
-      }
       .builder-heading,
       .builder-scroll {
         touch-action: pan-y pinch-zoom;
@@ -1019,7 +1019,7 @@ textarea {
 
 @keyframes filter-slide-out {
   from {
-    transform: translateX(var(--drawer-close-start, 0px));
+    transform: translateX(0);
   }
   to {
     transform: translateX(-100%);
@@ -1105,9 +1105,13 @@ textarea {
   font-size: var(--text-small, 12px);
   white-space: nowrap;
   &-values {
+    display: flex;
+    gap: 2px 8px;
     min-width: 0;
     overflow: hidden;
-    text-overflow: ellipsis;
+    > span {
+      flex-shrink: 0;
+    }
   }
 }
 .option-choice {
@@ -1276,7 +1280,7 @@ textarea {
 // SavePrompt
 .save-style-field {
   margin-top: 16px;
-  textarea {
+  .prompt-textarea {
     height: min(300px, 38dvh);
   }
   h3 {
@@ -1419,7 +1423,7 @@ textarea {
   @include flex-row($gap: 4px);
   input {
     flex: 1;
-    font-size: $option-font-size;
+    font-size: var(--field-font-size);
   }
   button {
     font-size: 12px;
@@ -1713,7 +1717,7 @@ textarea {
 .typography-input {
   display: block;
   margin-bottom: 8px;
-  font-size: $option-font-size;
+  font-size: var(--field-font-size);
 }
 .inputs {
   textarea {
