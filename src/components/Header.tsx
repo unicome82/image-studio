@@ -117,11 +117,7 @@ export default function Header(p: Props) {
             p.toggleBookmarks();
           }}
         >
-          <Icon
-            name="favorite"
-            size={mobile ? '24' : '20'}
-            className={p.showBookmarks ? 'fill' : ''}
-          />
+          <Icon name="favorite" size="20" className={p.showBookmarks ? 'fill' : ''} />
         </button>
         <button
           className={'icon-button preset-toggle ' + (p.showPrompts ? 'active' : '')}

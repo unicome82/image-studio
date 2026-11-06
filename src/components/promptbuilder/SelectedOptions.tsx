@@ -56,7 +56,7 @@ export default function SelectedOptions({
               aria-label={t('Remove {{label}} option', { label })}
               onClick={() => remove(option.category, option.id)}
             >
-              <Icon name="close" size="12" />
+              <Icon name="close" size="16" />
             </button>
           </span>
         );

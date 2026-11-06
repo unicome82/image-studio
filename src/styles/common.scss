@@ -351,6 +351,9 @@ textarea {
       background: transparent;
       color: $ink;
       font-size: var(--text-label, 14px);
+      @media (max-width: $mobile) {
+        font-size: 16px;
+      }
       &::-webkit-search-cancel-button {
         -webkit-appearance: none;
       }
@@ -380,6 +383,7 @@ textarea {
   font-weight: 900;
   @include uppercase-text;
   @media (max-width: $mobile) {
+    margin-left: 8px;
     font-size: round(nearest, clamp(12px, 3cqw, 16px), 2px);
   }
 }
@@ -438,6 +442,8 @@ textarea {
     letter-spacing: normal;
   }
   @media (max-width: $mobile) {
+    padding: 0;
+    padding-left: 8px;
     button {
       border: 0;
       background: transparent;
@@ -1025,7 +1031,7 @@ textarea {
 .selected-options {
   display: flex;
   flex-wrap: wrap;
-  gap: 0;
+  gap: 4px;
   max-height: 96px;
   margin: 0 (-$content-padding) 20px 0;
   padding-right: $content-padding;
@@ -1035,7 +1041,7 @@ textarea {
   @include flex-row($gap: 0, $display: inline-flex);
   max-width: 100%;
   min-width: 0;
-  height: max(var(--icon-button-size, 28px), var(--chip-height, 20px));
+  height: 22px;
   padding: 0 calc(2em / 3) 0 calc(4em / 5);
   border: 1px solid $prompt-border;
   background: $prompt-background;
@@ -1053,9 +1059,12 @@ textarea {
     opacity: 0.5;
     @include grid-center;
     flex-shrink: 0;
-    width: var(--icon-button-size, 28px);
-    height: var(--icon-button-size, 28px);
+    width: 20px;
+    height: 20px;
     padding: 0;
+    .material-symbol[size='16'] {
+      font-size: 16px;
+    }
   }
   &-remove {
     &:hover {
@@ -1281,7 +1290,7 @@ textarea {
       @include flex-row($gap: 16px);
       [role='tab'] {
         @include builder-option-heading;
-        font-size: var(--button-font-size, 12px);
+        font-size: $option-heading-font-size;
         min-height: var(--option-height, auto);
         font-weight: 500;
         margin-bottom: 0;
@@ -1352,7 +1361,7 @@ textarea {
   padding: 12px 0;
   h3 {
     @include builder-option-heading;
-    font-size: 10px;
+    font-size: $option-heading-font-size;
     span {
       font-weight: 400;
 
