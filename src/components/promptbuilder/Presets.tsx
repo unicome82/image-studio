@@ -87,15 +87,13 @@ export default function Presets(p: Props) {
                     complexity={preset.complexity}
                   />
                 </div>
-                <div className="prompt-textarea preset-prompt">
-                  <div
-                    className="preset-prompt-text"
-                    aria-label={t('{{name}} prompt', { name: title })}
-                    role="region"
-                    tabIndex={0}
-                  >
-                    {prompt}
-                  </div>
+                <div
+                  className="prompt-textarea preset-prompt"
+                  aria-label={t('{{name}} prompt', { name: title })}
+                  role="region"
+                  tabIndex={0}
+                >
+                  <div className="preset-prompt-text">{prompt}</div>
                   <button
                     className="icon-button preset-copy"
                     aria-label={t('Copy {{name}} prompt', { name: title })}
