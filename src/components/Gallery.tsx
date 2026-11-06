@@ -3,6 +3,7 @@ import FavoriteButton from './FavoriteButton';
 import { imageName } from '../utils/imageName';
 import type { GallerySection, GalleryTile } from '../types';
 interface Props {
+  largeThumbnails: boolean;
   groups: GallerySection[];
   bookmarks: string[];
   selectedId?: string;
@@ -23,7 +24,7 @@ export default function Gallery(p: Props) {
               <span>{group.tiles.length}</span>
             </h2>
           </div>
-          <div className="image-grid">
+          <div className={'image-grid' + (p.largeThumbnails ? ' large' : '')}>
             {group.tiles.map((tile) => (
               <article
                 className={'tile ' + (p.selectedId === tile.id ? 'selected' : '')}

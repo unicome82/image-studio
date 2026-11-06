@@ -1,4 +1,7 @@
 const translation: Record<string, string> = {
+  'Thumbnail size': '썸네일 크기',
+  'Small thumbnails': '작게 보기',
+  'Large thumbnails': '크게 보기',
   Type: '유형',
   Design: '디자인',
   'Design prompts are not available yet.': '디자인 프롬프트는 아직 제공되지 않습니다.',

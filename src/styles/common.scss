@@ -529,6 +529,20 @@ textarea {
     }
   }
 }
+.thumbnail-sizes {
+  @include flex-row;
+  flex-shrink: 0;
+  .icon-button {
+    width: 36px;
+    height: 36px;
+    align-self: center;
+    padding: 0;
+    opacity: 0.4;
+    &[aria-pressed='true'] {
+      opacity: 1;
+    }
+  }
+}
 .type-dropdown {
   align-self: center;
   flex-shrink: 0;
@@ -550,9 +564,15 @@ textarea {
 .image-grid {
   columns: 152px;
   column-gap: 12px;
+  &.large {
+    columns: 304px;
+  }
   @media (max-width: $mobile) {
     columns: 2;
     column-gap: 8px;
+    &.large {
+      columns: 1;
+    }
   }
 }
 .tile {

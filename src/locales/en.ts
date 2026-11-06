@@ -1,4 +1,7 @@
 const translation: Record<string, string> = {
+  'Thumbnail size': 'Thumbnail size',
+  'Small thumbnails': 'Small thumbnails',
+  'Large thumbnails': 'Large thumbnails',
   Type: 'Type',
   Design: 'Design',
   'Design prompts are not available yet.': 'Design prompts are not available yet.',

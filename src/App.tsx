@@ -111,6 +111,7 @@ export default function App() {
   );
   const builderPhoto = builderType === 'photo';
   const [active, setActive] = useState('all');
+  const [largeThumbnails, setLargeThumbnails] = useState(false);
   const [illustrationSelection, setIllustrationSelection] = useState(initial);
   const [photoSelection, setPhotoSelection] = useState<Selection>({
     Photography: ['film'],
@@ -325,6 +326,8 @@ export default function App() {
         builder={builder}
         photo={photo}
         active={active}
+        largeThumbnails={largeThumbnails}
+        setLargeThumbnails={setLargeThumbnails}
         groups={currentGroups}
         toggleBuilder={() => setBuilder(!builder)}
         switchType={switchType}
@@ -391,6 +394,7 @@ export default function App() {
             />
           ) : (
             <Gallery
+              largeThumbnails={largeThumbnails}
               groups={displayGroups.filter((group) => group.id === 'all' || group.tiles.length > 0)}
               bookmarks={bookmarks}
               selectedId={selected?.id}
