@@ -131,7 +131,6 @@ const translation: Record<string, string> = {
   'Close image detail': '이미지 상세 닫기',
   'Expand preview': '미리보기 확대',
   'Bookmark selected placeholder': '선택한 샘플 북마크',
-  'Style prompt': '스타일 프롬프트',
   'Copy style prompt': '스타일 프롬프트 복사',
   'Selected style prompt': '선택한 스타일 프롬프트',
   'Add an image and connect an authorized publishing workflow to publish':

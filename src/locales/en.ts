@@ -131,7 +131,6 @@ const translation: Record<string, string> = {
   'Close image detail': 'Close image detail',
   'Expand preview': 'Expand preview',
   'Bookmark selected placeholder': 'Bookmark selected placeholder',
-  'Style prompt': 'Style prompt',
   'Copy style prompt': 'Copy style prompt',
   'Selected style prompt': 'Selected style prompt',
   'Add an image and connect an authorized publishing workflow to publish':

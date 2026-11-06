@@ -66,21 +66,22 @@ export default function ImageDetail(p: Props) {
           />
         </div>
         <SelectedOptions {...p.saveOptions} english />
-        <section className="detail-section">
-          <h3>
-            {t('Style prompt')}
-            <button
-              className="icon-button"
-              aria-label={t('Copy style prompt')}
-              onClick={() => p.copy(p.stylePrompt)}
-            >
-              <Icon name="content_copy" size="16" />
-            </button>
-          </h3>
-          <p className="detail-prompt" aria-label={t('Selected style prompt')} tabIndex={0}>
-            {p.stylePrompt}
-          </p>
-        </section>
+        <div
+          className="prompt-textarea"
+          aria-label={t('Selected style prompt')}
+          role="region"
+          tabIndex={0}
+        >
+          <button
+            className="icon-button"
+            aria-label={t('Copy style prompt')}
+            title={t('Copy prompt')}
+            onClick={() => p.copy(p.stylePrompt)}
+          >
+            <Icon name="content_copy" size="16" />
+          </button>
+          {p.stylePrompt}
+        </div>
       </div>
       <div className="prompt-actions detail-actions">
         <SavePrompt key={image.id} prompt={p.savePreview} save={p.save} selected={p.saveOptions} />
