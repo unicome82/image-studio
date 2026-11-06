@@ -1,7 +1,6 @@
 import { useTranslation } from 'react-i18next';
 import Icon from './Icon';
 import BuilderSelect from './promptbuilder/BuilderSelect';
-import { useMediaQuery } from '../utils/useMediaQuery';
 import { useHorizontalScroll } from '../utils/useHorizontalScroll';
 interface Props {
   builder: boolean;
@@ -15,7 +14,6 @@ interface Props {
 export default function Navigation(p: Props) {
   const { t } = useTranslation();
   const scrollRef = useHorizontalScroll();
-  const mobile = useMediaQuery('(max-width: 600px)');
   return (
     <nav className="navigation" aria-label={t('Gallery navigation')}>
       <button
@@ -27,28 +25,17 @@ export default function Navigation(p: Props) {
       >
         <Icon name="auto_awesome" size="20" className="fill" />
       </button>
-      {mobile ? (
-        <div className="type-dropdown">
-          <BuilderSelect
-            label={t('Image type')}
-            value={p.photo ? 'photo' : 'illustration'}
-            options={[
-              { value: 'illustration', label: t('Illustration') },
-              { value: 'photo', label: t('Photo') },
-            ]}
-            change={(value) => p.switchType(value === 'photo')}
-          />
-        </div>
-      ) : (
-        <div className="type-tabs" aria-label={t('Image type')}>
-          <button aria-pressed={!p.photo} onClick={() => p.switchType(false)}>
-            {t('Illustration')}
-          </button>
-          <button aria-pressed={p.photo} onClick={() => p.switchType(true)}>
-            {t('Photo')}
-          </button>
-        </div>
-      )}
+      <div className="type-dropdown">
+        <BuilderSelect
+          label={t('Image type')}
+          value={p.photo ? 'photo' : 'illustration'}
+          options={[
+            { value: 'illustration', label: t('Illustration') },
+            { value: 'photo', label: t('Photo') },
+          ]}
+          change={(value) => p.switchType(value === 'photo')}
+        />
+      </div>
       <div ref={scrollRef} className="style-tabs" aria-label={t('Style filters')}>
         <button className={p.active === 'all' ? 'active' : ''} onClick={() => p.navigate('all')}>
           {t('All')}
