@@ -58,19 +58,19 @@ export default function Presets(p: Props) {
                       required
                     />
                     <button
-                      className="icon-button rename-confirm"
-                      aria-label={t('Confirm rename')}
-                      type="submit"
-                    >
-                      <Icon name="check" size="20" />
-                    </button>
-                    <button
-                      className="icon-button rename-cancel"
+                      className="secondary rename-cancel"
                       aria-label={t('Cancel rename')}
                       type="button"
                       onClick={() => setEditing(null)}
                     >
-                      <Icon name="close" size="20" />
+                      {t('Cancel')}
+                    </button>
+                    <button
+                      className="primary rename-confirm"
+                      aria-label={t('Confirm rename')}
+                      type="submit"
+                    >
+                      {t('Save')}
                     </button>
                   </form>
                 ) : (

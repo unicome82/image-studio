@@ -1158,14 +1158,12 @@ textarea {
   }
   button {
     flex-shrink: 0;
+    height: 36px;
+    padding: 0 calc(4em / 5);
   }
-  .icon-button {
-    &,
-    &:hover {
-      border: 0;
-      background: transparent;
-      color: $ink;
-    }
+  .rename-confirm {
+    background: $black;
+    color: $white;
   }
 }
 .preset-empty {
