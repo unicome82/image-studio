@@ -3,7 +3,7 @@ const translation: Record<string, string> = {
   'Collapse Builder output': 'Collapse Builder output',
   'Random generation if left blank': 'Random generation if left blank',
   'Close search': 'Close search',
-  'What would you like to draw?': 'What would you like to draw?',
+  'What would you like to draw?': 'What to draw?',
   Selected: 'Selected',
   'Builder output': 'Builder output',
   'Generate prompt': 'Generate prompt',

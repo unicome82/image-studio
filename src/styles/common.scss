@@ -331,9 +331,8 @@ textarea {
   position: relative;
   z-index: 30;
   @include flex-row($gap: 24px);
-  padding: 20px $content-padding;
+  padding: 20px $content-padding 20px 32px;
   background: $page;
-  border-bottom: 1px solid $line;
   &-search {
     @include flex-row;
     flex: 1;
@@ -342,7 +341,7 @@ textarea {
     height: $header-control-size;
     padding: 0 calc(2em / 3);
     border: 1px solid $option-hover-border;
-    border-radius: 8px;
+    border-radius: 999px;
     color: $ink;
     input {
       width: 100%;
@@ -416,7 +415,7 @@ textarea {
     max-width: none;
     padding: 0 calc(3em / 4);
     border: 0;
-    border-radius: 0;
+    border-radius: 999px;
     background: $page;
     .close-button {
       margin-right: 0;
@@ -1240,7 +1239,7 @@ textarea {
     padding: $content-padding;
   }
   &-title {
-    margin: 12px 0 8px;
+    margin: 12px 0;
     color: $black;
     font-size: var(--text-title, 16px);
     font-weight: 700;

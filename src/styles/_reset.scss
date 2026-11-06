@@ -159,6 +159,9 @@ select {
   font-size: $option-font-size;
 }
 input {
+  &:where(:not([type='range'], [type='search'])) {
+    height: 36px;
+  }
   &[type='range'] {
     width: 100%;
     accent-color: $ink;
