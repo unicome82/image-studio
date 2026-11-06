@@ -35,7 +35,8 @@ interface Props {
   close: () => void;
   prompt: string;
   copy: (text: string) => void;
-  save: (name: string) => boolean;
+  save: () => boolean;
+  editing?: boolean;
 }
 export default function Builder(p: Props) {
   const { t } = useTranslation();
@@ -84,6 +85,7 @@ export default function Builder(p: Props) {
     <div className="prompt-actions">
       <SavePrompt
         save={p.save}
+        editing={p.editing}
         disabled={resolving}
         prompt={p.prompt}
         selected={{

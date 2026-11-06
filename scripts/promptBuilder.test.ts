@@ -140,7 +140,7 @@ test('saved style sets validate storage, remove stale IDs and retain fields and 
     catalog,
   );
   assert.equal(parsed.length, 1);
-  assert.equal(parsed[0].name, 'My set');
+  assert.equal('name' in parsed[0], false);
   assert.deepEqual(parsed[0].selection['Base Style'], ['folk']);
   assert.equal(parsed[0].fields.Subject, 'A tree');
   assert.equal(parsed[0].complexity, 4);

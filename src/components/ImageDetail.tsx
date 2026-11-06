@@ -13,7 +13,7 @@ interface Props {
   stylePrompt: string;
   savePreview: string;
   saveOptions: Omit<SelectedOptionsProps, 'remove'>;
-  save: (name: string) => boolean;
+  save: () => boolean;
   copy: (text: string) => void;
   toggleBookmark: () => void;
   close: () => void;

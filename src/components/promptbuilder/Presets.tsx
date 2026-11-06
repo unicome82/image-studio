@@ -7,14 +7,12 @@ import { makePrompt, type Option } from '../../utils/promptBuilder';
 interface Props {
   presets: StylePreset[];
   catalog: Option[];
-  rename: (id: string, name: string) => boolean;
+  edit: (preset: StylePreset) => void;
   remove: (id: string) => void;
   copy: (prompt: string) => void;
 }
 export default function Presets(p: Props) {
   const { t } = useTranslation();
-  const [editing, setEditing] = useState<string | null>(null);
-  const [editName, setEditName] = useState('');
   const [deleting, setDeleting] = useState<string | null>(null);
   return (
     <section className="presets-page" aria-label={t('Saved style sets')}>
@@ -35,95 +33,50 @@ export default function Presets(p: Props) {
               preset.photo,
               preset.design,
             );
+            const title = preset.fields.Subject?.trim() || t('Random image');
             return (
-              <article className="preset-item" key={preset.id} aria-label={preset.name}>
-                {editing === preset.id ? (
-                  <form
-                    className="preset-rename"
-                    onSubmit={(e) => {
-                      e.preventDefault();
-                      if (editName.trim() && p.rename(preset.id, editName.trim())) setEditing(null);
-                    }}
-                  >
-                    <input
-                      aria-label={t('Rename style set')}
-                      maxLength={80}
-                      value={editName}
-                      onChange={(e) => setEditName(e.target.value)}
-                      autoFocus
-                      required
-                    />
-                    <button
-                      className="secondary"
-                      aria-label={t('Cancel rename')}
-                      type="button"
-                      onClick={() => setEditing(null)}
-                    >
-                      {t('Cancel')}
-                    </button>
-                    <button
-                      className="primary rename-confirm"
-                      aria-label={t('Confirm rename')}
-                      type="submit"
-                    >
-                      {t('Save')}
-                    </button>
-                  </form>
-                ) : (
-                  <div className="preset-item-heading">
-                    <div className="preset-name">
-                      <h3>{preset.name}</h3>
-                      <button
-                        className="icon-button"
-                        aria-label={t('Edit {{name}} name', { name: preset.name })}
-                        onClick={() => {
-                          setEditing(preset.id);
-                          setEditName(preset.name);
-                        }}
-                      >
-                        <Icon name="edit" size="16" />
-                      </button>
-                    </div>
-                    <div className="preset-item-actions">
-                      {deleting === preset.id ? (
-                        <>
-                          <button className="secondary" onClick={() => setDeleting(null)}>
-                            {t('Cancel')}
-                          </button>
-                          <button
-                            className="primary"
-                            aria-label={t('Confirm delete {{name}}', { name: preset.name })}
-                            onClick={() => {
-                              p.remove(preset.id);
-                              setDeleting(null);
-                            }}
-                          >
-                            {t('Delete')}
-                          </button>
-                        </>
-                      ) : (
-                        <>
-                          <button
-                            className="icon-button preset-copy"
-                            aria-label={t('Copy {{name}} prompt', { name: preset.name })}
-                            title={t('Copy prompt')}
-                            onClick={() => p.copy(prompt)}
-                          >
-                            <Icon name="content_copy" size="16" />
-                          </button>
-                          <button
-                            className="icon-button preset-delete"
-                            aria-label={t('Delete {{name}}', { name: preset.name })}
-                            title={t('Delete style set')}
-                            onClick={() => setDeleting(preset.id)}
-                          >
-                            <Icon name="delete" size="16" />
-                          </button>
-                        </>
-                      )}
-                    </div>
+              <article className="preset-item" key={preset.id} aria-label={title}>
+                <div className="preset-item-heading">
+                  <h3 className="preset-name">{title}</h3>
+                  <div className="preset-item-actions">
+                    {deleting === preset.id ? (
+                      <>
+                        <button className="secondary" onClick={() => setDeleting(null)}>
+                          {t('Cancel')}
+                        </button>
+                        <button
+                          className="primary"
+                          aria-label={t('Confirm delete {{name}}', { name: title })}
+                          onClick={() => {
+                            p.remove(preset.id);
+                            setDeleting(null);
+                          }}
+                        >
+                          {t('Delete')}
+                        </button>
+                      </>
+                    ) : (
+                      <>
+                        <button
+                          className="icon-button preset-edit"
+                          aria-label={t('Edit {{name}} settings', { name: title })}
+                          title={t('Edit style set')}
+                          onClick={() => p.edit(preset)}
+                        >
+                          <Icon name="edit" size="16" />
+                        </button>
+                        <button
+                          className="icon-button preset-delete"
+                          aria-label={t('Delete {{name}}', { name: title })}
+                          title={t('Delete style set')}
+                          onClick={() => setDeleting(preset.id)}
+                        >
+                          <Icon name="delete" size="16" />
+                        </button>
+                      </>
+                    )}
                   </div>
-                )}
+                </div>
                 <div className="preset-selected">
                   <SelectedOptions
                     catalog={p.catalog}
@@ -134,13 +87,23 @@ export default function Presets(p: Props) {
                     complexity={preset.complexity}
                   />
                 </div>
-                <div
-                  className="prompt-textarea preset-prompt"
-                  aria-label={t('{{name}} prompt', { name: preset.name })}
-                  role="region"
-                  tabIndex={0}
-                >
-                  {prompt}
+                <div className="prompt-textarea preset-prompt">
+                  <div
+                    className="preset-prompt-text"
+                    aria-label={t('{{name}} prompt', { name: title })}
+                    role="region"
+                    tabIndex={0}
+                  >
+                    {prompt}
+                  </div>
+                  <button
+                    className="icon-button preset-copy"
+                    aria-label={t('Copy {{name}} prompt', { name: title })}
+                    title={t('Copy prompt')}
+                    onClick={() => p.copy(prompt)}
+                  >
+                    <Icon name="content_copy" size="16" />
+                  </button>
                 </div>
               </article>
             );

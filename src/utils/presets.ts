@@ -1,7 +1,6 @@
 import type { Option, Selection } from './promptBuilder';
 export interface StylePreset {
   id: string;
-  name: string;
   photo: boolean;
   design?: boolean;
   selection: Selection;
@@ -20,8 +19,6 @@ export function parsePresets(raw: string | null, catalog: Option[]): StylePreset
         typeof item !== 'object' ||
         typeof item.id !== 'string' ||
         seen.has(item.id) ||
-        typeof item.name !== 'string' ||
-        !item.name.trim() ||
         typeof item.photo !== 'boolean' ||
         (item.design !== undefined && typeof item.design !== 'boolean') ||
         (item.design === true && item.photo) ||
@@ -58,7 +55,6 @@ export function parsePresets(raw: string | null, catalog: Option[]): StylePreset
       return [
         {
           id: item.id,
-          name: item.name.trim(),
           photo: item.photo,
           ...(item.design === true ? { design: true } : {}),
           selection,

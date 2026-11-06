@@ -7,7 +7,6 @@ import Header from './components/Header';
 import Gallery from './components/Gallery';
 import CollectionSort from './components/CollectionSort';
 import { sortCollection, type CollectionSort as SortOrder } from './utils/collectionSort';
-import { imageName } from './utils/imageName';
 import Filter, { FilterTypeSelect, SelectedFilters } from './components/Filter';
 import SelectionSummary from './components/SelectionSummary';
 import {
@@ -138,8 +137,15 @@ function storedBookmarks(): string[] {
     return [];
   }
 }
+const defaultFields: Record<string, string> = {
+  Subject: '',
+  'Aspect Ratio': '1:1',
+  'Additional Instructions': '',
+  'Typography Enabled': 'false',
+  Text: '',
+};
 export default function App() {
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
   const [copyFallback, setCopyFallback] = useState('');
   const [builderWidth, setBuilderWidth] = useState(280);
   const [builder, setBuilder] = useState(() => window.innerWidth > 1100);
@@ -187,6 +193,17 @@ export default function App() {
       return [];
     }
   });
+  useEffect(() => {
+    // Drop legacy fields such as saved names; only parsed settings remain in storage.
+    try {
+      localStorage.setItem(presetKey, JSON.stringify(presets));
+    } catch {
+      /* Storage may be disabled. */
+    }
+  }, []);
+  const presetTitle = (preset: StylePreset) => preset.fields.Subject?.trim() || t('Random image');
+  const [editingPreset, setEditingPreset] = useState<string | null>(null);
+  const builderBackup = useRef<(() => void) | null>(null);
   const [query, setQuery] = useState('');
   const [filterType, setFilterType] = useState<FilterType>('all');
   const [builderType, setBuilderType] = useState<'illustration' | 'photo' | 'design'>(
@@ -206,13 +223,7 @@ export default function App() {
     Composition: ['asymmetric'],
   });
   const [complexity, setComplexity] = useState(3);
-  const [fields, setFields] = useState<Record<string, string>>({
-    Subject: '',
-    'Aspect Ratio': '1:1',
-    'Additional Instructions': '',
-    'Typography Enabled': 'false',
-    Text: '',
-  });
+  const [fields, setFields] = useState<Record<string, string>>(defaultFields);
   const [selected, setSelected] = useState<Tile | null>(null);
   const [bookmarks, setBookmarks] = useState(storedBookmarks);
   const [onlySaved, setOnlySaved] = useState(false);
@@ -290,9 +301,7 @@ export default function App() {
           tiles: sortCollection(
             tileGroups.flatMap((group) => group.tiles),
             favoriteSort,
-            imageName,
             (tile) => bookmarks.indexOf(tile.id),
-            i18n.resolvedLanguage ?? 'en',
           ),
         },
       ]
@@ -306,7 +315,7 @@ export default function App() {
             : preset.photo
               ? filterType === 'photo'
               : filterType === 'illustration')) &&
-        preset.name.toLowerCase().includes(query.trim().toLowerCase()) &&
+        presetTitle(preset).toLowerCase().includes(query.trim().toLowerCase()) &&
         matchesFilters(
           filterMetadata(
             preset.selection,
@@ -319,9 +328,7 @@ export default function App() {
         ),
     ),
     presetSort,
-    (preset) => preset.name,
     (preset) => -presets.indexOf(preset),
-    i18n.resolvedLanguage ?? 'en',
   );
   const resultCount = presetOpen ? visiblePresets.length : displayGroups[0].tiles.length;
   function chooseFilter(category: string, id: string) {
@@ -475,18 +482,12 @@ export default function App() {
     }
   }
   function savePreset(
-    name: string,
-    id?: string,
     snapshot?: Pick<StylePreset, 'photo' | 'design' | 'selection' | 'complexity' | 'fields'>,
   ) {
-    if (!name.trim() || (!snapshot && Object.keys(pendingChoices).length > 0)) return false;
-    if (presets.some((p) => p.id !== id && p.name.toLowerCase() === name.trim().toLowerCase())) {
-      setToast('A style set with this name already exists.');
-      return false;
-    }
+    if (!snapshot && Object.keys(pendingChoices).length > 0) return false;
+    const id = snapshot ? undefined : (editingPreset ?? undefined);
     const value: StylePreset = {
       id: id ?? crypto.randomUUID(),
-      name: name.trim(),
       photo: builderPhoto,
       design: snapshot ? !!snapshot.design : builderDesign,
       selection: structuredClone(selection),
@@ -498,14 +499,55 @@ export default function App() {
       id ? presets.map((p) => (p.id === id ? value : p)) : [value, ...presets],
     );
     if (saved) setToast(id ? 'Style set updated' : 'Style set saved');
+    if (saved && id) closeComposer();
     return saved;
   }
-  function renamePreset(id: string, name: string) {
-    if (presets.some((p) => p.id !== id && p.name.toLowerCase() === name.trim().toLowerCase())) {
-      setToast('A style set with this name already exists.');
-      return false;
+  function editPreset(preset: StylePreset) {
+    if (!editingPreset) {
+      // Keep the current Builder draft and restore it after editing the saved settings.
+      const draft = {
+        builderType,
+        illustrationSelection,
+        photoSelection,
+        designSelection,
+        complexity,
+        fields,
+        pendingChoices,
+        pendingSelection,
+      };
+      builderBackup.current = () => {
+        setBuilderType(draft.builderType);
+        setIllustrationSelection(draft.illustrationSelection);
+        setPhotoSelection(draft.photoSelection);
+        setDesignSelection(draft.designSelection);
+        setComplexity(draft.complexity);
+        setFields(draft.fields);
+        setPendingChoices(draft.pendingChoices);
+        setPendingSelection(draft.pendingSelection);
+      };
     }
-    return persistPresets(presets.map((p) => (p.id === id ? { ...p, name: name.trim() } : p)));
+    const type = preset.design ? 'design' : preset.photo ? 'photo' : 'illustration';
+    const update =
+      type === 'design'
+        ? setDesignSelection
+        : type === 'photo'
+          ? setPhotoSelection
+          : setIllustrationSelection;
+    setBuilderType(type);
+    update(structuredClone(preset.selection));
+    setComplexity(preset.complexity);
+    setFields({ ...defaultFields, ...preset.fields });
+    setPendingChoices({});
+    setPendingSelection({});
+    setEditingPreset(preset.id);
+    setComposerOpen(true);
+  }
+  function closeComposer() {
+    setComposerOpen(false);
+    if (!editingPreset) return;
+    builderBackup.current?.();
+    builderBackup.current = null;
+    setEditingPreset(null);
   }
   const detailPhoto = selected ? selected.id.startsWith('photo-') : filterType === 'photo';
   const selectedOption = selected
@@ -542,7 +584,7 @@ export default function App() {
         home={() => {
           setFilterType('all');
           setFilters({});
-          setComposerOpen(false);
+          closeComposer();
           setQuery('');
           setOnlySaved(false);
           setPresetOpen(false);
@@ -673,7 +715,7 @@ export default function App() {
             <Presets
               presets={visiblePresets}
               catalog={catalog}
-              rename={renamePreset}
+              edit={editPreset}
               remove={(id) => {
                 if (persistPresets(presets.filter((p) => p.id !== id)))
                   setToast('Style set deleted');
@@ -728,7 +770,7 @@ export default function App() {
               stylePrompt={detailPrompt}
               savePreview={detailSavePrompt}
               saveOptions={{ catalog, ...detailPreset }}
-              save={(name) => savePreset(name, undefined, detailPreset)}
+              save={() => savePreset(detailPreset)}
               copy={copy}
               toggleBookmark={() => toggleBookmark(selected.id)}
               close={() => setSelected(null)}
@@ -746,13 +788,7 @@ export default function App() {
             setPhotoSelection({});
             setDesignSelection({});
             setComplexity(3);
-            setFields({
-              Subject: '',
-              'Aspect Ratio': '1:1',
-              'Additional Instructions': '',
-              'Typography Enabled': 'false',
-              Text: '',
-            });
+            setFields(defaultFields);
           }}
           catalog={catalog}
           filterCatalog={filterCatalog}
@@ -781,10 +817,11 @@ export default function App() {
           photo={builderPhoto}
           type={builderType}
           setType={setBuilderType}
-          close={() => setComposerOpen(false)}
+          close={closeComposer}
           prompt={prompt}
           copy={copy}
-          save={savePreset}
+          save={() => savePreset()}
+          editing={!!editingPreset}
         />
       )}
       <dialog

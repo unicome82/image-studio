@@ -4,16 +4,16 @@ import SelectedOptions, { type SelectedOptionsProps } from './SelectedOptions';
 import { useEffect, useId, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 interface Props {
-  save: (name: string) => boolean;
+  save: () => boolean;
+  editing?: boolean;
   prompt: string;
   selected: Omit<SelectedOptionsProps, 'remove'>;
   disabled?: boolean;
 }
-function SaveDialog({ save, prompt, selected, close }: Props & { close: () => void }) {
+function SaveDialog({ save, prompt, selected, editing, close }: Props & { close: () => void }) {
   const { t } = useTranslation();
   const ref = useRef<HTMLDialogElement>(null);
   const fieldId = useId();
-  const [name, setName] = useState(() => (selected.fields.Subject ?? '').trim().slice(0, 80));
   const [error, setError] = useState('');
   useEffect(() => {
     const previous = document.body.style.overflow;
@@ -29,7 +29,7 @@ function SaveDialog({ save, prompt, selected, close }: Props & { close: () => vo
     <dialog
       ref={ref}
       className="save-style-dialog"
-      aria-label={t('Save style')}
+      aria-label={t(editing ? 'Update style set' : 'Save style')}
       onCancel={(e) => {
         e.preventDefault();
         e.stopPropagation();
@@ -49,7 +49,7 @@ function SaveDialog({ save, prompt, selected, close }: Props & { close: () => vo
       }}
     >
       <div className="panel-heading">
-        <span>{t('Save style')}</span>
+        <span>{t(editing ? 'Update style set' : 'Save style')}</span>
         <button
           className="icon-button close-button"
           aria-label={t('Close save style')}
@@ -61,31 +61,10 @@ function SaveDialog({ save, prompt, selected, close }: Props & { close: () => vo
       <form
         onSubmit={(e) => {
           e.preventDefault();
-          if (!name.trim()) return;
-          if (save(name.trim())) close();
-          else
-            setError(
-              'Could not save. Check for an existing style name or unavailable browser storage.',
-            );
+          if (save()) close();
+          else setError('Could not save. Browser storage is unavailable or full.');
         }}
       >
-        <div className="save-style-field">
-          <h3>
-            <label htmlFor={`${fieldId}-name`}>{t('Style name')}</label>
-          </h3>
-          <input
-            id={`${fieldId}-name`}
-            value={name}
-            maxLength={80}
-            placeholder={t('Style name')}
-            autoFocus
-            required
-            onChange={(e) => {
-              setName(e.target.value);
-              setError('');
-            }}
-          />
-        </div>
         <div className="save-style-field">
           <h3>{t('Selected')}</h3>
           <SelectedOptions {...selected} />
@@ -111,7 +90,7 @@ function SaveDialog({ save, prompt, selected, close }: Props & { close: () => vo
           <button type="button" className="secondary" onClick={close}>
             {t('Cancel')}
           </button>
-          <button type="submit" className="primary" disabled={!name.trim()}>
+          <button type="submit" className="primary">
             {t('Save')}
           </button>
         </div>
@@ -120,7 +99,7 @@ function SaveDialog({ save, prompt, selected, close }: Props & { close: () => vo
     document.body,
   );
 }
-export default function SavePrompt({ save, prompt, selected, disabled = false }: Props) {
+export default function SavePrompt({ save, prompt, selected, editing, disabled = false }: Props) {
   const { t } = useTranslation();
   const [open, setOpen] = useState(false);
   return (
@@ -135,7 +114,13 @@ export default function SavePrompt({ save, prompt, selected, disabled = false }:
         {t('Save')}
       </button>
       {open && (
-        <SaveDialog save={save} prompt={prompt} selected={selected} close={() => setOpen(false)} />
+        <SaveDialog
+          save={save}
+          prompt={prompt}
+          selected={selected}
+          editing={editing}
+          close={() => setOpen(false)}
+        />
       )}
     </div>
   );
