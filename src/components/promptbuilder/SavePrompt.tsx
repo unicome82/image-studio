@@ -9,6 +9,7 @@ interface Props {
   prompt: string;
   selected: Omit<SelectedOptionsProps, 'remove'>;
   disabled?: boolean;
+  iconOnly?: boolean;
 }
 function SaveDialog({ save, prompt, selected, editing, close }: Props & { close: () => void }) {
   const { t } = useTranslation();
@@ -99,19 +100,28 @@ function SaveDialog({ save, prompt, selected, editing, close }: Props & { close:
     document.body,
   );
 }
-export default function SavePrompt({ save, prompt, selected, editing, disabled = false }: Props) {
+export default function SavePrompt({
+  save,
+  prompt,
+  selected,
+  editing,
+  disabled = false,
+  iconOnly = false,
+}: Props) {
   const { t } = useTranslation();
   const [open, setOpen] = useState(false);
   return (
-    <div className="save-prompt-control">
+    <div className={'save-prompt-control' + (iconOnly ? ' icon-only' : '')}>
       <button
         className="secondary save-prompt-button"
         disabled={disabled}
+        aria-label={iconOnly ? t('Save') : undefined}
+        title={iconOnly ? t('Save') : undefined}
         aria-haspopup="dialog"
         aria-expanded={open}
         onClick={() => setOpen(true)}
       >
-        {t('Save')}
+        {iconOnly ? <Icon name="bookmark_add" size="20" /> : t('Save')}
       </button>
       {open && (
         <SaveDialog

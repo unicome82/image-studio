@@ -112,6 +112,15 @@
   > .save-prompt-control {
     flex: 1;
     min-width: 0;
+    &.icon-only {
+      flex: none;
+      .save-prompt-button {
+        @include flex-row($justify: center);
+        aspect-ratio: 1;
+        width: auto;
+        padding: 0;
+      }
+    }
   }
   > .primary {
     @include prompt-action-button;

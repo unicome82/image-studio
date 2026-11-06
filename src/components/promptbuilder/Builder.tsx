@@ -87,6 +87,7 @@ export default function Builder(p: Props) {
         save={p.save}
         editing={p.editing}
         disabled={resolving}
+        iconOnly
         prompt={p.prompt}
         selected={{
           catalog: p.catalog,

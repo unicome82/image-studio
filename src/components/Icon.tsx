@@ -5,6 +5,7 @@ export type IconName =
   | 'star'
   | 'language'
   | 'bookmark'
+  | 'bookmark_add'
   | 'content_copy'
   | 'close'
   | 'cloud_upload'
