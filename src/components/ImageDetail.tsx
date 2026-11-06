@@ -4,7 +4,7 @@ import FavoriteButton from './FavoriteButton';
 import { imageName } from '../utils/imageName';
 import Panel from './Panel';
 import SavePrompt from './promptbuilder/SavePrompt';
-import type { SelectedOptionsProps } from './promptbuilder/SelectedOptions';
+import SelectedOptions, { type SelectedOptionsProps } from './promptbuilder/SelectedOptions';
 import type { GalleryTile } from '../types';
 interface Props {
   image: GalleryTile;
@@ -65,10 +65,7 @@ export default function ImageDetail(p: Props) {
             toggle={p.toggleBookmark}
           />
         </div>
-        <div className="option-tags">
-          <span>#{image.group}</span>
-          <span>#{p.photo ? 'photo' : 'illustration'}</span>
-        </div>
+        <SelectedOptions {...p.saveOptions} />
         <section className="detail-section">
           <h3>
             {t('Style prompt')}

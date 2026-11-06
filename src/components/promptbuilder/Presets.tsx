@@ -125,7 +125,6 @@ export default function Presets(p: Props) {
                   </div>
                 )}
                 <div className="preset-selected">
-                  <h3>{t('Selected')}</h3>
                   <SelectedOptions
                     catalog={p.catalog}
                     selection={preset.selection}

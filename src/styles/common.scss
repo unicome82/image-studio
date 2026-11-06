@@ -1410,9 +1410,6 @@ textarea,
 }
 .preset-selected {
   margin-top: 16px;
-  h3 {
-    @include builder-option-heading;
-  }
 }
 .preset-prompt {
   flex: 1;
