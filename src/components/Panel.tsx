@@ -5,20 +5,21 @@ interface Props {
   label: string;
   close: () => void;
   children: ReactNode;
+  fullscreen?: boolean;
 }
-export default function Panel({ className, label, close, children }: Props) {
+export default function Panel({ className, label, close, children, fullscreen = false }: Props) {
   const mobile = useMediaQuery('(max-width: 600px)');
   const ref = useRef<HTMLDialogElement>(null);
   useEffect(() => {
-    if (!mobile) return;
+    if (!mobile && !fullscreen) return;
     const previous = document.body.style.overflow;
     document.body.style.overflow = 'hidden';
     ref.current?.showModal();
     return () => {
       document.body.style.overflow = previous;
     };
-  }, [mobile]);
-  return mobile ? (
+  }, [mobile, fullscreen]);
+  return mobile || fullscreen ? (
     <dialog
       ref={ref}
       className={`${className} fullscreen-panel`}

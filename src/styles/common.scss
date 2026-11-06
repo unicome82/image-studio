@@ -307,6 +307,9 @@ textarea {
   border-radius: 8px;
   background: transparent;
   color: $favorite-default;
+  &[aria-pressed='false']:hover {
+    color: rgba($black, 0.5);
+  }
   &[aria-pressed='true'] {
     color: $favorite;
   }
@@ -391,6 +394,9 @@ textarea {
   }
 }
 .saved-toggle {
+  &[aria-pressed='false']:hover .material-symbol {
+    opacity: 0.5;
+  }
   color: $black;
   position: relative;
   flex-shrink: 0;
@@ -765,7 +771,7 @@ textarea {
 .tags {
   display: flex;
   flex-wrap: wrap;
-  gap: 4px 8px;
+  gap: 2px 8px;
   color: $tag-text;
   font-size: var(--text-small, 12px);
   overflow-wrap: anywhere;
@@ -1169,7 +1175,7 @@ textarea {
   }
   button {
     flex-shrink: 0;
-    height: 36px;
+    height: 28px;
     padding: 0 calc(4em / 5);
   }
   .rename-confirm {
@@ -1209,7 +1215,30 @@ textarea {
   &-wrap {
     padding: $content-padding;
   }
+  &.builder-fullscreen {
+    position: fixed;
+    inset: 0;
+    z-index: 70;
+    width: 100%;
+    max-width: none;
+    height: 100dvh;
+    max-height: none;
+    margin: 0;
+    border: 0;
+    background: $page;
+    &[open] {
+      @include flex-column;
+    }
+  }
+  &-fullscreen-toggle {
+    flex-shrink: 0;
+  }
+  &-unavailable {
+    color: $muted;
+    font-size: var(--text-small, 12px);
+  }
   &-title {
+    @include flex-row($justify: space-between);
     margin: 12px 0;
     color: $black;
     font-size: var(--text-title, 16px);

@@ -106,6 +106,10 @@ export default function App() {
   });
   const [query, setQuery] = useState('');
   const [photo, setPhoto] = useState(false);
+  const [builderType, setBuilderType] = useState<'illustration' | 'photo' | 'design'>(
+    'illustration',
+  );
+  const builderPhoto = builderType === 'photo';
   const [active, setActive] = useState('all');
   const [illustrationSelection, setIllustrationSelection] = useState(initial);
   const [photoSelection, setPhotoSelection] = useState<Selection>({
@@ -128,10 +132,13 @@ export default function App() {
   const [toastVersion, setToastVersion] = useState(0);
   const [modal, setModal] = useState<'prompt' | 'image' | null>(null);
   const modalRef = useRef<HTMLDialogElement>(null);
-  const selection = photo ? photoSelection : illustrationSelection;
-  const setSelection = photo ? setPhotoSelection : setIllustrationSelection;
+  const selection = builderPhoto ? photoSelection : illustrationSelection;
+  const setSelection = builderPhoto ? setPhotoSelection : setIllustrationSelection;
   const currentGroups = photo ? photoGroups : groups;
-  const prompt = makePrompt(catalog, selection, complexity, fields, photo);
+  const prompt =
+    builderType === 'design'
+      ? ''
+      : makePrompt(catalog, selection, complexity, fields, builderPhoto);
   const visibleGroups = currentGroups.filter(
     (g) =>
       (active === 'all' || g.id === active) &&
@@ -235,7 +242,7 @@ export default function App() {
     const value: StylePreset = {
       id: id ?? crypto.randomUUID(),
       name: name.trim(),
-      photo,
+      photo: builderPhoto,
       selection: structuredClone(selection),
       complexity,
       fields: { ...fields },
@@ -358,7 +365,9 @@ export default function App() {
               setComplexity={setComplexity}
               fields={fields}
               setFields={setFields}
-              photo={photo}
+              photo={builderPhoto}
+              type={builderType}
+              setType={setBuilderType}
               close={() => setBuilder(false)}
               prompt={prompt}
               copy={copy}

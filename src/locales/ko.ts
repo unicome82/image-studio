@@ -1,4 +1,9 @@
 const translation: Record<string, string> = {
+  Type: '유형',
+  Design: '디자인',
+  'Design prompts are not available yet.': '디자인 프롬프트는 아직 제공되지 않습니다.',
+  'View Builder fullscreen': '빌더 전체화면으로 보기',
+  'Exit Builder fullscreen': '빌더 전체화면 종료',
   'Expand Builder output': '빌더 결과 펼치기',
   'Collapse Builder output': '빌더 결과 접기',
   'Random generation if left blank': '미입력시 랜덤생성',

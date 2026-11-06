@@ -1,4 +1,9 @@
 const translation: Record<string, string> = {
+  Type: 'Type',
+  Design: 'Design',
+  'Design prompts are not available yet.': 'Design prompts are not available yet.',
+  'View Builder fullscreen': 'View Builder fullscreen',
+  'Exit Builder fullscreen': 'Exit Builder fullscreen',
   'Expand Builder output': 'Expand Builder output',
   'Collapse Builder output': 'Collapse Builder output',
   'Random generation if left blank': 'Random generation if left blank',

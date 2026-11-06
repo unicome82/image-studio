@@ -10,6 +10,7 @@ export type IconName =
   | 'search'
   | 'check'
   | 'fullscreen'
+  | 'fullscreen_exit'
   | 'format_list_bulleted'
   | 'save'
   | 'edit'
