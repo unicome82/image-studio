@@ -737,13 +737,19 @@ textarea,
     letter-spacing: normal;
     overflow-wrap: anywhere;
   }
-  &-scroll > .prompt-textarea {
-    margin-top: 16px;
-    max-height: min(320px, 40dvh);
+  &-scroll {
+    > h3 {
+      @include builder-option-heading;
+      margin-top: 16px;
+    }
+    > .prompt-textarea {
+      max-height: min(320px, 40dvh);
+    }
   }
   &-actions {
     position: sticky;
     bottom: 0;
+    margin-top: auto;
     z-index: 3;
     @include sticky-surface;
     flex-shrink: 0;
@@ -1313,6 +1319,7 @@ textarea,
   }
   .panel-heading {
     margin-bottom: 20px;
+    border-bottom: 0;
   }
   @media (max-width: $mobile) {
     padding-inline: 20px;

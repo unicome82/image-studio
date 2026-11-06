@@ -66,6 +66,7 @@ export default function ImageDetail(p: Props) {
           />
         </div>
         <SelectedOptions {...p.saveOptions} english />
+        <h3>{t('Prompt')}</h3>
         <div
           className="prompt-textarea"
           aria-label={t('Selected style prompt')}
