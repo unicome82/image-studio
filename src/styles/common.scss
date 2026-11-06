@@ -462,7 +462,7 @@ textarea,
 }
 .brand {
   display: inline-flex;
-  align-items: center;
+  align-items: baseline;
   gap: 4px;
   white-space: nowrap;
   font-size: var(--text-brand, 16px);
