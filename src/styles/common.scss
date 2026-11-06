@@ -1262,6 +1262,17 @@ textarea {
       gap: 20px;
       padding: $content-padding;
     }
+    &-box {
+      position: sticky;
+      top: 0;
+      flex-shrink: 0;
+      @include flex-column;
+      gap: 20px;
+      padding: 16px;
+      border: 1px solid $line;
+      border-radius: 8px;
+      background: $page;
+    }
     h3 {
       @include builder-option-heading;
     }
@@ -1275,7 +1286,6 @@ textarea {
       flex-shrink: 0;
       margin: 0;
       padding: $content-padding;
-      border-top: 1px solid $line;
       background: $page;
       button {
         @include uppercase-text;
@@ -1287,11 +1297,12 @@ textarea {
   }
   &-fullscreen-prompt {
     @include flex-column;
-    flex: 1;
-    min-height: 160px;
+    flex-shrink: 0;
     .prompt-textarea {
-      flex: 1;
+      height: auto;
       min-height: 120px;
+      max-height: max(120px, min(60dvh, 640px));
+      overflow-y: auto;
     }
   }
   &-fullscreen-toggle {
@@ -1312,7 +1323,7 @@ textarea {
   &-title {
     flex: 1;
     @include flex-row($justify: space-between);
-    margin: 12px 0;
+    margin: 0 0 12px;
     color: $black;
     font-size: var(--text-title, 16px);
     font-weight: 700;

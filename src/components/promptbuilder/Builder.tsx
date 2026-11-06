@@ -1,4 +1,4 @@
-import { useEffect, useId, useState } from 'react';
+import { useEffect, useId, useLayoutEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import Icon from '../Icon';
 import OptionChoices from './OptionChoices';
@@ -37,6 +37,24 @@ export default function Builder(p: Props) {
   const [fullscreen, setFullscreen] = useState(false);
   const mobile = useMediaQuery('(max-width: 600px)');
   const fullscreenView = fullscreen && !mobile;
+  const fullscreenPrompt = useRef<HTMLTextAreaElement>(null);
+  useLayoutEffect(() => {
+    const textarea = fullscreenPrompt.current;
+    if (!fullscreenView || !textarea) return;
+    const resize = () => {
+      textarea.style.height = 'auto';
+      textarea.style.height = `${textarea.scrollHeight + textarea.offsetHeight - textarea.clientHeight}px`;
+    };
+    resize();
+    let width = textarea.getBoundingClientRect().width;
+    const observer = new ResizeObserver(([entry]) => {
+      if (entry.contentRect.width === width) return;
+      width = entry.contentRect.width;
+      resize();
+    });
+    observer.observe(textarea);
+    return () => observer.disconnect();
+  }, [fullscreenView, p.prompt]);
   const design = p.type === 'design';
   const configuration = JSON.stringify([p.selection, p.fields, p.complexity, p.type]);
   const [outputCollapsed, setOutputCollapsed] = useState(false);
@@ -271,22 +289,25 @@ export default function Builder(p: Props) {
         (fullscreenView ? (
           <div className="builder-fullscreen-output">
             <div className="builder-fullscreen-output-scroll">
-              <section className="builder-fullscreen-selected" aria-label={t('Selected')}>
-                <h3>{t('Selected')}</h3>
-                {selectedOptions}
-              </section>
-              <section className="builder-fullscreen-prompt">
-                <h3>
-                  <label htmlFor={`${tabsId}-fullscreen-prompt`}>{t('Prompt')}</label>
-                </h3>
-                <textarea
-                  id={`${tabsId}-fullscreen-prompt`}
-                  className="prompt-textarea"
-                  aria-label={t('Builder prompt')}
-                  readOnly
-                  value={p.prompt}
-                />
-              </section>
+              <div className="builder-fullscreen-output-box">
+                <section className="builder-fullscreen-selected" aria-label={t('Selected')}>
+                  <h3>{t('Selected')}</h3>
+                  {selectedOptions}
+                </section>
+                <section className="builder-fullscreen-prompt">
+                  <h3>
+                    <label htmlFor={`${tabsId}-fullscreen-prompt`}>{t('Prompt')}</label>
+                  </h3>
+                  <textarea
+                    ref={fullscreenPrompt}
+                    id={`${tabsId}-fullscreen-prompt`}
+                    className="prompt-textarea"
+                    aria-label={t('Builder prompt')}
+                    readOnly
+                    value={p.prompt}
+                  />
+                </section>
+              </div>
             </div>
             {promptActions}
           </div>
