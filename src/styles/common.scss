@@ -1252,6 +1252,7 @@ textarea {
     }
     > .builder-heading {
       grid-column: 1 / -1;
+      border-bottom: 1px solid $line;
     }
     > .builder-scroll {
       grid-column: 1;
@@ -1270,17 +1271,6 @@ textarea {
       @include flex-column;
       gap: 20px;
       padding: $content-padding;
-    }
-    &-box {
-      position: sticky;
-      top: 0;
-      flex-shrink: 0;
-      @include flex-column;
-      gap: 20px;
-      padding: 16px;
-      border: 1px solid $line;
-      border-radius: 8px;
-      background: $page;
     }
     h3 {
       @include builder-option-heading;
@@ -1306,12 +1296,11 @@ textarea {
   }
   &-fullscreen-prompt {
     @include flex-column;
-    flex-shrink: 0;
+    flex: 1;
+    min-height: 160px;
     .prompt-textarea {
-      height: auto;
+      flex: 1;
       min-height: 120px;
-      max-height: max(120px, min(60dvh, 640px));
-      overflow-y: auto;
     }
   }
   &-fullscreen-toggle {
