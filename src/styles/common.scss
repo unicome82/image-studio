@@ -1238,7 +1238,7 @@ textarea {
     gap: 8px;
   }
   &-wrap {
-    padding-inline: $content-padding;
+    padding: $content-padding;
   }
   &-title {
     margin: 12px 0 8px;
@@ -1263,7 +1263,7 @@ textarea {
   }
   &-footer {
     flex-shrink: 0;
-    padding: 20px 0 20px;
+    padding: 0;
     border-top: 1px solid $line;
     &-heading {
       @include flex-row($gap: 16px, $justify: space-between);
@@ -1327,7 +1327,6 @@ textarea {
       padding: 8px 16px 0;
     }
     &-footer {
-      padding-bottom: max(20px, env(safe-area-inset-bottom));
       .prompt-textarea {
         height: clamp(112px, 29cqw, 144px);
       }

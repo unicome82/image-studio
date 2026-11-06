@@ -51,7 +51,10 @@ export default function BuilderSelect({ label, value, options, disabled, change 
       className="builder-select"
       ref={root}
       onBlur={(event) => {
-        if (!event.currentTarget.contains(event.relatedTarget)) setOpen(false);
+        // Touch browsers may blur a menu item without focusing the tapped trigger.
+        // Outside pointerdown handles null targets; only close here for focus moving outside.
+        if (event.relatedTarget && !event.currentTarget.contains(event.relatedTarget))
+          setOpen(false);
       }}
       onKeyDown={(event) => {
         if (event.key === 'Escape') {
