@@ -549,6 +549,7 @@ textarea {
 }
 .thumbnail-sizes {
   @include flex-row;
+  margin-right: -8px;
   flex-shrink: 0;
   .icon-button {
     width: 36px;
