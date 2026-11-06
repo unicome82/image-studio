@@ -1450,6 +1450,9 @@ textarea {
     > .builder-viewport > .builder-heading {
       grid-column: 1 / -1;
       border-bottom: 1px solid $line;
+      @media (max-width: $mobile) {
+        border-bottom: 0;
+      }
     }
     > .builder-viewport > .builder-scroll {
       grid-column: 1;
@@ -1472,7 +1475,6 @@ textarea {
         height: auto;
         max-height: 60dvh;
         border-left: 0;
-        border-top: 1px solid $line;
         background: $sticky-background;
         backdrop-filter: blur(8px);
         .builder-fullscreen-prompt {
