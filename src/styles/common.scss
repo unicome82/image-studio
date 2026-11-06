@@ -1216,7 +1216,7 @@ textarea {
       height: $input-height;
       padding: 0 calc(4em / 5);
       gap: 4px;
-      font-size: var(--button-font-size, 12px);
+      font-size: 12px;
     }
     :is(.preset-copy, .preset-delete) {
       &,
