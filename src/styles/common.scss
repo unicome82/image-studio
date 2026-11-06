@@ -837,9 +837,8 @@ textarea {
   position: sticky;
   top: var(--panel-top);
   z-index: 20;
-  margin: -12px calc(-1 * var(--gallery-padding)) 16px;
+  margin: 0 calc(-1 * var(--gallery-padding)) 40px;
   padding: 12px var(--gallery-padding);
-  border-bottom: 1px solid $line;
   background: $results-background;
   backdrop-filter: blur(8px);
   .section-heading {
@@ -891,7 +890,7 @@ textarea {
     100vw - var(--gallery-left, 0px) - var(--gallery-right, 0px) - 2 * var(--gallery-padding, 32px)
   );
   z-index: 30;
-  flex-direction: row-reverse;
+  flex-direction: row;
   column-gap: calc(var(--compose-reveal) * 8px);
   min-width: 48px;
   height: 48px;
@@ -909,17 +908,18 @@ textarea {
     min-width: 0;
     max-width: calc(var(--compose-reveal) * 16em);
     overflow: hidden;
-    opacity: var(--compose-reveal);
-    transform: translateX(calc((1 - var(--compose-reveal)) * 12px));
+    transform: translateX(calc((var(--compose-reveal) - 1) * 12px));
     white-space: nowrap;
     transition:
       max-width var(--transition-duration) ease,
-      opacity var(--transition-duration) ease,
       transform var(--transition-duration) ease;
     @include uppercase-text;
   }
   &:focus-visible {
     --compose-reveal: 1;
+  }
+  &:hover:not(:disabled) {
+    background: $ink;
   }
   @media (hover: hover) {
     &:hover {
@@ -931,11 +931,6 @@ textarea {
   }
 }
 .filter-panel {
-  .filter-type .builder-select-trigger {
-    font-size: var(--text-title, 16px);
-    font-weight: 700;
-    text-transform: none;
-  }
   .builder-scroll {
     flex: 1;
   }
@@ -972,6 +967,14 @@ textarea {
 .builder-select {
   position: relative;
   min-width: 0;
+  &.filter-type-select .builder-select-trigger {
+    border-radius: 4px;
+    color: $black;
+    font-size: var(--text-title, 16px);
+    font-weight: 700;
+    text-transform: none;
+    letter-spacing: normal;
+  }
   &-trigger {
     font-size: $button-font-size;
     @include flex-row($gap: 4px, $display: inline-flex);
@@ -1399,10 +1402,18 @@ textarea {
         grid-template-rows: auto minmax(0, 1fr) minmax(240px, 42dvh);
       }
       .builder-fullscreen-output {
+        position: sticky;
+        bottom: 0;
+        z-index: 3;
         grid-column: 1;
         grid-row: 3;
         border-left: 0;
         border-top: 1px solid $line;
+        background: $sticky-background;
+        backdrop-filter: blur(8px);
+        > .prompt-actions {
+          background: transparent;
+        }
       }
     }
   }

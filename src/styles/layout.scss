@@ -50,13 +50,7 @@
   flex-direction: column;
   min-height: calc(100dvh - var(--panel-top));
   min-width: 0;
-  padding: 28px var(--gallery-padding) 88px;
-  @media (max-width: $tablet) {
-    padding: 32px var(--gallery-padding) 88px;
-  }
-  @media (max-width: $mobile) {
-    padding: 20px var(--gallery-padding) 88px;
-  }
+  padding: 0 var(--gallery-padding) 88px;
 }
 .mobile-scrim,
 .detail-scrim {

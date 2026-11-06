@@ -8,13 +8,14 @@ All / Illustration / Photo / Design dropdown. All and Design show shared options
 Illustration and Photo add their own categories. Type changes keep shared choices
 and clear incompatible categories. The restart icon clears filters and search,
 preserving the current type. When the panel is closed, its type selector appears
-immediately after the results toolbar's filter icon, keeping the same selection.
+immediately after the results toolbar's filter icon with the same typography and
+control styling, keeping the same selection.
 Filter selection is unlimited. No selected options, or every available option in
 a category, means that category does not restrict results, including records with
 missing option metadata. Other categories remain active. Options use OR within
 each category and AND across categories.
 
-The results toolbar contains the filter toggle, a small result count, and thumbnail
+The results toolbar contains the filter toggle, a numeric-only count, and thumbnail
 size or collection sorting controls. The toolbar sticks during scrolling with
 8px backdrop blur; the main header has a bottom border. Selected filters appear
 as removable chips without an extra heading, and the chip row disappears when
@@ -23,13 +24,14 @@ navigation and ALL / SELECTED labels are removed. Collection sorting uses compac
 New / Old / A–Z / Z–A labels (최신 / 과거 / 가–하 / 하–가 in Korean).
 
 The bottom-right floating button shows an icon at rest. On hover or keyboard focus,
-GENERATE PROMPT slides out to its left, keeping the icon anchored at the right.
+GENERATE PROMPT slides into view to the right of the icon without an opacity fade.
 Its right edge follows the gallery content, moving left of an open detail panel;
 the expanded label stays inside the gallery. Touch devices open the builder on
 the first tap without requiring hover. On mobile the filter panel slides in from
 the left, leaving 80px on the right over a black 80% backdrop with 8px blur. Tap
 outside, press Escape, or use X to close. Motion follows reduced-motion settings. Both this button and the panel's Generate
-prompt button open the full-screen builder. Closing and reopening preserves the
+prompt button open the full-screen builder. On mobile its heading and output are
+sticky with 8px backdrop blur. Closing and reopening preserves the
 draft. Newly changed filters seed the builder, while builder edits do not filter
 the gallery. The builder keeps its three-option limit (one for outline, ratio,
 and complexity). When transferred filters exceed a limit, the builder lists every

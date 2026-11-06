@@ -90,6 +90,7 @@ export function FilterTypeSelect({ type, setType }: Pick<Props, 'type' | 'setTyp
   const { t } = useTranslation();
   return (
     <BuilderSelect
+      className="filter-type-select"
       label={t('Image type')}
       value={type}
       options={(['all', 'illustration', 'photo', 'design'] as const).map((value) => ({

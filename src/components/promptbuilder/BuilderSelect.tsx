@@ -5,9 +5,17 @@ interface Props {
   value: string;
   options: { value: string; label: string }[];
   disabled?: boolean;
+  className?: string;
   change: (value: string) => void;
 }
-export default function BuilderSelect({ label, value, options, disabled, change }: Props) {
+export default function BuilderSelect({
+  label,
+  value,
+  options,
+  disabled,
+  change,
+  className = '',
+}: Props) {
   const [open, setOpen] = useState(false);
   const root = useRef<HTMLDivElement>(null);
   const trigger = useRef<HTMLButtonElement>(null);
@@ -52,7 +60,7 @@ export default function BuilderSelect({ label, value, options, disabled, change 
   }, [open]);
   return (
     <div
-      className="builder-select"
+      className={`builder-select ${className}`.trim()}
       ref={root}
       onBlur={(event) => {
         // Touch browsers may blur a menu item without focusing the tapped trigger.

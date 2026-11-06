@@ -564,7 +564,7 @@ export default function App() {
                 </button>
                 {!builder && <FilterTypeSelect type={filterType} setType={changeFilterType} />}
                 <span className="result-count" role="status" aria-live="polite">
-                  {t('{{count}} results', { count: resultCount })}
+                  {resultCount}
                 </span>
               </div>
               <div className="gallery-heading-actions">
