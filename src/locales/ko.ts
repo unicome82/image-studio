@@ -1,4 +1,11 @@
 const translation: Record<string, string> = {
+  Sort: '정렬',
+  'Recently saved': '최근 저장순',
+  'Oldest saved': '오래된 저장순',
+  'Name A–Z': '이름 오름차순',
+  'Name Z–A': '이름 내림차순',
+  Favorites: '관심',
+
   'Download sample PNG': '샘플 PNG 다운로드',
   'Try another keyword or explore a different style.':
     '다른 검색어를 입력하거나 새로운 스타일을 둘러보세요.',

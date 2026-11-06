@@ -1,9 +1,11 @@
 import { useTranslation } from 'react-i18next';
 import Icon from '../Icon';
-import { useState } from 'react';
+import { useState, type ReactNode } from 'react';
+import SelectedOptions from './SelectedOptions';
 import type { StylePreset } from '../../utils/presets';
 import { makePrompt, type Option } from '../../utils/promptBuilder';
 interface Props {
+  headingAction?: ReactNode;
   presets: StylePreset[];
   catalog: Option[];
   rename: (id: string, name: string) => boolean;
@@ -19,9 +21,10 @@ export default function Presets(p: Props) {
     <section className="presets-page" aria-label={t('Saved style sets')}>
       <div className="section-heading">
         <h2>
-          {t('Prompts')}
+          {t('Saved style sets')}
           <span>{p.presets.length}</span>
         </h2>
+        {p.headingAction}
       </div>
       <div className="preset-list">
         {p.presets.length === 0 ? (
@@ -128,6 +131,16 @@ export default function Presets(p: Props) {
                     </div>
                   </div>
                 )}
+                <div className="preset-selected">
+                  <h3>{t('Selected')}</h3>
+                  <SelectedOptions
+                    catalog={p.catalog}
+                    selection={preset.selection}
+                    fields={preset.fields}
+                    photo={preset.photo}
+                    complexity={preset.complexity}
+                  />
+                </div>
                 <textarea
                   className="prompt-textarea preset-prompt"
                   aria-label={t('{{name}} prompt', { name: preset.name })}

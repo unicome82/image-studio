@@ -6,6 +6,9 @@ import catalog from 'virtual:prompt-catalog';
 import Header from './components/Header';
 import Navigation from './components/Navigation';
 import Gallery from './components/Gallery';
+import CollectionSort from './components/CollectionSort';
+import { sortCollection, type CollectionSort as SortOrder } from './utils/collectionSort';
+import { imageName } from './utils/imageName';
 import ImageDetail from './components/ImageDetail';
 import type { GalleryTile as Tile } from './types';
 import ImagePreview from './components/ImagePreview';
@@ -92,11 +95,13 @@ function storedBookmarks(): string[] {
   }
 }
 export default function App() {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const [copyFallback, setCopyFallback] = useState('');
   const [builderWidth, setBuilderWidth] = useState(280);
   const [builder, setBuilder] = useState(() => window.innerWidth > 1100);
   const [presetOpen, setPresetOpen] = useState(false);
+  const [favoriteSort, setFavoriteSort] = useState<SortOrder>('newest');
+  const [presetSort, setPresetSort] = useState<SortOrder>('newest');
   const [presets, setPresets] = useState<StylePreset[]>(() => {
     try {
       return parsePresets(localStorage.getItem(presetKey), catalog);
@@ -129,6 +134,8 @@ export default function App() {
   const [selected, setSelected] = useState<Tile | null>(null);
   const [bookmarks, setBookmarks] = useState(storedBookmarks);
   const [onlySaved, setOnlySaved] = useState(false);
+  const collectionView = onlySaved || presetOpen;
+  const showBuilder = builder && !collectionView;
   const [toast, setToast] = useState('');
   const [toastVersion, setToastVersion] = useState(0);
   const [modal, setModal] = useState<'prompt' | 'image' | null>(null);
@@ -140,29 +147,61 @@ export default function App() {
     builderType === 'design'
       ? ''
       : makePrompt(catalog, selection, complexity, fields, builderPhoto);
-  const visibleGroups = currentGroups.filter(
-    (g) =>
-      (active === 'all' || g.id === active) &&
-      `${g.label} ${t(g.label)} ${g.id}`.toLowerCase().includes(query.trim().toLowerCase()),
-  );
-  const tileGroups = visibleGroups.map((group) => ({
-    ...group,
-    tiles: group.colors
-      .map((color, index) => ({
-        id: `${photo ? 'photo' : 'illustration'}-${group.id}-${index}`,
-        group: group.id,
+  const sources = onlySaved
+    ? [
+        { photo: false, groups },
+        { photo: true, groups: photoGroups },
+      ]
+    : [{ photo, groups: currentGroups }];
+  const tileGroups = sources.flatMap((source) =>
+    source.groups
+      .filter(
+        (group) =>
+          (onlySaved || active === 'all' || group.id === active) &&
+          `${group.label} ${t(group.label)} ${group.id}`
+            .toLowerCase()
+            .includes(query.trim().toLowerCase()),
+      )
+      .map((group) => ({
+        id: group.id,
         label: group.label,
-        color,
-        index,
-        width: 1200,
-        height: [1500, 900, 1800, 1200, 1600, 1000, 1400, 1900][index],
-      }))
-      .filter((t) => !onlySaved || bookmarks.includes(t.id)),
-  }));
-  const displayGroups =
-    active === 'all'
-      ? [{ id: 'all', label: 'All', tiles: tileGroups.flatMap((g) => g.tiles) }]
+        tiles: group.colors
+          .map((color, index) => ({
+            id: `${source.photo ? 'photo' : 'illustration'}-${group.id}-${index}`,
+            group: group.id,
+            label: group.label,
+            color,
+            index,
+            width: 1200,
+            height: [1500, 900, 1800, 1200, 1600, 1000, 1400, 1900][index],
+          }))
+          .filter((tile) => !onlySaved || bookmarks.includes(tile.id)),
+      })),
+  );
+  const displayGroups = onlySaved
+    ? [
+        {
+          id: 'favorites',
+          label: 'Favorites',
+          tiles: sortCollection(
+            tileGroups.flatMap((group) => group.tiles),
+            favoriteSort,
+            imageName,
+            (tile) => bookmarks.indexOf(tile.id),
+            i18n.resolvedLanguage ?? 'en',
+          ),
+        },
+      ]
+    : active === 'all'
+      ? [{ id: 'all', label: 'All', tiles: tileGroups.flatMap((group) => group.tiles) }]
       : tileGroups;
+  const visiblePresets = sortCollection(
+    presets.filter((preset) => preset.name.toLowerCase().includes(query.trim().toLowerCase())),
+    presetSort,
+    (preset) => preset.name,
+    (preset) => -presets.indexOf(preset),
+    i18n.resolvedLanguage ?? 'en',
+  );
   const toggleBookmark = (id: string) =>
     setBookmarks((prev) => (prev.includes(id) ? prev.filter((x) => x !== id) : [...prev, id]));
   useEffect(() => {
@@ -262,16 +301,20 @@ export default function App() {
     }
     return persistPresets(presets.map((p) => (p.id === id ? { ...p, name: name.trim() } : p)));
   }
+  const detailPhoto = selected ? selected.id.startsWith('photo-') : photo;
   const selectedOption = selected
     ? catalog.find(
         (o) =>
           o.category ===
-            (photo ? 'Photography' : selected.group === 'risograph' ? 'Technique' : 'Base Style') &&
-          o.id === selected.group,
+            (detailPhoto
+              ? 'Photography'
+              : selected.group === 'risograph'
+                ? 'Technique'
+                : 'Base Style') && o.id === selected.group,
       )
     : undefined;
   const detailPreset = {
-    photo,
+    photo: detailPhoto,
     selection: selectedOption ? { [selectedOption.category]: [selectedOption.id] } : {},
     complexity: 3,
     fields: {
@@ -284,11 +327,11 @@ export default function App() {
     detailPreset.selection,
     detailPreset.complexity,
     detailPreset.fields,
-    photo,
+    detailPhoto,
   );
   const detailPrompt = selectedOption?.prompt ?? '';
   return (
-    <>
+    <div className={collectionView ? 'collection-view' : undefined}>
       <Header
         home={() => {
           setPhoto(false);
@@ -310,6 +353,7 @@ export default function App() {
         showPrompts={presetOpen}
         toggleBookmarks={() => {
           setOnlySaved(!onlySaved);
+          setQuery('');
           setPresetOpen(false);
           setSelected(null);
           window.scrollTo({ top: 0 });
@@ -322,22 +366,24 @@ export default function App() {
           window.scrollTo({ top: 0 });
         }}
       />
-      <Navigation
-        builder={builder}
-        photo={photo}
-        active={active}
-        groups={currentGroups}
-        toggleBuilder={() => setBuilder(!builder)}
-        switchType={switchType}
-        navigate={navigate}
-      />
+      {!collectionView && (
+        <Navigation
+          builder={builder}
+          photo={photo}
+          active={active}
+          groups={currentGroups}
+          toggleBuilder={() => setBuilder(!builder)}
+          switchType={switchType}
+          navigate={navigate}
+        />
+      )}
       <div
         className={
-          'workspace ' + (builder ? 'with-builder ' : '') + (selected ? 'with-detail' : '')
+          'workspace ' + (showBuilder ? 'with-builder ' : '') + (selected ? 'with-detail' : '')
         }
         style={{ '--builder-width': `${builderWidth}px` } as CSSProperties}
       >
-        {builder && (
+        {showBuilder && (
           <>
             <button
               className="mobile-scrim"
@@ -376,12 +422,16 @@ export default function App() {
             />
           </>
         )}
-        <main className="gallery" aria-label={t(presetOpen ? 'Saved prompts' : 'Image gallery')}>
+        <main
+          className="gallery"
+          aria-label={t(
+            presetOpen ? 'Saved style sets' : onlySaved ? 'Favorites' : 'Image gallery',
+          )}
+        >
           {presetOpen ? (
             <Presets
-              presets={presets.filter((p) =>
-                p.name.toLowerCase().includes(query.trim().toLowerCase()),
-              )}
+              presets={visiblePresets}
+              headingAction={<CollectionSort value={presetSort} change={setPresetSort} />}
               catalog={catalog}
               rename={renamePreset}
               remove={(id) => {
@@ -392,9 +442,16 @@ export default function App() {
             />
           ) : (
             <Gallery
+              headingAction={
+                onlySaved ? (
+                  <CollectionSort value={favoriteSort} change={setFavoriteSort} />
+                ) : undefined
+              }
               largeThumbnails={largeThumbnails}
               setLargeThumbnails={setLargeThumbnails}
-              groups={displayGroups.filter((group) => group.id === 'all' || group.tiles.length > 0)}
+              groups={displayGroups.filter(
+                (group) => group.id === 'all' || group.id === 'favorites' || group.tiles.length > 0,
+              )}
               bookmarks={bookmarks}
               selectedId={selected?.id}
               emptyMessage={query ? 'No results' : onlySaved ? 'No bookmarks' : 'No images'}
@@ -418,7 +475,7 @@ export default function App() {
             />
             <ImageDetail
               image={selected}
-              photo={photo}
+              photo={detailPhoto}
               bookmarked={bookmarks.includes(selected.id)}
               stylePrompt={detailPrompt}
               savePreview={detailSavePrompt}
@@ -473,6 +530,6 @@ export default function App() {
           </div>,
           Array.from(document.querySelectorAll('dialog[open]')).at(-1) ?? document.body,
         )}
-    </>
+    </div>
   );
 }

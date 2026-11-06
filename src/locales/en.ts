@@ -1,4 +1,11 @@
 const translation: Record<string, string> = {
+  Sort: 'Sort',
+  'Recently saved': 'Recently saved',
+  'Oldest saved': 'Oldest saved',
+  'Name A–Z': 'Name A–Z',
+  'Name Z–A': 'Name Z–A',
+  Favorites: 'Favorites',
+
   'Download sample PNG': 'Download sample PNG',
   'Try another keyword or explore a different style.':
     'Try another keyword or explore a different style.',

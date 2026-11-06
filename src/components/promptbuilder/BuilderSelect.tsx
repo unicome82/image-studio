@@ -20,11 +20,15 @@ export default function BuilderSelect({ label, value, options, disabled, change 
     function position() {
       const bounds = trigger.current?.getBoundingClientRect();
       if (!bounds || !dropdown) return;
-      dropdown.style.left = `${bounds.left}px`;
+      const left = Math.max(
+        8,
+        Math.min(bounds.left, window.innerWidth - dropdown.getBoundingClientRect().width - 8),
+      );
+      dropdown.style.left = `${left}px`;
       dropdown.style.top = `${bounds.bottom + 8}px`;
     }
-    position();
     dropdown?.showPopover();
+    position();
     window.addEventListener('resize', position);
     document.addEventListener('scroll', position, true);
     const items = menu.current?.querySelectorAll<HTMLButtonElement>('[role="menuitemradio"]');

@@ -1,6 +1,9 @@
 @use './variable' as *;
 @use './mixin' as *;
 
+.collection-view {
+  --panel-top: max(var(--header-visible), env(safe-area-inset-top, 0px));
+}
 .workspace {
   --detail-width: 320px;
   display: grid;
