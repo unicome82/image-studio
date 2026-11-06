@@ -994,7 +994,7 @@ textarea {
   gap: 4px;
   max-height: 96px;
   margin-right: -$content-padding;
-  padding-right: $content-padding;
+  padding: 20px 0;
   overflow: auto;
 }
 .selected-option {
@@ -1278,7 +1278,7 @@ textarea {
     .selected-options {
       max-height: none;
       margin: 0;
-      padding: 0;
+      padding: 20px 0;
       overflow: visible;
     }
     > .prompt-actions {
@@ -1367,14 +1367,15 @@ textarea {
         opacity: 0.5;
       }
     }
-    &.collapsed {
-      .prompt-actions {
-        margin-top: 0;
-      }
+    .prompt-actions {
+      margin-top: 0;
     }
     .prompt-textarea {
       height: 96px;
     }
+  }
+  &-output-content {
+    padding: 20px 0;
   }
   &-output {
     animation: output-reveal var(--transition-duration) ease-out;
@@ -1387,7 +1388,7 @@ textarea {
   }
   .generate-prompt {
     @include prompt-action-button;
-    margin-top: 12px;
+    margin-top: 0;
     width: 100%;
   }
   @media (max-width: $tablet) {

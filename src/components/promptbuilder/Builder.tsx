@@ -114,6 +114,15 @@ export default function Builder(p: Props) {
       </div>
       <div className="builder-scroll">
         <div className="builder-wrap">
+          {!design && (
+            <input
+              id={`${tabsId}-subject`}
+              className="builder-subject"
+              placeholder={t('Random generation if left blank')}
+              value={p.fields.Subject ?? ''}
+              onChange={(e) => p.setFields({ ...p.fields, Subject: e.target.value })}
+            />
+          )}
           <section className="option-section builder-type">
             <OptionChoices
               title="Type"
@@ -132,13 +141,6 @@ export default function Builder(p: Props) {
             <p className="builder-unavailable">{t('Design prompts are not available yet.')}</p>
           ) : (
             <>
-              <input
-                id={`${tabsId}-subject`}
-                className="builder-subject"
-                placeholder={t('Random generation if left blank')}
-                value={p.fields.Subject ?? ''}
-                onChange={(e) => p.setFields({ ...p.fields, Subject: e.target.value })}
-              />
               {!p.photo && (
                 <section className="option-section">
                   <OptionChoices
