@@ -10,6 +10,8 @@ export type IconName =
   | 'cloud_upload'
   | 'download'
   | 'auto_awesome'
+  | 'filter_list'
+  | 'restart_alt'
   | 'search'
   | 'check'
   | 'fullscreen'

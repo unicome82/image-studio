@@ -1,13 +1,9 @@
 import { useTranslation } from 'react-i18next';
-import Icon from './Icon';
-import type { ReactNode } from 'react';
 import FavoriteButton from './FavoriteButton';
 import { imageName } from '../utils/imageName';
 import type { GallerySection, GalleryTile } from '../types';
 interface Props {
-  headingAction?: ReactNode;
   largeThumbnails: boolean;
-  setLargeThumbnails: (large: boolean) => void;
   groups: GallerySection[];
   bookmarks: string[];
   selectedId?: string;
@@ -22,35 +18,6 @@ export default function Gallery(p: Props) {
     <>
       {p.groups.map((group) => (
         <section className="gallery-section" id={'section-' + group.id} key={group.id}>
-          <div className="section-heading">
-            <h2>
-              {t(group.label)}
-              <span>{group.tiles.length}</span>
-            </h2>
-            <div className="gallery-heading-actions">
-              {p.headingAction}
-              <div className="thumbnail-sizes" role="group" aria-label={t('Thumbnail size')}>
-                <button
-                  className="icon-button"
-                  aria-label={t('Small thumbnails')}
-                  title={t('Small thumbnails')}
-                  aria-pressed={!p.largeThumbnails}
-                  onClick={() => p.setLargeThumbnails(false)}
-                >
-                  <Icon name="grid_view" size="20" className={!p.largeThumbnails ? 'fill' : ''} />
-                </button>
-                <button
-                  className="icon-button"
-                  aria-label={t('Large thumbnails')}
-                  title={t('Large thumbnails')}
-                  aria-pressed={p.largeThumbnails}
-                  onClick={() => p.setLargeThumbnails(true)}
-                >
-                  <Icon name="view_agenda" size="20" className={p.largeThumbnails ? 'fill' : ''} />
-                </button>
-              </div>
-            </div>
-          </div>
           <div className={'image-grid' + (p.largeThumbnails ? ' large' : '')}>
             {group.tiles.map((tile) => (
               <article

@@ -1,4 +1,11 @@
 const translation: Record<string, string> = {
+  Filter: 'Filter',
+  'Reset filters': 'Reset filters',
+  'Close filters': 'Close filters',
+  'Selected filters': 'Selected filters',
+  'Toggle filters': 'Toggle filters',
+  'Reset Builder': 'Reset Builder',
+  'Write prompt': 'Write prompt',
   Sort: 'Sort',
   'Recently saved': 'Recently saved',
   'Oldest saved': 'Oldest saved',

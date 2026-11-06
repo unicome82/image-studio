@@ -1,12 +1,10 @@
-import { useEffect, useId, useState } from 'react';
+import { useId } from 'react';
 import { useTranslation } from 'react-i18next';
 import Icon from '../Icon';
 import OptionChoices from './OptionChoices';
 import SelectedOptions from './SelectedOptions';
-import ResizeHandle from './ResizeHandle';
 import SavePrompt from './SavePrompt';
 import Panel from '../Panel';
-import { useMediaQuery } from '../../utils/useMediaQuery';
 import {
   builderCategories,
   complexityLabels,
@@ -14,8 +12,7 @@ import {
 } from '../../utils/promptBuilder';
 import type { Option, Selection } from '../../utils/promptBuilder';
 interface Props {
-  width: number;
-  resize: (width: number) => void;
+  reset: () => void;
   catalog: Option[];
   selection: Selection;
   toggle: (category: string, id: string) => void;
@@ -34,17 +31,7 @@ interface Props {
 }
 export default function Builder(p: Props) {
   const { t } = useTranslation();
-  const [fullscreen, setFullscreen] = useState(false);
-  const mobile = useMediaQuery('(max-width: 600px)');
-  const fullscreenView = fullscreen && !mobile;
   const design = p.type === 'design';
-  const configuration = JSON.stringify([p.selection, p.fields, p.complexity, p.type]);
-  const [outputCollapsed, setOutputCollapsed] = useState(false);
-  const [generated, setGenerated] = useState<string | null>(null);
-  const showPrompt = generated === configuration;
-  useEffect(() => {
-    setGenerated(null);
-  }, [configuration]);
   const tabsId = useId();
   const categories = builderCategories(p.photo).filter((category) => category !== 'Outline');
   const selectedOptions = (
@@ -78,32 +65,25 @@ export default function Builder(p: Props) {
   );
   return (
     <Panel
-      className={'builder' + (fullscreenView ? ' builder-fullscreen' : '')}
+      className="builder builder-fullscreen"
       label={t('Prompt Builder')}
-      fullscreen={fullscreenView}
-      close={() => (fullscreenView ? setFullscreen(false) : p.close())}
+      fullscreen
+      close={p.close}
     >
-      {!fullscreenView && <ResizeHandle width={p.width} resize={p.resize} />}
       <div className="builder-viewport">
         <div className="builder-wrap builder-heading">
           <h2 className="builder-title">
             <label htmlFor={`${tabsId}-subject`}>{t('What would you like to draw?')}</label>
             <button
-              className={
-                'icon-button builder-fullscreen-toggle' + (fullscreenView ? ' close-button' : '')
-              }
-              aria-label={t(fullscreenView ? 'Exit Builder fullscreen' : 'View Builder fullscreen')}
-              aria-pressed={fullscreenView}
-              onClick={() => setFullscreen(!fullscreen)}
+              className="icon-button"
+              aria-label={t('Reset Builder')}
+              title={t('Reset Builder')}
+              onClick={p.reset}
             >
-              <Icon
-                name={fullscreenView ? 'close' : 'fullscreen'}
-                size={fullscreenView ? '24' : '20'}
-                className={fullscreenView ? 'w200' : ''}
-              />
+              <Icon name="restart_alt" size="20" />
             </button>
           </h2>
-          <div className="builder-mobile-close">
+          <div className="builder-composer-close">
             <button
               className="icon-button close-button"
               aria-label={t('Close Builder')}
@@ -270,118 +250,29 @@ export default function Builder(p: Props) {
             )}
           </div>
         </div>
-        {!design &&
-          (fullscreenView ? (
-            <div className="builder-fullscreen-output">
-              <div className="builder-fullscreen-output-scroll">
-                <section className="builder-fullscreen-selected" aria-label={t('Selected')}>
-                  <h3>{t('Selected')}</h3>
-                  {selectedOptions}
-                </section>
-                <section className="builder-fullscreen-prompt">
-                  <h3>
-                    <label htmlFor={`${tabsId}-fullscreen-prompt`}>{t('Prompt')}</label>
-                  </h3>
-                  <textarea
-                    id={`${tabsId}-fullscreen-prompt`}
-                    className="prompt-textarea"
-                    aria-label={t('Builder prompt')}
-                    readOnly
-                    value={p.prompt}
-                  />
-                </section>
-              </div>
-              {promptActions}
+        {!design && (
+          <div className="builder-fullscreen-output">
+            <div className="builder-fullscreen-output-scroll">
+              <section className="builder-fullscreen-selected" aria-label={t('Selected')}>
+                <h3>{t('Selected')}</h3>
+                {selectedOptions}
+              </section>
+              <section className="builder-fullscreen-prompt">
+                <h3>
+                  <label htmlFor={`${tabsId}-fullscreen-prompt`}>{t('Prompt')}</label>
+                </h3>
+                <textarea
+                  id={`${tabsId}-fullscreen-prompt`}
+                  className="prompt-textarea"
+                  aria-label={t('Builder prompt')}
+                  readOnly
+                  value={p.prompt}
+                />
+              </section>
             </div>
-          ) : (
-            <div className={'builder-footer' + (outputCollapsed ? ' collapsed' : '')}>
-              <div className="builder-wrap">
-                <div className="builder-footer-heading">
-                  <div
-                    className="builder-footer-tabs"
-                    role="tablist"
-                    aria-label={t('Builder output')}
-                  >
-                    {['Selected', 'Prompt'].map((tab, index) => (
-                      <button
-                        key={tab}
-                        id={`${tabsId}-tab-${index}`}
-                        role="tab"
-                        aria-selected={showPrompt === (index === 1)}
-                        aria-controls={`${tabsId}-panel`}
-                        tabIndex={showPrompt === (index === 1) ? 0 : -1}
-                        onClick={() => {
-                          setGenerated(index === 1 ? configuration : null);
-                          setOutputCollapsed(false);
-                        }}
-                        onKeyDown={(event) => {
-                          if (!['ArrowLeft', 'ArrowRight', 'Home', 'End'].includes(event.key))
-                            return;
-                          event.preventDefault();
-                          const next =
-                            event.key === 'Home' ? 0 : event.key === 'End' ? 1 : 1 - index;
-                          setGenerated(next === 1 ? configuration : null);
-                          setOutputCollapsed(false);
-                          document.getElementById(`${tabsId}-tab-${next}`)?.focus();
-                        }}
-                      >
-                        {t(tab)}
-                      </button>
-                    ))}
-                  </div>
-                  <button
-                    className="choice-toggle builder-output-toggle"
-                    aria-label={t(
-                      outputCollapsed ? 'Expand Builder output' : 'Collapse Builder output',
-                    )}
-                    aria-expanded={!outputCollapsed}
-                    aria-controls={`${tabsId}-content`}
-                    onClick={() => setOutputCollapsed(!outputCollapsed)}
-                  >
-                    <Icon name={outputCollapsed ? 'expand_more' : 'expand_less'} size="16" />
-                  </button>
-                </div>
-                <div
-                  className="builder-output"
-                  key={showPrompt ? 'prompt' : 'selected'}
-                  id={`${tabsId}-panel`}
-                  role="tabpanel"
-                  aria-labelledby={`${tabsId}-tab-${showPrompt ? 1 : 0}`}
-                >
-                  <div
-                    id={`${tabsId}-content`}
-                    className="builder-output-content"
-                    hidden={outputCollapsed}
-                  >
-                    {showPrompt ? (
-                      <textarea
-                        className="prompt-textarea"
-                        aria-label={t('Builder prompt')}
-                        readOnly
-                        value={p.prompt}
-                      />
-                    ) : (
-                      selectedOptions
-                    )}
-                  </div>
-                  {showPrompt ? (
-                    promptActions
-                  ) : (
-                    <button
-                      className="primary generate-prompt"
-                      onClick={() => {
-                        setGenerated(configuration);
-                        setOutputCollapsed(false);
-                      }}
-                    >
-                      <Icon name="auto_awesome" size="16" className="fill" />
-                      {t('Generate prompt')}
-                    </button>
-                  )}
-                </div>
-              </div>
-            </div>
-          ))}
+            {promptActions}
+          </div>
+        )}
       </div>
     </Panel>
   );

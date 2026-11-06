@@ -1,11 +1,10 @@
 import { useTranslation } from 'react-i18next';
 import Icon from '../Icon';
-import { useState, type ReactNode } from 'react';
+import { useState } from 'react';
 import SelectedOptions from './SelectedOptions';
 import type { StylePreset } from '../../utils/presets';
 import { makePrompt, type Option } from '../../utils/promptBuilder';
 interface Props {
-  headingAction?: ReactNode;
   presets: StylePreset[];
   catalog: Option[];
   rename: (id: string, name: string) => boolean;
@@ -19,13 +18,6 @@ export default function Presets(p: Props) {
   const [deleting, setDeleting] = useState<string | null>(null);
   return (
     <section className="presets-page" aria-label={t('Saved style sets')}>
-      <div className="section-heading">
-        <h2>
-          {t('Saved style sets')}
-          <span>{p.presets.length}</span>
-        </h2>
-        {p.headingAction}
-      </div>
       <div className="preset-list">
         {p.presets.length === 0 ? (
           <div className="preset-empty">

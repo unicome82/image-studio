@@ -1,4 +1,11 @@
 const translation: Record<string, string> = {
+  Filter: '필터',
+  'Reset filters': '필터 초기화',
+  'Close filters': '필터 닫기',
+  'Selected filters': '선택한 필터',
+  'Toggle filters': '필터 열기/닫기',
+  'Reset Builder': '작성기 초기화',
+  'Write prompt': '프롬프트 작성',
   Sort: '정렬',
   'Recently saved': '최근 저장순',
   'Oldest saved': '오래된 저장순',

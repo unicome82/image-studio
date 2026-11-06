@@ -1,5 +1,26 @@
 # Image Studio
 
+## Filter preview (`preview/filter`)
+
+The experimental UI is available at `/image-studio/preview/filter/`. The left
+panel filters the gallery, favorites, and saved style sets. No selected options
+means all records in the current view. Options use OR within each category and
+AND across categories; the result heading displays removable Selected chips.
+The panel's restart icon clears filters and search.
+
+Both the bottom-right Write prompt floating button and the panel's Generate
+prompt button open the full-screen prompt builder. Closing and reopening it
+preserves the draft. Newly changed filters seed the builder, while edits in the
+builder do not filter the gallery. Its restart icon clears the draft and optional
+choices, restoring the standard ratio, complexity, and Color Only outline mode.
+
+Gallery placeholders currently have type, style/technique, and dimension metadata.
+They do not have inferred color, texture, typography, outline, or complexity tags;
+filtering by missing metadata produces no matches. Saved style sets use their
+stored options, ratio, and complexity. Preview and main share browser storage.
+The sections below describe the original main UI where behavior differs.
+
+
 React + TypeScript + SCSS personal image gallery. The current interface uses solid-color placeholders; no images are generated or uploaded.
 
 ## Development

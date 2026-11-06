@@ -18,12 +18,12 @@ export default function Navigation(p: Props) {
     <nav className="navigation" aria-label={t('Gallery navigation')}>
       <button
         className={'builder-toggle ' + (p.builder ? 'active' : '')}
-        aria-label={t('Toggle Builder')}
+        aria-label={t('Toggle filters')}
         aria-pressed={p.builder}
         aria-expanded={p.builder}
         onClick={p.toggleBuilder}
       >
-        <Icon name="auto_awesome" size="20" className={p.builder ? 'fill' : ''} />
+        <Icon name="filter_list" size="20" className={p.builder ? 'fill' : ''} />
       </button>
       <div className="type-dropdown">
         <BuilderSelect

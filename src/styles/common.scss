@@ -931,6 +931,65 @@ textarea {
   }
 }
 
+// Gallery filters and prompt entry
+.results-heading {
+  margin-bottom: 16px;
+  .section-heading {
+    margin-bottom: 0;
+    gap: 12px;
+    h2 {
+      flex-shrink: 0;
+    }
+  }
+}
+.filter-summary {
+  margin-top: 12px;
+  h3 {
+    @include builder-option-heading;
+  }
+  .selected-options {
+    max-height: none;
+    margin: 0;
+    overflow: visible;
+  }
+  .selected-option {
+    height: auto;
+    min-height: 28px;
+    &-remove {
+      width: 28px;
+      height: 28px;
+      @media (max-width: $mobile) {
+        width: 36px;
+        height: 36px;
+      }
+    }
+  }
+}
+.compose-floating {
+  position: fixed;
+  right: 24px;
+  bottom: max(24px, env(safe-area-inset-bottom));
+  z-index: 30;
+  min-height: 48px;
+  padding: 0 20px;
+  border-radius: 24px;
+  box-shadow: 0 4px 20px rgba($black, 0.16);
+  @media (max-width: $mobile) {
+    right: 16px;
+    bottom: max(16px, env(safe-area-inset-bottom));
+    min-height: 48px;
+    padding-inline: 16px;
+  }
+}
+.filter-panel {
+  .builder-scroll {
+    flex: 1;
+  }
+  .builder-footer {
+    border-top: 1px solid $line;
+  }
+}
+
 // BuilderSelect
 .builder-select {
   position: relative;
@@ -1356,6 +1415,18 @@ textarea {
       grid-column: 1;
       min-width: 0;
     }
+    @media (max-width: $mobile) {
+      &[open] > .builder-viewport {
+        grid-template-columns: minmax(0, 1fr);
+        grid-template-rows: auto minmax(0, 1fr) minmax(240px, 42dvh);
+      }
+      .builder-fullscreen-output {
+        grid-column: 1;
+        grid-row: 3;
+        border-left: 0;
+        border-top: 1px solid $line;
+      }
+    }
   }
   &-fullscreen-output {
     grid-column: 2;
@@ -1401,13 +1472,6 @@ textarea {
       min-height: 120px;
     }
   }
-  &-fullscreen-toggle {
-    flex-shrink: 0;
-    margin-right: -8px;
-    @media (max-width: $mobile) {
-      display: none;
-    }
-  }
   &-unavailable {
     color: $muted;
     font-size: var(--text-small, 12px);
@@ -1441,6 +1505,11 @@ textarea {
   &-mobile-close {
     display: none;
   }
+  &-composer-close {
+    display: flex;
+    flex-shrink: 0;
+    margin-left: 8px;
+  }
   .typography-toggle {
     @include flex-row($display: inline-flex);
     flex-shrink: 0;
@@ -1458,42 +1527,9 @@ textarea {
     backdrop-filter: blur(8px);
     flex-shrink: 0;
     padding: 0;
-    &-heading {
-      @include flex-row($gap: 16px, $justify: space-between);
-      margin-bottom: 16px;
-    }
-    &-tabs {
-      @include flex-row($gap: 16px);
-      [role='tab'] {
-        @include builder-option-heading;
-        min-height: var(--option-height, auto);
-        margin-bottom: 0;
-        padding: 0;
-        @include uppercase-text;
-      }
-      [aria-selected='true'] {
-        color: $black;
-      }
-      [aria-selected='false'] {
-        opacity: 0.5;
-      }
-    }
-    .prompt-actions {
-      margin-top: 0;
-    }
-    .prompt-textarea {
-      height: 96px;
-    }
-  }
-  &-output-content {
-    margin-bottom: 20px;
-  }
-  &-output {
-    animation: output-reveal var(--transition-duration) ease-out;
   }
   .builder-footer {
-    .generate-prompt,
-    .prompt-actions button {
+    .generate-prompt {
       @include uppercase-text;
     }
   }
@@ -1520,12 +1556,6 @@ textarea {
       justify-content: flex-end;
       flex-shrink: 0;
       padding: 0;
-    }
-    &-footer {
-      bottom: 0;
-      .prompt-textarea {
-        height: clamp(112px, 29cqw, 144px);
-      }
     }
   }
 }
@@ -1571,13 +1601,5 @@ textarea {
 .inputs {
   textarea {
     min-height: 84px;
-  }
-}
-@keyframes output-reveal {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
   }
 }

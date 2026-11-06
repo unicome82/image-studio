@@ -37,7 +37,7 @@
   flex-direction: column;
   min-height: calc(100dvh - var(--panel-top));
   min-width: 0;
-  padding: 28px 32px 0;
+  padding: 28px 32px 88px;
   @media (min-width: 1700px) {
     padding-inline: 40px;
   }
@@ -45,10 +45,10 @@
     padding-inline: 24px;
   }
   @media (max-width: $tablet) {
-    padding: 32px;
+    padding: 32px 32px 88px;
   }
   @media (max-width: $mobile) {
-    padding: 20px 20px 0;
+    padding: 20px 20px 88px;
   }
 }
 .mobile-scrim,

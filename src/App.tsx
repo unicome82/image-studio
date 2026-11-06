@@ -9,13 +9,21 @@ import Gallery from './components/Gallery';
 import CollectionSort from './components/CollectionSort';
 import { sortCollection, type CollectionSort as SortOrder } from './utils/collectionSort';
 import { imageName } from './utils/imageName';
+import Filter, { SelectedFilters } from './components/Filter';
+import { filterMetadata, matchesFilters, normalizeRatio, toggleFilter } from './utils/filters';
 import ImageDetail from './components/ImageDetail';
 import type { GalleryTile as Tile } from './types';
 import ImagePreview from './components/ImagePreview';
 import Presets from './components/promptbuilder/Presets';
 import { parsePresets, presetKey, type StylePreset } from './utils/presets';
 import Builder from './components/promptbuilder/Builder';
-import { makePrompt, toggleOption, type Selection } from './utils/promptBuilder';
+import {
+  builderCategories,
+  complexityLabels,
+  makePrompt,
+  toggleOption,
+  type Selection,
+} from './utils/promptBuilder';
 const initial: Selection = {
   'Base Style': ['naivefolk'],
   Technique: ['risograph'],
@@ -23,6 +31,39 @@ const initial: Selection = {
   Outline: ['coloronly'],
   Composition: ['asymmetric'],
 };
+const filterCatalog = [
+  ...catalog.filter((option) => option.category !== 'Complexity'),
+  ...[
+    {
+      category: 'Type',
+      options: [
+        { id: 'illustration', label: 'Illustration' },
+        { id: 'photo', label: 'Photo' },
+      ],
+    },
+    {
+      category: 'Aspect Ratio',
+      options: [
+        ...new Set([
+          '1:1',
+          '4:3',
+          '3:4',
+          '16:9',
+          '9:16',
+          ...[1500, 900, 1800, 1200, 1600, 1000, 1400, 1900].map((height) =>
+            normalizeRatio(`1200:${height}`),
+          ),
+        ]),
+      ].map((ratio) => ({ id: ratio, label: ratio })),
+    },
+    {
+      category: 'Complexity',
+      options: complexityLabels.map((label, index) => ({ id: String(index + 1), label })),
+    },
+  ].flatMap(({ category, options }) =>
+    options.map((option) => ({ ...option, category, path: '', prompt: '' })),
+  ),
+];
 const groups = [
   {
     id: 'naivefolk',
@@ -99,6 +140,9 @@ export default function App() {
   const [copyFallback, setCopyFallback] = useState('');
   const [builderWidth, setBuilderWidth] = useState(280);
   const [builder, setBuilder] = useState(() => window.innerWidth > 1100);
+  const [composerOpen, setComposerOpen] = useState(false);
+  const [filters, setFilters] = useState<Selection>({});
+  const appliedFilters = useRef('');
   const [presetOpen, setPresetOpen] = useState(false);
   const [favoriteSort, setFavoriteSort] = useState<SortOrder>('newest');
   const [presetSort, setPresetSort] = useState<SortOrder>('newest');
@@ -135,7 +179,7 @@ export default function App() {
   const [bookmarks, setBookmarks] = useState(storedBookmarks);
   const [onlySaved, setOnlySaved] = useState(false);
   const collectionView = onlySaved || presetOpen;
-  const showBuilder = builder && !collectionView;
+  const showBuilder = builder;
   const [toast, setToast] = useState('');
   const [toastVersion, setToastVersion] = useState(0);
   const [modal, setModal] = useState<'prompt' | 'image' | null>(null);
@@ -147,20 +191,26 @@ export default function App() {
     builderType === 'design'
       ? ''
       : makePrompt(catalog, selection, complexity, fields, builderPhoto);
-  const sources = onlySaved
-    ? [
-        { photo: false, groups },
-        { photo: true, groups: photoGroups },
-      ]
-    : [{ photo, groups: currentGroups }];
+  const sources =
+    onlySaved || filters.Type?.length === 2
+      ? [
+          { photo: false, groups },
+          { photo: true, groups: photoGroups },
+        ]
+      : filters.Type?.length === 1
+        ? [
+            {
+              photo: filters.Type[0] === 'photo',
+              groups: filters.Type[0] === 'photo' ? photoGroups : groups,
+            },
+          ]
+        : [{ photo, groups: currentGroups }];
   const tileGroups = sources.flatMap((source) =>
     source.groups
-      .filter(
-        (group) =>
-          (onlySaved || active === 'all' || group.id === active) &&
-          `${group.label} ${t(group.label)} ${group.id}`
-            .toLowerCase()
-            .includes(query.trim().toLowerCase()),
+      .filter((group) =>
+        `${group.label} ${t(group.label)} ${group.id}`
+          .toLowerCase()
+          .includes(query.trim().toLowerCase()),
       )
       .map((group) => ({
         id: group.id,
@@ -175,7 +225,24 @@ export default function App() {
             width: 1200,
             height: [1500, 900, 1800, 1200, 1600, 1000, 1400, 1900][index],
           }))
-          .filter((tile) => !onlySaved || bookmarks.includes(tile.id)),
+          .filter(
+            (tile) =>
+              (!onlySaved || bookmarks.includes(tile.id)) &&
+              matchesFilters(
+                filterMetadata(
+                  {
+                    [source.photo
+                      ? 'Photography'
+                      : group.id === 'risograph'
+                        ? 'Technique'
+                        : 'Base Style']: [group.id],
+                  },
+                  source.photo,
+                  `${tile.width}:${tile.height}`,
+                ),
+                filters,
+              ),
+          ),
       })),
   );
   const displayGroups = onlySaved
@@ -192,16 +259,70 @@ export default function App() {
           ),
         },
       ]
-    : active === 'all'
-      ? [{ id: 'all', label: 'All', tiles: tileGroups.flatMap((group) => group.tiles) }]
-      : tileGroups;
+    : [{ id: 'all', label: 'All', tiles: tileGroups.flatMap((group) => group.tiles) }];
   const visiblePresets = sortCollection(
-    presets.filter((preset) => preset.name.toLowerCase().includes(query.trim().toLowerCase())),
+    presets.filter(
+      (preset) =>
+        preset.name.toLowerCase().includes(query.trim().toLowerCase()) &&
+        matchesFilters(
+          filterMetadata(
+            preset.selection,
+            preset.photo,
+            preset.fields['Aspect Ratio'] || '1:1',
+            preset.complexity,
+          ),
+          filters,
+        ),
+    ),
     presetSort,
     (preset) => preset.name,
     (preset) => -presets.indexOf(preset),
     i18n.resolvedLanguage ?? 'en',
   );
+  const resultCount = presetOpen ? visiblePresets.length : displayGroups[0].tiles.length;
+  function chooseFilter(category: string, id: string) {
+    if (!(filters[category] ?? []).includes(id) && (filters[category]?.length ?? 0) >= 3) {
+      setToast('You can select up to 3 options.');
+      setToastVersion((version) => version + 1);
+      return;
+    }
+    const next = toggleFilter(filters, category, id);
+    setFilters(next);
+    if (category === 'Type' && next.Type.length === 1) setPhoto(next.Type[0] === 'photo');
+    setActive('all');
+    setSelected(null);
+  }
+  function resetFilters() {
+    setFilters({});
+    setQuery('');
+    setActive('all');
+    setSelected(null);
+  }
+  function openComposer() {
+    const composerPhoto =
+      filters.Type?.length === 1
+        ? filters.Type[0] === 'photo'
+        : filters.Photography?.length
+          ? true
+          : photo;
+    const signature = JSON.stringify([filters, composerPhoto]);
+    const relevant = Object.fromEntries(
+      Object.entries(filters).filter(
+        ([category, ids]) => builderCategories(composerPhoto).includes(category) && ids.length,
+      ),
+    );
+    if (signature !== appliedFilters.current && Object.values(filters).some((ids) => ids.length)) {
+      if (filters['Aspect Ratio']?.length === 1)
+        setFields((previous) => ({ ...previous, 'Aspect Ratio': filters['Aspect Ratio'][0] }));
+      if (filters.Complexity?.length === 1) setComplexity(Number(filters.Complexity[0]));
+      const update = composerPhoto ? setPhotoSelection : setIllustrationSelection;
+      update((previous) => ({ ...previous, ...relevant }));
+      setBuilderType(composerPhoto ? 'photo' : 'illustration');
+    }
+    appliedFilters.current = signature;
+    if (matchMedia('(max-width: 1000px)').matches) setBuilder(false);
+    setComposerOpen(true);
+  }
   const toggleBookmark = (id: string) =>
     setBookmarks((prev) => (prev.includes(id) ? prev.filter((x) => x !== id) : [...prev, id]));
   useEffect(() => {
@@ -250,12 +371,22 @@ export default function App() {
   function navigate(id: string) {
     setPresetOpen(false);
     setActive(id);
+    setFilters((previous) => ({
+      ...previous,
+      'Base Style': [],
+      Technique: [],
+      Photography: [],
+      ...(id === 'all'
+        ? {}
+        : { [photo ? 'Photography' : id === 'risograph' ? 'Technique' : 'Base Style']: [id] }),
+    }));
     setSelected(null);
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }
   function switchType(value: boolean) {
     setPresetOpen(false);
     setPhoto(value);
+    setFilters({});
     setSelected(null);
     setActive('all');
   }
@@ -335,6 +466,8 @@ export default function App() {
       <Header
         home={() => {
           setPhoto(false);
+          setFilters({});
+          setComposerOpen(false);
           setActive('all');
           setQuery('');
           setOnlySaved(false);
@@ -387,38 +520,20 @@ export default function App() {
           <>
             <button
               className="mobile-scrim"
-              aria-label={t('Close Builder')}
+              aria-label={t('Close filters')}
               onClick={() => setBuilder(false)}
             />
-            <Builder
+            <Filter
               width={builderWidth}
               resize={setBuilderWidth}
-              catalog={catalog}
-              selection={selection}
-              toggle={(cat, id) => {
-                const next = toggleOption(selection, cat, id);
-                if (next === selection) {
-                  setToast('You can select up to 3 options.');
-                  setToastVersion((version) => version + 1);
-                } else setSelection(next);
-              }}
-              removeOption={(category, id) =>
-                setSelection((previous) => ({
-                  ...previous,
-                  [category]: (previous[category] ?? []).filter((value) => value !== id),
-                }))
-              }
-              complexity={complexity}
-              setComplexity={setComplexity}
-              fields={fields}
-              setFields={setFields}
-              photo={builderPhoto}
-              type={builderType}
-              setType={setBuilderType}
+              catalog={filterCatalog}
+              filters={filters}
+              photo={photo}
+              allTypes={collectionView || filters.Type?.length === 2}
+              toggle={chooseFilter}
+              reset={resetFilters}
               close={() => setBuilder(false)}
-              prompt={prompt}
-              copy={copy}
-              save={savePreset}
+              compose={openComposer}
             />
           </>
         )}
@@ -428,10 +543,61 @@ export default function App() {
             presetOpen ? 'Saved style sets' : onlySaved ? 'Favorites' : 'Image gallery',
           )}
         >
+          <div className="results-heading">
+            <div className="section-heading">
+              <h2>
+                {t(presetOpen ? 'Saved style sets' : onlySaved ? 'Favorites' : 'All')}
+                <span>{resultCount}</span>
+              </h2>
+              <div className="gallery-heading-actions">
+                {collectionView && (
+                  <button
+                    className="icon-button"
+                    aria-label={t('Toggle filters')}
+                    aria-pressed={builder}
+                    onClick={() => setBuilder(!builder)}
+                  >
+                    <Icon name="filter_list" size="20" />
+                  </button>
+                )}
+                {presetOpen ? (
+                  <CollectionSort value={presetSort} change={setPresetSort} />
+                ) : onlySaved ? (
+                  <CollectionSort value={favoriteSort} change={setFavoriteSort} />
+                ) : null}
+                {!presetOpen && (
+                  <div className="thumbnail-sizes" role="group" aria-label={t('Thumbnail size')}>
+                    <button
+                      className="icon-button"
+                      aria-label={t('Small thumbnails')}
+                      title={t('Small thumbnails')}
+                      aria-pressed={!largeThumbnails}
+                      onClick={() => setLargeThumbnails(false)}
+                    >
+                      <Icon name="grid_view" size="20" className={!largeThumbnails ? 'fill' : ''} />
+                    </button>
+                    <button
+                      className="icon-button"
+                      aria-label={t('Large thumbnails')}
+                      title={t('Large thumbnails')}
+                      aria-pressed={largeThumbnails}
+                      onClick={() => setLargeThumbnails(true)}
+                    >
+                      <Icon
+                        name="view_agenda"
+                        size="20"
+                        className={largeThumbnails ? 'fill' : ''}
+                      />
+                    </button>
+                  </div>
+                )}
+              </div>
+            </div>
+            <SelectedFilters catalog={filterCatalog} filters={filters} remove={chooseFilter} />
+          </div>
           {presetOpen ? (
             <Presets
               presets={visiblePresets}
-              headingAction={<CollectionSort value={presetSort} change={setPresetSort} />}
               catalog={catalog}
               rename={renamePreset}
               remove={(id) => {
@@ -442,19 +608,17 @@ export default function App() {
             />
           ) : (
             <Gallery
-              headingAction={
-                onlySaved ? (
-                  <CollectionSort value={favoriteSort} change={setFavoriteSort} />
-                ) : undefined
-              }
               largeThumbnails={largeThumbnails}
-              setLargeThumbnails={setLargeThumbnails}
-              groups={displayGroups.filter(
-                (group) => group.id === 'all' || group.id === 'favorites' || group.tiles.length > 0,
-              )}
+              groups={displayGroups.filter((group) => group.id === 'all' || group.tiles.length > 0)}
               bookmarks={bookmarks}
               selectedId={selected?.id}
-              emptyMessage={query ? 'No results' : onlySaved ? 'No bookmarks' : 'No images'}
+              emptyMessage={
+                query || Object.values(filters).some((ids) => ids.length)
+                  ? 'No results'
+                  : onlySaved
+                    ? 'No bookmarks'
+                    : 'No images'
+              }
               select={(tile) => {
                 if (matchMedia('(max-width: 600px)').matches) setBuilder(false);
                 setSelected(tile);
@@ -489,6 +653,56 @@ export default function App() {
           </>
         )}
       </div>
+      <button
+        className="primary compose-floating"
+        onClick={openComposer}
+        aria-label={t('Write prompt')}
+      >
+        <Icon name="auto_awesome" size="24" className="fill" />
+        <span>{t('Write prompt')}</span>
+      </button>
+      {composerOpen && (
+        <Builder
+          reset={() => {
+            setIllustrationSelection({ Outline: ['coloronly'] });
+            setPhotoSelection({});
+            setComplexity(3);
+            setFields({
+              Subject: '',
+              'Aspect Ratio': '1:1',
+              'Additional Instructions': '',
+              'Typography Enabled': 'false',
+              Text: '',
+            });
+          }}
+          catalog={catalog}
+          selection={selection}
+          toggle={(cat, id) => {
+            const next = toggleOption(selection, cat, id);
+            if (next === selection) {
+              setToast('You can select up to 3 options.');
+              setToastVersion((version) => version + 1);
+            } else setSelection(next);
+          }}
+          removeOption={(category, id) =>
+            setSelection((previous) => ({
+              ...previous,
+              [category]: (previous[category] ?? []).filter((value) => value !== id),
+            }))
+          }
+          complexity={complexity}
+          setComplexity={setComplexity}
+          fields={fields}
+          setFields={setFields}
+          photo={builderPhoto}
+          type={builderType}
+          setType={setBuilderType}
+          close={() => setComposerOpen(false)}
+          prompt={prompt}
+          copy={copy}
+          save={savePreset}
+        />
+      )}
       <dialog
         ref={modalRef}
         className="modal"
