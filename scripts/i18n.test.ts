@@ -38,7 +38,7 @@ test('Every catalog option and its shortened UI label has an English and Korean 
 test('Photography Monochrome uses its own black-and-white label', async () => {
   const { optionLabelKey } = await import('../src/utils/optionChoices.ts');
   assert.equal(
-    optionLabelKey({ label: 'Monochrome', category: 'Photography' }),
+    optionLabelKey({ label: 'Monochrome', category: 'Photo Style' }),
     'Monochrome Photography',
   );
   assert.equal(optionLabelKey({ label: 'Monochrome', category: 'Color' }), 'Monochrome');

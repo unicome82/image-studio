@@ -1,6 +1,6 @@
 ## Art Deco
 
-- **Category:** Base Style
+- **Category:** Illustration Style
 - **Style ID:** `artdeco`
 
 ### Style

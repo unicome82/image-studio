@@ -1,6 +1,6 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { makePrompt, toggleOption } from '../src/utils/promptBuilder.ts';
+import { instructions, makePrompt, toggleOption } from '../src/utils/promptBuilder.ts';
 test('outline remains single selection and independent of palette', () => {
   const result = toggleOption(
     { Outline: ['coloronly'], Color: ['muted'] },
@@ -13,7 +13,9 @@ test('outline remains single selection and independent of palette', () => {
 test('conflicts prefer newest selection; style mixes cap at three', () => {
   assert.deepEqual(toggleOption({ Color: ['muted'] }, 'Color', 'vivid').Color, ['vivid']);
   assert.deepEqual(
-    toggleOption({ 'Base Style': ['a', 'b', 'c'] }, 'Base Style', 'd')['Base Style'],
+    toggleOption({ 'Illustration Style': ['a', 'b', 'c'] }, 'Illustration Style', 'd')[
+      'Illustration Style'
+    ],
     ['a', 'b', 'c'],
   );
 });
@@ -22,7 +24,7 @@ test('only selected prompt bodies; typography requires its switch, photography r
     {
       id: 'folk',
       label: 'Folk',
-      category: 'Base Style',
+      category: 'Illustration Style',
       path: 'reference/folk/prompt.md',
       prompt: 'CONTENT_reference_folk_prompt_md',
     },
@@ -36,12 +38,16 @@ test('only selected prompt bodies; typography requires its switch, photography r
     {
       id: 'film',
       label: 'Film',
-      category: 'Photography',
+      category: 'Photo Style',
       path: 'reference/options/photography/film/prompt.md',
       prompt: 'CONTENT_reference_options_photography_film_prompt_md',
     },
   ];
-  const sel = { 'Base Style': ['folk', 'missing'], Typography: ['groovy'], Photography: ['film'] };
+  const sel = {
+    'Illustration Style': ['folk', 'missing'],
+    Typography: ['groovy'],
+    'Photo Style': ['film'],
+  };
   const text = makePrompt(catalog, sel, 3, { Text: '' }, false);
   assert.ok(text.includes('CONTENT_reference_folk_prompt_md'));
   assert.ok(!text.includes('/missing/'));
@@ -63,7 +69,7 @@ test('Photo prompt excludes hidden illustration options and preserves shared opt
     {
       id: 'folk',
       label: 'Folk',
-      category: 'Base Style',
+      category: 'Illustration Style',
       path: 'reference/folk/prompt.md',
       prompt: 'CONTENT_reference_folk_prompt_md',
     },
@@ -84,7 +90,7 @@ test('Photo prompt excludes hidden illustration options and preserves shared opt
     {
       id: 'film',
       label: 'Film',
-      category: 'Photography',
+      category: 'Photo Style',
       path: 'reference/options/photography/film/prompt.md',
       prompt: 'CONTENT_reference_options_photography_film_prompt_md',
     },
@@ -99,10 +105,10 @@ test('Photo prompt excludes hidden illustration options and preserves shared opt
   const result = makePrompt(
     catalog,
     {
-      'Base Style': ['folk'],
+      'Illustration Style': ['folk'],
       Technique: ['risograph'],
       Outline: ['coloronly'],
-      Photography: ['film'],
+      'Photo Style': ['film'],
       Color: ['muted'],
     },
     3,
@@ -122,7 +128,7 @@ test('saved style sets validate storage, remove stale IDs and retain fields and 
     {
       id: 'folk',
       label: 'Folk',
-      category: 'Base Style',
+      category: 'Illustration Style',
       path: 'reference/folk/prompt.md',
       prompt: 'CONTENT_reference_folk_prompt_md',
     },
@@ -132,7 +138,7 @@ test('saved style sets validate storage, remove stale IDs and retain fields and 
     name: ' My set ',
     photo: false,
     complexity: 4,
-    selection: { 'Base Style': ['folk', 'missing', 'folk'] },
+    selection: { 'Illustration Style': ['folk', 'missing', 'folk'] },
     fields: { Subject: 'A tree', Text: 'TREE', 'Aspect Ratio': '3:4' },
   };
   const parsed = parsePresets(
@@ -141,7 +147,7 @@ test('saved style sets validate storage, remove stale IDs and retain fields and 
   );
   assert.equal(parsed.length, 1);
   assert.equal('name' in parsed[0], false);
-  assert.deepEqual(parsed[0].selection['Base Style'], ['folk']);
+  assert.deepEqual(parsed[0].selection['Illustration Style'], ['folk']);
   assert.equal(parsed[0].fields.Subject, 'A tree');
   assert.equal(parsed[0].complexity, 4);
   assert.equal(parsed[0].photo, false);
@@ -244,12 +250,12 @@ test('Blank subjects request random image content while explicit subjects remain
     for (const Subject of [undefined, '', '   ']) {
       const fields: Record<string, string> = Subject === undefined ? {} : { Subject };
       const prompt = makePrompt([], {}, 3, fields, photo);
-      assert.ok(prompt.includes('Generate an image with a random subject and scene'));
-      assert.ok(prompt.includes('without asking for a subject'));
+      assert.ok(prompt.includes('Subject: Not specified. Choose a random subject and scene'));
+      assert.ok(prompt.includes(`create the ${photo ? 'photograph' : 'image'} without asking`));
     }
     const prompt = makePrompt([], {}, 3, { Subject: 'A cat in Seoul' }, photo);
     assert.ok(prompt.includes('Subject: A cat in Seoul'));
-    assert.ok(!prompt.includes('Generate an image with a random subject'));
+    assert.ok(!prompt.includes('Choose a random subject'));
   }
 });
 
@@ -274,10 +280,10 @@ test('copied prompts contain canonical MD bodies, selected complexity and no fil
     };
   });
   const selection = {
-    'Base Style': ['naivefolk'],
+    'Illustration Style': ['naivefolk'],
     Color: ['muted'],
     Typography: ['groovy'],
-    Photography: ['film'],
+    'Photo Style': ['film'],
   };
   for (const photo of [false, true]) {
     const result = makePrompt(
@@ -288,14 +294,76 @@ test('copied prompts contain canonical MD bodies, selected complexity and no fil
       photo,
     );
     for (const option of catalog) {
-      const included = photo ? option.category !== 'Base Style' : option.category !== 'Photography';
-      assert.equal(result.includes(option.prompt), included, option.path);
+      const included = photo
+        ? option.category !== 'Illustration Style'
+        : option.category !== 'Photo Style';
+      assert.equal(result.includes(instructions(option)), included, option.path);
+      assert.equal(
+        result.includes(`## ${option.category}: ${option.label}`),
+        included,
+        option.path,
+      );
     }
     assert.ok(!result.includes('.md'));
     assert.ok(!result.includes('Read only'));
+    assert.ok(!result.includes('**Category:**'));
+    assert.ok(!result.includes('**Style ID:**'));
     assert.ok(result.includes('Subject: A fox'));
     assert.ok(result.includes('Text: FOX'));
   }
   const withoutTypography = makePrompt(catalog, selection, 3, {}, false);
-  assert.ok(!withoutTypography.includes(catalog.find((o) => o.category === 'Typography')!.prompt));
+  assert.ok(
+    !withoutTypography.includes(instructions(catalog.find((o) => o.category === 'Typography')!)),
+  );
+});
+
+test('Final instructions only preserve what was requested and name Outline as Rendering Mode', () => {
+  const catalog: Option[] = [
+    {
+      id: 'outlineonly',
+      label: 'Outline Only',
+      category: 'Outline',
+      path: 'reference/options/outline/outlineonly/prompt.md',
+      prompt:
+        '## Outline Only\n\n- **Category:** Outline\n- **Style ID:** `outlineonly`\n\n### Apply\n- Lines only.',
+    },
+  ];
+  const random = makePrompt(catalog, { Outline: ['outlineonly'] }, 3, {}, false);
+  assert.ok(random.includes('## Rendering Mode: Outline Only\n### Apply\n- Lines only.'));
+  assert.ok(random.includes('Rendering Mode: Outline Only'));
+  assert.ok(random.includes('apply the color palette to the line colors'));
+  assert.ok(random.includes('Preserve the aspect ratio.'));
+  assert.ok(!random.includes('requested subject'));
+  assert.ok(!random.includes('exact text'));
+  assert.ok(!random.includes('## Outline'));
+  const exact = makePrompt(
+    [],
+    {},
+    3,
+    { Subject: 'A fox', 'Typography Enabled': 'true', Text: 'FOX' },
+    false,
+  );
+  assert.ok(exact.includes('Preserve the requested subject, the exact text and the aspect ratio.'));
+  assert.ok(!exact.includes('Rendering Mode'));
+  const design = makePrompt([], {}, 3, {}, false, true);
+  assert.ok(design.startsWith('Create a finished graphic design'));
+  assert.ok(design.includes('create the graphic design without asking for a subject'));
+  assert.ok(makePrompt([], {}, 3, {}, true).startsWith('Create a photograph'));
+});
+
+test('Saved sets using the former category names load under the aligned names', () => {
+  const catalog: Option[] = [
+    { id: 'folk', label: 'Folk', category: 'Illustration Style', path: 'folk', prompt: 'F' },
+    { id: 'film', label: 'Film', category: 'Photo Style', path: 'film', prompt: 'P' },
+  ];
+  const base = { photo: false, complexity: 3, fields: {} };
+  const [illustration, photo] = parsePresets(
+    JSON.stringify([
+      { ...base, id: '1', selection: { 'Base Style': ['folk'] } },
+      { ...base, id: '2', photo: true, selection: { Photography: ['film'] } },
+    ]),
+    catalog,
+  );
+  assert.deepEqual(illustration.selection, { 'Illustration Style': ['folk'] });
+  assert.deepEqual(photo.selection, { 'Photo Style': ['film'] });
 });

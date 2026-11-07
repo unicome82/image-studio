@@ -1,6 +1,6 @@
 ## Editorial
 
-- **Category:** Photography
+- **Category:** Photo Style
 - **Style ID:** `editorial`
 
 ### Apply

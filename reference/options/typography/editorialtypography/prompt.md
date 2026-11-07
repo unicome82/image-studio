@@ -7,4 +7,4 @@
 - Create publication-grade hierarchy through expressive scale contrast and deliberate relationships between display and supporting text.
 
 ### Avoid
-- Maintain readable information order.
+- Avoid a confusing or unreadable information order.

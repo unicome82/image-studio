@@ -4,6 +4,7 @@ import { readdirSync, readFileSync } from 'node:fs';
 import { join } from 'node:path';
 import {
   makePrompt,
+  instructions,
   builderCategories,
   toggleOption,
   designFormatRatios,
@@ -35,7 +36,7 @@ test('design prompts use canonical format/style instructions, shared options and
     'Design Style': ['swiss'],
     Color: ['muted'],
     Outline: ['coloronly'],
-    'Base Style': ['naivefolk'],
+    'Illustration Style': ['naivefolk'],
   };
   const fields = {
     Subject: 'A spring exhibition',
@@ -50,16 +51,22 @@ test('design prompts use canonical format/style instructions, shared options and
     ['Design Style', 'swiss'],
     ['Color', 'muted'],
   ])
-    assert.ok(prompt.includes(catalog.find((o) => o.category === category && o.id === id)!.prompt));
+    assert.ok(
+      prompt.includes(instructions(catalog.find((o) => o.category === category && o.id === id)!)),
+    );
   assert.match(prompt, /Subject: A spring exhibition/);
   assert.match(prompt, /Text: SPRING 2027/);
   assert.ok(
     !prompt.includes(
-      catalog.find((o) => o.category === 'Base Style' && o.id === 'naivefolk')!.prompt,
+      instructions(
+        catalog.find((o) => o.category === 'Illustration Style' && o.id === 'naivefolk')!,
+      ),
     ),
   );
   assert.ok(
-    !prompt.includes(catalog.find((o) => o.category === 'Outline' && o.id === 'coloronly')!.prompt),
+    !prompt.includes(
+      instructions(catalog.find((o) => o.category === 'Outline' && o.id === 'coloronly')!),
+    ),
   );
   assert.match(
     makePrompt(catalog, selection, 3, { ...fields, 'Typography Enabled': 'false' }, false, true),
@@ -79,7 +86,12 @@ test('design presets round-trip with their type and rebuild the same prompt; leg
   const parsed = parsePresets(
     JSON.stringify([
       preset,
-      { ...preset, id: 'legacy', design: undefined, selection: { 'Base Style': ['naivefolk'] } },
+      {
+        ...preset,
+        id: 'legacy',
+        design: undefined,
+        selection: { 'Illustration Style': ['naivefolk'] },
+      },
     ]),
     catalog,
   );

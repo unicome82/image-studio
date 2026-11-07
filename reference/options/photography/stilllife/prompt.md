@@ -1,6 +1,6 @@
 ## Still Life
 
-- **Category:** Photography
+- **Category:** Photo Style
 - **Style ID:** `stilllife`
 
 ### Apply

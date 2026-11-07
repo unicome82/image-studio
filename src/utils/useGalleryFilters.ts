@@ -97,7 +97,7 @@ const groups = [
 ];
 const photoGroups = ['film', 'cinematic', 'editorial', 'stilllife'].map((id, i) => ({
   id,
-  label: catalog.find((o) => o.category === 'Photography' && o.id === id)!.label,
+  label: catalog.find((o) => o.category === 'Photo Style' && o.id === id)!.label,
   colors: groups[i].colors,
 }));
 
@@ -135,10 +135,10 @@ export function useGalleryFilters({ onlySaved, bookmarks, favoriteSort, onChange
   const tileGroups = sources.flatMap((source) =>
     source.groups.map((group) => {
       const styleCategory = source.photo
-        ? 'Photography'
+        ? 'Photo Style'
         : group.id === 'risograph'
           ? 'Technique'
-          : 'Base Style';
+          : 'Illustration Style';
       const style = catalog.find((o) => o.category === styleCategory && o.id === group.id);
       const type = source.photo ? 'Photo' : 'Illustration';
       return {

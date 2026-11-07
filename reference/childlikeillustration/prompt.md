@@ -1,6 +1,6 @@
 ## Childlike Illustration
 
-- **Category:** Base Style
+- **Category:** Illustration Style
 - **Style ID:** `childlikeillustration`
 
 ### Style

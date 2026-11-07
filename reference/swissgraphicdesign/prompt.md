@@ -1,6 +1,6 @@
 ## Swiss Graphic Design
 
-- **Category:** Base Style
+- **Category:** Illustration Style
 - **Style ID:** `swissgraphicdesign`
 
 ### Style

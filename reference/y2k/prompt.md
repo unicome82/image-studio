@@ -1,6 +1,6 @@
 ## Y2K
 
-- **Category:** Base Style
+- **Category:** Illustration Style
 - **Style ID:** `y2k`
 
 ### Style

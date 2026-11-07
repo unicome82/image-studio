@@ -23,7 +23,7 @@ export type PresetSettings = Pick<
 >;
 
 const initial: Selection = {
-  'Base Style': ['naivefolk'],
+  'Illustration Style': ['naivefolk'],
   Technique: ['risograph'],
   Color: ['muted'],
   Outline: ['coloronly'],
@@ -43,7 +43,7 @@ export function useBuilderDraft(onLimit: () => void) {
   const design = builderType === 'design';
   const [illustrationSelection, setIllustrationSelection] = useState(initial);
   const [photoSelection, setPhotoSelection] = useState<Selection>({
-    Photography: ['film'],
+    'Photo Style': ['film'],
     Color: ['muted'],
     Composition: ['asymmetric'],
   });

@@ -1,6 +1,6 @@
 ## Analog
 
-- **Category:** Photography
+- **Category:** Photo Style
 - **Style ID:** `analog`
 
 ### Apply

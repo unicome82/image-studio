@@ -65,8 +65,16 @@ export function builderCategories(photo: boolean, design = false): string[] {
   return design
     ? ['Design Format', 'Design Style', 'Color', 'Composition', 'Texture', 'Typography']
     : photo
-      ? ['Photography', 'Color', 'Composition', 'Texture', 'Typography']
-      : ['Base Style', 'Technique', 'Color', 'Composition', 'Texture', 'Typography', 'Outline'];
+      ? ['Photo Style', 'Color', 'Composition', 'Texture', 'Typography']
+      : [
+          'Illustration Style',
+          'Technique',
+          'Color',
+          'Composition',
+          'Texture',
+          'Typography',
+          'Outline',
+        ];
 }
 export function toggleOption(selection: Selection, category: string, id: string): Selection {
   const current = selection[category] ?? [];
@@ -82,6 +90,16 @@ export function toggleOption(selection: Selection, category: string, id: string)
       ];
   return { ...selection, [category]: next };
 }
+// The prompt names Outline by its role so the option heading, summary and final rules agree.
+const promptCategory = (category: string) => (category === 'Outline' ? 'Rendering Mode' : category);
+// Option instructions without the source title and catalog metadata lines.
+export function instructions(option: Option): string {
+  return option.prompt
+    .split('\n')
+    .filter((line) => !/^## |^- \*\*(Category|Style ID):\*\*/.test(line))
+    .join('\n')
+    .trim();
+}
 export function makePrompt(
   catalog: Option[],
   selection: Selection,
@@ -91,57 +109,82 @@ export function makePrompt(
   design = false,
 ) {
   const categories = [
-    'Base Style',
+    'Illustration Style',
     'Technique',
     'Typography',
     'Outline',
     'Color',
     'Texture',
     'Composition',
-    'Photography',
+    'Photo Style',
     'Design Format',
     'Design Style',
   ].filter((category) => builderCategories(photo, design).includes(category));
+  const typography = isTypographyEnabled(fields);
   const chosen = categories.flatMap((category) => {
-    if (
-      (category === 'Typography' && !isTypographyEnabled(fields)) ||
-      (category === 'Photography' && !photo)
-    )
-      return [];
+    if (category === 'Typography' && !typography) return [];
     return (selection[category] ?? []).flatMap((id) =>
       catalog.filter((o) => o.category === category && o.id === id),
     );
   });
   const level = catalog.find((o) => o.category === 'Complexity' && o.id === levels[complexity - 1]);
   const options = [...chosen, ...(level ? [level] : [])];
-  return [
+  const output = design ? 'graphic design' : photo ? 'photograph' : 'image';
+  const subject = fields.Subject?.trim();
+  const text = typography ? fields.Text?.trim() : '';
+  const extra = Object.entries(fields).filter(
+    ([key, value]) =>
+      !['Subject', 'Aspect Ratio', 'Typography Enabled', 'Text'].includes(key) && value.trim(),
+  );
+  const outline = chosen.find((o) => o.category === 'Outline');
+  const preserve = [
+    ...(subject ? ['the requested subject'] : []),
+    ...(text ? ['the exact text'] : []),
+    'the aspect ratio',
+  ];
+  const final = [
     design
-      ? 'Create a finished graphic design using the selected prompt instructions below.'
-      : 'Create an image using the selected prompt instructions below.',
-    ...options.map((o) => o.prompt),
+      ? 'Combine the selected design format, style, palette, layout, and surface instructions into one coherent graphic design. Produce the design itself, not a presentation mockup.'
+      : `Combine the selected instructions into one coherent ${output}.`,
+    ...(outline
+      ? [
+          `Rendering Mode takes priority for fills and outlines${outline.id === 'outlineonly' ? '; apply the color palette to the line colors' : ''}.`,
+        ]
+      : []),
+    ...(design
+      ? [
+          typography
+            ? 'Establish clear typographic hierarchy and readable lettering.'
+            : 'Do not add unsolicited readable text; use unlettered visual hierarchy unless the additional instructions explicitly request text.',
+        ]
+      : []),
+    `Preserve ${preserve.length > 1 ? `${preserve.slice(0, -1).join(', ')} and ${preserve.at(-1)}` : preserve[0]}.`,
+  ];
+  return [
+    `Create ${design ? 'a finished graphic design' : photo ? 'a photograph' : 'an image'} using the instructions below.`,
+    ...options.flatMap((o) => [
+      '',
+      `## ${promptCategory(o.category)}: ${o.label}`,
+      instructions(o),
+    ]),
     '',
-    ...(!fields.Subject?.trim()
+    '## Settings',
+    subject
+      ? `Subject: ${fields.Subject}`
+      : `Subject: Not specified. Choose a random subject and scene consistent with the selected settings${extra.length ? ' and additional instructions' : ''}, and create the ${output} without asking for a subject.`,
+    `Aspect Ratio: ${fields['Aspect Ratio']?.trim() || '1:1'}`,
+    ...extra.map(([key, value]) => `${key}: ${value}`),
+    ...(typography
       ? [
-          'Subject: Generate an image with a random subject and scene consistent with the selected settings and additional instructions, without asking for a subject.',
-        ]
-      : []),
-    ...Object.entries(fields)
-      .filter(([key, value]) => key !== 'Typography Enabled' && key !== 'Text' && value.trim())
-      .map(([key, value]) => `${key}: ${value}`),
-    ...(isTypographyEnabled(fields)
-      ? [
-          fields.Text?.trim()
+          text
             ? `Text: ${fields.Text}`
-            : 'Typography text: Choose suitable wording freely to complement the image.',
+            : `Text: Not specified. Choose suitable wording freely to complement the ${output}.`,
         ]
       : []),
-    ...chosen.map((o) => `${o.category === 'Outline' ? 'Rendering Mode' : o.category}: ${o.label}`),
+    ...chosen.map((o) => `${promptCategory(o.category)}: ${o.label}`),
     `Complexity: ${level?.label ?? complexityLabels[complexity - 1] ?? 'Balanced'}`,
     '',
-    design
-      ? `Combine the selected design format, style, palette, layout, and surface instructions into one coherent graphic design. Produce the design itself, not a presentation mockup. Preserve the requested subject, exact text, and aspect ratio. ${isTypographyEnabled(fields) ? 'Establish clear typographic hierarchy and readable lettering.' : 'Do not add unsolicited readable text; use unlettered visual hierarchy unless the additional instructions explicitly request text.'}`
-      : photo
-        ? 'Create a photograph using the selected photography instructions. Preserve the requested subject, exact text, and aspect ratio.'
-        : 'Combine the selected instructions. Rendering Mode takes priority for fills and outlines; apply the color palette to line colors in Outline Only. Preserve the requested subject, exact text, and aspect ratio.',
+    '## Final Instructions',
+    final.join(' '),
   ].join('\n');
 }

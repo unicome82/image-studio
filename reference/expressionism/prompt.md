@@ -1,6 +1,6 @@
 ## Expressionism
 
-- **Category:** Base Style
+- **Category:** Illustration Style
 - **Style ID:** `expressionism`
 
 ### Style

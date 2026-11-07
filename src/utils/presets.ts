@@ -8,6 +8,11 @@ export interface StylePreset {
   fields: Record<string, string>;
 }
 export const presetKey = 'image-studio-presets';
+// Older saves used these category names before they were aligned per image type.
+const legacyCategories: Record<string, string> = {
+  'Base Style': 'Illustration Style',
+  Photography: 'Photo Style',
+};
 export function parsePresets(raw: string | null, catalog: Option[]): StylePreset[] {
   try {
     const value: unknown = JSON.parse(raw ?? '[]');
@@ -34,8 +39,9 @@ export function parsePresets(raw: string | null, catalog: Option[]): StylePreset
       )
         return [];
       const selection: Selection = {};
-      for (const [category, ids] of Object.entries(item.selection)) {
+      for (const [saved, ids] of Object.entries(item.selection)) {
         if (!Array.isArray(ids)) return [];
+        const category = legacyCategories[saved] ?? saved;
         selection[category] = [
           ...new Set(
             ids.filter(

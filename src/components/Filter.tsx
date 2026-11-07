@@ -68,7 +68,7 @@ export default function Filter(p: Props) {
               <section className="option-section" key={category}>
                 <OptionChoices
                   title={
-                    category === 'Base Style'
+                    category === 'Illustration Style'
                       ? 'Style'
                       : category === 'Aspect Ratio'
                         ? 'Aspect ratio'

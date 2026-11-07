@@ -1,6 +1,6 @@
 ## Maximalism
 
-- **Category:** Base Style
+- **Category:** Illustration Style
 - **Style ID:** `maximalism`
 
 ### Style

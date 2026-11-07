@@ -1,6 +1,6 @@
 ## Fine Art
 
-- **Category:** Photography
+- **Category:** Photo Style
 - **Style ID:** `fineart`
 
 ### Apply

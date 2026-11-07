@@ -1,6 +1,6 @@
 ## Naive Folk Art
 
-- **Category:** Base Style
+- **Category:** Illustration Style
 - **Style ID:** `naivefolk`
 
 ### Style

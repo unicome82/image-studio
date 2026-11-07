@@ -15,16 +15,16 @@ test('selecting all options removes only that category constraint, including mis
   const catalog = [
     { category: 'Color', id: 'muted' },
     { category: 'Color', id: 'vivid' },
-    { category: 'Base Style', id: 'naivefolk' },
-    { category: 'Base Style', id: 'bauhaus' },
+    { category: 'Illustration Style', id: 'naivefolk' },
+    { category: 'Illustration Style', id: 'bauhaus' },
   ];
   const effective = activeFilters(
-    { Color: ['muted', 'vivid'], 'Base Style': ['naivefolk'] },
+    { Color: ['muted', 'vivid'], 'Illustration Style': ['naivefolk'] },
     catalog,
   );
-  assert.deepEqual(effective, { 'Base Style': ['naivefolk'] });
-  assert.equal(matchesFilters({ 'Base Style': ['naivefolk'] }, effective), true);
-  assert.equal(matchesFilters({ 'Base Style': ['bauhaus'] }, effective), false);
+  assert.deepEqual(effective, { 'Illustration Style': ['naivefolk'] });
+  assert.equal(matchesFilters({ 'Illustration Style': ['naivefolk'] }, effective), true);
+  assert.equal(matchesFilters({ 'Illustration Style': ['bauhaus'] }, effective), false);
   assert.deepEqual(activeFilters({ Color: [] }, catalog), {});
 });
 
@@ -45,17 +45,17 @@ test('filters have no selection limit and builder handoff retains every unresolv
 test('All and Design show shared filters while illustration and photo expose their own options', () => {
   for (const type of ['all', 'design'] as const) {
     assert.ok(filterCategories(type).includes('Color'));
-    assert.ok(!filterCategories(type).includes('Base Style'));
-    assert.ok(!filterCategories(type).includes('Photography'));
+    assert.ok(!filterCategories(type).includes('Illustration Style'));
+    assert.ok(!filterCategories(type).includes('Photo Style'));
     assert.ok(!filterCategories(type).includes('Outline'));
   }
-  assert.ok(filterCategories('illustration').includes('Base Style'));
-  assert.ok(filterCategories('photo').includes('Photography'));
+  assert.ok(filterCategories('illustration').includes('Illustration Style'));
+  assert.ok(filterCategories('photo').includes('Photo Style'));
 });
 
 test('changing type preserves shared selections and drops incompatible filters without mutation', () => {
   const filters = {
-    'Base Style': ['naivefolk'],
+    'Illustration Style': ['naivefolk'],
     Outline: ['coloronly'],
     Color: ['muted'],
     'Aspect Ratio': ['4:5'],
@@ -64,7 +64,7 @@ test('changing type preserves shared selections and drops incompatible filters w
   assert.deepEqual(retainFilters(filters, 'photo'), expected);
   assert.deepEqual(retainFilters(filters, 'all'), expected);
   assert.deepEqual(retainFilters(filters, 'illustration'), filters);
-  assert.deepEqual(filters['Base Style'], ['naivefolk']);
+  assert.deepEqual(filters['Illustration Style'], ['naivefolk']);
 });
 
 test('empty filters include records even when they have no option metadata', () => {
@@ -73,11 +73,20 @@ test('empty filters include records even when they have no option metadata', () 
 });
 
 test('filters combine alternatives within categories and require every selected category', () => {
-  const filters = { 'Base Style': ['bauhaus', 'naivefolk'], Color: ['muted'] };
-  assert.equal(matchesFilters({ 'Base Style': ['naivefolk'], Color: ['muted'] }, filters), true);
-  assert.equal(matchesFilters({ 'Base Style': ['bauhaus'], Color: ['vivid'] }, filters), false);
-  assert.equal(matchesFilters({ 'Base Style': ['bauhaus'] }, filters), false);
-  assert.equal(matchesFilters({ 'Base Style': ['midcentury'], Color: ['muted'] }, filters), false);
+  const filters = { 'Illustration Style': ['bauhaus', 'naivefolk'], Color: ['muted'] };
+  assert.equal(
+    matchesFilters({ 'Illustration Style': ['naivefolk'], Color: ['muted'] }, filters),
+    true,
+  );
+  assert.equal(
+    matchesFilters({ 'Illustration Style': ['bauhaus'], Color: ['vivid'] }, filters),
+    false,
+  );
+  assert.equal(matchesFilters({ 'Illustration Style': ['bauhaus'] }, filters), false);
+  assert.equal(
+    matchesFilters({ 'Illustration Style': ['midcentury'], Color: ['muted'] }, filters),
+    false,
+  );
 });
 
 test('removing the last filter restores all records without mutating prior state', () => {
@@ -94,7 +103,7 @@ test('image dimensions and saved aspect ratios match equivalent reduced ratios',
   const image = filterMetadata({ Technique: ['risograph'] }, false, '1200:1500');
   assert.equal(matchesFilters(image, { Type: ['illustration'], 'Aspect Ratio': ['4:5'] }), true);
   assert.equal(matchesFilters(image, { Complexity: ['3'] }), false);
-  const preset = filterMetadata({ Photography: ['film'] }, true, '1200:1500', 3);
+  const preset = filterMetadata({ 'Photo Style': ['film'] }, true, '1200:1500', 3);
   assert.equal(
     matchesFilters(preset, { Type: ['photo'], 'Aspect Ratio': ['4:5'], Complexity: ['3'] }),
     true,

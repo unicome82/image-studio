@@ -1,6 +1,6 @@
 ## Cinematic
 
-- **Category:** Photography
+- **Category:** Photo Style
 - **Style ID:** `cinematic`
 
 ### Apply

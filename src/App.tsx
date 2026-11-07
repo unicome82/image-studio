@@ -164,10 +164,10 @@ export default function App() {
         (o) =>
           o.category ===
             (detailPhoto
-              ? 'Photography'
+              ? 'Photo Style'
               : selected.group === 'risograph'
                 ? 'Technique'
-                : 'Base Style') && o.id === selected.group,
+                : 'Illustration Style') && o.id === selected.group,
       )
     : undefined;
   const detailPreset = {

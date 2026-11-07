@@ -1,6 +1,6 @@
 ## Suprematism
 
-- **Category:** Base Style
+- **Category:** Illustration Style
 - **Style ID:** `suprematism`
 
 ### Style

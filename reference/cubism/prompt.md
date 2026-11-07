@@ -1,6 +1,6 @@
 ## Cubism
 
-- **Category:** Base Style
+- **Category:** Illustration Style
 - **Style ID:** `cubism`
 
 ### Style

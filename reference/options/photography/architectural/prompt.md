@@ -1,6 +1,6 @@
 ## Architectural
 
-- **Category:** Photography
+- **Category:** Photo Style
 - **Style ID:** `architectural`
 
 ### Apply

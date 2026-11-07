@@ -7,4 +7,4 @@
 - Construct letters from a consistent system of repeatable geometric units.
 
 ### Avoid
-- Keep module rules coherent and wording legible.
+- Avoid inconsistent module rules and illegible wording.

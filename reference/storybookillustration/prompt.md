@@ -1,6 +1,6 @@
 ## Storybook Illustration
 
-- **Category:** Base Style
+- **Category:** Illustration Style
 - **Style ID:** `storybookillustration`
 
 ### Style

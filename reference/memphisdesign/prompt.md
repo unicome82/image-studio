@@ -1,6 +1,6 @@
 ## Memphis Design
 
-- **Category:** Base Style
+- **Category:** Illustration Style
 - **Style ID:** `memphisdesign`
 
 ### Style

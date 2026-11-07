@@ -1,6 +1,6 @@
 ## Optical Art
 
-- **Category:** Base Style
+- **Category:** Illustration Style
 - **Style ID:** `opticalart`
 
 ### Style

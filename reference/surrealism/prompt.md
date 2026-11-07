@@ -1,6 +1,6 @@
 ## Surrealism
 
-- **Category:** Base Style
+- **Category:** Illustration Style
 - **Style ID:** `surrealism`
 
 ### Style

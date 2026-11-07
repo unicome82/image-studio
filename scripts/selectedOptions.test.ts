@@ -2,11 +2,17 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { selectedBuilderOptions } from '../src/utils/selectedOptions.ts';
 const catalog = [
-  { id: 'style', category: 'Base Style', label: 'Style', path: 'style', prompt: 'CONTENT_style' },
+  {
+    id: 'style',
+    category: 'Illustration Style',
+    label: 'Style',
+    path: 'style',
+    prompt: 'CONTENT_style',
+  },
   { id: 'same', category: 'Color', label: 'Color', path: 'color', prompt: 'CONTENT_color' },
   { id: 'same', category: 'Texture', label: 'Texture', path: 'texture', prompt: 'CONTENT_texture' },
   { id: 'type', category: 'Typography', label: 'Type', path: 'type', prompt: 'CONTENT_type' },
-  { id: 'film', category: 'Photography', label: 'Film', path: 'film', prompt: 'CONTENT_film' },
+  { id: 'film', category: 'Photo Style', label: 'Film', path: 'film', prompt: 'CONTENT_film' },
   {
     id: 'outline',
     category: 'Outline',
@@ -17,11 +23,11 @@ const catalog = [
 ];
 test('Summary follows active image type, Typography switch, and category-scoped selection IDs', () => {
   const selection = {
-    'Base Style': ['style'],
+    'Illustration Style': ['style'],
     Color: ['same'],
     Texture: ['same'],
     Typography: ['type'],
-    Photography: ['film'],
+    'Photo Style': ['film'],
     Outline: ['outline'],
   };
   assert.deepEqual(

@@ -1,6 +1,6 @@
 ## Brutalism
 
-- **Category:** Base Style
+- **Category:** Illustration Style
 - **Style ID:** `brutalism`
 
 ### Style

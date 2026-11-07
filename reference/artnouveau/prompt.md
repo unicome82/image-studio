@@ -1,6 +1,6 @@
 ## Art Nouveau
 
-- **Category:** Base Style
+- **Category:** Illustration Style
 - **Style ID:** `artnouveau`
 
 ### Style

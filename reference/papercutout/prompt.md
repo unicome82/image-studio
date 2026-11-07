@@ -1,6 +1,6 @@
 ## Paper Cutout
 
-- **Category:** Base Style
+- **Category:** Illustration Style
 - **Style ID:** `papercutout`
 
 ### Style

@@ -1,6 +1,6 @@
 ## Street
 
-- **Category:** Photography
+- **Category:** Photo Style
 - **Style ID:** `street`
 
 ### Apply

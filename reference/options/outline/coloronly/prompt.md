@@ -7,4 +7,4 @@
 - Render all shapes using filled color areas without visible outlines, strokes, or drawn contour borders.
 
 ### Avoid
-- Separate adjacent forms through color, shape, or overlap only; do not add black tracing lines.
+- Avoid black tracing lines or drawn contours between adjacent forms; separate them through color, shape, or overlap only.

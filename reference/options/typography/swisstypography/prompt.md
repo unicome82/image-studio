@@ -7,4 +7,4 @@
 - Use objective, disciplined typographic hierarchy and precise modular alignment.
 
 ### Avoid
-- Favor consistent spacing and functional legibility.
+- Avoid inconsistent spacing and decorative choices that reduce functional legibility.

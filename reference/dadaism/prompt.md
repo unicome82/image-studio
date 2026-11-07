@@ -1,6 +1,6 @@
 ## Dadaism
 
-- **Category:** Base Style
+- **Category:** Illustration Style
 - **Style ID:** `dadaism`
 
 ### Style

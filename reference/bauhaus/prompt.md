@@ -1,6 +1,6 @@
 ## Bauhaus
 
-- **Category:** Base Style
+- **Category:** Illustration Style
 - **Style ID:** `bauhaus`
 
 ### Style

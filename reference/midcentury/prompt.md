@@ -1,6 +1,6 @@
 ## Mid-century Modern
 
-- **Category:** Base Style
+- **Category:** Illustration Style
 - **Style ID:** `midcentury`
 
 ### Style

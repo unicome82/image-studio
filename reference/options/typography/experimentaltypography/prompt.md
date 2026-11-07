@@ -7,4 +7,4 @@
 - Treat letterforms as visual material through unconventional structure, spacing, and controlled disruption.
 
 ### Avoid
-- Keep required wording recoverable.
+- Avoid disrupting letterforms so far that the required wording becomes unrecoverable.

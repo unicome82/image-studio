@@ -1,6 +1,6 @@
 ## Grunge
 
-- **Category:** Base Style
+- **Category:** Illustration Style
 - **Style ID:** `grunge`
 
 ### Style

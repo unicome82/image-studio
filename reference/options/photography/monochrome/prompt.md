@@ -1,6 +1,6 @@
 ## Monochrome
 
-- **Category:** Photography
+- **Category:** Photo Style
 - **Style ID:** `monochrome`
 
 ### Apply

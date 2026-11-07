@@ -152,7 +152,7 @@ export default function Builder(p: Props) {
                     <OptionChoices
                       headerControl={t('Up to {{count}}', { count: builderFilterLimit(category) })}
                       title={
-                        category === 'Base Style'
+                        category === 'Illustration Style'
                           ? 'Style'
                           : category === 'Aspect Ratio'
                             ? 'Aspect ratio'
@@ -265,7 +265,7 @@ export default function Builder(p: Props) {
                   return (
                     <section className="option-section" key={category}>
                       <OptionChoices
-                        title={category === 'Base Style' ? 'Style' : category}
+                        title={category === 'Illustration Style' ? 'Style' : category}
                         options={options.map((o) => ({
                           id: o.id,
                           label: o.label.replace(' Modern', ''),

@@ -7,4 +7,4 @@
 - Recreate the character of stencil-based risograph printing, including slight plate misregistration and uneven ink coverage.
 
 ### Avoid
-- Keep printing artifacts intentional; avoid seamless digital perfection.
+- Avoid seamless digital perfection and random, unintentional-looking printing artifacts.

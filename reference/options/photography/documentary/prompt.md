@@ -1,6 +1,6 @@
 ## Documentary
 
-- **Category:** Photography
+- **Category:** Photo Style
 - **Style ID:** `documentary`
 
 ### Apply

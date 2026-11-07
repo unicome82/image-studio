@@ -1,6 +1,6 @@
 ## Pop Art
 
-- **Category:** Base Style
+- **Category:** Illustration Style
 - **Style ID:** `popart`
 
 ### Style

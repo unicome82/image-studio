@@ -7,4 +7,4 @@
 - Imply motion through directional letterform shifts, progressive scale, or rhythmically displaced text.
 
 ### Avoid
-- Keep the intended wording recognizable.
+- Avoid motion effects that make the intended wording unrecognizable.

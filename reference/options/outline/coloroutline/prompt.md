@@ -7,4 +7,4 @@
 - Render filled color areas with deliberate visible outlines defining key silhouettes and internal boundaries.
 
 ### Avoid
-- Ensure outlines complement the shapes rather than replacing filled areas.
+- Avoid letting outlines replace filled color areas; outlines should only complement the shapes.

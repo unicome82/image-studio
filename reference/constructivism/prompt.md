@@ -1,6 +1,6 @@
 ## Constructivism
 
-- **Category:** Base Style
+- **Category:** Illustration Style
 - **Style ID:** `constructivism`
 
 ### Style

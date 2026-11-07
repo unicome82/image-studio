@@ -1,6 +1,6 @@
 ## Fauvism
 
-- **Category:** Base Style
+- **Category:** Illustration Style
 - **Style ID:** `fauvism`
 
 ### Style
