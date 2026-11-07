@@ -270,6 +270,19 @@ export default function App() {
                 <span className="result-count" role="status" aria-live="polite">
                   {resultCount}
                 </span>
+                {query.trim() && (
+                  <span className="selected-option search-term" title={`${t('Search')}: ${query}`}>
+                    <Icon name="search" size="16" />
+                    <span className="selected-option-label">{query.trim()}</span>
+                    <button
+                      className="selected-option-remove"
+                      aria-label={t('Clear search')}
+                      onClick={() => gallery.search('')}
+                    >
+                      <Icon name="close" size="16" />
+                    </button>
+                  </span>
+                )}
               </div>
               <div className="gallery-heading-actions">
                 {presetOpen ? (

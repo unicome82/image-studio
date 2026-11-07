@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import catalog from 'virtual:prompt-catalog';
 import { sortCollection, type CollectionSort } from './collectionSort';
+import { imageName } from './imageName';
 import {
   activeFilters,
   filterMetadata,
@@ -121,14 +122,14 @@ export function useGalleryFilters({ onlySaved, bookmarks, favoriteSort, onChange
       filterType === 'all' ||
       (source.photo ? filterType === 'photo' : filterType === 'illustration'),
   );
+  const keyword = query.trim().toLowerCase();
   const tileGroups = sources.flatMap((source) =>
-    source.groups
-      .filter((group) =>
-        `${group.label} ${t(group.label)} ${group.id}`
-          .toLowerCase()
-          .includes(query.trim().toLowerCase()),
-      )
-      .map((group) => ({
+    source.groups.map((group) => {
+      // Style names match every tile in the group; otherwise the shown image name must match.
+      const groupMatch = `${group.label} ${t(group.label)} ${group.id}`
+        .toLowerCase()
+        .includes(keyword);
+      return {
         id: group.id,
         label: group.label,
         tiles: group.colors
@@ -143,6 +144,7 @@ export function useGalleryFilters({ onlySaved, bookmarks, favoriteSort, onChange
           }))
           .filter(
             (tile) =>
+              (groupMatch || imageName(tile).toLowerCase().includes(keyword)) &&
               (!onlySaved || bookmarks.includes(tile.id)) &&
               matchesFilters(
                 filterMetadata(
@@ -159,7 +161,8 @@ export function useGalleryFilters({ onlySaved, bookmarks, favoriteSort, onChange
                 effectiveFilters,
               ),
           ),
-      })),
+      };
+    }),
   );
   const displayGroups = onlySaved
     ? [
