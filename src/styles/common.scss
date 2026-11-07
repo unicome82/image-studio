@@ -887,16 +887,12 @@ textarea,
   padding: 12px var(--gallery-padding);
   @include sticky-surface($results-background);
   .section-heading {
-    flex-wrap: nowrap;
     margin-bottom: 0;
     gap: 12px;
   }
   &-start {
     @include flex-row($gap: 12px);
     min-width: 0;
-    > * {
-      flex-shrink: 0;
-    }
   }
   .filter-toggle {
     margin-left: -8px;
@@ -907,10 +903,13 @@ textarea,
     font-size: var(--text-small, 12px);
     white-space: nowrap;
   }
-  .search-term {
-    flex-shrink: 1;
-    min-height: 28px;
-    gap: 4px;
+  .search-result-note {
+    margin-top: 8px;
+    overflow: hidden;
+    color: $selected-summary;
+    font-size: var(--text-small, 12px);
+    white-space: nowrap;
+    text-overflow: ellipsis;
   }
   .selection-summary {
     margin: 12px 0 0;

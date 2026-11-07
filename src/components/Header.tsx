@@ -21,9 +21,11 @@ export default function Header(p: Props) {
   const searchInput = useRef<HTMLInputElement>(null);
   const searchTrigger = useRef<HTMLButtonElement>(null);
   const searchArea = useRef<HTMLLabelElement>(null);
+  // A mobile search with a keyword stays open; clearing it in the field closes it again.
   const closeSearch = () => {
     setSearchOpen(false);
-    searchTrigger.current?.focus();
+    if (p.query) searchInput.current?.blur();
+    else searchTrigger.current?.focus();
   };
   useEffect(() => {
     if (mobile && searchOpen) searchInput.current?.focus();
@@ -61,7 +63,7 @@ export default function Header(p: Props) {
           <Icon name="search" size="20" />
         </button>
       )}
-      {(!mobile || searchOpen) && (
+      {(!mobile || searchOpen || p.query) && (
         <label
           ref={searchArea}
           onKeyDown={(event) => {
@@ -79,6 +81,7 @@ export default function Header(p: Props) {
             aria-label={t('Search gallery')}
             placeholder={t('Search')}
             value={p.query}
+            onFocus={() => setSearchOpen(true)}
             onChange={(e) => p.search(e.target.value)}
           />
           {p.query && (
