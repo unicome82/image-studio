@@ -88,7 +88,7 @@ const translation: Record<string, string> = {
   'Image Studio home': 'Image Studio home',
   'Search gallery': 'Search gallery',
   Search: 'Search',
-  'Search results for {{query}}': 'Results for “{{query}}”',
+  'Search results for {{query}}': 'Results for {{query}}',
   'Clear search': 'Clear search',
   'Show bookmarks': 'Show bookmarks',
   'Open saved style sets': 'Open saved style sets',
