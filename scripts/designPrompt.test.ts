@@ -70,7 +70,7 @@ test('design prompts use canonical format/style instructions, shared options and
   );
   assert.match(
     makePrompt(catalog, selection, 3, { ...fields, 'Typography Enabled': 'false' }, false, true),
-    /Do not add unsolicited readable text/,
+    /Typography is Off: do not add any readable text, letters, or numbers to the graphic design\./,
   );
 });
 test('design presets round-trip with their type and rebuild the same prompt; legacy sets remain valid', () => {

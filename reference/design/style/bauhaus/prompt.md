@@ -4,4 +4,4 @@
 - **Style ID:** `bauhaus`
 
 ### Instructions
-- Build the design from functional geometric forms, clear proportions, rhythmic alignment, and a balanced interaction of circles, rectangles, and lines. Integrate visual elements into a unified composition. Use the selected palette rather than forcing a different one, and keep any enabled typography structurally clear.
+- Build the design from functional geometric forms, clear proportions, rhythmic alignment, and a balanced interaction of circles, rectangles, and lines. Integrate visual elements into a unified composition. Follow the Color instructions when given instead of forcing Bauhaus primaries, and keep any rendered text structurally clear.

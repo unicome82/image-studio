@@ -259,7 +259,7 @@ test('Blank subjects request random image content while explicit subjects remain
   }
 });
 
-import { readFileSync } from 'node:fs';
+import { readdirSync, readFileSync } from 'node:fs';
 import type { Option } from '../src/utils/promptBuilder.ts';
 test('copied prompts contain canonical MD bodies, selected complexity and no file-reading instructions', () => {
   const paths = [
@@ -366,4 +366,79 @@ test('Saved sets using the former category names load under the aligned names', 
   );
   assert.deepEqual(illustration.selection, { 'Illustration Style': ['folk'] });
   assert.deepEqual(photo.selection, { 'Photo Style': ['film'] });
+});
+
+test('Direct contradictions replace each other in both directions; softer tensions stay selectable', () => {
+  for (const [category, a, b] of [
+    ['Color', 'duotone', 'primarycolors'],
+    ['Color', 'monochrome', 'complementary'],
+    ['Composition', 'minimal', 'layered'],
+  ]) {
+    assert.deepEqual(toggleOption({ [category]: [a] }, category, b)[category], [b]);
+    assert.deepEqual(toggleOption({ [category]: [b] }, category, a)[category], [a]);
+  }
+  assert.deepEqual(
+    toggleOption({ Composition: ['symmetric'] }, 'Composition', 'dynamic').Composition,
+    ['symmetric', 'dynamic'],
+  );
+});
+
+test('Prompts state the typography setting, blending, and a conflict priority', () => {
+  const option = (category: string, id: string): Option => ({
+    id,
+    label: id,
+    category,
+    path: id,
+    prompt: `## ${id}\n\n### Apply\n- ${id}`,
+  });
+  const catalog = [
+    option('Illustration Style', 'maximalism'),
+    option('Illustration Style', 'folk'),
+    option('Color', 'muted'),
+  ];
+  const off = makePrompt(
+    catalog,
+    { 'Illustration Style': ['maximalism', 'folk'], Color: ['muted'] },
+    1,
+    {},
+    false,
+  );
+  assert.ok(off.includes('Typography: Off'));
+  assert.ok(
+    off.includes(
+      'Typography is Off: do not add any readable text, letters, or numbers to the image.',
+    ),
+  );
+  assert.ok(off.includes('blend them into one unified treatment'));
+  assert.ok(
+    off.includes(
+      'If selected instructions conflict, follow this priority: Color, then the style and technique instructions.',
+    ),
+  );
+  const on = makePrompt(catalog, { Color: ['muted'] }, 1, { 'Typography Enabled': 'true' }, true);
+  assert.ok(on.includes('Typography: On'));
+  assert.ok(on.includes('Render all text legibly'));
+  assert.ok(!on.includes('blend them'));
+  assert.ok(!on.includes('follow this priority'));
+});
+
+test('Source prompts never depend on builder state the image model cannot see', () => {
+  const files = (dir: string): string[] =>
+    readdirSync(dir, { withFileTypes: true }).flatMap((entry) =>
+      entry.isDirectory()
+        ? files(`${dir}/${entry.name}`)
+        : entry.name === 'prompt.md'
+          ? [`${dir}/${entry.name}`]
+          : [],
+    );
+  for (const path of files('reference')) {
+    const text = readFileSync(path, 'utf8');
+    assert.ok(
+      !/typography is enabled|selected palette|selected texture|supplied wording/i.test(text),
+      path,
+    );
+    const avoid = text.split('### Avoid')[1] ?? '';
+    for (const line of avoid.split('\n').filter((l) => l.startsWith('- ')))
+      assert.match(line, /^- (Avoid|Do not)/, path);
+  }
 });

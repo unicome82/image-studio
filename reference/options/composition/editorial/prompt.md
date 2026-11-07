@@ -4,7 +4,7 @@
 - **Style ID:** `editorial`
 
 ### Apply
-- Create a strong publication-like hierarchy with deliberate space for a headline or supporting copy when provided.
+- Create a strong publication-like hierarchy; give any rendered text a clear headline area, otherwise let the image fill that space.
 
 ### Avoid
 - Avoid random placement of focal elements.

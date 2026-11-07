@@ -7,4 +7,4 @@
 - Warp, stretch, compress, or displace letterforms while preserving the essential character sequence.
 
 ### Avoid
-- Avoid replacing requested text with pseudo-letters.
+- Avoid replacing the rendered words with pseudo-letters.

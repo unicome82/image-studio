@@ -29,7 +29,7 @@ IMAGE STUDIO의 **부가 메뉴**로 스타일 조합용 영문 지시문을 생
 
 1. **Multi Select:** 스타일 카테고리별 최대 3개, Illustration Style 기본 1개 선택; Rendering Mode는 별도 단일 선택
 2. **Live Prompt:** 선택 즉시 영문 지시문 갱신
-3. **Conflict Prevention:** 색상·구도 등 명백한 충돌만 최근 선택 우선으로 자동 해제; 스타일 혼합은 허용
+3. **Conflict Prevention:** 같은 카테고리의 정면 모순 조합만 최근 선택 우선으로 자동 해제한다(Warm·Cool, Vivid·Muted/Pastel, Neon·Muted/Pastel, Monochrome·Duotone/Complementary/Primary Colors/Mid-century Palette, Duotone·Primary Colors/Mid-century Palette, Complementary·Primary Colors, Clean·거친 질감, Symmetric·Asymmetric, Centered·Diagonal, Minimal·Layered). 그 밖의 긴장 관계와 카테고리 간 충돌은 선택을 허용하고 프롬프트의 우선순위 문장으로 처리한다. 스타일 혼합은 허용
 4. **Reference Preview:** 기존 `reference/` 이미지 1~3장 미리보기·확대, 이미지 없으면 텍스트 표시
 5. **Custom Input:** 최상단 라벨 없는 Subject input으로 피사체를 입력하고 Your direction textarea로 추가 지시를 입력. Aspect ratio(1:1/4:3/3:4/16:9/9:16)는 상위 독립 옵션으로 선택. 기존 프리셋의 Subject는 주제 입력란에 보존하고 Negative Prompt는 이름표와 함께 Your direction으로 합쳐 보존하며, Text는 별도 Typography 입력칸에 보존
 6. **Copy Prompt:** 영문 지시문 복사
@@ -74,10 +74,11 @@ Color는 팔레트를, Rendering Mode는 채움과 윤곽선의 표현 방식을
 - 스타일 상세 설명·Mix Prompt를 별도 데이터로 중복 관리하지 않음
 - 주 스타일 카테고리는 유형별로 Illustration Style·Photo Style·Design Style로 부른다. 기존 저장 데이터의 Base Style·Photography는 로드 시 새 이름으로 변환한다.
 - 원본 MD의 `### Avoid`에는 피해야 할 내용만 쓰고, 해야 할 지시는 `### Apply`·`### Style` 등에 둔다.
+- 원본 MD는 이미지 모델이 볼 수 없는 빌더 상태(typography is enabled, selected palette 등)를 조건으로 쓰지 않는다. 글자는 "rendered text", 색은 "the Color instructions when given"처럼 프롬프트 안에서 확인할 수 있는 표현을 쓴다.
 
 **출력 방식**
 
-선택된 스타일·기법·색상·Typography·Rendering Mode·Complexity의 MD 본문을 원본에서 빌드 시 읽어 출력에 포함한다. 각 옵션은 원본 제목과 Category·Style ID 메타데이터 줄 대신 `## {카테고리}: {표시명}` 제목 아래 본문 섹션만 빈 줄로 구분해 출력하고, Outline은 제목·요약·최종 지시 모두 Rendering Mode로 표기한다. 이어서 `## Settings`에 Subject·비율·추가 지시·Text·선택 요약·Complexity를, `## Final Instructions`에 결합 규칙을 출력한다. 도입·랜덤 Subject·자동 문구 지시는 유형(image·photograph·graphic design)에 맞추고, 최종 지시의 보존 대상은 입력한 Subject·Typography ON의 입력 Text·비율만 언급한다. Rendering Mode 우선 규칙은 Outline 선택 시, 선 색상 팔레트 규칙은 Outline Only 선택 시에만 출력한다. 선택하지 않았거나 현재 유형에서 숨겨진 옵션은 제외한다. Subject·Text·Aspect Ratio·추가 지시와 선택 요약, 충돌 우선순위 규칙을 함께 출력한다. 복사한 프롬프트만으로 사용할 수 있으며 외부 도구의 파일 또는 URL 접근을 요구하지 않는다. LocalStorage에는 기존처럼 선택 ID·설정만 저장하고 본문을 중복 저장하지 않는다.
+선택된 스타일·기법·색상·Typography·Rendering Mode·Complexity의 MD 본문을 원본에서 빌드 시 읽어 출력에 포함한다. 각 옵션은 원본 제목과 Category·Style ID 메타데이터 줄 대신 `## {카테고리}: {표시명}` 제목 아래 본문 섹션만 빈 줄로 구분해 출력하고, Outline은 제목·요약·최종 지시 모두 Rendering Mode로 표기한다. 이어서 `## Settings`에 Subject·비율·추가 지시·Text·선택 요약·Complexity를, `## Final Instructions`에 결합 규칙을 출력한다. 도입·랜덤 Subject·자동 문구 지시는 유형(image·photograph·graphic design)에 맞추고, 최종 지시의 보존 대상은 입력한 Subject·Typography ON의 입력 Text·비율만 언급한다. Rendering Mode 우선 규칙은 Outline 선택 시, 선 색상 팔레트 규칙은 Outline Only 선택 시에만 출력한다. Settings에는 `Typography: On/Off`를 항상 출력하고, Off면 모든 유형에서 읽을 수 있는 글자·숫자를 넣지 말라고, On이면 글자를 읽기 쉽게 표현하라고 지시한다. 같은 카테고리에서 여러 개를 고르면 하나의 처리로 섞으라고 지시하고, 카테고리가 둘 이상이면 충돌 시 Design Format → Rendering Mode → Color → Complexity → Composition → Texture → 스타일·기법 순으로 우선하라고 출력한다. 선택하지 않았거나 현재 유형에서 숨겨진 옵션은 제외한다. Subject·Text·Aspect Ratio·추가 지시와 선택 요약, 충돌 우선순위 규칙을 함께 출력한다. 복사한 프롬프트만으로 사용할 수 있으며 외부 도구의 파일 또는 URL 접근을 요구하지 않는다. LocalStorage에는 기존처럼 선택 ID·설정만 저장하고 본문을 중복 저장하지 않는다.
 
 ## 6. 연동 및 UI
 

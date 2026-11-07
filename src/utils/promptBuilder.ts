@@ -30,19 +30,32 @@ export const maxSelections = 3;
 export function optionLimit(category: string): number {
   return category === 'Outline' || category === 'Design Format' ? 1 : maxSelections;
 }
-const conflicts: Record<string, string[]> = {
-  warm: ['cool'],
-  cool: ['warm'],
-  vivid: ['muted', 'pastel'],
-  muted: ['vivid', 'neon'],
-  pastel: ['vivid', 'neon'],
-  neon: ['muted', 'pastel'],
-  clean: ['papergrain', 'filmgrain', 'distressed', 'digitalnoise', 'roughprint'],
-  symmetric: ['asymmetric'],
-  asymmetric: ['symmetric'],
-  centered: ['diagonal'],
-  diagonal: ['centered'],
-};
+// Directly contradictory pairs replace each other; softer tensions are left to the prompt's priority rule.
+const conflictPairs: [string, string][] = [
+  ['warm', 'cool'],
+  ['vivid', 'muted'],
+  ['vivid', 'pastel'],
+  ['muted', 'neon'],
+  ['pastel', 'neon'],
+  ['monochrome', 'duotone'],
+  ['monochrome', 'complementary'],
+  ['monochrome', 'primarycolors'],
+  ['monochrome', 'midcenturypalette'],
+  ['duotone', 'primarycolors'],
+  ['duotone', 'midcenturypalette'],
+  ['complementary', 'primarycolors'],
+  ...['papergrain', 'filmgrain', 'distressed', 'digitalnoise', 'roughprint'].map(
+    (texture): [string, string] => ['clean', texture],
+  ),
+  ['symmetric', 'asymmetric'],
+  ['centered', 'diagonal'],
+  ['minimal', 'layered'],
+];
+const conflicts: Record<string, string[]> = {};
+for (const [a, b] of conflictPairs) {
+  (conflicts[a] ??= []).push(b);
+  (conflicts[b] ??= []).push(a);
+}
 export const complexityUiLabels = ['Very Low', 'Low', 'Medium', 'High', 'Very High'];
 // Keep the subject editable while preserving older presets' negative instructions.
 export function compactFields(fields: Record<string, string>): Record<string, string> {
@@ -142,22 +155,40 @@ export function makePrompt(
     ...(text ? ['the exact text'] : []),
     'the aspect ratio',
   ];
+  const present = new Set(options.map((o) => o.category));
+  const priority = [
+    ...['Design Format', 'Outline', 'Color', 'Complexity', 'Composition', 'Texture']
+      .filter((category) => present.has(category))
+      .map(promptCategory),
+    ...(['Illustration Style', 'Technique', 'Photo Style', 'Design Style', 'Typography'].some(
+      (category) => present.has(category),
+    )
+      ? ['then the style and technique instructions']
+      : []),
+  ];
+  const blended = categories.some(
+    (category) => chosen.filter((o) => o.category === category).length > 1,
+  );
   const final = [
     design
       ? 'Combine the selected design format, style, palette, layout, and surface instructions into one coherent graphic design. Produce the design itself, not a presentation mockup.'
       : `Combine the selected instructions into one coherent ${output}.`,
+    ...(blended
+      ? [
+          'Where a category has several selections, blend them into one unified treatment rather than choosing only one.',
+        ]
+      : []),
     ...(outline
       ? [
           `Rendering Mode takes priority for fills and outlines${outline.id === 'outlineonly' ? '; apply the color palette to the line colors' : ''}.`,
         ]
       : []),
-    ...(design
-      ? [
-          typography
-            ? 'Establish clear typographic hierarchy and readable lettering.'
-            : 'Do not add unsolicited readable text; use unlettered visual hierarchy unless the additional instructions explicitly request text.',
-        ]
+    ...(priority.length > 1
+      ? [`If selected instructions conflict, follow this priority: ${priority.join(', ')}.`]
       : []),
+    typography
+      ? `Render all text legibly${present.has('Typography') ? ', applying the Typography instructions' : ''} with a clear typographic hierarchy.`
+      : `Typography is Off: do not add any readable text, letters, or numbers to the ${output}.`,
     `Preserve ${preserve.length > 1 ? `${preserve.slice(0, -1).join(', ')} and ${preserve.at(-1)}` : preserve[0]}.`,
   ];
   return [
@@ -174,6 +205,7 @@ export function makePrompt(
       : `Subject: Not specified. Choose a random subject and scene consistent with the selected settings${extra.length ? ' and additional instructions' : ''}, and create the ${output} without asking for a subject.`,
     `Aspect Ratio: ${fields['Aspect Ratio']?.trim() || '1:1'}`,
     ...extra.map(([key, value]) => `${key}: ${value}`),
+    `Typography: ${typography ? 'On' : 'Off'}`,
     ...(typography
       ? [
           text
