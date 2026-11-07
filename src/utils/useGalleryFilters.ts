@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next';
 import catalog from 'virtual:prompt-catalog';
 import { sortCollection, type CollectionSort } from './collectionSort';
 import { imageName } from './imageName';
+import { optionLabelKey } from './optionChoices';
 import {
   activeFilters,
   filterMetadata,
@@ -122,13 +123,24 @@ export function useGalleryFilters({ onlySaved, bookmarks, favoriteSort, onChange
       filterType === 'all' ||
       (source.photo ? filterType === 'photo' : filterType === 'illustration'),
   );
-  const keyword = query.trim().toLowerCase();
+  // Every word must appear in the image name or one of its tags; a leading # is ignored.
+  const terms = query
+    .toLowerCase()
+    .split(/\s+/)
+    .map((term) => term.replace(/^#+/, ''))
+    .filter(Boolean);
+  const label = (option?: { label: string; category?: string }) =>
+    option ? [option.label, t(optionLabelKey(option))] : [];
+  const outline = catalog.find((o) => o.category === 'Outline' && o.id === 'coloronly');
   const tileGroups = sources.flatMap((source) =>
     source.groups.map((group) => {
-      // Style names match every tile in the group; otherwise the shown image name must match.
-      const groupMatch = `${group.label} ${t(group.label)} ${group.id}`
-        .toLowerCase()
-        .includes(keyword);
+      const styleCategory = source.photo
+        ? 'Photography'
+        : group.id === 'risograph'
+          ? 'Technique'
+          : 'Base Style';
+      const style = catalog.find((o) => o.category === styleCategory && o.id === group.id);
+      const type = source.photo ? 'Photo' : 'Illustration';
       return {
         id: group.id,
         label: group.label,
@@ -142,25 +154,34 @@ export function useGalleryFilters({ onlySaved, bookmarks, favoriteSort, onChange
             width: 1200,
             height: sampleHeights[index],
           }))
-          .filter(
-            (tile) =>
-              (groupMatch || imageName(tile).toLowerCase().includes(keyword)) &&
+          .filter((tile) => {
+            const ratio = `${tile.width}:${tile.height}`;
+            // Mirrors the thumbnail and detail tags: style, type, ratio, complexity and outline.
+            const text = [
+              imageName(tile),
+              group.label,
+              t(group.label),
+              group.id,
+              ...label(style),
+              type,
+              t(type),
+              ratio,
+              normalizeRatio(ratio),
+              complexityUiLabels[2],
+              t(complexityUiLabels[2]),
+              ...(source.photo ? [] : label(outline)),
+            ]
+              .join(' ')
+              .toLowerCase();
+            return (
+              terms.every((term) => text.includes(term)) &&
               (!onlySaved || bookmarks.includes(tile.id)) &&
               matchesFilters(
-                filterMetadata(
-                  {
-                    [source.photo
-                      ? 'Photography'
-                      : group.id === 'risograph'
-                        ? 'Technique'
-                        : 'Base Style']: [group.id],
-                  },
-                  source.photo,
-                  `${tile.width}:${tile.height}`,
-                ),
+                filterMetadata({ [styleCategory]: [group.id] }, source.photo, ratio),
                 effectiveFilters,
-              ),
-          ),
+              )
+            );
+          }),
       };
     }),
   );
