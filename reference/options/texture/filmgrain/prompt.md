@@ -4,7 +4,7 @@
 - **Style ID:** `filmgrain`
 
 ### Apply
-- Add fine photographic grain with organic distribution and restrained intensity.
+- Add fine photographic film grain with organic distribution, restrained intensity, and a gentle film-like tonal roll-off.
 
 ### Avoid
 - Avoid coarse pixel noise.

@@ -12,7 +12,7 @@ export function filterCategories(type: FilterType): string[] {
         ? builderCategories(false, true)
         : type === 'photo'
           ? builderCategories(true)
-          : ['Color', 'Composition', 'Texture', 'Typography']),
+          : ['Mood', 'Color', 'Lighting', 'Composition', 'Texture', 'Typography']),
   ];
 }
 

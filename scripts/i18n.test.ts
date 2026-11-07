@@ -35,12 +35,10 @@ test('Every catalog option and its shortened UI label has an English and Korean 
   check('reference');
 });
 
-test('Photography Monochrome uses its own black-and-white label', async () => {
+test('Option labels map to translation keys without type suffixes', async () => {
   const { optionLabelKey } = await import('../src/utils/optionChoices.ts');
-  assert.equal(
-    optionLabelKey({ label: 'Monochrome', category: 'Photo Style' }),
-    'Monochrome Photography',
-  );
-  assert.equal(optionLabelKey({ label: 'Monochrome', category: 'Color' }), 'Monochrome');
-  assert.equal(ko['Monochrome Photography'], '흑백');
+  assert.equal(optionLabelKey({ label: 'Storybook Illustration' }), 'Storybook');
+  assert.equal(optionLabelKey({ label: 'Mid-century Modern' }), 'Mid-century');
+  assert.equal(ko['Black & White'], '흑백');
+  assert.equal(ko.Cute, '귀여운');
 });

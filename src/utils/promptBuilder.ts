@@ -24,11 +24,14 @@ export const designFormatRatios: Record<string, string> = {
   appscreen: '9:16',
   signage: '16:9',
 };
-export const aspectRatios = ['1:1', '4:3', '3:4', '16:9', '9:16'];
+export const aspectRatios = ['1:1', '4:5', '3:4', '2:3', '9:16', '4:3', '3:2', '16:9'];
 export const maxSelections = 3;
 // Single-select categories take one option; the rest allow up to maxSelections.
+const singleCategories = ['Outline', 'Design Format', 'Mood'];
+// Optional single-select categories clear when their selected option is chosen again.
+const optionalSingleCategories = ['Mood'];
 export function optionLimit(category: string): number {
-  return category === 'Outline' || category === 'Design Format' ? 1 : maxSelections;
+  return singleCategories.includes(category) ? 1 : maxSelections;
 }
 // Directly contradictory pairs replace each other; softer tensions are left to the prompt's priority rule.
 const conflictPairs: [string, string][] = [
@@ -44,12 +47,38 @@ const conflictPairs: [string, string][] = [
   ['duotone', 'primarycolors'],
   ['duotone', 'midcenturypalette'],
   ['complementary', 'primarycolors'],
-  ...['papergrain', 'filmgrain', 'distressed', 'digitalnoise', 'roughprint'].map(
-    (texture): [string, string] => ['clean', texture],
-  ),
+  ['analogous', 'complementary'],
+  ['analogous', 'primarycolors'],
+  ['highkey', 'lowkey'],
+  ['vintage', 'neon'],
+  ['vintage', 'vivid'],
+  // Black & White has no hue, so every hue-based palette contradicts it.
+  ...[
+    'warm',
+    'cool',
+    'vivid',
+    'muted',
+    'pastel',
+    'neon',
+    'earthy',
+    'monochrome',
+    'duotone',
+    'complementary',
+    'primarycolors',
+    'midcenturypalette',
+    'analogous',
+    'vintage',
+  ].map((color): [string, string] => ['blackwhite', color]),
+  ...['papergrain', 'filmgrain', 'distressed', 'digitalnoise'].map((texture): [string, string] => [
+    'clean',
+    texture,
+  ]),
   ['symmetric', 'asymmetric'],
-  ['centered', 'diagonal'],
   ['minimal', 'layered'],
+  ['goldenhour', 'neonnight'],
+  ['goldenhour', 'softdaylight'],
+  ['neonnight', 'softdaylight'],
+  ['dramatic', 'softdaylight'],
 ];
 const conflicts: Record<string, string[]> = {};
 for (const [a, b] of conflictPairs) {
@@ -76,13 +105,24 @@ export function isTypographyEnabled(fields: Record<string, string>): boolean {
 }
 export function builderCategories(photo: boolean, design = false): string[] {
   return design
-    ? ['Design Format', 'Design Style', 'Color', 'Composition', 'Texture', 'Typography']
+    ? [
+        'Design Format',
+        'Design Style',
+        'Mood',
+        'Color',
+        'Lighting',
+        'Composition',
+        'Texture',
+        'Typography',
+      ]
     : photo
-      ? ['Photo Style', 'Color', 'Composition', 'Texture', 'Typography']
+      ? ['Photo Style', 'Mood', 'Color', 'Lighting', 'Composition', 'Texture', 'Typography']
       : [
           'Illustration Style',
           'Technique',
+          'Mood',
           'Color',
+          'Lighting',
           'Composition',
           'Texture',
           'Typography',
@@ -91,7 +131,11 @@ export function builderCategories(photo: boolean, design = false): string[] {
 }
 export function toggleOption(selection: Selection, category: string, id: string): Selection {
   const current = selection[category] ?? [];
-  if (optionLimit(category) === 1) return { ...selection, [category]: [id] };
+  if (optionLimit(category) === 1)
+    return {
+      ...selection,
+      [category]: optionalSingleCategories.includes(category) && current.includes(id) ? [] : [id],
+    };
   if (!current.includes(id) && current.length >= maxSelections) return selection;
   const next = current.includes(id)
     ? current.filter((x) => x !== id)
@@ -127,8 +171,10 @@ export function makePrompt(
     'Typography',
     'Outline',
     'Color',
+    'Lighting',
     'Texture',
     'Composition',
+    'Mood',
     'Photo Style',
     'Design Format',
     'Design Style',
@@ -157,7 +203,16 @@ export function makePrompt(
   ];
   const present = new Set(options.map((o) => o.category));
   const priority = [
-    ...['Design Format', 'Outline', 'Color', 'Complexity', 'Composition', 'Texture']
+    ...[
+      'Design Format',
+      'Outline',
+      'Color',
+      'Lighting',
+      'Complexity',
+      'Composition',
+      'Texture',
+      'Mood',
+    ]
       .filter((category) => present.has(category))
       .map(promptCategory),
     ...(['Illustration Style', 'Technique', 'Photo Style', 'Design Style', 'Typography'].some(

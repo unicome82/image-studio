@@ -1,4 +1,4 @@
-import { optionLimit, type Option, type Selection } from './promptBuilder.ts';
+import { optionLimit, toggleOption, type Option, type Selection } from './promptBuilder.ts';
 export interface StylePreset {
   id: string;
   photo: boolean;
@@ -13,7 +13,28 @@ const legacyCategories: Record<string, string> = {
   'Base Style': 'Illustration Style',
   Photography: 'Photo Style',
 };
+// Removed options map to the options that absorbed them, as [category, id] pairs.
+const legacyOptions: Record<string, [string, string][]> = {
+  'Technique:linocut': [['Technique', 'woodcut']],
+  'Technique:screenprinting': [['Technique', 'risograph']],
+  'Photo Style:film': [
+    ['Texture', 'filmgrain'],
+    ['Color', 'vintage'],
+  ],
+  'Photo Style:analog': [
+    ['Texture', 'filmgrain'],
+    ['Color', 'vintage'],
+  ],
+  'Photo Style:monochrome': [['Color', 'blackwhite']],
+  'Composition:diagonal': [['Composition', 'dynamic']],
+  'Texture:roughprint': [['Texture', 'distressed']],
+  'Typography:psychedeliclettering': [['Typography', 'groovy']],
+  'Typography:distortedtypography': [['Typography', 'experimentaltypography']],
+  'Typography:kinetictypography': [['Typography', 'experimentaltypography']],
+};
 export function parsePresets(raw: string | null, catalog: Option[]): StylePreset[] {
+  const exists = (category: string, id: string) =>
+    catalog.some((o) => o.category === category && o.id === id);
   try {
     const value: unknown = JSON.parse(raw ?? '[]');
     if (!Array.isArray(value)) return [];
@@ -38,10 +59,14 @@ export function parsePresets(raw: string | null, catalog: Option[]): StylePreset
         Array.isArray(item.fields)
       )
         return [];
-      const selection: Selection = {};
+      let selection: Selection = {};
+      const migrated: [string, string][] = [];
       for (const [saved, ids] of Object.entries(item.selection)) {
         if (!Array.isArray(ids)) return [];
         const category = legacyCategories[saved] ?? saved;
+        for (const id of ids)
+          if (typeof id === 'string' && !exists(category, id))
+            migrated.push(...(legacyOptions[`${category}:${id}`] ?? []));
         selection[category] = [
           ...new Set(
             ids.filter(
@@ -52,6 +77,10 @@ export function parsePresets(raw: string | null, catalog: Option[]): StylePreset
           ),
         ].slice(0, optionLimit(category));
       }
+      // Replacements join after the kept choices, within limits and conflict rules.
+      for (const [category, id] of migrated)
+        if (exists(category, id) && !selection[category]?.includes(id))
+          selection = toggleOption(selection, category, id);
       const fields = Object.fromEntries(
         Object.entries(item.fields).filter(
           (entry): entry is [string, string] => typeof entry[1] === 'string',

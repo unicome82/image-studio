@@ -254,6 +254,9 @@ export default function Builder(p: Props) {
                     'minimal',
                     'centered',
                     'asymmetric',
+                    'cute',
+                    'chic',
+                    'epic',
                   ];
                   const options = p.catalog
                     .filter((o) => o.category === category)

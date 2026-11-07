@@ -95,7 +95,7 @@ const groups = [
     ],
   },
 ];
-const photoGroups = ['film', 'cinematic', 'editorial', 'stilllife'].map((id, i) => ({
+const photoGroups = ['portrait', 'cinematic', 'editorial', 'stilllife'].map((id, i) => ({
   id,
   label: catalog.find((o) => o.category === 'Photo Style' && o.id === id)!.label,
   colors: groups[i].colors,

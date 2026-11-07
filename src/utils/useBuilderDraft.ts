@@ -43,7 +43,7 @@ export function useBuilderDraft(onLimit: () => void) {
   const design = builderType === 'design';
   const [illustrationSelection, setIllustrationSelection] = useState(initial);
   const [photoSelection, setPhotoSelection] = useState<Selection>({
-    'Photo Style': ['film'],
+    'Photo Style': ['portrait'],
     Color: ['muted'],
     Composition: ['asymmetric'],
   });

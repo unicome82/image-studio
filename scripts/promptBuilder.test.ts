@@ -1,6 +1,13 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { instructions, makePrompt, toggleOption } from '../src/utils/promptBuilder.ts';
+import {
+  aspectRatios,
+  builderCategories,
+  instructions,
+  makePrompt,
+  optionLimit,
+  toggleOption,
+} from '../src/utils/promptBuilder.ts';
 test('outline remains single selection and independent of palette', () => {
   const result = toggleOption(
     { Outline: ['coloronly'], Color: ['muted'] },
@@ -267,7 +274,7 @@ test('copied prompts contain canonical MD bodies, selected complexity and no fil
     'reference/options/color/muted/prompt.md',
     'reference/options/complexity/balanced/prompt.md',
     'reference/options/typography/groovy/prompt.md',
-    'reference/options/photography/film/prompt.md',
+    'reference/options/photography/portrait/prompt.md',
   ];
   const catalog: Option[] = paths.map((path) => {
     const prompt = readFileSync(path, 'utf8').trim();
@@ -283,7 +290,7 @@ test('copied prompts contain canonical MD bodies, selected complexity and no fil
     'Illustration Style': ['naivefolk'],
     Color: ['muted'],
     Typography: ['groovy'],
-    'Photo Style': ['film'],
+    'Photo Style': ['portrait'],
   };
   for (const photo of [false, true]) {
     const result = makePrompt(
@@ -441,4 +448,127 @@ test('Source prompts never depend on builder state the image model cannot see', 
     for (const line of avoid.split('\n').filter((l) => l.startsWith('- ')))
       assert.match(line, /^- (Avoid|Do not)/, path);
   }
+});
+
+test('Removed options in saved sets move to the options that absorbed them', () => {
+  const option = (category: string, id: string): Option => ({
+    id,
+    label: id,
+    category,
+    path: id,
+    prompt: id,
+  });
+  const catalog = [
+    option('Technique', 'woodcut'),
+    option('Technique', 'risograph'),
+    option('Texture', 'filmgrain'),
+    option('Texture', 'clean'),
+    option('Color', 'vintage'),
+    option('Color', 'blackwhite'),
+    option('Color', 'vivid'),
+    option('Photo Style', 'street'),
+    option('Typography', 'experimentaltypography'),
+  ];
+  const base = { complexity: 3, fields: {} };
+  const [illustration, photo] = parsePresets(
+    JSON.stringify([
+      {
+        ...base,
+        id: '1',
+        photo: false,
+        selection: {
+          Technique: ['linocut', 'screenprinting', 'woodcut'],
+          Typography: ['distortedtypography', 'kinetictypography'],
+        },
+      },
+      {
+        ...base,
+        id: '2',
+        photo: true,
+        selection: {
+          'Photo Style': ['film', 'monochrome', 'street'],
+          Texture: ['clean'],
+          Color: ['vivid'],
+        },
+      },
+    ]),
+    catalog,
+  );
+  assert.deepEqual(illustration.selection, {
+    Technique: ['woodcut', 'risograph'],
+    Typography: ['experimentaltypography'],
+  });
+  // Film Grain replaces Clean; Black & White replaces the hue-based palettes it contradicts.
+  assert.deepEqual(photo.selection, {
+    'Photo Style': ['street'],
+    Texture: ['filmgrain'],
+    Color: ['blackwhite'],
+  });
+});
+
+test('Mood is an optional single choice and Lighting allows several', () => {
+  assert.equal(optionLimit('Mood'), 1);
+  assert.equal(optionLimit('Lighting'), 3);
+  const cute = toggleOption({}, 'Mood', 'cute');
+  assert.deepEqual(cute.Mood, ['cute']);
+  assert.deepEqual(toggleOption(cute, 'Mood', 'epic').Mood, ['epic']);
+  assert.deepEqual(toggleOption(cute, 'Mood', 'cute').Mood, []);
+  assert.deepEqual(toggleOption({ 'Design Format': ['poster'] }, 'Design Format', 'poster'), {
+    'Design Format': ['poster'],
+  });
+  for (const [photo, design] of [
+    [false, false],
+    [true, false],
+    [false, true],
+  ])
+    for (const category of ['Mood', 'Lighting'])
+      assert.ok(builderCategories(photo, design).includes(category));
+  for (const [category, a, b] of [
+    ['Color', 'highkey', 'lowkey'],
+    ['Color', 'blackwhite', 'warm'],
+    ['Lighting', 'goldenhour', 'neonnight'],
+  ]) {
+    assert.deepEqual(toggleOption({ [category]: [a] }, category, b)[category], [b]);
+    assert.deepEqual(toggleOption({ [category]: [b] }, category, a)[category], [a]);
+  }
+  assert.deepEqual(toggleOption({ Lighting: ['goldenhour'] }, 'Lighting', 'backlit').Lighting, [
+    'goldenhour',
+    'backlit',
+  ]);
+  assert.deepEqual(aspectRatios, ['1:1', '4:5', '3:4', '2:3', '9:16', '4:3', '3:2', '16:9']);
+});
+
+test('Mood and Lighting appear in the prompt, summary and conflict priority', () => {
+  const option = (category: string, id: string): Option => ({
+    id,
+    label: id,
+    category,
+    path: id,
+    prompt: `## ${id}\n\n### Apply\n- ${id} body`,
+  });
+  const catalog = [
+    option('Color', 'muted'),
+    option('Lighting', 'backlit'),
+    option('Mood', 'cute'),
+    option('Composition', 'centered'),
+  ];
+  const text = makePrompt(
+    catalog,
+    { Color: ['muted'], Lighting: ['backlit'], Mood: ['cute'], Composition: ['centered'] },
+    3,
+    {},
+    false,
+  );
+  const order = [
+    '## Color: muted',
+    '## Lighting: backlit',
+    '## Composition: centered',
+    '## Mood: cute',
+  ];
+  assert.deepEqual(
+    order.map((heading) => text.indexOf(heading)),
+    order.map((heading) => text.indexOf(heading)).sort((a, b) => a - b),
+  );
+  assert.ok(text.includes('Lighting: backlit\nComposition: centered\nMood: cute'));
+  assert.ok(text.includes('follow this priority: Color, Lighting, Composition, Mood.'));
 });
