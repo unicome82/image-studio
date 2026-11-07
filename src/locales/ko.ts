@@ -88,7 +88,6 @@ const translation: Record<string, string> = {
   'Image Studio home': '이미지 스튜디오 홈',
   'Search gallery': '갤러리 검색',
   Search: '검색',
-  'Search results for {{query}}': '{{query}} 검색 결과입니다',
   'Clear search': '검색 지우기',
   'Show bookmarks': '북마크 보기',
   'Open saved style sets': '저장된 스타일셋 열기',

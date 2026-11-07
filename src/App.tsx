@@ -305,11 +305,6 @@ export default function App() {
                 )}
               </div>
             </div>
-            {query.trim() && (
-              <p className="search-result-note">
-                {t('Search results for {{query}}', { query: query.trim() })}
-              </p>
-            )}
             {Object.keys(effectiveFilters).length > 0 && (
               <SelectionSummary label={t('Selected filters')}>
                 <SelectedFilters
