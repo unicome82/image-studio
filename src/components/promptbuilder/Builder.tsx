@@ -142,7 +142,11 @@ export default function Builder(p: Props) {
       <div className="builder-viewport" ref={viewportRef}>
         <div className="builder-wrap builder-heading sticky-heading" ref={headingRef}>
           <h2 className="builder-title">
-            {resolving ? t('Refine filter choices') : t('Prompt Builder')}
+            {resolving ? (
+              t('Refine filter choices')
+            ) : (
+              <label htmlFor={`${tabsId}-subject`}>{t('What would you like to draw?')}</label>
+            )}
             {!resolving && editor && (
               <button
                 className="icon-button"
@@ -205,13 +209,13 @@ export default function Builder(p: Props) {
               </section>
             ) : (
               <>
-                <h3 className="builder-section-title">
-                  <label htmlFor={`${tabsId}-subject`}>{t('What would you like to draw?')}</label>
+                <h3 className="builder-subject-title" id={`${tabsId}-subject-hint`}>
+                  {t('Random generation if left blank')}
                 </h3>
                 <input
                   id={`${tabsId}-subject`}
                   className="builder-subject"
-                  placeholder={t('Random generation if left blank')}
+                  aria-describedby={`${tabsId}-subject-hint`}
                   value={p.fields.Subject ?? ''}
                   onChange={(e) => p.setFields({ ...p.fields, Subject: e.target.value })}
                 />

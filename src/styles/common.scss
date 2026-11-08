@@ -1639,6 +1639,10 @@ textarea,
     @include uppercase-text;
     margin-top: 16px;
   }
+  &-subject-title {
+    @include builder-option-heading;
+    margin: 0 0 8px;
+  }
   &-section-title {
     margin: 0 0 8px;
     color: $black;
