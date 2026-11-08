@@ -176,7 +176,6 @@ export default function App() {
     selection:
       selected?.selection ??
       (selectedOption ? { [selectedOption.category]: [selectedOption.id] } : {}),
-    complexity: selected?.complexity ?? 3,
     fields: {
       'Aspect Ratio': selected ? normalizeRatio(`${selected.width}:${selected.height}`) : '1:1',
       'Additional Instructions': '',
@@ -185,7 +184,6 @@ export default function App() {
   const detailSavePrompt = makePrompt(
     catalog,
     detailPreset.selection,
-    detailPreset.complexity,
     detailPreset.fields,
     detailPhoto,
   );
@@ -403,8 +401,6 @@ export default function App() {
           applyRecipe={draft.applyRecipe}
           startNew={draft.startNew}
           removeOption={draft.removeOption}
-          complexity={draft.complexity}
-          setComplexity={draft.setComplexity}
           fields={draft.fields}
           setFields={draft.setFields}
           photo={draft.photo}

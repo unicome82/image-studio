@@ -28,7 +28,6 @@ export default function Presets(p: Props) {
             const prompt = makePrompt(
               p.catalog,
               preset.selection,
-              preset.complexity,
               preset.fields,
               preset.photo,
               preset.design,
@@ -84,7 +83,6 @@ export default function Presets(p: Props) {
                     fields={preset.fields}
                     photo={preset.photo}
                     design={preset.design}
-                    complexity={preset.complexity}
                   />
                 </div>
                 <div className="prompt-box">

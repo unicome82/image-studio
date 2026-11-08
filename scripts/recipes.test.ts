@@ -44,20 +44,18 @@ test('Recipes use real catalog options within Builder limits and translated name
           `${recipe.id} ${category}:${id}`,
         );
     }
-    assert.ok(matchesRecipe(recipe, recipe.selection, recipe.complexity, recipe.ratio));
-    assert.ok(!matchesRecipe(recipe, recipe.selection, recipe.complexity, '16:9'));
+    assert.ok(matchesRecipe(recipe, recipe.selection, recipe.ratio));
+    assert.ok(!matchesRecipe(recipe, recipe.selection, '16:9'));
   }
 });
 
-test('Every prompt carries the lead, scene direction and quality standard', () => {
+test('Every prompt carries the lead and a plain subject direction without polish wording', () => {
   const style = { id: 'x', label: 'X', category: 'Photo Style', path: 'x', prompt: 'x' };
-  const prompt = makePrompt([style], { 'Photo Style': ['x'] }, 3, { Subject: 'A cup' }, true);
+  const prompt = makePrompt([style], { 'Photo Style': ['x'] }, { Subject: 'A cup' }, true);
   assert.ok(prompt.includes('Let the Photo Style define the overall concept'));
-  assert.ok(
-    prompt.includes('Art-direct the requested subject as a specific, fully realized scene'),
-  );
-  assert.ok(prompt.includes('high-end editorial or portfolio photograph'));
-  const random = makePrompt([], {}, 3, {}, false);
+  assert.ok(prompt.includes('Show the requested subject plainly with one clear focal point'));
+  assert.ok(!/high-end|portfolio|crisp focus|Art-direct/.test(prompt));
+  const random = makePrompt([], {}, {}, false);
   assert.ok(!random.includes('define the overall concept'));
-  assert.ok(random.includes('Art-direct the chosen subject'));
+  assert.ok(random.includes('Show the chosen subject plainly'));
 });

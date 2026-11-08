@@ -7,7 +7,6 @@ export interface SampleImage {
   height: number;
   color: string;
   selection: Selection;
-  complexity: number;
 }
 export const sampleImages: Record<string, SampleImage[]> = {
   artdeco: [
@@ -25,7 +24,6 @@ export const sampleImages: Record<string, SampleImage[]> = {
         Composition: ['symmetric'],
         Mood: ['luxe'],
       },
-      complexity: 3,
     },
   ],
 };

@@ -1,7 +1,6 @@
 import { useTranslation } from 'react-i18next';
 import Icon from '../Icon';
 import type { Option, Selection } from '../../utils/promptBuilder';
-import { complexityUiLabels as complexityLabels } from '../../utils/promptBuilder';
 import { selectedBuilderOptions } from '../../utils/selectedOptions';
 import { optionLabelKey } from '../../utils/optionChoices';
 export interface SelectedOptionsProps {
@@ -10,7 +9,6 @@ export interface SelectedOptionsProps {
   fields: Record<string, string>;
   photo: boolean;
   design?: boolean;
-  complexity: number;
   remove?: (category: string, id: string) => void;
   english?: boolean;
 }
@@ -20,7 +18,6 @@ export default function SelectedOptions({
   fields,
   photo,
   design = false,
-  complexity,
   remove,
   english = false,
 }: SelectedOptionsProps) {
@@ -42,11 +39,6 @@ export default function SelectedOptions({
       label: t(design ? 'Design' : photo ? 'Photo' : 'Illustration'),
     },
     { key: 'ratio', title: t('Aspect ratio'), label: fields['Aspect Ratio'] || '1:1' },
-    {
-      key: 'complexity',
-      title: t('Complexity'),
-      label: `${t('Complexity')} ${t(complexityLabels[complexity - 1])}`,
-    },
     ...(outline ? [{ key: 'outline', title: t('Outline'), label: t(outline.label) }] : []),
   ];
   const optionLabel = (option: Option) => t(optionLabelKey(option));

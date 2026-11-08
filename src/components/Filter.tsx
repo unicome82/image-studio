@@ -153,8 +153,7 @@ export function SelectedFilters({
     <div className="filter-summary">
       <div className="selected-options" role="group" aria-label={t('Selected filters')}>
         {options.map((option) => {
-          const value = t(optionLabelKey(option));
-          const label = option.category === 'Complexity' ? `${t('Complexity')} ${value}` : value;
+          const label = t(optionLabelKey(option));
           return (
             <span
               className="selected-option"

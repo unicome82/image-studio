@@ -3,9 +3,8 @@ import { builderCategories, optionLimit, type Option, type Selection } from './p
 export type FilterType = 'all' | 'illustration' | 'photo' | 'design';
 
 export function filterCategories(type: FilterType): string[] {
-  const shared = ['Aspect Ratio', 'Complexity'];
   return [
-    ...shared,
+    'Aspect Ratio',
     ...(type === 'illustration'
       ? builderCategories(false)
       : type === 'design'
@@ -41,7 +40,7 @@ export function pendingBuilderFilters(
   photo: boolean,
   design = false,
 ): Selection {
-  const categories = [...builderCategories(photo, design), 'Aspect Ratio', 'Complexity'];
+  const categories = [...builderCategories(photo, design), 'Aspect Ratio'];
   return Object.fromEntries(
     Object.entries(filters).filter(
       ([category, ids]) => categories.includes(category) && ids.length > optionLimit(),
@@ -78,13 +77,11 @@ export function filterMetadata(
   selection: Selection,
   photo: boolean,
   ratio: string,
-  complexity?: number,
   design = false,
 ): Selection {
   return {
     ...selection,
     Type: [design ? 'design' : photo ? 'photo' : 'illustration'],
     'Aspect Ratio': [normalizeRatio(ratio)],
-    ...(complexity === undefined ? {} : { Complexity: [String(complexity)] }),
   };
 }

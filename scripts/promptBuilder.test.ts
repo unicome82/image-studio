@@ -55,18 +55,12 @@ test('only selected prompt bodies; typography requires its switch, photography r
     Typography: ['groovy'],
     'Photo Style': ['film'],
   };
-  const text = makePrompt(catalog, sel, 3, { Text: '' }, false);
+  const text = makePrompt(catalog, sel, { Text: '' }, false);
   assert.ok(text.includes('CONTENT_reference_folk_prompt_md'));
   assert.ok(!text.includes('/missing/'));
   assert.ok(!text.includes('CONTENT_reference_options_typography_groovy_prompt_md'));
   assert.ok(!text.includes('CONTENT_reference_options_photography_film_prompt_md'));
-  const full = makePrompt(
-    catalog,
-    sel,
-    3,
-    { Text: 'EXACT TEXT', 'Typography Enabled': 'true' },
-    true,
-  );
+  const full = makePrompt(catalog, sel, { Text: 'EXACT TEXT', 'Typography Enabled': 'true' }, true);
   assert.ok(full.includes('CONTENT_reference_options_typography_groovy_prompt_md'));
   assert.ok(full.includes('CONTENT_reference_options_photography_film_prompt_md'));
   assert.ok(full.includes('Text: EXACT TEXT'));
@@ -118,7 +112,6 @@ test('Photo prompt excludes hidden illustration options and preserves shared opt
       'Photo Style': ['film'],
       Color: ['muted'],
     },
-    3,
     {},
     true,
   );
@@ -149,14 +142,15 @@ test('saved style sets validate storage, remove stale IDs and retain fields and 
     fields: { Subject: 'A tree', Text: 'TREE', 'Aspect Ratio': '3:4' },
   };
   const parsed = parsePresets(
-    JSON.stringify([valid, valid, { ...valid, id: '2', complexity: 9 }]),
+    JSON.stringify([valid, valid, { ...valid, id: '2', photo: 'yes' }]),
     catalog,
   );
   assert.equal(parsed.length, 1);
   assert.equal('name' in parsed[0], false);
   assert.deepEqual(parsed[0].selection['Illustration Style'], ['folk']);
   assert.equal(parsed[0].fields.Subject, 'A tree');
-  assert.equal(parsed[0].complexity, 4);
+  // Removed fields such as the old complexity level are dropped on load.
+  assert.equal('complexity' in parsed[0], false);
   assert.equal(parsed[0].photo, false);
   assert.deepEqual(parsePresets('invalid JSON', catalog), []);
   assert.deepEqual(parsePresets('{}', catalog), []);
@@ -173,7 +167,7 @@ test('compact direction preserves legacy preset fields and typography text', () 
   assert.equal(fields['Aspect Ratio'], '3:4');
   assert.equal(Object.keys(fields).length, 5);
   assert.equal(fields.Subject, 'A garden');
-  assert.ok(makePrompt([], {}, 3, fields, false).includes('Subject: A garden'));
+  assert.ok(makePrompt([], {}, fields, false).includes('Subject: A garden'));
   assert.ok(!fields['Additional Instructions'].includes('Subject:'));
   assert.equal(fields.Text, 'FLOWER');
   assert.equal(fields['Typography Enabled'], 'false');
@@ -187,24 +181,15 @@ test('compact direction preserves legacy preset fields and typography text', () 
       path: 'reference/options/typography/groovy/prompt.md',
       prompt: 'CONTENT_reference_options_typography_groovy_prompt_md',
     },
-    {
-      id: 'detailed',
-      label: 'Detailed',
-      category: 'Complexity',
-      path: 'reference/options/complexity/detailed/prompt.md',
-      prompt: 'CONTENT_reference_options_complexity_detailed_prompt_md',
-    },
   ];
   const result = makePrompt(
     catalog,
     { Typography: ['groovy'] },
-    4,
     { ...fields, 'Typography Enabled': 'true' },
     false,
   );
   assert.ok(result.includes('CONTENT_reference_options_typography_groovy_prompt_md'));
-  assert.ok(result.includes('Complexity: High'));
-  assert.ok(!/Complexity:\s*\d/.test(result));
+  assert.ok(!result.includes('Complexity'));
   assert.ok(result.includes('Muted light'));
 });
 
@@ -219,17 +204,16 @@ test('Typography defaults off, supports automatic text when enabled, and restore
     },
   ];
   const selection = { Typography: ['groovy'] };
-  const off = makePrompt(catalog, selection, 3, { Text: 'HIDDEN' }, false);
+  const off = makePrompt(catalog, selection, { Text: 'HIDDEN' }, false);
   assert.ok(!off.includes('CONTENT_reference_options_typography_groovy_prompt_md'));
   assert.ok(!off.includes('HIDDEN'));
-  const auto = makePrompt(catalog, selection, 3, { 'Typography Enabled': 'true', Text: '' }, false);
+  const auto = makePrompt(catalog, selection, { 'Typography Enabled': 'true', Text: '' }, false);
   assert.ok(auto.includes('CONTENT_reference_options_typography_groovy_prompt_md'));
   assert.ok(auto.includes('Choose suitable wording freely'));
   assert.ok(!auto.includes('Typography Enabled:'));
   const exact = makePrompt(
     catalog,
     selection,
-    3,
     { 'Typography Enabled': 'true', Text: 'HELLO' },
     false,
   );
@@ -259,11 +243,11 @@ test('Blank subjects request random image content while explicit subjects remain
   for (const photo of [false, true]) {
     for (const Subject of [undefined, '', '   ']) {
       const fields: Record<string, string> = Subject === undefined ? {} : { Subject };
-      const prompt = makePrompt([], {}, 3, fields, photo);
+      const prompt = makePrompt([], {}, fields, photo);
       assert.ok(prompt.includes('Subject: Not specified. Choose a random subject and scene'));
       assert.ok(prompt.includes(`create the ${photo ? 'photograph' : 'image'} without asking`));
     }
-    const prompt = makePrompt([], {}, 3, { Subject: 'A cat in Seoul' }, photo);
+    const prompt = makePrompt([], {}, { Subject: 'A cat in Seoul' }, photo);
     assert.ok(prompt.includes('Subject: A cat in Seoul'));
     assert.ok(!prompt.includes('Choose a random subject'));
   }
@@ -271,11 +255,11 @@ test('Blank subjects request random image content while explicit subjects remain
 
 import { readdirSync, readFileSync } from 'node:fs';
 import type { Option } from '../src/utils/promptBuilder.ts';
-test('copied prompts contain canonical MD bodies, selected complexity and no file-reading instructions', () => {
+test('copied prompts contain canonical MD bodies, the simple depiction and no file-reading instructions', () => {
   const paths = [
     'reference/naivefolk/prompt.md',
     'reference/options/color/muted/prompt.md',
-    'reference/options/complexity/balanced/prompt.md',
+    'reference/options/depiction/simple/prompt.md',
     'reference/options/typography/bubblelettering/prompt.md',
     'reference/options/photography/portrait/prompt.md',
   ];
@@ -299,18 +283,21 @@ test('copied prompts contain canonical MD bodies, selected complexity and no fil
     const result = makePrompt(
       catalog,
       selection,
-      3,
       { Subject: 'A fox', 'Typography Enabled': 'true', Text: 'FOX' },
       photo,
     );
     for (const option of catalog) {
+      // The simple depiction is a fixed default, so it is always included.
       const included = photo
         ? option.category !== 'Illustration Style'
         : option.category !== 'Photo Style';
       // Color is selected, so style fallback lines for open Color/Lighting/Texture are dropped.
       assert.equal(result.includes(instructions(option, true)), included, option.path);
-      const label = option.category === 'Complexity' ? 'Medium' : option.label;
-      assert.equal(result.includes(`## ${option.category}: ${label}`), included, option.path);
+      assert.equal(
+        result.includes(`## ${option.category}: ${option.label}`),
+        included,
+        option.path,
+      );
     }
     assert.ok(!result.includes('.md'));
     assert.ok(!result.includes('Read only'));
@@ -319,7 +306,7 @@ test('copied prompts contain canonical MD bodies, selected complexity and no fil
     assert.ok(result.includes('Subject: A fox'));
     assert.ok(result.includes('Text: FOX'));
   }
-  const withoutTypography = makePrompt(catalog, selection, 3, {}, false);
+  const withoutTypography = makePrompt(catalog, selection, {}, false);
   assert.ok(
     !withoutTypography.includes(instructions(catalog.find((o) => o.category === 'Typography')!)),
   );
@@ -336,7 +323,7 @@ test('Final instructions only preserve what was requested and name Outline as Re
         '## Outline Only\n\n- **Category:** Outline\n- **Style ID:** `outlineonly`\n\n### Apply\n- Lines only.',
     },
   ];
-  const random = makePrompt(catalog, { Outline: ['outlineonly'] }, 3, {}, false);
+  const random = makePrompt(catalog, { Outline: ['outlineonly'] }, {}, false);
   assert.ok(random.includes('## Rendering Mode: Outline Only\n### Apply\n- Lines only.'));
   assert.ok(random.includes('Rendering Mode: Outline Only'));
   assert.ok(random.includes('apply the color palette to the line colors'));
@@ -347,16 +334,15 @@ test('Final instructions only preserve what was requested and name Outline as Re
   const exact = makePrompt(
     [],
     {},
-    3,
     { Subject: 'A fox', 'Typography Enabled': 'true', Text: 'FOX' },
     false,
   );
   assert.ok(exact.includes('Preserve the requested subject, the exact text and the aspect ratio.'));
   assert.ok(!exact.includes('Rendering Mode'));
-  const design = makePrompt([], {}, 3, {}, false, true);
+  const design = makePrompt([], {}, {}, false, true);
   assert.ok(design.startsWith('Create a finished graphic design'));
   assert.ok(design.includes('create the graphic design without asking for a subject'));
-  assert.ok(makePrompt([], {}, 3, {}, true).startsWith('Create a photograph'));
+  assert.ok(makePrompt([], {}, {}, true).startsWith('Create a photograph'));
 });
 
 test('Saved sets using the former category names load under the aligned names', () => {
@@ -392,7 +378,6 @@ test('Prompts state the typography setting and a conflict priority', () => {
   const off = makePrompt(
     catalog,
     { 'Illustration Style': ['maximalism'], Color: ['muted'] },
-    1,
     {},
     false,
   );
@@ -407,7 +392,7 @@ test('Prompts state the typography setting and a conflict priority', () => {
       'If selected instructions conflict, follow this priority: the style and technique instructions, Color.',
     ),
   );
-  const on = makePrompt(catalog, { Color: ['muted'] }, 1, { 'Typography Enabled': 'true' }, true);
+  const on = makePrompt(catalog, { Color: ['muted'] }, { 'Typography Enabled': 'true' }, true);
   assert.ok(on.includes('Typography: On'));
   assert.ok(on.includes('Render all text legibly'));
   assert.ok(!on.includes('follow this priority'));
@@ -536,7 +521,6 @@ test('Mood and Lighting appear in the prompt, summary and conflict priority', ()
   const text = makePrompt(
     catalog,
     { Color: ['muted'], Lighting: ['backlit'], Mood: ['cute'], Composition: ['centered'] },
-    3,
     {},
     false,
   );
@@ -572,12 +556,11 @@ test('Lead style comes first, key direction opens and closes the prompt, fallbac
     option('Color', 'Dark', '## Dark\n- Dark.'),
   ];
   const sel = { 'Photo Style': ['Portrait'], Camera: ['Lens'] };
-  const open = makePrompt(catalog, sel, 3, { Subject: 'A fox', 'Aspect Ratio': '4:5' }, true);
+  const open = makePrompt(catalog, sel, { Subject: 'A fox', 'Aspect Ratio': '4:5' }, true);
   assert.ok(open.includes('use soft light'));
   const result = makePrompt(
     catalog,
     { ...sel, Color: ['Dark'] },
-    3,
     { Subject: 'A fox', 'Aspect Ratio': '4:5' },
     true,
   );
@@ -588,12 +571,20 @@ test('Lead style comes first, key direction opens and closes the prompt, fallbac
   const lines = result.split('\n');
   assert.equal(lines[1], `Key direction: ${key}.`);
   assert.ok(lines.at(-1)!.endsWith(`Most important, restated: ${key}.`));
-  assert.ok(result.includes('Complexity: Medium'));
+  assert.ok(!result.includes('Complexity'));
 });
 
-test('High complexity drops the negative-space finish', () => {
-  const finish = (level: number) => makePrompt([], {}, level, { 'Aspect Ratio': '1:1' }, false);
-  assert.ok(finish(3).includes('deliberate negative space, and no clutter'));
-  assert.ok(!finish(4).includes('negative space'));
-  assert.ok(finish(5).includes('a clear focal hierarchy among the details'));
+test('Every prompt adds the fixed simple depiction after the chosen options', () => {
+  const depiction = {
+    id: 'simple',
+    label: 'Simple',
+    category: 'Depiction',
+    path: 'reference/options/depiction/simple/prompt.md',
+    prompt: '## Simple\n\n- **Category:** Depiction\n- **Style ID:** `simple`\n\n- Keep it simple.',
+  };
+  const color = { id: 'muted', label: 'Muted', category: 'Color', path: 'c', prompt: '- Muted.' };
+  const prompt = makePrompt([color, depiction], { Color: ['muted'] }, {}, false);
+  assert.ok(prompt.indexOf('## Color: Muted') < prompt.indexOf('## Depiction: Simple'));
+  assert.ok(prompt.includes('## Depiction: Simple\n- Keep it simple.'));
+  assert.ok(prompt.includes('\nDepiction: Simple\n'));
 });

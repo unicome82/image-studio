@@ -10,7 +10,6 @@ import { mobileQuery, useMediaQuery } from '../../utils/useMediaQuery';
 import {
   aspectRatios,
   builderCategories,
-  complexityUiLabels as complexityLabels,
   isTypographyEnabled,
   optionLimit,
 } from '../../utils/promptBuilder';
@@ -31,8 +30,6 @@ interface Props {
   applyRecipe: (recipe: Recipe) => void;
   startNew: (type: 'illustration' | 'photo' | 'design') => void;
   removeOption: (category: string, id: string) => void;
-  complexity: number;
-  setComplexity: (n: number) => void;
   fields: Record<string, string>;
   setFields: (fields: Record<string, string>) => void;
   photo: boolean;
@@ -80,8 +77,7 @@ export default function Builder(p: Props) {
   ] as const;
   const chosenRecipe = recipes.find(
     (recipe) =>
-      recipe.type === p.type &&
-      matchesRecipe(recipe, p.selection, p.complexity, p.fields['Aspect Ratio'] ?? ''),
+      recipe.type === p.type && matchesRecipe(recipe, p.selection, p.fields['Aspect Ratio'] ?? ''),
   );
   const editor = p.step === 'editor';
   // Recipe cards show the output only once a recipe is chosen.
@@ -96,7 +92,6 @@ export default function Builder(p: Props) {
       fields={p.fields}
       photo={p.photo}
       design={design}
-      complexity={p.complexity}
       remove={p.removeOption}
     />
   );
@@ -125,7 +120,6 @@ export default function Builder(p: Props) {
             fields: p.fields,
             photo: p.photo,
             design,
-            complexity: p.complexity,
           }}
         />
       )}
@@ -296,18 +290,6 @@ export default function Builder(p: Props) {
                           .map((ratio) => ({ id: ratio, label: ratio }))}
                         selected={[p.fields['Aspect Ratio'] || '2:3']}
                         choose={(ratio) => p.setFields({ ...p.fields, 'Aspect Ratio': ratio })}
-                      />
-                    </section>
-                    <section className="option-section">
-                      <OptionChoices
-                        title="Complexity"
-                        multiple={false}
-                        options={complexityLabels.map((label, index) => ({
-                          id: String(index + 1),
-                          label,
-                        }))}
-                        selected={[String(p.complexity)]}
-                        choose={(level) => p.setComplexity(Number(level))}
                       />
                     </section>
                     {categories.map((category) => {

@@ -48,7 +48,6 @@ export function usePresets({ filterType, query, effectiveFilters, showToast }: O
             preset.selection,
             preset.photo,
             preset.fields['Aspect Ratio'] || '1:1',
-            preset.complexity,
             preset.design,
           ),
           effectiveFilters,
@@ -74,7 +73,6 @@ export function usePresets({ filterType, query, effectiveFilters, showToast }: O
       photo: settings.photo,
       design: !!settings.design,
       selection: structuredClone(settings.selection),
-      complexity: settings.complexity,
       fields: { ...settings.fields },
     };
     const saved = persist(id ? presets.map((p) => (p.id === id ? value : p)) : [value, ...presets]);

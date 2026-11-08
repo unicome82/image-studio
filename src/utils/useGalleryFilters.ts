@@ -13,13 +13,13 @@ import {
   toggleFilter,
   type FilterType,
 } from './filters';
-import { aspectRatios, complexityUiLabels, toggleOption, type Selection } from './promptBuilder';
+import { aspectRatios, toggleOption, type Selection } from './promptBuilder';
 import { sampleImages } from './sampleImages';
 
 // Sample tile heights at a 1200px width; their ratios also seed the ratio filter.
 const sampleHeights = [1500, 900, 1800, 1200, 1600, 1000, 1400, 1900];
 export const filterCatalog = [
-  ...catalog.filter((option) => option.category !== 'Complexity'),
+  ...catalog.filter((option) => option.category !== 'Depiction'),
   ...[
     {
       category: 'Aspect Ratio',
@@ -29,10 +29,6 @@ export const filterCatalog = [
           ...sampleHeights.map((height) => normalizeRatio(`1200:${height}`)),
         ]),
       ].map((ratio) => ({ id: ratio, label: ratio })),
-    },
-    {
-      category: 'Complexity',
-      options: complexityUiLabels.map((label, index) => ({ id: String(index + 1), label })),
     },
   ].flatMap(({ category, options }) =>
     options.map((option) => ({ ...option, category, path: '', prompt: '' })),
@@ -142,7 +138,7 @@ function sampleOptions(id: string, style: Selection, photo: boolean) {
   }
   for (const category of sampleCategories)
     selection = pick(selection, category, category === 'Color' ? 2 : 1);
-  return { selection, complexity: 1 + Math.floor(random() * 5) };
+  return { selection };
 }
 
 interface Options {
@@ -200,7 +196,6 @@ export function useGalleryFilters({ onlySaved, bookmarks, favoriteSort, onChange
             width: image.width,
             height: image.height,
             selection: image.selection,
-            complexity: image.complexity,
           })),
           ...group.colors.map((color, index) => {
             const id = `${source.photo ? 'photo' : 'illustration'}-${group.id}-${index}`;
@@ -216,14 +211,14 @@ export function useGalleryFilters({ onlySaved, bookmarks, favoriteSort, onChange
             };
           }),
         ].filter((tile) => {
-          [...Object.keys(tile.selection), 'Aspect Ratio', 'Complexity'].forEach((category) =>
+          [...Object.keys(tile.selection), 'Aspect Ratio'].forEach((category) =>
             availableCategories.add(category),
           );
           const ratio = `${tile.width}:${tile.height}`;
           const applied = Object.entries(tile.selection).flatMap(([category, ids]) =>
             ids.map((id) => catalog.find((o) => o.category === category && o.id === id)),
           );
-          // Mirrors the thumbnail and detail tags: name, type, ratio, complexity and every applied option.
+          // Mirrors the thumbnail and detail tags: name, type, ratio and every applied option.
           const text = [
             imageName(tile),
             group.label,
@@ -234,18 +229,13 @@ export function useGalleryFilters({ onlySaved, bookmarks, favoriteSort, onChange
             t(type),
             ratio,
             normalizeRatio(ratio),
-            complexityUiLabels[tile.complexity - 1],
-            t(complexityUiLabels[tile.complexity - 1]),
           ]
             .join(' ')
             .toLowerCase();
           return (
             terms.every((term) => text.includes(term)) &&
             (!onlySaved || bookmarks.includes(tile.id)) &&
-            matchesFilters(
-              filterMetadata(tile.selection, source.photo, ratio, tile.complexity),
-              effectiveFilters,
-            )
+            matchesFilters(filterMetadata(tile.selection, source.photo, ratio), effectiveFilters)
           );
         }),
       };

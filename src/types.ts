@@ -11,7 +11,6 @@ export interface GalleryTile {
   height: number;
   // Applied Builder options; samples carry seeded values drawn from the real catalog.
   selection?: Record<string, string[]>;
-  complexity?: number;
 }
 export interface GallerySection {
   id: string;

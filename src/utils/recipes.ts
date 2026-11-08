@@ -10,7 +10,6 @@ export interface Recipe {
   color: string;
   type: 'illustration' | 'photo' | 'design';
   selection: Selection;
-  complexity: number;
   ratio: string;
   typography?: boolean;
 }
@@ -30,7 +29,6 @@ export const recipes: Recipe[] = [
       Composition: ['minimal'],
       Mood: ['serene'],
     },
-    complexity: 2,
     ratio: '4:5',
   },
   {
@@ -47,7 +45,6 @@ export const recipes: Recipe[] = [
       Lighting: ['softdaylight'],
       Mood: ['cozy'],
     },
-    complexity: 3,
     ratio: '4:5',
   },
   {
@@ -65,7 +62,6 @@ export const recipes: Recipe[] = [
       Texture: ['softmatte'],
       Mood: ['playful'],
     },
-    complexity: 2,
     ratio: '1:1',
   },
   {
@@ -82,7 +78,6 @@ export const recipes: Recipe[] = [
       Composition: ['dynamic'],
       Mood: ['bold'],
     },
-    complexity: 3,
     ratio: '4:5',
   },
   {
@@ -100,7 +95,6 @@ export const recipes: Recipe[] = [
       Composition: ['minimal'],
       Mood: ['luxe'],
     },
-    complexity: 2,
     ratio: '4:5',
   },
   {
@@ -116,7 +110,6 @@ export const recipes: Recipe[] = [
       Lighting: ['softdaylight'],
       Mood: ['fresh'],
     },
-    complexity: 3,
     ratio: '4:5',
   },
   {
@@ -133,7 +126,6 @@ export const recipes: Recipe[] = [
       Texture: ['filmgrain'],
       Mood: ['moody'],
     },
-    complexity: 3,
     ratio: '2:3',
   },
   {
@@ -149,7 +141,6 @@ export const recipes: Recipe[] = [
       Lighting: ['hardflash'],
       Mood: ['raw'],
     },
-    complexity: 3,
     ratio: '2:3',
   },
   {
@@ -165,7 +156,6 @@ export const recipes: Recipe[] = [
       Composition: ['grid'],
       Mood: ['bold'],
     },
-    complexity: 2,
     ratio: '3:4',
     typography: true,
   },
@@ -182,7 +172,6 @@ export const recipes: Recipe[] = [
       Texture: ['frostedglass'],
       Mood: ['futuristic'],
     },
-    complexity: 2,
     ratio: '4:5',
   },
   {
@@ -197,7 +186,6 @@ export const recipes: Recipe[] = [
       Color: ['vivid'],
       Mood: ['playful'],
     },
-    complexity: 3,
     ratio: '1:1',
   },
   {
@@ -214,17 +202,11 @@ export const recipes: Recipe[] = [
       Texture: ['softmatte'],
       Mood: ['luxe'],
     },
-    complexity: 2,
     ratio: '4:5',
   },
 ];
 /** A recipe stays marked while the draft still matches it exactly. */
-export function matchesRecipe(
-  recipe: Recipe,
-  selection: Selection,
-  complexity: number,
-  ratio: string,
-): boolean {
+export function matchesRecipe(recipe: Recipe, selection: Selection, ratio: string): boolean {
   const ids = (value: Selection) =>
     JSON.stringify(
       Object.entries(value)
@@ -232,9 +214,5 @@ export function matchesRecipe(
         .map(([category, list]) => [category, [...list].sort()])
         .sort(),
     );
-  return (
-    complexity === recipe.complexity &&
-    ratio === recipe.ratio &&
-    ids(selection) === ids(recipe.selection)
-  );
+  return ratio === recipe.ratio && ids(selection) === ids(recipe.selection);
 }

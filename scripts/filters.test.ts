@@ -39,7 +39,6 @@ test('filters have no selection limit and builder handoff retains every unresolv
   const singles = {
     Outline: ['coloronly', 'outlineonly'],
     'Aspect Ratio': ['1:1', '4:5'],
-    Complexity: ['2', '3'],
   };
   assert.deepEqual(pendingBuilderFilters(singles, false), singles);
   assert.deepEqual(pendingBuilderFilters({ Outline: singles.Outline }, true), {});
@@ -105,10 +104,7 @@ test('image dimensions and saved aspect ratios match equivalent reduced ratios',
   assert.equal(normalizeRatio('invalid'), 'invalid');
   const image = filterMetadata({ Technique: ['risograph'] }, false, '1200:1500');
   assert.equal(matchesFilters(image, { Type: ['illustration'], 'Aspect Ratio': ['4:5'] }), true);
-  assert.equal(matchesFilters(image, { Complexity: ['3'] }), false);
-  const preset = filterMetadata({ 'Photo Style': ['film'] }, true, '1200:1500', 3);
-  assert.equal(
-    matchesFilters(preset, { Type: ['photo'], 'Aspect Ratio': ['4:5'], Complexity: ['3'] }),
-    true,
-  );
+  assert.equal(matchesFilters(image, { 'Aspect Ratio': ['1:1'] }), false);
+  const preset = filterMetadata({ 'Photo Style': ['film'] }, true, '1200:1500');
+  assert.equal(matchesFilters(preset, { Type: ['photo'], 'Aspect Ratio': ['4:5'] }), true);
 });

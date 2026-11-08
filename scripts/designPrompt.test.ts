@@ -44,7 +44,7 @@ test('design prompts use canonical format/style instructions, shared options and
     'Typography Enabled': 'true',
     Text: 'SPRING 2027',
   };
-  const prompt = makePrompt(catalog, selection, 3, fields, false, true);
+  const prompt = makePrompt(catalog, selection, fields, false, true);
   assert.match(prompt, /Create a finished graphic design/);
   for (const [category, id] of [
     ['Design Format', 'poster'],
@@ -71,7 +71,7 @@ test('design prompts use canonical format/style instructions, shared options and
     ),
   );
   assert.match(
-    makePrompt(catalog, selection, 3, { ...fields, 'Typography Enabled': 'false' }, false, true),
+    makePrompt(catalog, selection, { ...fields, 'Typography Enabled': 'false' }, false, true),
     /Typography is Off: do not add any readable text, letters, or numbers to the graphic design\./,
   );
 });
@@ -83,7 +83,6 @@ test('design presets round-trip with their type and rebuild the same prompt; leg
     design: true,
     selection: { 'Design Format': ['poster'], 'Design Style': ['swiss'] },
     fields: { Subject: 'Spring' },
-    complexity: 3,
   };
   const parsed = parsePresets(
     JSON.stringify([
@@ -101,17 +100,10 @@ test('design presets round-trip with their type and rebuild the same prompt; leg
   assert.equal(parsed[0].design, true);
   assert.equal(parsed[1].design, undefined);
   assert.equal(
-    makePrompt(
-      catalog,
-      parsed[0].selection,
-      3,
-      parsed[0].fields,
-      parsed[0].photo,
-      parsed[0].design,
-    ),
-    makePrompt(catalog, preset.selection, 3, preset.fields, false, true),
+    makePrompt(catalog, parsed[0].selection, parsed[0].fields, parsed[0].photo, parsed[0].design),
+    makePrompt(catalog, preset.selection, preset.fields, false, true),
   );
-  assert.deepEqual(filterMetadata(parsed[0].selection, false, '1:1', 3, true).Type, ['design']);
+  assert.deepEqual(filterMetadata(parsed[0].selection, false, '1:1', true).Type, ['design']);
 });
 test('design categories are separate; format and style each take one choice', () => {
   assert.ok(builderCategories(false, true).includes('Design Format'));

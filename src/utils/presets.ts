@@ -4,7 +4,6 @@ export interface StylePreset {
   photo: boolean;
   design?: boolean;
   selection: Selection;
-  complexity: number;
   fields: Record<string, string>;
 }
 export const presetKey = 'image-studio-presets';
@@ -70,9 +69,6 @@ export function parsePresets(raw: string | null, catalog: Option[]): StylePreset
         typeof item.photo !== 'boolean' ||
         (item.design !== undefined && typeof item.design !== 'boolean') ||
         (item.design === true && item.photo) ||
-        !Number.isInteger(item.complexity) ||
-        item.complexity < 1 ||
-        item.complexity > 5 ||
         !item.selection ||
         typeof item.selection !== 'object' ||
         Array.isArray(item.selection) ||
@@ -115,7 +111,6 @@ export function parsePresets(raw: string | null, catalog: Option[]): StylePreset
           photo: item.photo,
           ...(item.design === true ? { design: true } : {}),
           selection,
-          complexity: item.complexity,
           fields,
         },
       ];

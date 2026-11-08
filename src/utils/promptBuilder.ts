@@ -6,7 +6,6 @@ export interface Option {
   prompt: string;
 }
 export type Selection = Record<string, string[]>;
-export const levels = ['verysimple', 'simple', 'balanced', 'detailed', 'intricate'];
 // Suggested ratio when a design format is chosen; a ratio the user picked stays.
 export const designFormatRatios: Record<string, string> = {
   poster: '3:4',
@@ -31,7 +30,6 @@ export const recommendedTotal = 6;
 export function optionLimit(): number {
   return 1;
 }
-export const complexityUiLabels = ['Very Low', 'Low', 'Medium', 'High', 'Very High'];
 // Keep the subject editable while preserving older presets' negative instructions.
 export function compactFields(fields: Record<string, string>): Record<string, string> {
   const direction = ['Negative Prompt']
@@ -110,7 +108,6 @@ export function instructions(option: Option, dropFallbacks = false): string {
 export function makePrompt(
   catalog: Option[],
   selection: Selection,
-  complexity: number,
   fields: Record<string, string>,
   photo: boolean,
   design = false,
@@ -138,9 +135,9 @@ export function makePrompt(
       catalog.filter((o) => o.category === category && o.id === id),
     );
   });
-  const level = catalog.find((o) => o.category === 'Complexity' && o.id === levels[complexity - 1]);
-  const complexityLabel = complexityUiLabels[complexity - 1] ?? 'Medium';
-  const options = [...chosen, ...(level ? [{ ...level, label: complexityLabel }] : [])];
+  // Every prompt asks for a simple depiction; it is a fixed default, not a Builder choice.
+  const depiction = catalog.filter((o) => o.category === 'Depiction');
+  const options = [...chosen, ...depiction];
   const output = design ? 'graphic design' : photo ? 'photograph' : 'image';
   const subject = fields.Subject?.trim();
   const text = typography ? fields.Text?.trim() : '';
@@ -176,16 +173,7 @@ export function makePrompt(
     ].some((category) => present.has(category))
       ? ['the style and technique instructions']
       : []),
-    ...[
-      'Design Format',
-      'Outline',
-      'Color',
-      'Lighting',
-      'Complexity',
-      'Composition',
-      'Texture',
-      'Mood',
-    ]
+    ...['Design Format', 'Outline', 'Color', 'Lighting', 'Composition', 'Texture', 'Mood']
       .filter((category) => present.has(category))
       .map(promptCategory),
   ];
@@ -202,8 +190,7 @@ export function makePrompt(
           `Let the ${lead.join(' and ')} define the overall concept and treat the other selections as supporting details within it.`,
         ]
       : []),
-    `Art-direct ${subject ? 'the requested subject' : 'the chosen subject'} as a specific, fully realized scene: choose concrete materials, setting, props, and light that fit the selections, and keep one clear focal point.`,
-    `Finish it to the standard of a high-end editorial or portfolio ${output}: intentional art direction, crisp focus on the focal point, refined color, ${complexity >= 4 ? 'a clear focal hierarchy among the details, and no stray artifacts' : 'deliberate negative space, and no clutter or stray artifacts'}.`,
+    `Show ${subject ? 'the requested subject' : 'the chosen subject'} plainly with one clear focal point, adding only the elements it needs.`,
     ...(outline
       ? [
           `Rendering Mode takes priority for fills and outlines${outline.id === 'outlineonly' ? '; apply the color palette to the line colors' : ''}.`,
@@ -242,7 +229,7 @@ export function makePrompt(
         ]
       : []),
     ...chosen.map((o) => `${promptCategory(o.category)}: ${o.label}`),
-    `Complexity: ${complexityLabel}`,
+    ...depiction.map((o) => `${o.category}: ${o.label}`),
     '',
     '## Final Instructions',
     final.join(' '),
