@@ -145,15 +145,9 @@ export function makePrompt(
     ([key, value]) =>
       !['Subject', 'Aspect Ratio', 'Typography Enabled', 'Text'].includes(key) && value.trim(),
   );
-  const outline = chosen.find((o) => o.category === 'Outline');
-  const preserve = [
-    ...(subject ? ['the requested subject'] : []),
-    ...(text ? ['the exact text'] : []),
-    'the aspect ratio',
-  ];
   const present = new Set(options.map((o) => o.category));
   const dropFallbacks = ['Color', 'Lighting', 'Texture'].some((category) => present.has(category));
-  // The subject and lead style open and close the prompt so they carry the most weight.
+  // The subject and lead style open the prompt so they carry the most weight.
   const keyDirection = [
     subject ? `Subject "${fields.Subject}"` : 'a random subject you choose',
     ...chosen
@@ -161,50 +155,6 @@ export function makePrompt(
       .map((o) => `${o.category}: ${o.label}`),
     `Aspect Ratio: ${fields['Aspect Ratio']?.trim() || '1:1'}`,
   ].join('; ');
-  // The defining style leads conflicts too, matching the key direction that opens and closes the prompt.
-  const priority = [
-    ...([
-      'Illustration Style',
-      'Technique',
-      'Photo Style',
-      'Camera',
-      'Design Style',
-      'Typography',
-    ].some((category) => present.has(category))
-      ? ['the style and technique instructions']
-      : []),
-    ...['Design Format', 'Outline', 'Color', 'Lighting', 'Composition', 'Texture', 'Mood']
-      .filter((category) => present.has(category))
-      .map(promptCategory),
-  ];
-  // One lead direction keeps many selections reading as a single concept.
-  const lead = (
-    design ? ['Design Format', 'Design Style'] : [photo ? 'Photo Style' : 'Illustration Style']
-  ).filter((category) => present.has(category));
-  const final = [
-    design
-      ? 'Combine the selected design format, style, palette, layout, and surface instructions into one coherent graphic design. Produce the flat design artwork itself as the full image.'
-      : `Combine the selected instructions into one coherent ${output}.`,
-    ...(lead.length
-      ? [
-          `Let the ${lead.join(' and ')} define the overall concept and treat the other selections as supporting details within it.`,
-        ]
-      : []),
-    `Show ${subject ? 'the requested subject' : 'the chosen subject'} plainly with one clear focal point, adding only the elements it needs.`,
-    ...(outline
-      ? [
-          `Rendering Mode takes priority for fills and outlines${outline.id === 'outlineonly' ? '; apply the color palette to the line colors' : ''}.`,
-        ]
-      : []),
-    ...(priority.length > 1
-      ? [`If selected instructions conflict, follow this priority: ${priority.join(', ')}.`]
-      : []),
-    typography
-      ? `Render all text legibly${present.has('Typography') ? ', applying the Typography instructions' : ''} with a clear typographic hierarchy.`
-      : `Typography is Off: do not add any readable text, letters, or numbers to the ${output}.`,
-    `Preserve ${preserve.length > 1 ? `${preserve.slice(0, -1).join(', ')} and ${preserve.at(-1)}` : preserve[0]}.`,
-    `Most important, restated: ${keyDirection}.`,
-  ];
   return [
     `Create ${design ? 'a finished graphic design' : photo ? 'a photograph' : 'an image'} using the instructions below.`,
     `Key direction: ${keyDirection}.`,
@@ -230,8 +180,5 @@ export function makePrompt(
       : []),
     ...chosen.map((o) => `${promptCategory(o.category)}: ${o.label}`),
     ...depiction.map((o) => `${o.category}: ${o.label}`),
-    '',
-    '## Final Instructions',
-    final.join(' '),
   ].join('\n');
 }

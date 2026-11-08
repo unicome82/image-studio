@@ -312,7 +312,7 @@ test('copied prompts contain canonical MD bodies, the simple depiction and no fi
   );
 });
 
-test('Final instructions only preserve what was requested and name Outline as Rendering Mode', () => {
+test('Prompts end at Settings without final instructions and name Outline as Rendering Mode', () => {
   const catalog: Option[] = [
     {
       id: 'outlineonly',
@@ -326,8 +326,8 @@ test('Final instructions only preserve what was requested and name Outline as Re
   const random = makePrompt(catalog, { Outline: ['outlineonly'] }, {}, false);
   assert.ok(random.includes('## Rendering Mode: Outline Only\n### Apply\n- Lines only.'));
   assert.ok(random.includes('Rendering Mode: Outline Only'));
-  assert.ok(random.includes('apply the color palette to the line colors'));
-  assert.ok(random.includes('Preserve the aspect ratio.'));
+  assert.ok(!random.includes('Final Instructions'));
+  assert.ok(random.endsWith('Rendering Mode: Outline Only'));
   assert.ok(!random.includes('requested subject'));
   assert.ok(!random.includes('exact text'));
   assert.ok(!random.includes('## Outline'));
@@ -337,7 +337,7 @@ test('Final instructions only preserve what was requested and name Outline as Re
     { Subject: 'A fox', 'Typography Enabled': 'true', Text: 'FOX' },
     false,
   );
-  assert.ok(exact.includes('Preserve the requested subject, the exact text and the aspect ratio.'));
+  assert.ok(exact.includes('Text: FOX'));
   assert.ok(!exact.includes('Rendering Mode'));
   const design = makePrompt([], {}, {}, false, true);
   assert.ok(design.startsWith('Create a finished graphic design'));
@@ -362,7 +362,7 @@ test('Saved sets using the former category names load under the aligned names', 
   assert.deepEqual(photo.selection, { 'Photo Style': ['film'] });
 });
 
-test('Prompts state the typography setting and a conflict priority', () => {
+test('Prompts state the typography setting without a conflict priority', () => {
   const option = (category: string, id: string): Option => ({
     id,
     label: id,
@@ -382,19 +382,9 @@ test('Prompts state the typography setting and a conflict priority', () => {
     false,
   );
   assert.ok(off.includes('Typography: Off'));
-  assert.ok(
-    off.includes(
-      'Typography is Off: do not add any readable text, letters, or numbers to the image.',
-    ),
-  );
-  assert.ok(
-    off.includes(
-      'If selected instructions conflict, follow this priority: the style and technique instructions, Color.',
-    ),
-  );
+  assert.ok(!off.includes('follow this priority'));
   const on = makePrompt(catalog, { Color: ['muted'] }, { 'Typography Enabled': 'true' }, true);
   assert.ok(on.includes('Typography: On'));
-  assert.ok(on.includes('Render all text legibly'));
   assert.ok(!on.includes('follow this priority'));
 });
 
@@ -504,7 +494,7 @@ test('Every Builder category is an optional single choice', () => {
   assert.deepEqual(aspectRatios, ['1:1', '4:5', '3:4', '2:3', '9:16', '4:3', '3:2', '16:9']);
 });
 
-test('Mood and Lighting appear in the prompt, summary and conflict priority', () => {
+test('Mood and Lighting appear in the prompt and summary', () => {
   const option = (category: string, id: string): Option => ({
     id,
     label: id,
@@ -535,10 +525,9 @@ test('Mood and Lighting appear in the prompt, summary and conflict priority', ()
     order.map((heading) => text.indexOf(heading)).sort((a, b) => a - b),
   );
   assert.ok(text.includes('Lighting: backlit\nComposition: centered\nMood: cute'));
-  assert.ok(text.includes('follow this priority: Color, Lighting, Composition, Mood.'));
 });
 
-test('Lead style comes first, key direction opens and closes the prompt, fallbacks drop when chosen', () => {
+test('Lead style comes first, key direction opens the prompt, fallbacks drop when chosen', () => {
   const option = (category: string, id: string, prompt: string) => ({
     id,
     label: id,
@@ -570,7 +559,7 @@ test('Lead style comes first, key direction opens and closes the prompt, fallbac
   const key = 'Subject "A fox"; Photo Style: Portrait; Camera: Lens; Aspect Ratio: 4:5';
   const lines = result.split('\n');
   assert.equal(lines[1], `Key direction: ${key}.`);
-  assert.ok(lines.at(-1)!.endsWith(`Most important, restated: ${key}.`));
+  assert.equal(lines.filter((line) => line.includes(key)).length, 1);
   assert.ok(!result.includes('Complexity'));
 });
 
@@ -586,5 +575,5 @@ test('Every prompt adds the fixed simple depiction after the chosen options', ()
   const prompt = makePrompt([color, depiction], { Color: ['muted'] }, {}, false);
   assert.ok(prompt.indexOf('## Color: Muted') < prompt.indexOf('## Depiction: Simple'));
   assert.ok(prompt.includes('## Depiction: Simple\n- Keep it simple.'));
-  assert.ok(prompt.includes('\nDepiction: Simple\n'));
+  assert.ok(prompt.endsWith('\nDepiction: Simple'));
 });

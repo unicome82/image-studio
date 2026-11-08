@@ -34,7 +34,7 @@ IMAGE STUDIO의 **부가 메뉴**로 스타일 조합용 영문 지시문을 생
 10. **Recipe:** 유형별 큐레이션 4개(`src/utils/recipes.ts`)를 첫 화면에서 일러스트·사진·디자인 제목 아래 카드로 나열하고 유형마다 마지막에 '새로 만들기 +' 카드를 둔다. 선택하면 해당 유형의 옵션·비율·Typography ON/OFF를 바꾸고 Subject·추가 지시는 유지하며 하단에 선택값·프롬프트를 바로 표시한다. '옵션 수정'·'새로 만들기'는 현재 값으로 전체 옵션 편집 화면을 열고, '처음부터 다시하기'는 값을 지우지 않고 레시피 화면으로 돌아간다. 레시피는 선택값 묶음일 뿐이며 직접 셋팅과 같은 생성 규칙을 거친다
 11. **기본값:** 비율 2:3, 일러스트 기본 Contemporary Flat·Digital Painting·Neutral + Accent·Minimal, 사진 기본 Portrait·Portrait Lens·Soft Daylight
 2. **Live Prompt:** 선택 즉시 영문 지시문 갱신
-3. **Conflict Prevention:** 카테고리마다 하나만 고르므로 같은 카테고리 충돌 규칙은 두지 않는다. 카테고리 간 긴장은 프롬프트의 우선순위 문장으로 처리한다
+3. **Conflict Prevention:** 카테고리마다 하나만 고르므로 같은 카테고리 충돌 규칙은 두지 않는다. 카테고리 간 우선순위 문장도 출력하지 않는다
 4. **Reference Preview:** 기존 `reference/` 이미지 1~3장 미리보기·확대, 이미지 없으면 텍스트 표시
 5. **Custom Input:** 최상단 라벨 없는 Subject input으로 피사체를 입력하고 Your direction textarea로 추가 지시를 입력. Aspect ratio(1:1/4:5/3:4/2:3/9:16/4:3/3:2/16:9)는 상위 독립 옵션으로 선택. 기존 프리셋의 Subject는 주제 입력란에 보존하고 Negative Prompt는 이름표와 함께 Your direction으로 합쳐 보존하며, Text는 별도 Typography 입력칸에 보존
 6. **Copy Prompt:** 영문 지시문 복사
@@ -73,7 +73,7 @@ Color는 팔레트를, Rendering Mode는 채움과 윤곽선의 표현 방식을
 - 스타일 상세 설명·Mix Prompt를 별도 데이터로 중복 관리하지 않음
 - 옵션 정리로 삭제한 ID는 스타일셋 로드 시 흡수한 옵션으로 바꾼다: Constructivism→Bauhaus, Suprematism·Cubism·Optical Art·Swiss Graphic Design(일러스트)→Geometric Illustration, Dadaism→Surrealism, Fauvism→Expressionism, Art Nouveau→Art Deco, Retro Graphic Design(일러스트)→Mid-century Modern, Linocut·Woodcut·Screen Printing·Halftone Printing→Risograph, Hand-drawn→Marker, Vintage Faded·Mid-century Palette→Muted, 사진 Film·Analog→Texture Film Grain + Color Muted, 사진 Monochrome→Color Black & White, Diagonal→Dynamic, Mood Epic→Bold·Dark→Moody·Elegant→Luxe·Nostalgic→Cozy, Rough Print·Distressed·Ink Bleed→Paper Grain, Blackletter→Calligraphy, Groovy·Psychedelic Lettering→Bubble Lettering, Distorted·Kinetic Typography→Experimental Typography. 변환 값은 비어 있는 카테고리에만 채운다.
 - 모든 Illustration·Design·Photo Style 원본 MD에는 Color·Lighting·Texture 지시가 없을 때 쓸 기본 짝(팔레트·빛·표면)을 한 줄로 둔다.
-- Final Instructions에는 항상 주된 방향(일러스트 Illustration Style, 사진 Photo Style, 디자인 Design Format·Design Style)이 전체 콘셉트를 정하고 나머지는 보조라는 문장(해당 옵션 선택 시), Subject를 하나의 초점으로 꾸밈없이 보여 주고 필요한 요소만 더하라는 문장을 넣는다. 장면 확장·고급 에디토리얼·포트폴리오·crisp focus 같은 완성도 강조 문구는 넣지 않는다.
+- 프롬프트 복잡도를 낮추기 위해 `## Final Instructions` 섹션은 출력하지 않는다. 장면 확장·고급 에디토리얼·포트폴리오·crisp focus 같은 완성도 강조 문구는 넣지 않는다.
 - 옛 사조 스타일은 현대적 재해석 문장을, 종이 기반 기법과 Warm·Earthy·Golden Hour·Paper Grain은 밝은 흰 바탕·정확한 색 지시를 원본 MD에 긍정문으로 포함한다(세피아·노화 등 피할 대상은 적지 않는다).
 - 주 스타일 카테고리는 유형별로 Illustration Style·Photo Style·Design Style로 부른다. 기존 저장 데이터의 Base Style·Photography는 로드 시 새 이름으로 변환한다.
 - 원본 MD에는 `### Avoid` 섹션을 두지 않고 해야 할 지시를 `### Apply`·`### Style` 등에 긍정문으로 쓴다. 상표·기존 캐릭터 모방, 통계·제품 주장 지어내기 금지 등 꼭 필요한 제한만 해당 지시 문장 안에 둔다.
@@ -82,7 +82,7 @@ Color는 팔레트를, Rendering Mode는 채움과 윤곽선의 표현 방식을
 
 **출력 방식**
 
-선택된 스타일·기법·색상·Typography·Rendering Mode의 MD 본문과 고정 Depiction 본문을 원본에서 빌드 시 읽어 출력에 포함한다. 각 옵션은 원본 제목과 Category·Style ID 메타데이터 줄 대신 `## {카테고리}: {표시명}` 제목 아래 본문 섹션만 빈 줄로 구분해 출력하고, Outline은 제목·요약·최종 지시 모두 Rendering Mode로 표기한다. 이어서 `## Settings`에 Subject·비율·추가 지시·Text·선택 요약·Depiction을, `## Final Instructions`에 결합 규칙을 출력한다. 도입·랜덤 Subject·자동 문구 지시는 유형(image·photograph·graphic design)에 맞추고, 최종 지시의 보존 대상은 입력한 Subject·Typography ON의 입력 Text·비율만 언급한다. Rendering Mode 우선 규칙은 Outline 선택 시, 선 색상 팔레트 규칙은 Outline Only 선택 시에만 출력한다. Settings에는 `Typography: On/Off`를 항상 출력하고, Off면 모든 유형에서 읽을 수 있는 글자·숫자를 넣지 말라고, On이면 글자를 읽기 쉽게 표현하라고 지시한다. 카테고리가 둘 이상이면 충돌 시 Design Format → Rendering Mode → Color → Lighting → Composition → Texture → Mood 앞에 스타일·기법을 두는 순서로 우선하라고 출력한다. 선택하지 않았거나 현재 유형에서 숨겨진 옵션은 제외한다. Subject·Text·Aspect Ratio·추가 지시와 선택 요약, 충돌 우선순위 규칙을 함께 출력한다. 복사한 프롬프트만으로 사용할 수 있으며 외부 도구의 파일 또는 URL 접근을 요구하지 않는다. LocalStorage에는 기존처럼 선택 ID·설정만 저장하고 본문을 중복 저장하지 않는다.
+선택된 스타일·기법·색상·Typography·Rendering Mode의 MD 본문과 고정 Depiction 본문을 원본에서 빌드 시 읽어 출력에 포함한다. 각 옵션은 원본 제목과 Category·Style ID 메타데이터 줄 대신 `## {카테고리}: {표시명}` 제목 아래 본문 섹션만 빈 줄로 구분해 출력하고, Outline은 제목·요약 모두 Rendering Mode로 표기한다. 첫 줄 다음 Key direction 한 줄, 옵션 본문, 이어서 `## Settings`에 Subject·비율·추가 지시·`Typography: On/Off`·Text·선택 요약·Depiction을 출력하고 프롬프트를 끝낸다. `## Final Instructions`(결합·주 방향·초점·Rendering Mode 우선·충돌 우선순위·글자 규칙·보존·Key direction 재강조)는 출력하지 않는다. 도입·랜덤 Subject·자동 문구 지시는 유형(image·photograph·graphic design)에 맞춘다. 선택하지 않았거나 현재 유형에서 숨겨진 옵션은 제외한다. 복사한 프롬프트만으로 사용할 수 있으며 외부 도구의 파일 또는 URL 접근을 요구하지 않는다. LocalStorage에는 기존처럼 선택 ID·설정만 저장하고 본문을 중복 저장하지 않는다.
 
 ## 6. 연동 및 UI
 

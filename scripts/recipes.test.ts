@@ -49,13 +49,9 @@ test('Recipes use real catalog options within Builder limits and translated name
   }
 });
 
-test('Every prompt carries the lead and a plain subject direction without polish wording', () => {
+test('Every prompt carries the lead in its key direction without final or polish wording', () => {
   const style = { id: 'x', label: 'X', category: 'Photo Style', path: 'x', prompt: 'x' };
   const prompt = makePrompt([style], { 'Photo Style': ['x'] }, { Subject: 'A cup' }, true);
-  assert.ok(prompt.includes('Let the Photo Style define the overall concept'));
-  assert.ok(prompt.includes('Show the requested subject plainly with one clear focal point'));
-  assert.ok(!/high-end|portfolio|crisp focus|Art-direct/.test(prompt));
-  const random = makePrompt([], {}, {}, false);
-  assert.ok(!random.includes('define the overall concept'));
-  assert.ok(random.includes('Show the chosen subject plainly'));
+  assert.ok(prompt.includes('Key direction: Subject "A cup"; Photo Style: X;'));
+  assert.ok(!/Final Instructions|high-end|portfolio|crisp focus|Art-direct/.test(prompt));
 });
