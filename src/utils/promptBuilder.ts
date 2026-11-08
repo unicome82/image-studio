@@ -183,7 +183,7 @@ export function makePrompt(
   ).filter((category) => present.has(category));
   const final = [
     design
-      ? 'Combine the selected design format, style, palette, layout, and surface instructions into one coherent graphic design. Produce the design itself, not a presentation mockup.'
+      ? 'Combine the selected design format, style, palette, layout, and surface instructions into one coherent graphic design. Produce the flat design artwork itself as the full image.'
       : `Combine the selected instructions into one coherent ${output}.`,
     ...(lead.length
       ? [

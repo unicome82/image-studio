@@ -5,7 +5,7 @@
 
 ### Style
 - Suggest altered perception, fluid transformation, and an immersive countercultural visual sensibility.
-- Interpret it as a fresh contemporary work made today, with a crisp finish, clean bright whites, and true-to-hue colors rather than an aged, yellowed, or sepia patina.
+- Interpret it as a fresh contemporary work made today, with clean bright whites and true-to-hue colors.
 - When no Color, Lighting, or Texture instructions are given, use vivid saturated complementary colors, glowing even light, and smooth flowing surfaces.
 
 ### Shape

@@ -4,7 +4,7 @@
 - **Style ID:** `contemporaryflat`
 
 ### Style
-- Create a fresh, present-day flat illustration with confident simplification, crisp edges, and a polished digital finish suited to modern brands and interfaces.
+- Create a fresh, present-day flat illustration with confident simplification, clean edges, and a flat digital finish suited to modern brands and interfaces.
 - When no Color, Lighting, or Texture instructions are given, use a clean, harmonious palette of fresh mid-tones with one accent, even flat light, and a smooth clean surface.
 
 ### Shape

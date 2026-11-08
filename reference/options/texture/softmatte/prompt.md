@@ -4,4 +4,4 @@
 - **Style ID:** `softmatte`
 
 ### Apply
-- Give surfaces a soft, velvety matte finish with diffused light falloff, gentle shading, and no shiny reflections.
+- Give surfaces a soft, velvety matte finish with diffused light falloff, gentle shading, and soft diffused highlights.

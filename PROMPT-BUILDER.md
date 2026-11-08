@@ -74,9 +74,10 @@ Color는 팔레트를, Rendering Mode는 채움과 윤곽선의 표현 방식을
 - 옵션 정리로 삭제한 ID는 스타일셋 로드 시 흡수한 옵션으로 바꾼다: Constructivism→Bauhaus, Suprematism·Cubism·Optical Art·Swiss Graphic Design(일러스트)→Geometric Illustration, Dadaism→Surrealism, Fauvism→Expressionism, Art Nouveau→Art Deco, Retro Graphic Design(일러스트)→Mid-century Modern, Linocut·Woodcut·Screen Printing·Halftone Printing→Risograph, Hand-drawn→Marker, Vintage Faded·Mid-century Palette→Muted, 사진 Film·Analog→Texture Film Grain + Color Muted, 사진 Monochrome→Color Black & White, Diagonal→Dynamic, Mood Epic→Bold·Dark→Moody·Elegant→Luxe·Nostalgic→Cozy, Rough Print·Distressed·Ink Bleed→Paper Grain, Blackletter→Calligraphy, Groovy·Psychedelic Lettering→Bubble Lettering, Distorted·Kinetic Typography→Experimental Typography. 변환 값은 비어 있는 카테고리에만 채운다.
 - 모든 Illustration·Design·Photo Style 원본 MD에는 Color·Lighting·Texture 지시가 없을 때 쓸 기본 짝(팔레트·빛·표면)을 한 줄로 둔다.
 - Final Instructions에는 항상 주된 방향(일러스트 Illustration Style, 사진 Photo Style, 디자인 Design Format·Design Style)이 전체 콘셉트를 정하고 나머지는 보조라는 문장(해당 옵션 선택 시), Subject를 하나의 초점으로 꾸밈없이 보여 주고 필요한 요소만 더하라는 문장을 넣는다. 장면 확장·고급 에디토리얼·포트폴리오·crisp focus 같은 완성도 강조 문구는 넣지 않는다.
-- 옛 사조 스타일은 현대적 재해석 문장을, 종이 기반 기법과 Warm·Earthy·Golden Hour·Nostalgic·Paper Grain은 밝은 흰 바탕·세피아 없는 색 지시를 원본 MD에 포함한다.
+- 옛 사조 스타일은 현대적 재해석 문장을, 종이 기반 기법과 Warm·Earthy·Golden Hour·Paper Grain은 밝은 흰 바탕·정확한 색 지시를 원본 MD에 긍정문으로 포함한다(세피아·노화 등 피할 대상은 적지 않는다).
 - 주 스타일 카테고리는 유형별로 Illustration Style·Photo Style·Design Style로 부른다. 기존 저장 데이터의 Base Style·Photography는 로드 시 새 이름으로 변환한다.
-- 원본 MD에는 `### Avoid` 섹션을 두지 않고 해야 할 지시를 `### Apply`·`### Style` 등에 긍정문으로 쓴다. 상표·기존 캐릭터 모방 금지 등 꼭 필요한 제한만 해당 지시 문장 안에 둔다.
+- 원본 MD에는 `### Avoid` 섹션을 두지 않고 해야 할 지시를 `### Apply`·`### Style` 등에 긍정문으로 쓴다. 상표·기존 캐릭터 모방, 통계·제품 주장 지어내기 금지 등 꼭 필요한 제한만 해당 지시 문장 안에 둔다.
+- 목업·잡동사니·광택 등 피할 대상을 나열하지 않고 "flat … artwork itself as the full image"처럼 원하는 결과를 쓴다. crisp·polished·refined·luminous 같은 완성도 강조어는 기법·질감을 정의하는 경우(Flat Color·Vector·Pixel Art·Low Poly·Glossy·Hard Flash·Backlit·Gradient 등)에만 쓴다.
 - 원본 MD는 이미지 모델이 볼 수 없는 빌더 상태(typography is enabled, selected palette 등)를 조건으로 쓰지 않는다. 글자는 "rendered text", 색은 "the Color instructions when given"처럼 프롬프트 안에서 확인할 수 있는 표현을 쓴다.
 
 **출력 방식**

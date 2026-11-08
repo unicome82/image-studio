@@ -5,7 +5,7 @@
 
 ### Style
 - Naive folk art inspired by traditional folk paintings and self-taught artistic expression. Emphasize instinctive, unconventional, deliberately unrefined interpretation; preserve playful imagination, innocent charm, and subtle visual humor.
-- Interpret it as a fresh contemporary work made today, with a crisp finish, clean bright whites, and true-to-hue colors rather than an aged, yellowed, or sepia patina.
+- Interpret it as a fresh contemporary work made today, with clean bright whites and true-to-hue colors.
 - When no Color, Lighting, or Texture instructions are given, use bright cheerful folk colors on a clean light ground, even daylight, and a clean surface.
 
 ### Shape

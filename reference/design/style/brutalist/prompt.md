@@ -4,5 +4,5 @@
 - **Style ID:** `brutalist`
 
 ### Instructions
-- Use bold scale changes, raw geometric blocks, direct composition, and deliberate tension in spacing and alignment. Keep hierarchy intentional and any rendered text readable. Follow the Color instructions when given; do not confuse a raw aesthetic with accidental overlap, illegibility, or unfinished rendering.
+- Use bold scale changes, raw geometric blocks, direct composition, and deliberate tension in spacing and alignment. Keep hierarchy intentional and any rendered text readable. Follow the Color instructions when given; keep the raw look deliberate, with readable text and fully finished rendering.
 - When no Color, Lighting, or Texture instructions are given, use black, white, and one loud accent, even light, and a raw flat surface.

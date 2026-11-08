@@ -4,7 +4,7 @@
 - **Style ID:** `pixelart`
 
 ### Style
-- Create crisp, deliberate pixel art with the clarity and charm of contemporary independent game art.
+- Create deliberate pixel art with the clarity and charm of contemporary independent game art.
 - When no Color, Lighting, or Texture instructions are given, use a limited bright palette with clear contrast, even light, and crisp pixel edges.
 
 ### Shape
