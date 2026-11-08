@@ -380,8 +380,13 @@ textarea,
 
 // Header
 .header {
-  position: relative;
+  position: sticky;
+  top: 0;
   z-index: 30;
+  transition: transform var(--transition-duration) ease;
+  &.header-hidden {
+    transform: translateY(-100%);
+  }
   @include flex-row($gap: 24px);
   padding: 20px;
   border-bottom: 1px solid $line;

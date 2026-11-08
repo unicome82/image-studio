@@ -12,6 +12,7 @@ interface Props {
   showPrompts: boolean;
   toggleBookmarks: () => void;
   togglePrompts: () => void;
+  hidden: boolean;
 }
 export default function Header(p: Props) {
   const { t } = useTranslation();
@@ -39,7 +40,7 @@ export default function Header(p: Props) {
     return () => document.removeEventListener('pointerdown', outside);
   }, [mobile, searchOpen]);
   return (
-    <header className="header">
+    <header className={'header' + (p.hidden ? ' header-hidden' : '')}>
       <a
         className="brand"
         href="./"

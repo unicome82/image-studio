@@ -68,6 +68,7 @@ export default function App() {
   const [selected, setSelected] = useState<Tile | null>(null);
   const [bookmarks, setBookmarks] = useState(storedBookmarks);
   const [onlySaved, setOnlySaved] = useState(false);
+  const [headerHidden, setHeaderHidden] = useState(false);
   const [toast, setToast] = useState('');
   const [toastVersion, setToastVersion] = useState(0);
   const [modal, setModal] = useState<'prompt' | 'image' | null>(null);
@@ -116,25 +117,59 @@ export default function App() {
   }, [modal]);
   useEffect(() => {
     // Measure at most once per frame however often scroll and resize fire.
+    const header = document.querySelector<HTMLElement>('.header');
     let frame = 0;
+    let moving = false;
+    let lastY = window.scrollY;
     const update = () => {
       frame = 0;
-      const header = document.querySelector('.header')?.getBoundingClientRect();
+      const rect = header?.getBoundingClientRect();
       document.documentElement.style.setProperty(
         '--header-visible',
-        `${Math.max(0, header?.bottom ?? 0)}px`,
+        `${Math.max(0, rect?.bottom ?? 0)}px`,
       );
+      // Keep following the header while its slide transition runs.
+      if (moving) schedule();
     };
     const schedule = () => {
       if (!frame) frame = requestAnimationFrame(update);
     };
+    const scroll = () => {
+      const y = Math.max(0, window.scrollY);
+      const delta = y - lastY;
+      if (y <= (header?.offsetHeight ?? 0)) {
+        setHeaderHidden(false);
+        lastY = y;
+      } else if (Math.abs(delta) >= 8) {
+        setHeaderHidden(delta > 0 && !header?.contains(document.activeElement));
+        lastY = y;
+      }
+      schedule();
+    };
+    const start = () => {
+      moving = true;
+      schedule();
+    };
+    const end = () => {
+      moving = false;
+      schedule();
+    };
+    const reveal = () => setHeaderHidden(false);
     update();
-    window.addEventListener('scroll', schedule, { passive: true });
+    window.addEventListener('scroll', scroll, { passive: true });
     window.addEventListener('resize', schedule);
+    header?.addEventListener('transitionrun', start);
+    header?.addEventListener('transitionend', end);
+    header?.addEventListener('transitioncancel', end);
+    header?.addEventListener('focusin', reveal);
     return () => {
       cancelAnimationFrame(frame);
-      window.removeEventListener('scroll', schedule);
+      window.removeEventListener('scroll', scroll);
       window.removeEventListener('resize', schedule);
+      header?.removeEventListener('transitionrun', start);
+      header?.removeEventListener('transitionend', end);
+      header?.removeEventListener('transitioncancel', end);
+      header?.removeEventListener('focusin', reveal);
       document.documentElement.style.removeProperty('--header-visible');
     };
   }, []);
@@ -193,6 +228,7 @@ export default function App() {
   return (
     <>
       <Header
+        hidden={headerHidden}
         home={() => {
           gallery.clearAll();
           closeComposer();
