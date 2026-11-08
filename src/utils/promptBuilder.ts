@@ -155,20 +155,12 @@ export function makePrompt(
       .map((o) => `${o.category}: ${o.label}`),
     `Aspect Ratio: ${fields['Aspect Ratio']?.trim() || '1:1'}`,
   ].join('; ');
-  return [
-    `Create ${design ? 'a finished graphic design' : photo ? 'a photograph' : 'an image'} using the instructions below.`,
-    `Key direction: ${keyDirection}.`,
-    ...options.flatMap((o) => [
-      '',
-      `## ${promptCategory(o.category)}: ${o.label}`,
-      instructions(o, dropFallbacks),
-    ]),
-    '',
-    '## Settings',
-    subject
-      ? `Subject: ${fields.Subject}`
-      : `Subject: Not specified. Choose a random subject and scene consistent with the selected settings${extra.length ? ' and additional instructions' : ''}, and create the ${output} without asking for a subject.`,
-    `Aspect Ratio: ${fields['Aspect Ratio']?.trim() || '1:1'}`,
+  const settings = [
+    ...(subject
+      ? []
+      : [
+          `Subject: Not specified. Choose a random subject and scene consistent with the selected settings${extra.length ? ' and additional instructions' : ''}, and create the ${output} without asking for a subject.`,
+        ]),
     ...extra.map(([key, value]) => `${key}: ${value}`),
     // Typography is mentioned only when on; naming it when off can itself invite lettering.
     ...(typography
@@ -179,7 +171,16 @@ export function makePrompt(
             : `Text: Not specified. Choose suitable wording freely to complement the ${output}.`,
         ]
       : []),
-    ...chosen.map((o) => `${promptCategory(o.category)}: ${o.label}`),
-    ...depiction.map((o) => `${o.category}: ${o.label}`),
+  ];
+  return [
+    `Create ${design ? 'a finished graphic design' : photo ? 'a photograph' : 'an image'} using the instructions below.`,
+    `Key direction: ${keyDirection}.`,
+    ...options.flatMap((o) => [
+      '',
+      `## ${promptCategory(o.category)}: ${o.label}`,
+      instructions(o, dropFallbacks),
+    ]),
+    // Settings carries only what the key direction and option headings above do not already state.
+    ...(settings.length ? ['', '## Settings', ...settings] : []),
   ].join('\n');
 }

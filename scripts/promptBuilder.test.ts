@@ -167,7 +167,7 @@ test('compact direction preserves legacy preset fields and typography text', () 
   assert.equal(fields['Aspect Ratio'], '3:4');
   assert.equal(Object.keys(fields).length, 5);
   assert.equal(fields.Subject, 'A garden');
-  assert.ok(makePrompt([], {}, fields, false).includes('Subject: A garden'));
+  assert.ok(makePrompt([], {}, fields, false).includes('Subject "A garden"'));
   assert.ok(!fields['Additional Instructions'].includes('Subject:'));
   assert.equal(fields.Text, 'FLOWER');
   assert.equal(fields['Typography Enabled'], 'false');
@@ -248,7 +248,8 @@ test('Blank subjects request random image content while explicit subjects remain
       assert.ok(prompt.includes(`create the ${photo ? 'photograph' : 'image'} without asking`));
     }
     const prompt = makePrompt([], {}, { Subject: 'A cat in Seoul' }, photo);
-    assert.ok(prompt.includes('Subject: A cat in Seoul'));
+    assert.ok(prompt.includes('Key direction: Subject "A cat in Seoul"'));
+    assert.ok(!prompt.includes('## Settings'));
     assert.ok(!prompt.includes('Choose a random subject'));
   }
 });
@@ -303,8 +304,8 @@ test('copied prompts contain canonical MD bodies, the simple depiction and no fi
     assert.ok(!result.includes('Read only'));
     assert.ok(!result.includes('**Category:**'));
     assert.ok(!result.includes('**Style ID:**'));
-    assert.ok(result.includes('Subject: A fox'));
-    assert.ok(result.includes('Text: FOX'));
+    assert.ok(result.includes('Subject "A fox"'));
+    assert.ok(result.endsWith('## Settings\nTypography: On\nText: FOX'));
   }
   const withoutTypography = makePrompt(catalog, selection, {}, false);
   assert.ok(
@@ -312,7 +313,7 @@ test('copied prompts contain canonical MD bodies, the simple depiction and no fi
   );
 });
 
-test('Prompts end at Settings without final instructions and name Outline as Rendering Mode', () => {
+test('Prompts skip final instructions, never repeat options in Settings and name Outline as Rendering Mode', () => {
   const catalog: Option[] = [
     {
       id: 'outlineonly',
@@ -325,9 +326,10 @@ test('Prompts end at Settings without final instructions and name Outline as Ren
   ];
   const random = makePrompt(catalog, { Outline: ['outlineonly'] }, {}, false);
   assert.ok(random.includes('## Rendering Mode: Outline Only\n### Apply\n- Lines only.'));
-  assert.ok(random.includes('Rendering Mode: Outline Only'));
   assert.ok(!random.includes('Final Instructions'));
-  assert.ok(random.endsWith('Rendering Mode: Outline Only'));
+  assert.equal(random.split('Outline Only').length, 2);
+  assert.ok(!random.includes('Aspect Ratio: 1:1\n'));
+  assert.ok(random.endsWith('without asking for a subject.'));
   assert.ok(!random.includes('requested subject'));
   assert.ok(!random.includes('exact text'));
   assert.ok(!random.includes('## Outline'));
@@ -494,7 +496,7 @@ test('Every Builder category is an optional single choice', () => {
   assert.deepEqual(aspectRatios, ['1:1', '4:5', '3:4', '2:3', '9:16', '4:3', '3:2', '16:9']);
 });
 
-test('Mood and Lighting appear in the prompt and summary', () => {
+test('Mood and Lighting appear in the prompt once', () => {
   const option = (category: string, id: string): Option => ({
     id,
     label: id,
@@ -524,7 +526,7 @@ test('Mood and Lighting appear in the prompt and summary', () => {
     order.map((heading) => text.indexOf(heading)),
     order.map((heading) => text.indexOf(heading)).sort((a, b) => a - b),
   );
-  assert.ok(text.includes('Lighting: backlit\nComposition: centered\nMood: cute'));
+  assert.ok(!text.includes('\nLighting: backlit'));
 });
 
 test('Lead style comes first, key direction opens the prompt, fallbacks drop when chosen', () => {
@@ -575,5 +577,5 @@ test('Every prompt adds the fixed simple depiction after the chosen options', ()
   const prompt = makePrompt([color, depiction], { Color: ['muted'] }, {}, false);
   assert.ok(prompt.indexOf('## Color: Muted') < prompt.indexOf('## Depiction: Simple'));
   assert.ok(prompt.includes('## Depiction: Simple\n- Keep it simple.'));
-  assert.ok(prompt.endsWith('\nDepiction: Simple'));
+  assert.ok(!prompt.includes('\nDepiction: Simple'));
 });

@@ -56,7 +56,7 @@ test('design prompts use canonical format/style instructions, shared options and
         instructions(catalog.find((o) => o.category === category && o.id === id)!, true),
       ),
     );
-  assert.match(prompt, /Subject: A spring exhibition/);
+  assert.match(prompt, /Subject "A spring exhibition"/);
   assert.match(prompt, /Text: SPRING 2027/);
   assert.ok(
     !prompt.includes(
