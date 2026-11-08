@@ -111,21 +111,23 @@ export default function Builder(p: Props) {
           <Icon name="edit" size="20" />
         </button>
       )}
-      <SavePrompt
-        save={p.save}
-        editing={p.editing}
-        disabled={resolving}
-        iconOnly
-        prompt={p.prompt}
-        selected={{
-          catalog: p.catalog,
-          selection: p.selection,
-          fields: p.fields,
-          photo: p.photo,
-          design,
-          complexity: p.complexity,
-        }}
-      />
+      {editor && (
+        <SavePrompt
+          save={p.save}
+          editing={p.editing}
+          disabled={resolving}
+          iconOnly
+          prompt={p.prompt}
+          selected={{
+            catalog: p.catalog,
+            selection: p.selection,
+            fields: p.fields,
+            photo: p.photo,
+            design,
+            complexity: p.complexity,
+          }}
+        />
+      )}
       <button className="primary" disabled={resolving} onClick={() => p.copy(p.prompt)}>
         <Icon name="content_copy" size="14" />
         {t('Copy prompt')}
@@ -209,13 +211,10 @@ export default function Builder(p: Props) {
               </section>
             ) : (
               <>
-                <h3 className="builder-subject-title" id={`${tabsId}-subject-hint`}>
-                  {t('Random generation if left blank')}
-                </h3>
                 <input
                   id={`${tabsId}-subject`}
                   className="builder-subject"
-                  aria-describedby={`${tabsId}-subject-hint`}
+                  placeholder={t('Random generation if left blank')}
                   value={p.fields.Subject ?? ''}
                   onChange={(e) => p.setFields({ ...p.fields, Subject: e.target.value })}
                 />
