@@ -29,7 +29,7 @@
   padding: 0;
   border-radius: 8px;
   @media (min-width: 601px) and (hover: hover) {
-    &:hover:not(.active):not(.close-button) {
+    &:hover:not(.active):not(.close-button):not(.prompt-box > *) {
       background: $icon-hover-background;
     }
   }
@@ -273,12 +273,9 @@ textarea,
     position: absolute;
     top: 4px;
     right: 4px;
-    &,
-    &:hover {
-      background: transparent;
-      border: 0;
-      color: $ink;
-    }
+    border: 0;
+    background: transparent;
+    color: $ink;
   }
 }
 @media (max-width: $mobile) {
