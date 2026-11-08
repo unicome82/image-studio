@@ -579,3 +579,40 @@ test('Every prompt adds the fixed simple depiction after the chosen options', ()
   assert.ok(prompt.includes('## Depiction: Simple\n- Keep it simple.'));
   assert.ok(!prompt.includes('\nDepiction: Simple'));
 });
+
+test('Illustrations build on Mid-century Modern and treat another chosen style as a light accent', () => {
+  const style = (id: string, label: string, body: string): Option => ({
+    id,
+    label,
+    category: 'Illustration Style',
+    path: id,
+    prompt: `## ${label}\n\n### Style\n- ${body}\n- Fresh today.\n- When no Color, Lighting, or Texture instructions are given, use ${id} colors.`,
+  });
+  const catalog = [
+    style('midcentury', 'Mid-century Modern', 'Modern.'),
+    style('artdeco', 'Art Deco', 'Deco.'),
+  ];
+  const pure = makePrompt(catalog, {}, { 'Aspect Ratio': '3:4' }, false);
+  assert.ok(
+    pure.includes(
+      'Key direction: a random subject you choose; Base Style: Mid-century Modern; Aspect Ratio: 3:4.',
+    ),
+  );
+  assert.ok(pure.includes('## Base Style: Mid-century Modern\n### Style\n- Modern.'));
+  assert.ok(pure.includes('use midcentury colors'));
+  assert.ok(!pure.includes('Accent Style'));
+  assert.equal(
+    makePrompt(catalog, { 'Illustration Style': ['midcentury'] }, { 'Aspect Ratio': '3:4' }, false),
+    pure,
+  );
+  const mixed = makePrompt(catalog, { 'Illustration Style': ['artdeco'] }, {}, false);
+  assert.ok(mixed.includes('Base Style: Mid-century Modern; Accent Style: Art Deco;'));
+  assert.ok(mixed.indexOf('## Base Style') < mixed.indexOf('## Accent Style: Art Deco'));
+  assert.ok(mixed.includes('- Deco.'));
+  assert.equal(mixed.split('- Fresh today.').length, 2);
+  assert.ok(!mixed.includes('use artdeco colors'));
+  assert.ok(mixed.includes('add Art Deco as a light accent in motifs and details.'));
+  assert.ok(!mixed.includes('## Illustration Style'));
+  const photo = makePrompt(catalog, {}, {}, true);
+  assert.ok(!photo.includes('Mid-century'));
+});

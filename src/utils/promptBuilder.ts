@@ -91,6 +91,8 @@ export function toggleOption(selection: Selection, category: string, id: string)
 }
 // The prompt names Outline by its role so the option heading, summary and final rules agree.
 const promptCategory = (category: string) => (category === 'Outline' ? 'Rendering Mode' : category);
+// Every illustration is built on this style; a chosen Illustration Style becomes a light accent on it.
+export const baseIllustrationStyle = 'midcentury';
 // Style fallbacks that only apply while the user leaves these categories open.
 const fallbackLine = /^- When no Color, Lighting, or Texture instructions are given/;
 // Option instructions without the source title, catalog metadata lines and, when asked, the fallbacks.
@@ -138,6 +140,21 @@ export function makePrompt(
   // Every prompt asks for a simple depiction; it is a fixed default, not a Builder choice.
   const depiction = catalog.filter((o) => o.category === 'Depiction');
   const options = [...chosen, ...depiction];
+  // Illustrations always lead with the base style; another chosen style only accents it.
+  const base =
+    photo || design
+      ? undefined
+      : catalog.find((o) => o.category === 'Illustration Style' && o.id === baseIllustrationStyle);
+  const accent = base
+    ? chosen.find((o) => o.category === 'Illustration Style' && o.id !== base.id)
+    : undefined;
+  const heading = (o: Option) =>
+    base && o.category === 'Illustration Style'
+      ? `${o === accent ? 'Accent Style' : 'Base Style'}: ${o.label}`
+      : `${promptCategory(o.category)}: ${o.label}`;
+  const blocks = base
+    ? [base, ...options.filter((o) => o.category !== 'Illustration Style' || o === accent)]
+    : options;
   const output = design ? 'graphic design' : photo ? 'photograph' : 'image';
   const subject = fields.Subject?.trim();
   const text = typography ? fields.Text?.trim() : '';
@@ -150,8 +167,12 @@ export function makePrompt(
   // The subject and lead style open the prompt so they carry the most weight.
   const keyDirection = [
     subject ? `Subject "${fields.Subject}"` : 'a random subject you choose',
+    ...(base ? [base, ...(accent ? [accent] : [])].map(heading) : []),
     ...chosen
-      .filter((o) => leadCategories.includes(o.category))
+      .filter(
+        (o) =>
+          leadCategories.includes(o.category) && !(base && o.category === 'Illustration Style'),
+      )
       .map((o) => `${o.category}: ${o.label}`),
     `Aspect Ratio: ${fields['Aspect Ratio']?.trim() || '1:1'}`,
   ].join('; ');
@@ -175,10 +196,21 @@ export function makePrompt(
   return [
     `Create ${design ? 'a finished graphic design' : photo ? 'a photograph' : 'an image'} using the instructions below.`,
     `Key direction: ${keyDirection}.`,
-    ...options.flatMap((o) => [
+    ...blocks.flatMap((o) => [
       '',
-      `## ${promptCategory(o.category)}: ${o.label}`,
-      instructions(o, dropFallbacks),
+      `## ${heading(o)}`,
+      // The accent keeps only its own cues: palette fallbacks and lines the base already states drop.
+      o === accent
+        ? [
+            instructions(o, true)
+              .split('\n')
+              .filter((line) => !line.startsWith('- ') || !instructions(base!).includes(line))
+              .join('\n'),
+            '',
+            '### Blend',
+            `- Let ${base!.label} lead the shapes and layout, and add ${accent.label} as a light accent in motifs and details.`,
+          ].join('\n')
+        : instructions(o, dropFallbacks),
     ]),
     // Settings carries only what the key direction and option headings above do not already state.
     ...(settings.length ? ['', '## Settings', ...settings] : []),
