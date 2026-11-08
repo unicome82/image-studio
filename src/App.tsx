@@ -15,6 +15,7 @@ import ImagePreview from './components/ImagePreview';
 import Presets from './components/promptbuilder/Presets';
 import Builder from './components/promptbuilder/Builder';
 import { makePrompt } from './utils/promptBuilder';
+import { normalizeRatio } from './utils/filters';
 import { compactQuery, mobileQuery } from './utils/useMediaQuery';
 import { filterCatalog, useGalleryFilters } from './utils/useGalleryFilters';
 import { useBuilderDraft } from './utils/useBuilderDraft';
@@ -175,7 +176,7 @@ export default function App() {
     selection: selectedOption ? { [selectedOption.category]: [selectedOption.id] } : {},
     complexity: 3,
     fields: {
-      'Aspect Ratio': selected ? `${selected.width}:${selected.height}` : '1:1',
+      'Aspect Ratio': selected ? normalizeRatio(`${selected.width}:${selected.height}`) : '1:1',
       'Additional Instructions': '',
     },
   };
