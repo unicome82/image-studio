@@ -24,7 +24,7 @@ export default function ImageDetail(p: Props) {
   const image = p.image;
   return (
     <Panel className="detail" label={t('Image detail')} close={p.close}>
-      <div className="panel-heading">
+      <div className="panel-heading sticky-heading">
         <div className="detail-name">
           <h2 className="detail-title">{imageName(image)}</h2>
           <button

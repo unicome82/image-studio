@@ -114,7 +114,7 @@ export default function Builder(p: Props) {
       close={p.close}
     >
       <div className="builder-viewport" ref={viewportRef}>
-        <div className="builder-wrap builder-heading" ref={headingRef}>
+        <div className="builder-wrap builder-heading sticky-heading" ref={headingRef}>
           <h2 className="builder-title">
             {resolving ? (
               t('Refine filter choices')
