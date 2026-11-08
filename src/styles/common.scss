@@ -670,9 +670,12 @@ textarea,
     @include sticky-surface;
     flex-shrink: 0;
     gap: 8px;
-    min-height: 0;
-    padding: 12px 24px 4px;
+    min-height: 48px;
+    padding: 0 24px;
     border-bottom: 0;
+    @media (max-width: $mobile) {
+      min-height: 52px;
+    }
     .icon-button {
       flex-shrink: 0;
     }
