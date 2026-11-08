@@ -159,35 +159,26 @@ export default function App() {
     setComposerOpen(false);
     draft.endEdit();
   }
-  const detailPhoto = selected ? selected.id.startsWith('photo-') : filterType === 'photo';
-  const selectedOption = selected
-    ? catalog.find(
-        (o) =>
-          o.category ===
-            (detailPhoto
-              ? 'Photo Style'
-              : selected.group === 'risograph'
-                ? 'Technique'
-                : 'Illustration Style') && o.id === selected.group,
-      )
-    : undefined;
+  const detailPhoto = selected ? selected.type === 'photo' : filterType === 'photo';
+  const detailDesign = selected ? selected.type === 'design' : filterType === 'design';
+  // Detail and Save rebuild the exact prompt from the settings that made the image.
   const detailPreset = {
     photo: detailPhoto,
-    selection:
-      selected?.selection ??
-      (selectedOption ? { [selectedOption.category]: [selectedOption.id] } : {}),
+    design: detailDesign,
+    selection: selected?.selection ?? {},
     fields: {
+      ...selected?.fields,
       'Aspect Ratio': selected ? normalizeRatio(`${selected.width}:${selected.height}`) : '1:1',
       'Additional Instructions': '',
     },
   };
-  const detailSavePrompt = makePrompt(
+  const detailPrompt = makePrompt(
     catalog,
     detailPreset.selection,
     detailPreset.fields,
     detailPhoto,
+    detailDesign,
   );
-  const detailPrompt = selectedOption?.prompt ?? '';
   return (
     <>
       <Header
@@ -375,7 +366,7 @@ export default function App() {
               photo={detailPhoto}
               bookmarked={bookmarks.includes(selected.id)}
               stylePrompt={detailPrompt}
-              savePreview={detailSavePrompt}
+              savePreview={detailPrompt}
               saveOptions={{ catalog, ...detailPreset }}
               save={() => presets.save(detailPreset)}
               copy={copy}
