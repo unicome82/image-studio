@@ -31,7 +31,7 @@ IMAGE STUDIO의 **부가 메뉴**로 스타일 조합용 영문 지시문을 생
 ## 3. 기능
 
 1. **Single Select:** 모든 옵션 카테고리는 단일 선택이다. Rendering Mode·Design Format은 항상 하나를 유지하고, 나머지는 다시 누르면 해제된다. 전체 선택이 6개를 넘으면 차단하지 않고 선명도 안내 토스트를 표시한다
-10. **Recipe:** 유형별 큐레이션 4개(`src/utils/recipes.ts`)를 Type 아래에 표시한다. 선택하면 해당 유형의 옵션·복잡도·비율·Typography ON/OFF를 바꾸고 Subject·추가 지시는 유지한다. 레시피는 선택값 묶음일 뿐이며 직접 셋팅과 같은 생성 규칙을 거친다
+10. **Recipe:** 유형별 큐레이션 4개(`src/utils/recipes.ts`)를 첫 화면 카드로 표시하고 마지막에 '새로 만들기 +' 카드를 둔다. 선택하면 해당 유형의 옵션·복잡도·비율·Typography ON/OFF를 바꾸고 Subject·추가 지시는 유지하며 하단에 선택값·프롬프트를 바로 표시한다. '옵션 수정'·'새로 만들기'는 현재 값으로 전체 옵션 편집 화면을 열고, '처음부터 다시하기'는 값을 지우지 않고 레시피 화면으로 돌아간다. 레시피는 선택값 묶음일 뿐이며 직접 셋팅과 같은 생성 규칙을 거친다
 11. **기본값:** 비율 2:3, 일러스트 기본 Contemporary Flat·Digital Painting·Neutral + Accent·Minimal, 사진 기본 Portrait·Portrait Lens·Soft Daylight
 2. **Live Prompt:** 선택 즉시 영문 지시문 갱신
 3. **Conflict Prevention:** 카테고리마다 하나만 고르므로 같은 카테고리 충돌 규칙은 두지 않는다. 카테고리 간 긴장은 프롬프트의 우선순위 문장으로 처리한다

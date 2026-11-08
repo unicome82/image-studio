@@ -390,7 +390,8 @@ export default function App() {
       </div>
       {composerOpen && (
         <Builder
-          reset={draft.reset}
+          step={draft.step}
+          setStep={draft.setStep}
           catalog={catalog}
           filterCatalog={filterCatalog}
           pending={draft.pendingChoices}

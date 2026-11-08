@@ -14,6 +14,8 @@ import {
 import type { Recipe } from './recipes';
 
 export type BuilderType = 'illustration' | 'photo' | 'design';
+/** The Builder opens on recipe cards; the editor lists every option. */
+export type BuilderStep = 'recipes' | 'editor';
 export type PresetSettings = Pick<
   StylePreset,
   'photo' | 'design' | 'selection' | 'complexity' | 'fields'
@@ -36,6 +38,7 @@ const defaultFields: Record<string, string> = {
 
 export function useBuilderDraft(onCrowded: () => void) {
   const [builderType, setBuilderType] = useState<BuilderType>('illustration');
+  const [step, setStep] = useState<BuilderStep>('recipes');
   const photo = builderType === 'photo';
   const design = builderType === 'design';
   const [illustrationSelection, setIllustrationSelection] = useState(initial);
@@ -94,6 +97,8 @@ export function useBuilderDraft(onCrowded: () => void) {
       const composerType = composerDesign ? 'design' : composerPhoto ? 'photo' : 'illustration';
       selections[composerType][1]((previous) => ({ ...previous, ...relevant }));
       setBuilderType(composerType);
+      // Gallery filters are hand-picked settings, so they open the editor instead of recipes.
+      if (Object.values(effectiveFilters).some((ids) => ids.length)) setStep('editor');
     }
     appliedFilters.current = signature;
   }
@@ -162,21 +167,12 @@ export function useBuilderDraft(onCrowded: () => void) {
     if (next['Aspect Ratio'] !== fields['Aspect Ratio']) ratioChosen.current = true;
     setFields(next);
   }
-  function reset() {
-    setPendingChoices({});
-    setPendingSelection({});
-    setIllustrationSelection({ Outline: ['coloronly'] });
-    setPhotoSelection({});
-    setDesignSelection({});
-    setComplexity(3);
-    setFields(defaultFields);
-    ratioChosen.current = false;
-  }
   // Load a saved style set, keeping the current draft to restore after editing.
   function startEdit(preset: StylePreset) {
     if (!editingId) {
       const draft = {
         builderType,
+        step,
         illustrationSelection,
         photoSelection,
         designSelection,
@@ -189,6 +185,7 @@ export function useBuilderDraft(onCrowded: () => void) {
       backup.current = () => {
         ratioChosen.current = draft.ratioChosen;
         setBuilderType(draft.builderType);
+        setStep(draft.step);
         setIllustrationSelection(draft.illustrationSelection);
         setPhotoSelection(draft.photoSelection);
         setDesignSelection(draft.designSelection);
@@ -200,6 +197,7 @@ export function useBuilderDraft(onCrowded: () => void) {
     }
     const type = preset.design ? 'design' : preset.photo ? 'photo' : 'illustration';
     setBuilderType(type);
+    setStep('editor');
     selections[type][1](structuredClone(preset.selection));
     setComplexity(preset.complexity);
     setFields({ ...defaultFields, ...preset.fields });
@@ -218,6 +216,8 @@ export function useBuilderDraft(onCrowded: () => void) {
   return {
     type: builderType,
     setType: setBuilderType,
+    step,
+    setStep,
     photo,
     selection,
     complexity,
@@ -236,7 +236,6 @@ export function useBuilderDraft(onCrowded: () => void) {
     toggle,
     applyRecipe,
     removeOption,
-    reset,
     startEdit,
     endEdit,
   };

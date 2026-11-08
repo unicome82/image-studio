@@ -1,4 +1,5 @@
 export type IconName =
+  | 'add'
   | 'grid_view'
   | 'view_agenda'
   | 'favorite'

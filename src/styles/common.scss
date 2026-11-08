@@ -137,6 +137,14 @@
     @include prompt-action-button;
     width: 100%;
   }
+  > .edit-options-button {
+    @include prompt-action-button;
+    @include flex-row($justify: center);
+    flex: none;
+    aspect-ratio: 1;
+    width: auto;
+    padding: 0;
+  }
 }
 .modal {
   width: min(652px, 92vw);
@@ -1508,7 +1516,7 @@ textarea,
     border: 0;
     background: $page;
     --composer-heading-height: 56px;
-    &.resolving[open] > .builder-viewport {
+    &.no-output[open] > .builder-viewport {
       grid-template-columns: minmax(0, 1fr);
     }
     &[open] > .builder-viewport {
@@ -1630,6 +1638,90 @@ textarea,
     @include prompt-action-button;
     @include uppercase-text;
     margin-top: 16px;
+  }
+  .type-tabs {
+    @include flex-row($gap: 20px);
+    margin-top: 12px;
+    border-bottom: 1px solid $line;
+    button {
+      height: 40px;
+      padding: 0;
+      border: 0;
+      border-bottom: 2px solid transparent;
+      border-radius: 0;
+      background: transparent;
+      color: $black;
+      font-size: 14px;
+      font-weight: 500;
+      opacity: 0.5;
+      &[aria-pressed='true'] {
+        border-bottom-color: $black;
+        opacity: 1;
+      }
+    }
+  }
+  .recipe-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+    gap: 12px;
+    margin: 0;
+    padding: 16px 0 0;
+    list-style: none;
+    @media (max-width: $mobile) {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 8px;
+    }
+  }
+  .recipe-card {
+    @include flex-column;
+    width: 100%;
+    height: 100%;
+    padding: 0;
+    overflow: hidden;
+    border: 1px solid $option-border;
+    border-radius: 8px;
+    background: $page;
+    color: $ink;
+    text-align: left;
+    &:hover {
+      border-color: $option-hover-border;
+    }
+    &[aria-pressed='true'] {
+      border-color: $selected-border;
+    }
+    &-swatch {
+      height: 72px;
+    }
+    &-body {
+      @include flex-column;
+      gap: 4px;
+      padding: 8px 12px 12px;
+    }
+    &-name {
+      font-size: 14px;
+      font-weight: 700;
+    }
+    &-tags {
+      color: $tag-text;
+      font-size: 12px;
+      font-weight: 400;
+    }
+    &.recipe-new {
+      align-items: center;
+      justify-content: center;
+      gap: 4px;
+      min-height: 120px;
+      border-style: dashed;
+      color: $muted;
+      &:hover {
+        color: $ink;
+      }
+    }
+    @media (max-width: $mobile) {
+      &:hover {
+        border-color: $option-border;
+      }
+    }
   }
   &-unavailable {
     color: $muted;
