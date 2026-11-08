@@ -273,7 +273,7 @@ test('copied prompts contain canonical MD bodies, selected complexity and no fil
     'reference/naivefolk/prompt.md',
     'reference/options/color/muted/prompt.md',
     'reference/options/complexity/balanced/prompt.md',
-    'reference/options/typography/groovy/prompt.md',
+    'reference/options/typography/bubblelettering/prompt.md',
     'reference/options/photography/portrait/prompt.md',
   ];
   const catalog: Option[] = paths.map((path) => {
@@ -289,7 +289,7 @@ test('copied prompts contain canonical MD bodies, selected complexity and no fil
   const selection = {
     'Illustration Style': ['naivefolk'],
     Color: ['muted'],
-    Typography: ['groovy'],
+    Typography: ['bubblelettering'],
     'Photo Style': ['portrait'],
   };
   for (const photo of [false, true]) {
@@ -458,11 +458,11 @@ test('Removed options in saved sets move to the options that absorbed them', () 
     prompt: id,
   });
   const catalog = [
-    option('Technique', 'woodcut'),
     option('Technique', 'risograph'),
+    option('Technique', 'marker'),
     option('Texture', 'filmgrain'),
     option('Texture', 'clean'),
-    option('Color', 'vintage'),
+    option('Color', 'muted'),
     option('Color', 'blackwhite'),
     option('Color', 'vivid'),
     option('Photo Style', 'street'),
@@ -476,7 +476,7 @@ test('Removed options in saved sets move to the options that absorbed them', () 
         id: '1',
         photo: false,
         selection: {
-          Technique: ['linocut', 'screenprinting', 'woodcut'],
+          Technique: ['linocut', 'woodcut', 'handdrawn'],
           Typography: ['distortedtypography', 'kinetictypography'],
         },
       },
@@ -494,7 +494,7 @@ test('Removed options in saved sets move to the options that absorbed them', () 
     catalog,
   );
   assert.deepEqual(illustration.selection, {
-    Technique: ['woodcut', 'risograph'],
+    Technique: ['risograph', 'marker'],
     Typography: ['experimentaltypography'],
   });
   // Film Grain replaces Clean; Black & White replaces the hue-based palettes it contradicts.

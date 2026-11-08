@@ -4,4 +4,4 @@
 - **Style ID:** `charcoal`
 
 ### Apply
-- Use charcoal’s powdery dark masses, rubbed transitions, and expressive smudged marks.
+- Use charcoal’s powdery dark masses, rubbed transitions, and expressive smudged marks on clean white paper.

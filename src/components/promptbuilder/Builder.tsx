@@ -242,11 +242,11 @@ export default function Builder(p: Props) {
                 </section>
                 {categories.map((category) => {
                   const preferred = [
-                    'naivefolk',
+                    'contemporaryflat',
+                    'isometric',
                     'midcentury',
-                    'bauhaus',
                     'flatcolor',
-                    'handdrawn',
+                    'digitalpainting',
                     'risograph',
                     'vivid',
                     'pastel',

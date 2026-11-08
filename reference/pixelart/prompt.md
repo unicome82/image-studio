@@ -1,0 +1,10 @@
+## Pixel Art
+
+- **Category:** Illustration Style
+- **Style ID:** `pixelart`
+
+### Style
+- Create crisp, deliberate pixel art with the clarity and charm of contemporary independent game art.
+
+### Shape
+- Construct every form on a visible square pixel grid with clean stepped edges, a limited palette, intentional single-pixel details, and readable silhouettes; keep pixels sharp and uniformly sized.

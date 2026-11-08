@@ -43,15 +43,13 @@ const conflictPairs: [string, string][] = [
   ['monochrome', 'duotone'],
   ['monochrome', 'complementary'],
   ['monochrome', 'primarycolors'],
-  ['monochrome', 'midcenturypalette'],
   ['duotone', 'primarycolors'],
-  ['duotone', 'midcenturypalette'],
   ['complementary', 'primarycolors'],
   ['analogous', 'complementary'],
   ['analogous', 'primarycolors'],
   ['highkey', 'lowkey'],
-  ['vintage', 'neon'],
-  ['vintage', 'vivid'],
+  ['neutralaccent', 'monochrome'],
+  ['neutralaccent', 'duotone'],
   // Black & White has no hue, so every hue-based palette contradicts it.
   ...[
     'warm',
@@ -65,11 +63,12 @@ const conflictPairs: [string, string][] = [
     'duotone',
     'complementary',
     'primarycolors',
-    'midcenturypalette',
     'analogous',
-    'vintage',
+    'neutralaccent',
+    'jeweltones',
+    'iridescent',
   ].map((color): [string, string] => ['blackwhite', color]),
-  ...['papergrain', 'filmgrain', 'distressed', 'digitalnoise'].map((texture): [string, string] => [
+  ...['papergrain', 'filmgrain', 'digitalnoise'].map((texture): [string, string] => [
     'clean',
     texture,
   ]),
@@ -79,6 +78,8 @@ const conflictPairs: [string, string][] = [
   ['goldenhour', 'softdaylight'],
   ['neonnight', 'softdaylight'],
   ['dramatic', 'softdaylight'],
+  ['hardflash', 'softdaylight'],
+  ['glossy', 'softmatte'],
 ];
 const conflicts: Record<string, string[]> = {};
 for (const [a, b] of conflictPairs) {
