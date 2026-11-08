@@ -16,6 +16,8 @@ interface Props {
   catalog: Option[];
   filters: Selection;
   type: FilterType;
+  // Categories that at least one gallery image carries.
+  available: string[];
   setType: (type: FilterType) => void;
   toggle: (category: string, id: string) => void;
   reset: () => void;
@@ -64,29 +66,31 @@ export default function Filter(p: Props) {
         </div>
         <div className="builder-scroll">
           <div className="builder-wrap">
-            {filterCategories(p.type).map((category) => (
-              <section className="option-section" key={category}>
-                <OptionChoices
-                  title={
-                    category === 'Illustration Style'
-                      ? 'Style'
-                      : category === 'Aspect Ratio'
-                        ? 'Aspect ratio'
-                        : category
-                  }
-                  options={p.catalog
-                    .filter((option) => option.category === category)
-                    .map((option) => ({
-                      id: option.id,
-                      label: option.label.replace(' Modern', ''),
-                      category,
-                    }))}
-                  allIsUnfiltered
-                  selected={p.filters[category] ?? []}
-                  choose={(id) => p.toggle(category, id)}
-                />
-              </section>
-            ))}
+            {filterCategories(p.type)
+              .filter((category) => p.available.includes(category))
+              .map((category) => (
+                <section className="option-section" key={category}>
+                  <OptionChoices
+                    title={
+                      category === 'Illustration Style'
+                        ? 'Style'
+                        : category === 'Aspect Ratio'
+                          ? 'Aspect ratio'
+                          : category
+                    }
+                    options={p.catalog
+                      .filter((option) => option.category === category)
+                      .map((option) => ({
+                        id: option.id,
+                        label: option.label.replace(' Modern', ''),
+                        category,
+                      }))}
+                    allIsUnfiltered
+                    selected={p.filters[category] ?? []}
+                    choose={(id) => p.toggle(category, id)}
+                  />
+                </section>
+              ))}
           </div>
         </div>
         <div className="builder-footer">

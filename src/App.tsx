@@ -173,8 +173,10 @@ export default function App() {
     : undefined;
   const detailPreset = {
     photo: detailPhoto,
-    selection: selectedOption ? { [selectedOption.category]: [selectedOption.id] } : {},
-    complexity: 3,
+    selection:
+      selected?.selection ??
+      (selectedOption ? { [selectedOption.category]: [selectedOption.id] } : {}),
+    complexity: selected?.complexity ?? 3,
     fields: {
       'Aspect Ratio': selected ? normalizeRatio(`${selected.width}:${selected.height}`) : '1:1',
       'Additional Instructions': '',
@@ -239,6 +241,7 @@ export default function App() {
               catalog={filterCatalog}
               filters={gallery.filters}
               type={filterType}
+              available={gallery.availableCategories}
               setType={gallery.changeType}
               toggle={gallery.toggle}
               reset={gallery.reset}

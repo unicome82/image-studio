@@ -13,7 +13,7 @@ import {
   toggleFilter,
   type FilterType,
 } from './filters';
-import { aspectRatios, complexityUiLabels, type Selection } from './promptBuilder';
+import { aspectRatios, complexityUiLabels, toggleOption, type Selection } from './promptBuilder';
 
 // Sample tile heights at a 1200px width; their ratios also seed the ratio filter.
 const sampleHeights = [1500, 900, 1800, 1200, 1600, 1000, 1400, 1900];
@@ -101,6 +101,38 @@ const photoGroups = ['portrait', 'cinematic', 'editorial', 'stilllife'].map((id,
   colors: groups[i].colors,
 }));
 
+// Sample tiles get stable pseudo-random options so every filterable category has real values.
+const sampleCategories = ['Mood', 'Color', 'Lighting', 'Composition', 'Texture'];
+function seeded(key: string) {
+  let seed = [...key].reduce(
+    (hash, char) => Math.imul(hash ^ char.charCodeAt(0), 16777619),
+    2166136261,
+  );
+  return () => {
+    seed = Math.imul(seed ^ (seed >>> 15), 2246822507);
+    seed = Math.imul(seed ^ (seed >>> 13), 3266489909);
+    return ((seed ^= seed >>> 16) >>> 0) / 4294967296;
+  };
+}
+function sampleOptions(id: string, style: Selection, photo: boolean) {
+  const random = seeded(id);
+  const pick = (selection: Selection, category: string, count: number) => {
+    const ids = catalog.filter((option) => option.category === category).map((option) => option.id);
+    let next = selection;
+    for (let i = 0; i < count && ids.length; i++)
+      next = toggleOption(next, category, ids[Math.floor(random() * ids.length)]);
+    return next;
+  };
+  let selection = style;
+  if (!photo) {
+    if (!style.Technique) selection = pick(selection, 'Technique', 1);
+    selection = pick(selection, 'Outline', 1);
+  }
+  for (const category of sampleCategories)
+    selection = pick(selection, category, category === 'Color' ? 2 : 1);
+  return { selection, complexity: 1 + Math.floor(random() * 5) };
+}
+
 interface Options {
   onlySaved: boolean;
   bookmarks: string[];
@@ -131,7 +163,8 @@ export function useGalleryFilters({ onlySaved, bookmarks, favoriteSort, onChange
     .filter(Boolean);
   const label = (option?: { label: string; category?: string }) =>
     option ? [option.label, t(optionLabelKey(option))] : [];
-  const outline = catalog.find((o) => o.category === 'Outline' && o.id === 'coloronly');
+  // Categories some image actually carries; the filter panel hides the rest.
+  const availableCategories = new Set<string>();
   const tileGroups = sources.flatMap((source) =>
     source.groups.map((group) => {
       const styleCategory = source.photo
@@ -139,37 +172,45 @@ export function useGalleryFilters({ onlySaved, bookmarks, favoriteSort, onChange
         : group.id === 'risograph'
           ? 'Technique'
           : 'Illustration Style';
-      const style = catalog.find((o) => o.category === styleCategory && o.id === group.id);
       const type = source.photo ? 'Photo' : 'Illustration';
       return {
         id: group.id,
         label: group.label,
         tiles: group.colors
-          .map((color, index) => ({
-            id: `${source.photo ? 'photo' : 'illustration'}-${group.id}-${index}`,
-            group: group.id,
-            label: group.label,
-            color,
-            index,
-            width: 1200,
-            height: sampleHeights[index],
-          }))
+          .map((color, index) => {
+            const id = `${source.photo ? 'photo' : 'illustration'}-${group.id}-${index}`;
+            return {
+              id,
+              group: group.id,
+              label: group.label,
+              color,
+              index,
+              width: 1200,
+              height: sampleHeights[index],
+              ...sampleOptions(id, { [styleCategory]: [group.id] }, source.photo),
+            };
+          })
           .filter((tile) => {
+            [...Object.keys(tile.selection), 'Aspect Ratio', 'Complexity'].forEach((category) =>
+              availableCategories.add(category),
+            );
             const ratio = `${tile.width}:${tile.height}`;
-            // Mirrors the thumbnail and detail tags: style, type, ratio, complexity and outline.
+            const applied = Object.entries(tile.selection).flatMap(([category, ids]) =>
+              ids.map((id) => catalog.find((o) => o.category === category && o.id === id)),
+            );
+            // Mirrors the thumbnail and detail tags: name, type, ratio, complexity and every applied option.
             const text = [
               imageName(tile),
               group.label,
               t(group.label),
               group.id,
-              ...label(style),
+              ...applied.flatMap(label),
               type,
               t(type),
               ratio,
               normalizeRatio(ratio),
-              complexityUiLabels[2],
-              t(complexityUiLabels[2]),
-              ...(source.photo ? [] : label(outline)),
+              complexityUiLabels[tile.complexity - 1],
+              t(complexityUiLabels[tile.complexity - 1]),
             ]
               .join(' ')
               .toLowerCase();
@@ -177,7 +218,7 @@ export function useGalleryFilters({ onlySaved, bookmarks, favoriteSort, onChange
               terms.every((term) => text.includes(term)) &&
               (!onlySaved || bookmarks.includes(tile.id)) &&
               matchesFilters(
-                filterMetadata({ [styleCategory]: [group.id] }, source.photo, ratio),
+                filterMetadata(tile.selection, source.photo, ratio, tile.complexity),
                 effectiveFilters,
               )
             );
@@ -201,6 +242,7 @@ export function useGalleryFilters({ onlySaved, bookmarks, favoriteSort, onChange
   return {
     filters,
     effectiveFilters,
+    availableCategories: [...availableCategories],
     filterType,
     query,
     displayGroups,
