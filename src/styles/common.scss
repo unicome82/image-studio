@@ -381,12 +381,10 @@ textarea,
 // Header
 .header {
   position: sticky;
-  top: 0;
+  // Slides with the same top transition as its followers so no gap opens between them.
+  top: calc(var(--header-visible) - var(--header-height));
   z-index: 30;
-  transition: transform var(--transition-duration) ease var(--header-delay);
-  &.header-hidden {
-    transform: translateY(-100%);
-  }
+  @include follow-header(top);
   @include flex-row($gap: 24px);
   padding: $header-padding;
   border-bottom: 1px solid $line;
