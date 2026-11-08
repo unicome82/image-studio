@@ -101,7 +101,7 @@ filtering by missing metadata produces no matches. Saved style sets use their
 stored options, ratio, and complexity. Preview and main share browser storage.
 The sections below describe the original main UI where behavior differs.
 
-React + TypeScript + SCSS personal image gallery. The current interface uses solid-color placeholders; no images are generated or uploaded.
+React + TypeScript + SCSS personal image gallery. The gallery shows generated sample images from `public/samples/` (listed with their exact Builder settings in `src/utils/sampleImages.ts`) ahead of solid-color placeholders; the site itself never generates or uploads images.
 
 ## Development
 

@@ -1,5 +1,7 @@
 export interface GalleryTile {
   fileName?: string;
+  // Generated image URL; tiles without one render their placeholder color.
+  src?: string;
   id: string;
   group: string;
   label: string;

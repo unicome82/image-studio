@@ -576,6 +576,7 @@ textarea,
 }
 .tile {
   position: relative;
+  @include image-fill;
   // inline-block keeps Safari from carrying a column's last margin to the next column's top.
   display: inline-block;
   vertical-align: top;
@@ -701,6 +702,7 @@ textarea,
   &-preview {
     position: relative;
     @include grid-center;
+    @include image-fill;
     width: 100%;
     margin: 0 auto 16px;
     border-radius: 0;
@@ -832,6 +834,7 @@ textarea,
   &-image {
     display: block;
     max-width: none;
+    @include image-fill;
     max-height: none;
     border: 0;
     border-radius: 0;

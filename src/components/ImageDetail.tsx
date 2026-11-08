@@ -2,6 +2,7 @@ import { useTranslation } from 'react-i18next';
 import Icon from './Icon';
 import FavoriteButton from './FavoriteButton';
 import { imageName } from '../utils/imageName';
+import { imageStyle } from '../utils/sampleImages';
 import Panel from './Panel';
 import SavePrompt from './promptbuilder/SavePrompt';
 import SelectedOptions, { type SelectedOptionsProps } from './promptbuilder/SelectedOptions';
@@ -47,7 +48,7 @@ export default function ImageDetail(p: Props) {
         <div
           className="detail-preview"
           style={{
-            backgroundColor: image.color,
+            ...imageStyle(image),
             aspectRatio: `${image.width} / ${image.height}`,
           }}
         >

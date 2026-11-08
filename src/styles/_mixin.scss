@@ -12,6 +12,13 @@
   background: $option-tag-bg;
 }
 
+// Generated images arrive as an inline background-image over the placeholder color.
+@mixin image-fill {
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+
 @mixin sticky-surface($background: $sticky-background) {
   background: $background;
   backdrop-filter: blur(8px);

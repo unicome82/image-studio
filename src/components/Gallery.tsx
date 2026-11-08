@@ -1,6 +1,7 @@
 import { useTranslation } from 'react-i18next';
 import FavoriteButton from './FavoriteButton';
 import { imageName } from '../utils/imageName';
+import { imageStyle } from '../utils/sampleImages';
 import type { GallerySection, GalleryTile } from '../types';
 interface Props {
   largeThumbnails: boolean;
@@ -24,7 +25,7 @@ export default function Gallery(p: Props) {
                 className={'tile ' + (p.selectedId === tile.id ? 'selected' : '')}
                 key={tile.id}
                 style={{
-                  backgroundColor: tile.color,
+                  ...imageStyle(tile),
                   aspectRatio: `${tile.width} / ${tile.height}`,
                 }}
               >

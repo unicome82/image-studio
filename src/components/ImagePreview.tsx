@@ -1,6 +1,7 @@
 import { useTranslation } from 'react-i18next';
 import Icon from './Icon';
 import { imageName } from '../utils/imageName';
+import { imageStyle } from '../utils/sampleImages';
 import { useEffect, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 interface PreviewImage {
@@ -9,6 +10,7 @@ interface PreviewImage {
   width: number;
   height: number;
   color: string;
+  src?: string;
   label: string;
 }
 export const minZoom = 1;
@@ -63,7 +65,16 @@ export default function ImagePreview({ image, close }: { image: PreviewImage; cl
     return () => el?.removeEventListener('wheel', wheel);
   }, []);
   function downloadImage() {
-    // The gallery currently renders color samples, so export the same visual at its native size.
+    // Generated images download as their original file; color samples export at their native size.
+    if (image.src) {
+      const link = document.createElement('a');
+      link.href = image.src;
+      link.download = imageName(image);
+      document.body.append(link);
+      link.click();
+      link.remove();
+      return;
+    }
     const canvas = document.createElement('canvas');
     canvas.width = image.width;
     canvas.height = image.height;
@@ -132,7 +143,7 @@ export default function ImagePreview({ image, close }: { image: PreviewImage; cl
           style={{
             width,
             height: width / ratio,
-            backgroundColor: image.color,
+            ...imageStyle(image),
             transform: `scale(${zoom})`,
           }}
           onClick={(e) => e.stopPropagation()}
