@@ -1123,8 +1123,13 @@ textarea,
   white-space: nowrap;
   &-values {
     min-width: 0;
-    overflow: hidden;
-    text-overflow: ellipsis;
+    overflow: auto hidden;
+    overscroll-behavior-x: none;
+    scrollbar-width: none;
+    user-select: none;
+    &::-webkit-scrollbar {
+      display: none;
+    }
     > span {
       display: inline-block;
       @include option-tag;
