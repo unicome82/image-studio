@@ -2,6 +2,7 @@
 
 - **Category:** Illustration Style
 - **Style ID:** `lowpoly`
+- **Cue:** Visible triangular facets, each face one flat tone, simple readable silhouettes
 
 ### Style
 - Render the scene as a clean low-polygon construction with a contemporary digital-faceted aesthetic.

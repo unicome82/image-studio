@@ -2,6 +2,7 @@
 
 - **Category:** Photo Style
 - **Style ID:** `architectural`
+- **Cue:** Straight verticals, strong geometry, structural rhythm, clean perspective
 
 ### Apply
 - Emphasize spatial geometry, structural rhythm, material relationships, and coherent building perspective.

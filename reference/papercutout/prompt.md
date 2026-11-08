@@ -2,6 +2,7 @@
 
 - **Category:** Illustration Style
 - **Style ID:** `papercutout`
+- **Cue:** Layered cut-paper pieces with clean cut edges and soft drop shadows between layers
 
 ### Style
 - Interpret imagery as assembled shapes cut from physical sheets of paper, emphasizing the logic of overlapping cut pieces.

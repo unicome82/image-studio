@@ -2,6 +2,7 @@
 
 - **Category:** Illustration Style
 - **Style ID:** `expressionism`
+- **Cue:** Angular distorted forms, energetic visible strokes, emotionally charged contrasts
 
 ### Style
 - Prioritize subjective feeling and psychological intensity over objective description.

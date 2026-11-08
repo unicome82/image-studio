@@ -7,7 +7,7 @@ IMAGE STUDIO의 **부가 메뉴**로 스타일 조합용 영문 지시문을 생
 - AI API·데이터베이스 불필요
 - 기존 React + TypeScript + SCSS 및 디자인 시스템 재사용
 - 스타일별 상세 지침은 `reference/{style}/prompt.md` **한 곳에서만 관리**
-- Builder는 스타일 **이름/ID와 옵션**만 조합하며 상세 프롬프트를 복제하지 않음
+- Builder는 스타일 **이름/ID와 각 MD의 `Cue` 한 줄**만 조합하며 상세 프롬프트를 복제하지 않음
 - 결과 지시문을 받은 Codex/Claude Code가 해당 `prompt.md`를 읽어 이미지 생성에 활용
 
 ## 2. 선택 라이브러리
@@ -62,7 +62,7 @@ Color는 팔레트를, Rendering Mode는 채움과 윤곽선의 표현 방식을
 | `complex` | Complex | [prompt.md](reference/options/depiction/complex/prompt.md) |
 | `verycomplex` | Very Complex | [prompt.md](reference/options/depiction/verycomplex/prompt.md) |
 
-`## Options` 목록 끝에 `Depiction: {표시명}`으로 항상 출력하고 Settings에는 반복하지 않는다. 'complexity' 단어는 프롬프트에 쓰지 않는다.
+`## Options` 목록 끝에 `Depiction: {표시명} — {Cue}`로 항상 출력하고 Settings에는 반복하지 않는다. 'complexity' 단어는 프롬프트에 쓰지 않는다.
 
 ## 5. 생성 규칙
 
@@ -72,11 +72,13 @@ Color는 팔레트를, Rendering Mode는 채움과 윤곽선의 표현 방식을
 - Rendering Mode의 표시명과 선택한 실제 프롬프트 본문을 출력한다. 채움·윤곽선에 관한 스타일·기법·질감 지침과 충돌하면 Rendering Mode를 우선하고, 나머지 스타일 특징은 유지한다. 사진 스타일을 선택해도 같은 표현 규칙을 적용한다.
 - Illustration Style은 `reference/{id}/prompt.md`, 옵션은 `reference/options/{category}/{id}/prompt.md`에 연결한다. Rendering Mode의 경로 카테고리는 `outline`이다. Depiction은 선택 단계(기본 `simple`)의 `depiction/{id}`를 연결한다.
 - 위 선택 목록의 링크가 Builder ID와 실제 파일의 매핑이다. ID·표시명은 각 파일의 Category·Style ID·제목에서 읽으며 별도 목록이나 상세 설명 데이터를 복제하지 않는다. 동일 ID가 다른 카테고리에 있으면 카테고리와 ID를 함께 식별자로 사용한다.
-- **실제로 존재하는 파일만** 선택한 항목의 원문 본문을 출력하며, 파일 경로를 읽으라는 지시는 출력하지 않는다. Typography는 ON일 때, Photo Style은 사진 기반 결과를 요청할 때만 포함한다.
+- **실제로 존재하는 파일만** 선택한 항목의 표시명과 Cue를 출력하며, 파일 경로를 읽으라는 지시는 출력하지 않는다. Typography는 ON일 때, Photo Style은 사진 기반 결과를 요청할 때만 포함한다.
 - 파일이 없는 옵션은 표시명만 전달
 - 스타일 상세 설명·Mix Prompt를 별도 데이터로 중복 관리하지 않음
 - 옵션 정리로 삭제한 ID는 스타일셋 로드 시 흡수한 옵션으로 바꾼다: Constructivism→Bauhaus, Suprematism·Cubism·Optical Art·Swiss Graphic Design(일러스트)→Geometric Illustration, Dadaism→Surrealism, Fauvism→Expressionism, Art Nouveau→Art Deco, Retro Graphic Design(일러스트)→Mid-century Modern, Linocut·Woodcut·Screen Printing·Halftone Printing→Risograph, Hand-drawn→Marker, Vintage Faded·Mid-century Palette→Muted, 사진 Film·Analog→Texture Film Grain + Color Muted, 사진 Monochrome→Color Black & White, Diagonal→Dynamic, Mood Epic→Bold·Dark→Moody·Elegant→Luxe·Nostalgic→Cozy, Rough Print·Distressed·Ink Bleed→Paper Grain, Blackletter→Calligraphy, Groovy·Psychedelic Lettering→Bubble Lettering, Distorted·Kinetic Typography→Experimental Typography. 변환 값은 비어 있는 카테고리에만 채운다.
 - 모든 Illustration·Design·Photo Style 원본 MD에는 Color·Lighting·Texture 지시가 없을 때 쓸 기본 짝(팔레트·빛·표면)을 한 줄로 둔다.
+- 모든 원본 MD는 Style ID 아래에 `- **Cue:** …` 한 줄을 둔다. 15단어 이내 긍정문으로 해당 카테고리 범위의 결정적 규칙·수치(격자·색 수·선 굵기·빛 방향 등)만 쓰고 다른 카테고리를 침범하지 않는다. `## Options`에는 `카테고리: 표시명 — Cue`로 출력하고 Key direction은 표시명만 쓴다.
+- 첫 줄은 사용처를 밝힌다: 일러스트 `Create an illustration for a contemporary art print or editorial spread`, 사진 `Create a photograph for a feature in an independent print magazine`, 디자인 `Create a finished graphic design ready for a real brand`.
 - 프롬프트 복잡도를 낮추기 위해 `## Final Instructions` 섹션은 출력하지 않는다. 장면 확장·고급 에디토리얼·포트폴리오·crisp focus 같은 완성도 강조 문구는 넣지 않는다.
 - 옛 사조 스타일은 현대적 재해석 문장을, 종이 기반 기법과 Warm·Earthy·Golden Hour·Paper Grain은 밝은 흰 바탕·정확한 색 지시를 원본 MD에 긍정문으로 포함한다(세피아·노화 등 피할 대상은 적지 않는다).
 - 주 스타일 카테고리는 유형별로 Illustration Style·Photo Style·Design Style로 부른다. 기존 저장 데이터의 Base Style·Photography는 로드 시 새 이름으로 변환한다.
@@ -86,7 +88,7 @@ Color는 팔레트를, Rendering Mode는 채움과 윤곽선의 표현 방식을
 
 **출력 방식**
 
-프롬프트는 키워드 방식이다. 유형별 첫 줄(`Create an image|a photograph|a finished graphic design using the instructions below.`), Key direction 한 줄, `## Options`에 선택 옵션을 `{카테고리}: {표시명}`으로 한 줄씩 출력한다. 순서는 대표 스타일 → Typography(ON일 때) → Rendering Mode → Color → Lighting → Texture → Composition → Mood → Depiction이며 Outline은 Rendering Mode로 표기한다. 원본 MD 본문은 출력하지 않고 보관만 한다. 이어서 `## Settings`에는 Key direction·옵션 목록에 없는 내용만 출력한다: Subject 미입력 시 랜덤 Subject 지시, 추가 지시, Typography ON일 때만 `Typography: On`·Text(OFF이면 Typography를 언급하지 않음). 출력할 내용이 없으면 Settings 섹션을 생략하고 `## Final Instructions`는 출력하지 않는다. 선택하지 않았거나 현재 유형에서 숨겨진 옵션은 제외한다. 복사한 프롬프트만으로 사용할 수 있으며 외부 도구의 파일 또는 URL 접근을 요구하지 않는다. LocalStorage에는 기존처럼 선택 ID·설정만 저장하고 본문을 중복 저장하지 않는다.
+프롬프트는 키워드+Cue 방식이다. 사용처를 밝히는 유형별 첫 줄, Key direction 한 줄, `## Options`에 선택 옵션을 `{카테고리}: {표시명} — {Cue}`로 한 줄씩 출력한다. 순서는 대표 스타일 → Typography(ON일 때) → Rendering Mode → Color → Lighting → Texture → Composition → Mood → Depiction이며 Outline은 Rendering Mode로 표기한다. 원본 MD는 Cue 한 줄만 출력하고 나머지 본문은 보관만 한다. 이어서 `## Settings`에는 Key direction·옵션 목록에 없는 내용만 출력한다: Subject 미입력 시 랜덤 Subject 지시, 추가 지시, Typography ON일 때만 `Typography: On`·Text(OFF이면 Typography를 언급하지 않음). 출력할 내용이 없으면 Settings 섹션을 생략하고 `## Final Instructions`는 출력하지 않는다. 선택하지 않았거나 현재 유형에서 숨겨진 옵션은 제외한다. 복사한 프롬프트만으로 사용할 수 있으며 외부 도구의 파일 또는 URL 접근을 요구하지 않는다. LocalStorage에는 기존처럼 선택 ID·설정만 저장하고 본문을 중복 저장하지 않는다.
 
 ## 6. 연동 및 UI
 

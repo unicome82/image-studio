@@ -567,3 +567,42 @@ test('Depiction defaults to Simple, takes one required level and ends the option
   const files = readdirSync('reference/options/depiction').sort();
   assert.deepEqual(files, [...depictionLevels].sort());
 });
+
+test('options print their one-line cue and every source MD carries one', () => {
+  const catalog: Option[] = [
+    {
+      id: 'pixelart',
+      label: 'Pixel Art',
+      category: 'Illustration Style',
+      path: 'p',
+      prompt: '- Body text.',
+      cue: 'Strict pixel grid',
+    },
+    { id: 'simple', label: 'Simple', category: 'Depiction', path: 's', prompt: '', cue: 'Few' },
+  ];
+  const text = makePrompt(
+    catalog,
+    { 'Illustration Style': ['pixelart'] },
+    { Subject: 'A cat' },
+    false,
+  );
+  assert.ok(text.startsWith('Create an illustration for a contemporary art print'));
+  assert.ok(text.includes('\nIllustration Style: Pixel Art — Strict pixel grid\n'));
+  assert.ok(text.includes('Illustration Style: Pixel Art; Aspect Ratio'));
+  assert.ok(text.endsWith('Depiction: Simple — Few'));
+  assert.ok(!text.includes('Body text'));
+  assert.ok(makePrompt([], {}, {}, true).startsWith('Create a photograph for a feature'));
+  assert.ok(makePrompt([], {}, {}, false, true).startsWith('Create a finished graphic design'));
+  const walk = (dir: string): string[] =>
+    readdirSync(dir, { withFileTypes: true }).flatMap((entry) =>
+      entry.isDirectory()
+        ? walk(`${dir}/${entry.name}`)
+        : entry.name === 'prompt.md'
+          ? [`${dir}/${entry.name}`]
+          : [],
+    );
+  for (const file of walk('reference')) {
+    const cue = readFileSync(file, 'utf8').match(/\*\*Cue:\*\* (.+)/)?.[1] ?? '';
+    assert.ok(cue.split(' ').length <= 15 && cue.length > 0, file);
+  }
+});

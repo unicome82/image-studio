@@ -2,6 +2,7 @@
 
 - **Category:** Illustration Style
 - **Style ID:** `impressionism`
+- **Cue:** Broken dabs of color, soft dissolving edges, optical mixing of light
 
 ### Style
 - Capture fleeting perception and the immediacy of a passing moment rather than exact representation.

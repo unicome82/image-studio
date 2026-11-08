@@ -2,6 +2,7 @@
 
 - **Category:** Illustration Style
 - **Style ID:** `memphisdesign`
+- **Cue:** Squiggles, zigzags, confetti shapes, offbeat geometric objects, black detail lines
 
 ### Style
 - Embrace the irreverent postmodern attitude of Memphis design: playful contradiction, humor, and deliberate visual eccentricity.

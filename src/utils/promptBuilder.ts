@@ -4,6 +4,8 @@ export interface Option {
   category: string;
   path: string;
   prompt: string;
+  /** One-line rule from the source MD, printed after the label in the prompt. */
+  cue?: string;
 }
 export type Selection = Record<string, string[]>;
 // Suggested ratio when a design format is chosen; a ratio the user picked stays.
@@ -94,6 +96,16 @@ export function toggleOption(selection: Selection, category: string, id: string)
 }
 // The prompt names Outline by its role so the option list and summary agree.
 const promptCategory = (category: string) => (category === 'Outline' ? 'Rendering Mode' : category);
+// Each option prints its label plus the MD's one-line cue so the model gets the decisive rule.
+const optionLine = (o: Option) =>
+  `${promptCategory(o.category)}: ${o.label}${o.cue ? ` — ${o.cue}` : ''}`;
+// The opening line names where the image will be used, which steers finish and taste.
+const openingLine = (photo: boolean, design: boolean) =>
+  design
+    ? 'Create a finished graphic design ready for a real brand, using the instructions below.'
+    : photo
+      ? 'Create a photograph for a feature in an independent print magazine, using the instructions below.'
+      : 'Create an illustration for a contemporary art print or editorial spread, using the instructions below.';
 export function makePrompt(
   catalog: Option[],
   selection: Selection,
@@ -159,14 +171,14 @@ export function makePrompt(
         ]
       : []),
   ];
-  // Options are keywords only; the source MD bodies stay in reference/ and are not copied in.
+  // Options print the label and one-line cue; the rest of each source MD stays in reference/.
   return [
-    `Create ${design ? 'a finished graphic design' : photo ? 'a photograph' : 'an image'} using the instructions below.`,
+    openingLine(photo, design),
     `Key direction: ${keyDirection}.`,
     '',
     '## Options',
-    ...chosen.map((o) => `${promptCategory(o.category)}: ${o.label}`),
-    ...(depiction ? [`Depiction: ${depiction.label}`] : []),
+    ...chosen.map(optionLine),
+    ...(depiction ? [optionLine(depiction)] : []),
     ...(settings.length ? ['', '## Settings', ...settings] : []),
   ].join('\n');
 }

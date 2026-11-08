@@ -2,6 +2,7 @@
 
 - **Category:** Illustration Style
 - **Style ID:** `pixelart`
+- **Cue:** Strict low-resolution pixel grid, 16-color palette, hard stepped edges, uniformly sharp pixels
 
 ### Style
 - Create deliberate pixel art with the clarity and charm of contemporary independent game art.

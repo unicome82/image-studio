@@ -4,7 +4,7 @@ import { readdirSync, readFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { designFormatRatios } from './src/utils/promptBuilder';
 // Bundle canonical prompt text so copied prompts work without repository access. Images stay out.
-function catalog(dir = 'reference'): { category?: string; id?: string }[] {
+function catalog(dir = 'reference'): { category?: string; id?: string; cue?: string }[] {
   return readdirSync(dir, { withFileTypes: true }).flatMap((entry) => {
     const path = join(dir, entry.name);
     if (entry.isDirectory()) return catalog(path);
@@ -15,6 +15,7 @@ function catalog(dir = 'reference'): { category?: string; id?: string }[] {
         label: text.match(/^## (.+)$/m)?.[1],
         category: text.match(/\*\*Category:\*\* (.+)/)?.[1],
         id: text.match(/\*\*Style ID:\*\* `([^`]+)`/)?.[1],
+        cue: text.match(/\*\*Cue:\*\* (.+)/)?.[1]?.trim(),
         path,
         prompt: text.trim(),
       },

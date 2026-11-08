@@ -2,6 +2,7 @@
 
 - **Category:** Illustration Style
 - **Style ID:** `storybookillustration`
+- **Cue:** Expressive characters, readable gestures, small narrative details hinting at a story
 
 ### Style
 - Create an evocative narrative image with the warmth and imaginative clarity of a picture book.

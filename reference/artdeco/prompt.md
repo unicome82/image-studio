@@ -2,6 +2,7 @@
 
 - **Category:** Illustration Style
 - **Style ID:** `artdeco`
+- **Cue:** Stepped symmetry, sunburst and fan motifs, elongated forms, thin metallic linework
 
 ### Style
 - Express the streamlined luxury and architectural elegance of Art Deco through disciplined ornament and rhythmic refinement.

@@ -2,6 +2,7 @@
 
 - **Category:** Design Format
 - **Style ID:** `iconset`
+- **Cue:** Icons on an even grid, one shared stroke weight, corner radius and visual family
 
 ### Instructions
 - Create a cohesive set of icons arranged on an even grid, sharing one stroke weight, corner treatment, perspective, and visual language. Keep each icon simple, distinct, and recognizable at small sizes with consistent padding. Present the icon set itself on a plain background.

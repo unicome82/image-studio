@@ -2,6 +2,7 @@
 
 - **Category:** Illustration Style
 - **Style ID:** `brutalism`
+- **Cue:** Blunt heavy masses, hard edges, abrupt scale jumps, raw exposed construction
 
 ### Style
 - Express raw, uncompromising visual directness with deliberately exposed structural decisions.

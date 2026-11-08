@@ -2,6 +2,7 @@
 
 - **Category:** Photo Style
 - **Style ID:** `cinematic`
+- **Cue:** Film-still framing, motivated directional light, graded color, story moment
 
 ### Apply
 - Frame the subject with film-still visual storytelling and purposeful depth and light direction.

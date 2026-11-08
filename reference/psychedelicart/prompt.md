@@ -2,6 +2,7 @@
 
 - **Category:** Illustration Style
 - **Style ID:** `psychedelicart`
+- **Cue:** Melting, swirling, interlocking forms; concentric rhythms; vibrating complementary colors
 
 ### Style
 - Suggest altered perception, fluid transformation, and an immersive countercultural visual sensibility.

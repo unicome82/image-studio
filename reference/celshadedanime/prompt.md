@@ -2,6 +2,7 @@
 
 - **Category:** Illustration Style
 - **Style ID:** `celshadedanime`
+- **Cue:** Clean ink lines, hard two-tone cel shadows, crisp highlights, flat color zones
 
 ### Style
 - Create a contemporary cel-shaded animation look with expressive characters and vibrant, cinematic framing, without imitating any existing character or franchise.

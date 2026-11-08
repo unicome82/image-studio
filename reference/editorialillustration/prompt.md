@@ -2,6 +2,7 @@
 
 - **Category:** Illustration Style
 - **Style ID:** `editorialillustration`
+- **Cue:** One clever visual metaphor, few elements, conceptual twist as the focal point
 
 ### Style
 - Interpret an idea as an insightful visual metaphor suitable for an editorial article or cultural publication.

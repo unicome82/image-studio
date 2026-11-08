@@ -2,6 +2,7 @@
 
 - **Category:** Illustration Style
 - **Style ID:** `y2k`
+- **Cue:** Inflated chrome forms, bubble shapes, techno-organic curves, glossy digital sheen
 
 ### Style
 - Reference the optimistic, synthetic, futuristic visual imagination of the late 1990s and early 2000s.

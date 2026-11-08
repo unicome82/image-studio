@@ -2,6 +2,7 @@
 
 - **Category:** Photo Style
 - **Style ID:** `food`
+- **Cue:** Appetizing texture, fresh styling, purposeful plate and props
 
 ### Apply
 - Show food appetizingly with appealing texture, freshness, natural color, and purposeful styling of plates and surroundings.

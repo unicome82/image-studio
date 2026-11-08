@@ -2,6 +2,7 @@
 
 - **Category:** Illustration Style
 - **Style ID:** `maximalism`
+- **Cue:** Dense layered motifs and patterns edge to edge around one clear hero
 
 ### Style
 - Celebrate expressive abundance, visual multiplicity, and deliberate excess without losing the central idea.

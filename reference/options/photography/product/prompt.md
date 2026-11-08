@@ -2,6 +2,7 @@
 
 - **Category:** Photo Style
 - **Style ID:** `product`
+- **Cue:** Single object hero, controlled reflections, accurate materials, simple backdrop
 
 ### Apply
 - Present the object as a commercial photograph with clean background, controlled reflections, and accurate material and form.

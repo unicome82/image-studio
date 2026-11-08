@@ -2,6 +2,7 @@
 
 - **Category:** Design Style
 - **Style ID:** `retro`
+- **Cue:** Period-inspired shapes, badge framing, bold hierarchy, balanced ornament
 
 ### Instructions
 - Use a coherent retro graphic vocabulary with period-inspired shapes, deliberate framing, bold hierarchy, and carefully balanced ornament. Add period texture only when Texture instructions are given. Follow the Color instructions when given; keep any rendered lettering clean and readable.

@@ -2,6 +2,7 @@
 
 - **Category:** Photo Style
 - **Style ID:** `stilllife`
+- **Cue:** A few styled objects, one hero object, intentional arrangement
 
 ### Apply
 - Arrange inanimate objects with purposeful spatial relationships and controlled object interaction.

@@ -2,6 +2,7 @@
 
 - **Category:** Illustration Style
 - **Style ID:** `geometricillustration`
+- **Cue:** Subject built from circles, arcs and polygons with precise intersections
 
 ### Style
 - Translate recognizable subjects into an intentionally constructed language of geometric relationships.

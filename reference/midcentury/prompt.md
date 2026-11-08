@@ -2,6 +2,7 @@
 
 - **Category:** Illustration Style
 - **Style ID:** `midcentury`
+- **Cue:** Abstracted organic shapes, boomerang curves, flat textured fills, playful asymmetry
 
 ### Style
 - Interpret subjects through the optimistic, design-conscious visual language of mid-twentieth-century modernism.
