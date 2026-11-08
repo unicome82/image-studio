@@ -23,7 +23,7 @@ export const sampleImages: Record<string, SampleImage[]> = {
         Color: ['warm'],
         Lighting: ['goldenhour'],
         Composition: ['symmetric'],
-        Mood: ['elegant'],
+        Mood: ['luxe'],
       },
       complexity: 3,
     },

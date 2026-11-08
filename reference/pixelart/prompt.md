@@ -5,6 +5,7 @@
 
 ### Style
 - Create crisp, deliberate pixel art with the clarity and charm of contemporary independent game art.
+- When no Color, Lighting, or Texture instructions are given, use a limited bright palette with clear contrast, even light, and crisp pixel edges.
 
 ### Shape
 - Construct every form on a visible square pixel grid with clean stepped edges, a limited palette, intentional single-pixel details, and readable silhouettes; keep pixels sharp and uniformly sized.

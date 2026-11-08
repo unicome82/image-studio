@@ -32,7 +32,8 @@ test('filters have no selection limit and builder handoff retains every unresolv
   let filters = {};
   for (const id of ['a', 'b', 'c', 'd', 'e']) filters = toggleFilter(filters, 'Color', id);
   assert.deepEqual(pendingBuilderFilters(filters, false), { Color: ['a', 'b', 'c', 'd', 'e'] });
-  assert.deepEqual(pendingBuilderFilters({ Color: ['a', 'b', 'c'] }, false), {});
+  assert.deepEqual(pendingBuilderFilters({ Technique: ['a', 'b'] }, false), {});
+  assert.deepEqual(pendingBuilderFilters({ Color: ['a', 'b'] }, false), { Color: ['a', 'b'] });
   const singles = {
     Outline: ['coloronly', 'outlineonly'],
     'Aspect Ratio': ['1:1', '4:5'],

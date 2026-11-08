@@ -15,6 +15,7 @@ import {
   optionLimit,
 } from '../../utils/promptBuilder';
 import { builderFilterLimit } from '../../utils/filters';
+import { matchesRecipe, recipes, type Recipe } from '../../utils/recipes';
 import type { Option, Selection } from '../../utils/promptBuilder';
 interface Props {
   reset: () => void;
@@ -26,6 +27,7 @@ interface Props {
   applyPending: () => void;
   selection: Selection;
   toggle: (category: string, id: string) => void;
+  applyRecipe: (recipe: Recipe) => void;
   removeOption: (category: string, id: string) => void;
   complexity: number;
   setComplexity: (n: number) => void;
@@ -69,6 +71,7 @@ export default function Builder(p: Props) {
   }, []);
   const mobile = useMediaQuery(mobileQuery);
   const [promptCollapsed, setPromptCollapsed] = useState(mobile);
+  const typeRecipes = recipes.filter((recipe) => recipe.type === p.type);
   const categories = builderCategories(p.photo, design).filter(
     (category) => category !== 'Outline',
   );
@@ -204,6 +207,27 @@ export default function Builder(p: Props) {
                     choose={(type) => p.setType(type as Props['type'])}
                   />
                 </section>
+                <section className="option-section">
+                  <OptionChoices
+                    title="Recipe"
+                    multiple={false}
+                    options={typeRecipes.map((recipe) => ({ id: recipe.id, label: recipe.label }))}
+                    selected={typeRecipes
+                      .filter((recipe) =>
+                        matchesRecipe(
+                          recipe,
+                          p.selection,
+                          p.complexity,
+                          p.fields['Aspect Ratio'] ?? '',
+                        ),
+                      )
+                      .map((recipe) => recipe.id)}
+                    choose={(id) => {
+                      const recipe = typeRecipes.find((item) => item.id === id);
+                      if (recipe) p.applyRecipe(recipe);
+                    }}
+                  />
+                </section>
                 {!p.photo && !design && (
                   <section className="option-section">
                     <OptionChoices
@@ -224,7 +248,7 @@ export default function Builder(p: Props) {
                     options={[...new Set([...aspectRatios, p.fields['Aspect Ratio']])]
                       .filter(Boolean)
                       .map((ratio) => ({ id: ratio, label: ratio }))}
-                    selected={[p.fields['Aspect Ratio'] || '1:1']}
+                    selected={[p.fields['Aspect Ratio'] || '2:3']}
                     choose={(ratio) => p.setFields({ ...p.fields, 'Aspect Ratio': ratio })}
                   />
                 </section>
@@ -256,7 +280,7 @@ export default function Builder(p: Props) {
                     'asymmetric',
                     'cute',
                     'chic',
-                    'epic',
+                    'fresh',
                   ];
                   const options = p.catalog
                     .filter((o) => o.category === category)

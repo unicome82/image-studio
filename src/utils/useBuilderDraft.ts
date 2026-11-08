@@ -11,10 +11,11 @@ import {
   builderCategories,
   designFormatRatios,
   makePrompt,
-  maxSelections,
+  recommendedTotal,
   toggleOption,
   type Selection,
 } from './promptBuilder';
+import type { Recipe } from './recipes';
 
 export type BuilderType = 'illustration' | 'photo' | 'design';
 export type PresetSettings = Pick<
@@ -23,29 +24,29 @@ export type PresetSettings = Pick<
 >;
 
 const initial: Selection = {
-  'Illustration Style': ['naivefolk'],
-  Technique: ['risograph'],
-  Color: ['muted'],
+  'Illustration Style': ['contemporaryflat'],
+  Technique: ['digitalpainting'],
+  Color: ['neutralaccent'],
   Outline: ['coloronly'],
-  Composition: ['asymmetric'],
+  Composition: ['minimal'],
 };
 const defaultFields: Record<string, string> = {
   Subject: '',
-  'Aspect Ratio': '1:1',
+  'Aspect Ratio': '2:3',
   'Additional Instructions': '',
   'Typography Enabled': 'false',
   Text: '',
 };
 
-export function useBuilderDraft(onLimit: () => void) {
+export function useBuilderDraft(onLimit: () => void, onCrowded: () => void) {
   const [builderType, setBuilderType] = useState<BuilderType>('illustration');
   const photo = builderType === 'photo';
   const design = builderType === 'design';
   const [illustrationSelection, setIllustrationSelection] = useState(initial);
   const [photoSelection, setPhotoSelection] = useState<Selection>({
     'Photo Style': ['portrait'],
-    Color: ['muted'],
-    Composition: ['asymmetric'],
+    Camera: ['portraitlens'],
+    Lighting: ['softdaylight'],
   });
   const [designSelection, setDesignSelection] = useState<Selection>({
     'Design Format': ['poster'],
@@ -106,7 +107,7 @@ export function useBuilderDraft(onLimit: () => void) {
       return;
     }
     const next = toggleFilter(pendingSelection, category, id);
-    if (next[category].length > maxSelections) {
+    if (next[category].length > builderFilterLimit(category)) {
       onLimit();
       return;
     }
@@ -143,10 +144,29 @@ export function useBuilderDraft(onLimit: () => void) {
   }
   function toggle(category: string, id: string) {
     const next = toggleOption(selection, category, id);
+    const total = (value: Selection) =>
+      Object.entries(value)
+        .filter(([key]) => key !== 'Outline' && builderCategories(photo, design).includes(key))
+        .reduce((sum, [, ids]) => sum + ids.length, 0);
     if (next === selection) onLimit();
-    else setSelection(next);
+    else {
+      setSelection(next);
+      if (total(next) > recommendedTotal && total(next) > total(selection)) onCrowded();
+    }
     if (category === 'Design Format' && !ratioChosen.current && designFormatRatios[id])
       setFields({ ...fields, 'Aspect Ratio': designFormatRatios[id] });
+  }
+  // A recipe replaces this type's choices and framing but keeps the subject and direction.
+  function applyRecipe(recipe: Recipe) {
+    selections[recipe.type][1](structuredClone(recipe.selection));
+    setBuilderType(recipe.type);
+    setComplexity(recipe.complexity);
+    ratioChosen.current = true;
+    setFields({
+      ...fields,
+      'Aspect Ratio': recipe.ratio,
+      'Typography Enabled': recipe.typography ? 'true' : 'false',
+    });
   }
   function removeOption(category: string, id: string) {
     setSelection((previous) => ({
@@ -230,6 +250,7 @@ export function useBuilderDraft(onLimit: () => void) {
     choosePending,
     applyPending,
     toggle,
+    applyRecipe,
     removeOption,
     reset,
     startEdit,

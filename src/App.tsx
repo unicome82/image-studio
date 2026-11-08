@@ -85,7 +85,10 @@ export default function App() {
     onChange: () => setSelected(null),
   });
   const { effectiveFilters, filterType, query, displayGroups } = gallery;
-  const draft = useBuilderDraft(() => showToast('You can select up to 3 options.'));
+  const draft = useBuilderDraft(
+    () => showToast('You can select up to 2 options.'),
+    () => showToast('Fewer options give sharper results.'),
+  );
   const presets = usePresets({ filterType, query, effectiveFilters, showToast });
   const resultCount = presetOpen ? presets.visiblePresets.length : displayGroups[0].tiles.length;
   function openComposer() {
@@ -399,6 +402,7 @@ export default function App() {
           applyPending={draft.applyPending}
           selection={draft.selection}
           toggle={draft.toggle}
+          applyRecipe={draft.applyRecipe}
           removeOption={draft.removeOption}
           complexity={draft.complexity}
           setComplexity={draft.setComplexity}

@@ -25,11 +25,14 @@ export const designFormatRatios: Record<string, string> = {
   signage: '16:9',
 };
 export const aspectRatios = ['1:1', '4:5', '3:4', '2:3', '9:16', '4:3', '3:2', '16:9'];
-export const maxSelections = 3;
+// Fewer instructions per category keep the result sharp; mixed palettes and lights read as muddy.
+export const maxSelections = 2;
 // Single-select categories take one option; the rest allow up to maxSelections.
-const singleCategories = ['Outline', 'Design Format', 'Mood'];
+const singleCategories = ['Outline', 'Design Format', 'Mood', 'Color', 'Lighting'];
 // Optional single-select categories clear when their selected option is chosen again.
-const optionalSingleCategories = ['Mood'];
+const optionalSingleCategories = ['Mood', 'Color', 'Lighting'];
+// Past this many choices the Builder suggests trimming; it is guidance, not a limit.
+export const recommendedTotal = 6;
 export function optionLimit(category: string): number {
   return singleCategories.includes(category) ? 1 : maxSelections;
 }
@@ -80,6 +83,8 @@ const conflictPairs: [string, string][] = [
   ['dramatic', 'softdaylight'],
   ['hardflash', 'softdaylight'],
   ['glossy', 'softmatte'],
+  ['glossy', 'papergrain'],
+  ['glossy', 'canvas'],
 ];
 const conflicts: Record<string, string[]> = {};
 for (const [a, b] of conflictPairs) {
@@ -117,7 +122,16 @@ export function builderCategories(photo: boolean, design = false): string[] {
         'Typography',
       ]
     : photo
-      ? ['Photo Style', 'Mood', 'Color', 'Lighting', 'Composition', 'Texture', 'Typography']
+      ? [
+          'Photo Style',
+          'Camera',
+          'Mood',
+          'Color',
+          'Lighting',
+          'Composition',
+          'Texture',
+          'Typography',
+        ]
       : [
           'Illustration Style',
           'Technique',
@@ -137,7 +151,7 @@ export function toggleOption(selection: Selection, category: string, id: string)
       ...selection,
       [category]: optionalSingleCategories.includes(category) && current.includes(id) ? [] : [id],
     };
-  if (!current.includes(id) && current.length >= maxSelections) return selection;
+  if (!current.includes(id) && current.length >= optionLimit(category)) return selection;
   const next = current.includes(id)
     ? current.filter((x) => x !== id)
     : [
@@ -177,6 +191,7 @@ export function makePrompt(
     'Composition',
     'Mood',
     'Photo Style',
+    'Camera',
     'Design Format',
     'Design Style',
   ].filter((category) => builderCategories(photo, design).includes(category));
@@ -216,19 +231,35 @@ export function makePrompt(
     ]
       .filter((category) => present.has(category))
       .map(promptCategory),
-    ...(['Illustration Style', 'Technique', 'Photo Style', 'Design Style', 'Typography'].some(
-      (category) => present.has(category),
-    )
+    ...([
+      'Illustration Style',
+      'Technique',
+      'Photo Style',
+      'Camera',
+      'Design Style',
+      'Typography',
+    ].some((category) => present.has(category))
       ? ['then the style and technique instructions']
       : []),
   ];
   const blended = categories.some(
     (category) => chosen.filter((o) => o.category === category).length > 1,
   );
+  // One lead direction keeps many selections reading as a single concept.
+  const lead = (
+    design ? ['Design Format', 'Design Style'] : [photo ? 'Photo Style' : 'Illustration Style']
+  ).filter((category) => present.has(category));
   const final = [
     design
       ? 'Combine the selected design format, style, palette, layout, and surface instructions into one coherent graphic design. Produce the design itself, not a presentation mockup.'
       : `Combine the selected instructions into one coherent ${output}.`,
+    ...(lead.length
+      ? [
+          `Let the ${lead.join(' and ')} define the overall concept and treat the other selections as supporting details within it.`,
+        ]
+      : []),
+    `Art-direct ${subject ? 'the requested subject' : 'the chosen subject'} as a specific, fully realized scene: choose concrete materials, setting, props, and light that fit the selections, and keep one clear focal point.`,
+    `Finish it to the standard of a high-end editorial or portfolio ${output}: intentional art direction, crisp focus on the focal point, refined color, deliberate negative space, and no clutter or stray artifacts.`,
     ...(blended
       ? [
           'Where a category has several selections, blend them into one unified treatment rather than choosing only one.',

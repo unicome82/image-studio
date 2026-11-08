@@ -245,11 +245,16 @@ test('Typography defaults off, supports automatic text when enabled, and restore
   assert.deepEqual(compactFields(restored), restored);
 });
 
-test('The three-option limit preserves existing choices, permits deselection, and blocks conflicting replacements at the limit', () => {
-  const full = { Color: ['warm', 'muted', 'earthy'] };
-  assert.equal(toggleOption(full, 'Color', 'cool'), full);
-  assert.deepEqual(toggleOption(full, 'Color', 'warm').Color, ['muted', 'earthy']);
+test('The two-option limit preserves existing choices, permits deselection, and blocks conflicting replacements at the limit', () => {
+  const full = { Texture: ['papergrain', 'canvas'] };
+  assert.equal(toggleOption(full, 'Texture', 'clean'), full);
+  assert.deepEqual(toggleOption(full, 'Texture', 'canvas').Texture, ['papergrain']);
+  assert.deepEqual(toggleOption({ Texture: ['papergrain'] }, 'Texture', 'clean').Texture, [
+    'clean',
+  ]);
+  // Color is a single choice that replaces the previous palette and clears on a second click.
   assert.deepEqual(toggleOption({ Color: ['warm'] }, 'Color', 'cool').Color, ['cool']);
+  assert.deepEqual(toggleOption({ Color: ['warm'] }, 'Color', 'warm').Color, []);
 });
 
 test('Blank subjects request random image content while explicit subjects remain unchanged', () => {
@@ -505,9 +510,11 @@ test('Removed options in saved sets move to the options that absorbed them', () 
   });
 });
 
-test('Mood is an optional single choice and Lighting allows several', () => {
+test('Mood, Color and Lighting are optional single choices', () => {
   assert.equal(optionLimit('Mood'), 1);
-  assert.equal(optionLimit('Lighting'), 3);
+  assert.equal(optionLimit('Lighting'), 1);
+  assert.equal(optionLimit('Color'), 1);
+  assert.equal(optionLimit('Technique'), 2);
   const cute = toggleOption({}, 'Mood', 'cute');
   assert.deepEqual(cute.Mood, ['cute']);
   assert.deepEqual(toggleOption(cute, 'Mood', 'epic').Mood, ['epic']);
@@ -531,7 +538,6 @@ test('Mood is an optional single choice and Lighting allows several', () => {
     assert.deepEqual(toggleOption({ [category]: [b] }, category, a)[category], [a]);
   }
   assert.deepEqual(toggleOption({ Lighting: ['goldenhour'] }, 'Lighting', 'backlit').Lighting, [
-    'goldenhour',
     'backlit',
   ]);
   assert.deepEqual(aspectRatios, ['1:1', '4:5', '3:4', '2:3', '9:16', '4:3', '3:2', '16:9']);
