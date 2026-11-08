@@ -404,7 +404,7 @@ test('Prompts state the typography setting and a conflict priority', () => {
   );
   assert.ok(
     off.includes(
-      'If selected instructions conflict, follow this priority: Color, then the style and technique instructions.',
+      'If selected instructions conflict, follow this priority: the style and technique instructions, Color.',
     ),
   );
   const on = makePrompt(catalog, { Color: ['muted'] }, 1, { 'Typography Enabled': 'true' }, true);
@@ -589,4 +589,11 @@ test('Lead style comes first, key direction opens and closes the prompt, fallbac
   assert.equal(lines[1], `Key direction: ${key}.`);
   assert.ok(lines.at(-1)!.endsWith(`Most important, restated: ${key}.`));
   assert.ok(result.includes('Complexity: Medium'));
+});
+
+test('High complexity drops the negative-space finish', () => {
+  const finish = (level: number) => makePrompt([], {}, level, { 'Aspect Ratio': '1:1' }, false);
+  assert.ok(finish(3).includes('deliberate negative space, and no clutter'));
+  assert.ok(!finish(4).includes('negative space'));
+  assert.ok(finish(5).includes('a clear focal hierarchy among the details'));
 });

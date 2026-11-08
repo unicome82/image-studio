@@ -164,7 +164,18 @@ export function makePrompt(
       .map((o) => `${o.category}: ${o.label}`),
     `Aspect Ratio: ${fields['Aspect Ratio']?.trim() || '1:1'}`,
   ].join('; ');
+  // The defining style leads conflicts too, matching the key direction that opens and closes the prompt.
   const priority = [
+    ...([
+      'Illustration Style',
+      'Technique',
+      'Photo Style',
+      'Camera',
+      'Design Style',
+      'Typography',
+    ].some((category) => present.has(category))
+      ? ['the style and technique instructions']
+      : []),
     ...[
       'Design Format',
       'Outline',
@@ -177,16 +188,6 @@ export function makePrompt(
     ]
       .filter((category) => present.has(category))
       .map(promptCategory),
-    ...([
-      'Illustration Style',
-      'Technique',
-      'Photo Style',
-      'Camera',
-      'Design Style',
-      'Typography',
-    ].some((category) => present.has(category))
-      ? ['then the style and technique instructions']
-      : []),
   ];
   // One lead direction keeps many selections reading as a single concept.
   const lead = (
@@ -202,7 +203,7 @@ export function makePrompt(
         ]
       : []),
     `Art-direct ${subject ? 'the requested subject' : 'the chosen subject'} as a specific, fully realized scene: choose concrete materials, setting, props, and light that fit the selections, and keep one clear focal point.`,
-    `Finish it to the standard of a high-end editorial or portfolio ${output}: intentional art direction, crisp focus on the focal point, refined color, deliberate negative space, and no clutter or stray artifacts.`,
+    `Finish it to the standard of a high-end editorial or portfolio ${output}: intentional art direction, crisp focus on the focal point, refined color, ${complexity >= 4 ? 'a clear focal hierarchy among the details, and no stray artifacts' : 'deliberate negative space, and no clutter or stray artifacts'}.`,
     ...(outline
       ? [
           `Rendering Mode takes priority for fills and outlines${outline.id === 'outlineonly' ? '; apply the color palette to the line colors' : ''}.`,
