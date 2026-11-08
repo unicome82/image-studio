@@ -1134,13 +1134,15 @@ textarea,
   font-size: var(--text-small, 12px);
   white-space: nowrap;
   &-values {
-    display: flex;
-    gap: 4px;
     min-width: 0;
     overflow: hidden;
+    text-overflow: ellipsis;
     > span {
-      flex-shrink: 0;
+      display: inline-block;
       @include option-tag;
+      & + span {
+        margin-left: 4px;
+      }
     }
   }
 }
