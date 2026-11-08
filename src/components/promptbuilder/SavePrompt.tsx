@@ -71,11 +71,11 @@ function SaveDialog({ save, prompt, selected, editing, close }: Props & { close:
           <SelectedOptions {...selected} />
         </div>
         <div className="save-style-field">
-          <h3>{t('Prompt preview')}</h3>
+          <h3>{t('Prompt')}</h3>
           <div
             id={`${fieldId}-prompt`}
             className="prompt-textarea"
-            aria-label={t('Prompt preview')}
+            aria-label={t('Prompt')}
             role="region"
             tabIndex={0}
           >

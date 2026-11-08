@@ -1226,7 +1226,12 @@ textarea,
   }
   &.collapsed {
     align-items: center;
-    &::after {
+    &:not(.overflowing) {
+      > .choice-toggle {
+        display: none;
+      }
+    }
+    &.overflowing::after {
       content: '';
       position: absolute;
       inset: 0 -8px 0 auto;
@@ -1622,7 +1627,11 @@ textarea,
     @include sticky-surface;
     @include flex-row($gap: 0, $justify: space-between);
     flex-shrink: 0;
-    padding: 12px 20px;
+    min-height: 48px;
+    padding: 0 20px;
+    @media (max-width: $mobile) {
+      min-height: 52px;
+    }
   }
   &-title {
     flex: 1;

@@ -124,7 +124,6 @@ const translation: Record<string, string> = {
   Publish: 'Publish',
   'Save style': 'Save style',
   'Close save style': 'Close save style',
-  'Prompt preview': 'Prompt preview',
   'Saved style sets': 'Saved style sets',
   'Saved prompts': 'Saved prompts',
   Prompts: 'Prompts',

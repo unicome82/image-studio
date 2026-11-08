@@ -124,7 +124,6 @@ const translation: Record<string, string> = {
   Publish: '게시',
   'Save style': '스타일 저장',
   'Close save style': '스타일 저장 닫기',
-  'Prompt preview': '프롬프트 미리보기',
   'Saved style sets': '저장된 스타일셋',
   'Saved prompts': '저장된 프롬프트',
   Prompts: '프롬프트',

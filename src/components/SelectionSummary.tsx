@@ -1,4 +1,4 @@
-import { useId, useState, type ReactNode } from 'react';
+import { useEffect, useId, useRef, useState, type ReactNode } from 'react';
 import { useTranslation } from 'react-i18next';
 import Icon from './Icon';
 
@@ -11,10 +11,29 @@ export default function SelectionSummary({
 }) {
   const { t } = useTranslation();
   const id = useId();
+  const contentRef = useRef<HTMLDivElement>(null);
   const [expanded, setExpanded] = useState(false);
+  const [overflowing, setOverflowing] = useState(false);
+  useEffect(() => {
+    const content = contentRef.current;
+    if (!content || expanded) return;
+    const check = () => setOverflowing(content.scrollWidth > content.clientWidth);
+    const observer = new ResizeObserver(check);
+    observer.observe(content);
+    if (content.firstElementChild) observer.observe(content.firstElementChild);
+    check();
+    return () => observer.disconnect();
+  }, [expanded, children]);
   return (
-    <section className={'selection-summary' + (expanded ? '' : ' collapsed')} aria-label={label}>
-      <div id={id} className="selection-summary-content">
+    <section
+      className={
+        'selection-summary' +
+        (expanded ? '' : ' collapsed') +
+        (expanded || overflowing ? ' overflowing' : '')
+      }
+      aria-label={label}
+    >
+      <div id={id} ref={contentRef} className="selection-summary-content">
         {children}
       </div>
       <button
