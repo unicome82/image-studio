@@ -63,7 +63,7 @@ export default function SelectedOptions({
       <div className="option-tags" role="group" aria-label={t('Selected options')}>
         {tags.map((tag) => (
           <span key={tag.key} title={tag.title}>
-            #{tag.label}
+            {tag.label}
           </span>
         ))}
       </div>

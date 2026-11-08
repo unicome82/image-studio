@@ -797,7 +797,9 @@ textarea,
   gap: 4px;
   color: $selected-summary;
   span {
-    padding: 0 4px;
+    padding: 2px 4px;
+    border: 1px solid $option-tag-border;
+    border-radius: 4px;
     background: $option-tag-bg;
   }
 }
