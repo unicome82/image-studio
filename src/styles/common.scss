@@ -267,6 +267,7 @@ textarea,
 .prompt-textarea:has(> .icon-button) {
   --copy-size: var(--icon-button-size, 32px);
   padding-right: calc(var(--copy-size) + 4px);
+  scrollbar-gutter: auto;
   > .icon-button {
     position: sticky;
     top: calc(4px - 0.6em);
