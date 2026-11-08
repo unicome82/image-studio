@@ -58,8 +58,6 @@ Color는 팔레트를, Rendering Mode는 채움과 윤곽선의 표현 방식을
 |---|---|---|
 | `simple` | Simple | [prompt.md](reference/options/depiction/simple/prompt.md) |
 
-일러스트는 항상 Mid-century Modern을 `## Base Style`로 먼저 출력하고, 다른 Illustration Style을 고르면 `## Accent Style`로 그 뒤에 출력한다. Accent 본문은 Base와 중복된 줄·Color·Lighting·Texture 기본값 줄을 빼고 `### Blend`에 `Let Mid-century Modern lead the shapes and layout, and add {Accent} as a light accent in motifs and details.`를 둔다. Key direction도 `Base Style`·`Accent Style`로 표기한다. 사진·디자인에는 적용하지 않는다. 기존 레시피·스타일셋 데이터는 그대로 두고 프롬프트에서만 이 규칙을 적용한다.
-
 선택 옵션 본문 뒤에 `## Depiction: Simple`로 항상 출력하고 Settings에는 반복하지 않는다. 'complexity' 단어는 프롬프트에 쓰지 않는다.
 
 ## 5. 생성 규칙
