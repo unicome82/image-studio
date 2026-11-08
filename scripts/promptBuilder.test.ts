@@ -203,7 +203,7 @@ test('compact direction preserves legacy preset fields and typography text', () 
     false,
   );
   assert.ok(result.includes('CONTENT_reference_options_typography_groovy_prompt_md'));
-  assert.ok(result.includes('Complexity: Detailed'));
+  assert.ok(result.includes('Complexity: High'));
   assert.ok(!/Complexity:\s*\d/.test(result));
   assert.ok(result.includes('Muted light'));
 });
@@ -307,12 +307,10 @@ test('copied prompts contain canonical MD bodies, selected complexity and no fil
       const included = photo
         ? option.category !== 'Illustration Style'
         : option.category !== 'Photo Style';
-      assert.equal(result.includes(instructions(option)), included, option.path);
-      assert.equal(
-        result.includes(`## ${option.category}: ${option.label}`),
-        included,
-        option.path,
-      );
+      // Color is selected, so style fallback lines for open Color/Lighting/Texture are dropped.
+      assert.equal(result.includes(instructions(option, true)), included, option.path);
+      const label = option.category === 'Complexity' ? 'Medium' : option.label;
+      assert.equal(result.includes(`## ${option.category}: ${label}`), included, option.path);
     }
     assert.ok(!result.includes('.md'));
     assert.ok(!result.includes('Read only'));
@@ -554,4 +552,41 @@ test('Mood and Lighting appear in the prompt, summary and conflict priority', ()
   );
   assert.ok(text.includes('Lighting: backlit\nComposition: centered\nMood: cute'));
   assert.ok(text.includes('follow this priority: Color, Lighting, Composition, Mood.'));
+});
+
+test('Lead style comes first, key direction opens and closes the prompt, fallbacks drop when chosen', () => {
+  const option = (category: string, id: string, prompt: string) => ({
+    id,
+    label: id,
+    category,
+    path: `reference/${id}/prompt.md`,
+    prompt,
+  });
+  const catalog = [
+    option(
+      'Photo Style',
+      'Portrait',
+      '## Portrait\n- Lead.\n- When no Color, Lighting, or Texture instructions are given, use soft light.',
+    ),
+    option('Camera', 'Lens', '## Lens\n- Lens.'),
+    option('Color', 'Dark', '## Dark\n- Dark.'),
+  ];
+  const sel = { 'Photo Style': ['Portrait'], Camera: ['Lens'] };
+  const open = makePrompt(catalog, sel, 3, { Subject: 'A fox', 'Aspect Ratio': '4:5' }, true);
+  assert.ok(open.includes('use soft light'));
+  const result = makePrompt(
+    catalog,
+    { ...sel, Color: ['Dark'] },
+    3,
+    { Subject: 'A fox', 'Aspect Ratio': '4:5' },
+    true,
+  );
+  assert.ok(!result.includes('use soft light'));
+  assert.ok(result.indexOf('## Photo Style') < result.indexOf('## Camera'));
+  assert.ok(result.indexOf('## Camera') < result.indexOf('## Color'));
+  const key = 'Subject "A fox"; Photo Style: Portrait; Camera: Lens; Aspect Ratio: 4:5';
+  const lines = result.split('\n');
+  assert.equal(lines[1], `Key direction: ${key}.`);
+  assert.ok(lines.at(-1)!.endsWith(`Most important, restated: ${key}.`));
+  assert.ok(result.includes('Complexity: Medium'));
 });

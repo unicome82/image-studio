@@ -7,7 +7,6 @@ export interface Option {
 }
 export type Selection = Record<string, string[]>;
 export const levels = ['verysimple', 'simple', 'balanced', 'detailed', 'intricate'];
-export const complexityLabels = ['Very Simple', 'Simple', 'Balanced', 'Detailed', 'Intricate'];
 // Suggested ratio when a design format is chosen; a ratio the user picked stays.
 export const designFormatRatios: Record<string, string> = {
   poster: '3:4',
@@ -94,11 +93,17 @@ export function toggleOption(selection: Selection, category: string, id: string)
 }
 // The prompt names Outline by its role so the option heading, summary and final rules agree.
 const promptCategory = (category: string) => (category === 'Outline' ? 'Rendering Mode' : category);
-// Option instructions without the source title and catalog metadata lines.
-export function instructions(option: Option): string {
+// Style fallbacks that only apply while the user leaves these categories open.
+const fallbackLine = /^- When no Color, Lighting, or Texture instructions are given/;
+// Option instructions without the source title, catalog metadata lines and, when asked, the fallbacks.
+export function instructions(option: Option, dropFallbacks = false): string {
   return option.prompt
     .split('\n')
-    .filter((line) => !/^## |^- \*\*(Category|Style ID):\*\*/.test(line))
+    .filter(
+      (line) =>
+        !/^## |^- \*\*(Category|Style ID):\*\*/.test(line) &&
+        !(dropFallbacks && fallbackLine.test(line)),
+    )
     .join('\n')
     .trim();
 }
@@ -110,9 +115,14 @@ export function makePrompt(
   photo: boolean,
   design = false,
 ) {
+  // Lead categories come first so the defining style is read before supporting details.
+  const leadCategories = design
+    ? ['Design Format', 'Design Style']
+    : photo
+      ? ['Photo Style', 'Camera']
+      : ['Illustration Style', 'Technique'];
   const categories = [
-    'Illustration Style',
-    'Technique',
+    ...leadCategories,
     'Typography',
     'Outline',
     'Color',
@@ -120,10 +130,6 @@ export function makePrompt(
     'Texture',
     'Composition',
     'Mood',
-    'Photo Style',
-    'Camera',
-    'Design Format',
-    'Design Style',
   ].filter((category) => builderCategories(photo, design).includes(category));
   const typography = isTypographyEnabled(fields);
   const chosen = categories.flatMap((category) => {
@@ -133,7 +139,8 @@ export function makePrompt(
     );
   });
   const level = catalog.find((o) => o.category === 'Complexity' && o.id === levels[complexity - 1]);
-  const options = [...chosen, ...(level ? [level] : [])];
+  const complexityLabel = complexityUiLabels[complexity - 1] ?? 'Medium';
+  const options = [...chosen, ...(level ? [{ ...level, label: complexityLabel }] : [])];
   const output = design ? 'graphic design' : photo ? 'photograph' : 'image';
   const subject = fields.Subject?.trim();
   const text = typography ? fields.Text?.trim() : '';
@@ -148,6 +155,15 @@ export function makePrompt(
     'the aspect ratio',
   ];
   const present = new Set(options.map((o) => o.category));
+  const dropFallbacks = ['Color', 'Lighting', 'Texture'].some((category) => present.has(category));
+  // The subject and lead style open and close the prompt so they carry the most weight.
+  const keyDirection = [
+    subject ? `Subject "${fields.Subject}"` : 'a random subject you choose',
+    ...chosen
+      .filter((o) => leadCategories.includes(o.category))
+      .map((o) => `${o.category}: ${o.label}`),
+    `Aspect Ratio: ${fields['Aspect Ratio']?.trim() || '1:1'}`,
+  ].join('; ');
   const priority = [
     ...[
       'Design Format',
@@ -199,13 +215,15 @@ export function makePrompt(
       ? `Render all text legibly${present.has('Typography') ? ', applying the Typography instructions' : ''} with a clear typographic hierarchy.`
       : `Typography is Off: do not add any readable text, letters, or numbers to the ${output}.`,
     `Preserve ${preserve.length > 1 ? `${preserve.slice(0, -1).join(', ')} and ${preserve.at(-1)}` : preserve[0]}.`,
+    `Most important, restated: ${keyDirection}.`,
   ];
   return [
     `Create ${design ? 'a finished graphic design' : photo ? 'a photograph' : 'an image'} using the instructions below.`,
+    `Key direction: ${keyDirection}.`,
     ...options.flatMap((o) => [
       '',
       `## ${promptCategory(o.category)}: ${o.label}`,
-      instructions(o),
+      instructions(o, dropFallbacks),
     ]),
     '',
     '## Settings',
@@ -223,7 +241,7 @@ export function makePrompt(
         ]
       : []),
     ...chosen.map((o) => `${promptCategory(o.category)}: ${o.label}`),
-    `Complexity: ${level?.label ?? complexityLabels[complexity - 1] ?? 'Balanced'}`,
+    `Complexity: ${complexityLabel}`,
     '',
     '## Final Instructions',
     final.join(' '),

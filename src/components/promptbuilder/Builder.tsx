@@ -29,6 +29,7 @@ interface Props {
   selection: Selection;
   toggle: (category: string, id: string) => void;
   applyRecipe: (recipe: Recipe) => void;
+  startNew: (type: 'illustration' | 'photo' | 'design') => void;
   removeOption: (category: string, id: string) => void;
   complexity: number;
   setComplexity: (n: number) => void;
@@ -259,7 +260,7 @@ export default function Builder(p: Props) {
                           <button
                             className="recipe-card recipe-new"
                             onClick={() => {
-                              p.setType(type.id);
+                              p.startNew(type.id);
                               p.setStep('editor');
                             }}
                           >

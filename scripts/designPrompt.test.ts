@@ -52,7 +52,9 @@ test('design prompts use canonical format/style instructions, shared options and
     ['Color', 'muted'],
   ])
     assert.ok(
-      prompt.includes(instructions(catalog.find((o) => o.category === category && o.id === id)!)),
+      prompt.includes(
+        instructions(catalog.find((o) => o.category === category && o.id === id)!, true),
+      ),
     );
   assert.match(prompt, /Subject: A spring exhibition/);
   assert.match(prompt, /Text: SPRING 2027/);

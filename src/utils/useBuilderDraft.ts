@@ -157,6 +157,24 @@ export function useBuilderDraft(onCrowded: () => void) {
       'Typography Enabled': recipe.typography ? 'true' : 'false',
     });
   }
+  // New starts this type from no style choices, keeping only the required rendering mode or format.
+  function startNew(type: BuilderType) {
+    selections[type][1](
+      type === 'illustration'
+        ? { Outline: ['coloronly'] }
+        : type === 'design'
+          ? { 'Design Format': ['poster'] }
+          : {},
+    );
+    setBuilderType(type);
+    setComplexity(3);
+    ratioChosen.current = false;
+    setFields({
+      ...fields,
+      'Aspect Ratio': type === 'design' ? designFormatRatios.poster : defaultFields['Aspect Ratio'],
+      'Typography Enabled': 'false',
+    });
+  }
   function removeOption(category: string, id: string) {
     setSelection((previous) => ({
       ...previous,
@@ -235,6 +253,7 @@ export function useBuilderDraft(onCrowded: () => void) {
     applyPending,
     toggle,
     applyRecipe,
+    startNew,
     removeOption,
     startEdit,
     endEdit,

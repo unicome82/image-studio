@@ -401,6 +401,7 @@ export default function App() {
           selection={draft.selection}
           toggle={draft.toggle}
           applyRecipe={draft.applyRecipe}
+          startNew={draft.startNew}
           removeOption={draft.removeOption}
           complexity={draft.complexity}
           setComplexity={draft.setComplexity}
