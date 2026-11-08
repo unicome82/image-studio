@@ -144,11 +144,7 @@ export default function Builder(p: Props) {
       <div className="builder-viewport" ref={viewportRef}>
         <div className="builder-wrap builder-heading sticky-heading" ref={headingRef}>
           <h2 className="builder-title">
-            {resolving ? (
-              t('Refine filter choices')
-            ) : (
-              <label htmlFor={`${tabsId}-subject`}>{t('What would you like to draw?')}</label>
-            )}
+            {resolving ? t('Refine filter choices') : t('What would you like to draw?')}
             {!resolving && editor && (
               <button
                 className="icon-button"
@@ -211,10 +207,17 @@ export default function Builder(p: Props) {
               </section>
             ) : (
               <>
+                <label className="builder-subject-label" htmlFor={`${tabsId}-subject`}>
+                  {t('Describe the image you want to create.')}
+                </label>
+                <p className="builder-subject-hint" id={`${tabsId}-subject-hint`}>
+                  {t('Random generation if left blank')}
+                </p>
                 <input
                   id={`${tabsId}-subject`}
                   className="builder-subject"
-                  placeholder={t('Random generation if left blank')}
+                  aria-describedby={`${tabsId}-subject-hint`}
+                  placeholder={t('Subject example placeholder')}
                   value={p.fields.Subject ?? ''}
                   onChange={(e) => p.setFields({ ...p.fields, Subject: e.target.value })}
                 />

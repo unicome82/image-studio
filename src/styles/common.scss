@@ -1646,6 +1646,18 @@ textarea,
     @include uppercase-text;
     margin-top: 16px;
   }
+  &-subject-label {
+    display: block;
+    margin: 0 0 4px;
+    color: $black;
+    font-size: 14px;
+    font-weight: 700;
+  }
+  &-subject-hint {
+    margin: 0 0 8px;
+    color: $muted;
+    font-size: var(--text-small, 12px);
+  }
   &-section-title {
     margin: 0 0 8px;
     color: $black;

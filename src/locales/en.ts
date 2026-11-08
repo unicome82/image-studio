@@ -66,6 +66,8 @@ const translation: Record<string, string> = {
   'Expand Builder output': 'Expand Builder output',
   'Collapse Builder output': 'Collapse Builder output',
   'Random generation if left blank': 'Random generation if left blank',
+  'Describe the image you want to create.': 'Describe the image you want to create.',
+  'Subject example placeholder': 'e.g. A cat in a neon alley at night',
   'Close search': 'Close search',
   'What would you like to draw?': 'What to create?',
   Selected: 'Selected',
