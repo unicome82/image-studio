@@ -29,7 +29,6 @@ const translation: Record<string, string> = {
   'Z–A': 'Z–A',
   'Refine filter choices': 'Refine filter choices',
   'Choose builder options to generate a prompt.': 'Choose the options to use in your prompt.',
-  'Up to {{count}}': 'Up to {{count}}',
   'Apply filters': 'Apply',
   'Apply choices': 'Next',
 
@@ -286,7 +285,6 @@ const translation: Record<string, string> = {
   Dramatic: 'Dramatic',
   'Neon Night': 'Neon Night',
   'Soft Daylight': 'Soft Daylight',
-  'You can select up to 2 options.': 'You can select up to 2 options.',
   'Fewer options give sharper results.': 'Fewer options give sharper results.',
   Recipe: 'Recipe',
   Camera: 'Camera',

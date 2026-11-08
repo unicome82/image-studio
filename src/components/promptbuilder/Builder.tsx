@@ -14,7 +14,6 @@ import {
   isTypographyEnabled,
   optionLimit,
 } from '../../utils/promptBuilder';
-import { builderFilterLimit } from '../../utils/filters';
 import { matchesRecipe, recipes, type Recipe } from '../../utils/recipes';
 import type { Option, Selection } from '../../utils/promptBuilder';
 interface Props {
@@ -49,7 +48,7 @@ export default function Builder(p: Props) {
   const resolving = pending.length > 0;
   const canApply = pending.every(([category]) => {
     const count = p.pendingSelection[category]?.length ?? 0;
-    return count > 0 && count <= builderFilterLimit(category);
+    return count > 0 && count <= optionLimit();
   });
   const tabsId = useId();
   const viewportRef = useRef<HTMLDivElement>(null);
@@ -153,7 +152,6 @@ export default function Builder(p: Props) {
                 {pending.map(([category, ids]) => (
                   <section className="option-section" key={category}>
                     <OptionChoices
-                      headerControl={t('Up to {{count}}', { count: builderFilterLimit(category) })}
                       title={
                         category === 'Illustration Style'
                           ? 'Style'
@@ -172,7 +170,7 @@ export default function Builder(p: Props) {
                       }))}
                       selected={p.pendingSelection[category] ?? []}
                       choose={(id) => p.choosePending(category, id)}
-                      multiple={builderFilterLimit(category) > 1}
+                      multiple={false}
                       collapsible={false}
                     />
                   </section>
@@ -320,7 +318,7 @@ export default function Builder(p: Props) {
                           ) : undefined
                         }
                         showOptions={category !== 'Typography' || isTypographyEnabled(p.fields)}
-                        multiple={optionLimit(category) > 1}
+                        multiple={false}
                         afterHeading={
                           category === 'Typography' && isTypographyEnabled(p.fields) ? (
                             <input

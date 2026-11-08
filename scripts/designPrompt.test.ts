@@ -111,7 +111,7 @@ test('design presets round-trip with their type and rebuild the same prompt; leg
   );
   assert.deepEqual(filterMetadata(parsed[0].selection, false, '1:1', 3, true).Type, ['design']);
 });
-test('design categories are separate; format is single-select and style keeps the three-option limit', () => {
+test('design categories are separate; format and style each take one choice', () => {
   assert.ok(builderCategories(false, true).includes('Design Format'));
   assert.ok(filterCategories('design').includes('Design Style'));
   assert.ok(!filterCategories('all').includes('Design Style'));
@@ -119,8 +119,10 @@ test('design categories are separate; format is single-select and style keeps th
     toggleOption({ 'Design Format': ['poster'] }, 'Design Format', 'logo')['Design Format'],
     ['logo'],
   );
-  const selection = { 'Design Style': ['swiss', 'bauhaus', 'retro'] };
-  assert.equal(toggleOption(selection, 'Design Style', 'memphis'), selection);
+  assert.deepEqual(
+    toggleOption({ 'Design Style': ['swiss'] }, 'Design Style', 'memphis')['Design Style'],
+    ['memphis'],
+  );
   assert.deepEqual(
     pendingBuilderFilters(
       {

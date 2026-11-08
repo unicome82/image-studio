@@ -25,71 +25,12 @@ export const designFormatRatios: Record<string, string> = {
   signage: '16:9',
 };
 export const aspectRatios = ['1:1', '4:5', '3:4', '2:3', '9:16', '4:3', '3:2', '16:9'];
-// Fewer instructions per category keep the result sharp; mixed palettes and lights read as muddy.
-export const maxSelections = 2;
-// Single-select categories take one option; the rest allow up to maxSelections.
-const singleCategories = ['Outline', 'Design Format', 'Mood', 'Color', 'Lighting'];
-// Optional single-select categories clear when their selected option is chosen again.
-const optionalSingleCategories = ['Mood', 'Color', 'Lighting'];
+// Every Builder category takes one decisive choice; choosing it again clears it.
+const requiredCategories = ['Outline', 'Design Format'];
 // Past this many choices the Builder suggests trimming; it is guidance, not a limit.
 export const recommendedTotal = 6;
-export function optionLimit(category: string): number {
-  return singleCategories.includes(category) ? 1 : maxSelections;
-}
-// Directly contradictory pairs replace each other; softer tensions are left to the prompt's priority rule.
-const conflictPairs: [string, string][] = [
-  ['warm', 'cool'],
-  ['vivid', 'muted'],
-  ['vivid', 'pastel'],
-  ['muted', 'neon'],
-  ['pastel', 'neon'],
-  ['monochrome', 'duotone'],
-  ['monochrome', 'complementary'],
-  ['monochrome', 'primarycolors'],
-  ['duotone', 'primarycolors'],
-  ['complementary', 'primarycolors'],
-  ['analogous', 'complementary'],
-  ['analogous', 'primarycolors'],
-  ['highkey', 'lowkey'],
-  ['neutralaccent', 'monochrome'],
-  ['neutralaccent', 'duotone'],
-  // Black & White has no hue, so every hue-based palette contradicts it.
-  ...[
-    'warm',
-    'cool',
-    'vivid',
-    'muted',
-    'pastel',
-    'neon',
-    'earthy',
-    'monochrome',
-    'duotone',
-    'complementary',
-    'primarycolors',
-    'analogous',
-    'neutralaccent',
-    'jeweltones',
-    'iridescent',
-  ].map((color): [string, string] => ['blackwhite', color]),
-  ...['papergrain', 'filmgrain', 'digitalnoise'].map((texture): [string, string] => [
-    'clean',
-    texture,
-  ]),
-  ['symmetric', 'asymmetric'],
-  ['minimal', 'layered'],
-  ['goldenhour', 'neonnight'],
-  ['goldenhour', 'softdaylight'],
-  ['neonnight', 'softdaylight'],
-  ['dramatic', 'softdaylight'],
-  ['hardflash', 'softdaylight'],
-  ['glossy', 'softmatte'],
-  ['glossy', 'papergrain'],
-  ['glossy', 'canvas'],
-];
-const conflicts: Record<string, string[]> = {};
-for (const [a, b] of conflictPairs) {
-  (conflicts[a] ??= []).push(b);
-  (conflicts[b] ??= []).push(a);
+export function optionLimit(): number {
+  return 1;
 }
 export const complexityUiLabels = ['Very Low', 'Low', 'Medium', 'High', 'Very High'];
 // Keep the subject editable while preserving older presets' negative instructions.
@@ -146,21 +87,10 @@ export function builderCategories(photo: boolean, design = false): string[] {
 }
 export function toggleOption(selection: Selection, category: string, id: string): Selection {
   const current = selection[category] ?? [];
-  if (optionLimit(category) === 1)
-    return {
-      ...selection,
-      [category]: optionalSingleCategories.includes(category) && current.includes(id) ? [] : [id],
-    };
-  if (!current.includes(id) && current.length >= optionLimit(category)) return selection;
-  const next = current.includes(id)
-    ? current.filter((x) => x !== id)
-    : [
-        ...current.filter(
-          (x) => !(conflicts[id] ?? []).includes(x) && !(conflicts[x] ?? []).includes(id),
-        ),
-        id,
-      ];
-  return { ...selection, [category]: next };
+  return {
+    ...selection,
+    [category]: !requiredCategories.includes(category) && current.includes(id) ? [] : [id],
+  };
 }
 // The prompt names Outline by its role so the option heading, summary and final rules agree.
 const promptCategory = (category: string) => (category === 'Outline' ? 'Rendering Mode' : category);
@@ -242,9 +172,6 @@ export function makePrompt(
       ? ['then the style and technique instructions']
       : []),
   ];
-  const blended = categories.some(
-    (category) => chosen.filter((o) => o.category === category).length > 1,
-  );
   // One lead direction keeps many selections reading as a single concept.
   const lead = (
     design ? ['Design Format', 'Design Style'] : [photo ? 'Photo Style' : 'Illustration Style']
@@ -260,11 +187,6 @@ export function makePrompt(
       : []),
     `Art-direct ${subject ? 'the requested subject' : 'the chosen subject'} as a specific, fully realized scene: choose concrete materials, setting, props, and light that fit the selections, and keep one clear focal point.`,
     `Finish it to the standard of a high-end editorial or portfolio ${output}: intentional art direction, crisp focus on the focal point, refined color, deliberate negative space, and no clutter or stray artifacts.`,
-    ...(blended
-      ? [
-          'Where a category has several selections, blend them into one unified treatment rather than choosing only one.',
-        ]
-      : []),
     ...(outline
       ? [
           `Rendering Mode takes priority for fills and outlines${outline.id === 'outlineonly' ? '; apply the color palette to the line colors' : ''}.`,

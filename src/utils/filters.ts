@@ -36,10 +36,6 @@ export function activeFilters(
   );
 }
 
-export function builderFilterLimit(category: string): number {
-  return category === 'Aspect Ratio' || category === 'Complexity' ? 1 : optionLimit(category);
-}
-
 export function pendingBuilderFilters(
   filters: Selection,
   photo: boolean,
@@ -48,8 +44,7 @@ export function pendingBuilderFilters(
   const categories = [...builderCategories(photo, design), 'Aspect Ratio', 'Complexity'];
   return Object.fromEntries(
     Object.entries(filters).filter(
-      ([category, ids]) =>
-        categories.includes(category) && ids.length > builderFilterLimit(category),
+      ([category, ids]) => categories.includes(category) && ids.length > optionLimit(),
     ),
   );
 }

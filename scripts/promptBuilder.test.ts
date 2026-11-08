@@ -17,13 +17,13 @@ test('outline remains single selection and independent of palette', () => {
   assert.deepEqual(result.Outline, ['outlineonly']);
   assert.deepEqual(result.Color, ['muted']);
 });
-test('conflicts prefer newest selection; style mixes cap at three', () => {
+test('every category keeps one choice and older multi-choice drafts collapse to the newest', () => {
   assert.deepEqual(toggleOption({ Color: ['muted'] }, 'Color', 'vivid').Color, ['vivid']);
   assert.deepEqual(
-    toggleOption({ 'Illustration Style': ['a', 'b', 'c'] }, 'Illustration Style', 'd')[
+    toggleOption({ 'Illustration Style': ['a', 'b'] }, 'Illustration Style', 'd')[
       'Illustration Style'
     ],
-    ['a', 'b', 'c'],
+    ['d'],
   );
 });
 test('only selected prompt bodies; typography requires its switch, photography requires photo', () => {
@@ -245,16 +245,14 @@ test('Typography defaults off, supports automatic text when enabled, and restore
   assert.deepEqual(compactFields(restored), restored);
 });
 
-test('The two-option limit preserves existing choices, permits deselection, and blocks conflicting replacements at the limit', () => {
-  const full = { Texture: ['papergrain', 'canvas'] };
-  assert.equal(toggleOption(full, 'Texture', 'clean'), full);
-  assert.deepEqual(toggleOption(full, 'Texture', 'canvas').Texture, ['papergrain']);
+test('A new choice replaces the previous one and choosing it again clears it', () => {
   assert.deepEqual(toggleOption({ Texture: ['papergrain'] }, 'Texture', 'clean').Texture, [
     'clean',
   ]);
-  // Color is a single choice that replaces the previous palette and clears on a second click.
-  assert.deepEqual(toggleOption({ Color: ['warm'] }, 'Color', 'cool').Color, ['cool']);
-  assert.deepEqual(toggleOption({ Color: ['warm'] }, 'Color', 'warm').Color, []);
+  assert.deepEqual(toggleOption({ Texture: ['clean'] }, 'Texture', 'clean').Texture, []);
+  assert.deepEqual(toggleOption({ Outline: ['coloronly'] }, 'Outline', 'coloronly').Outline, [
+    'coloronly',
+  ]);
 });
 
 test('Blank subjects request random image content while explicit subjects remain unchanged', () => {
@@ -380,22 +378,7 @@ test('Saved sets using the former category names load under the aligned names', 
   assert.deepEqual(photo.selection, { 'Photo Style': ['film'] });
 });
 
-test('Direct contradictions replace each other in both directions; softer tensions stay selectable', () => {
-  for (const [category, a, b] of [
-    ['Color', 'duotone', 'primarycolors'],
-    ['Color', 'monochrome', 'complementary'],
-    ['Composition', 'minimal', 'layered'],
-  ]) {
-    assert.deepEqual(toggleOption({ [category]: [a] }, category, b)[category], [b]);
-    assert.deepEqual(toggleOption({ [category]: [b] }, category, a)[category], [a]);
-  }
-  assert.deepEqual(
-    toggleOption({ Composition: ['symmetric'] }, 'Composition', 'dynamic').Composition,
-    ['symmetric', 'dynamic'],
-  );
-});
-
-test('Prompts state the typography setting, blending, and a conflict priority', () => {
+test('Prompts state the typography setting and a conflict priority', () => {
   const option = (category: string, id: string): Option => ({
     id,
     label: id,
@@ -410,7 +393,7 @@ test('Prompts state the typography setting, blending, and a conflict priority', 
   ];
   const off = makePrompt(
     catalog,
-    { 'Illustration Style': ['maximalism', 'folk'], Color: ['muted'] },
+    { 'Illustration Style': ['maximalism'], Color: ['muted'] },
     1,
     {},
     false,
@@ -421,7 +404,6 @@ test('Prompts state the typography setting, blending, and a conflict priority', 
       'Typography is Off: do not add any readable text, letters, or numbers to the image.',
     ),
   );
-  assert.ok(off.includes('blend them into one unified treatment'));
   assert.ok(
     off.includes(
       'If selected instructions conflict, follow this priority: Color, then the style and technique instructions.',
@@ -430,7 +412,6 @@ test('Prompts state the typography setting, blending, and a conflict priority', 
   const on = makePrompt(catalog, { Color: ['muted'] }, 1, { 'Typography Enabled': 'true' }, true);
   assert.ok(on.includes('Typography: On'));
   assert.ok(on.includes('Render all text legibly'));
-  assert.ok(!on.includes('blend them'));
   assert.ok(!on.includes('follow this priority'));
 });
 
@@ -499,25 +480,22 @@ test('Removed options in saved sets move to the options that absorbed them', () 
     catalog,
   );
   assert.deepEqual(illustration.selection, {
-    Technique: ['risograph', 'marker'],
+    Technique: ['risograph'],
     Typography: ['experimentaltypography'],
   });
-  // Film Grain replaces Clean; Black & White replaces the hue-based palettes it contradicts.
+  // Replacements only fill empty categories, so kept choices win.
   assert.deepEqual(photo.selection, {
     'Photo Style': ['street'],
-    Texture: ['filmgrain'],
-    Color: ['blackwhite'],
+    Texture: ['clean'],
+    Color: ['vivid'],
   });
 });
 
-test('Mood, Color and Lighting are optional single choices', () => {
-  assert.equal(optionLimit('Mood'), 1);
-  assert.equal(optionLimit('Lighting'), 1);
-  assert.equal(optionLimit('Color'), 1);
-  assert.equal(optionLimit('Technique'), 2);
+test('Every Builder category is an optional single choice', () => {
+  assert.equal(optionLimit(), 1);
   const cute = toggleOption({}, 'Mood', 'cute');
   assert.deepEqual(cute.Mood, ['cute']);
-  assert.deepEqual(toggleOption(cute, 'Mood', 'epic').Mood, ['epic']);
+  assert.deepEqual(toggleOption(cute, 'Mood', 'bold').Mood, ['bold']);
   assert.deepEqual(toggleOption(cute, 'Mood', 'cute').Mood, []);
   assert.deepEqual(toggleOption({ 'Design Format': ['poster'] }, 'Design Format', 'poster'), {
     'Design Format': ['poster'],

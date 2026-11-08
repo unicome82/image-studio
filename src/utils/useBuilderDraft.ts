@@ -1,16 +1,12 @@
 import { useRef, useState } from 'react';
 import catalog from 'virtual:prompt-catalog';
-import {
-  builderFilterLimit,
-  pendingBuilderFilters,
-  toggleFilter,
-  type FilterType,
-} from './filters';
+import { pendingBuilderFilters, type FilterType } from './filters';
 import type { StylePreset } from './presets';
 import {
   builderCategories,
   designFormatRatios,
   makePrompt,
+  optionLimit,
   recommendedTotal,
   toggleOption,
   type Selection,
@@ -38,7 +34,7 @@ const defaultFields: Record<string, string> = {
   Text: '',
 };
 
-export function useBuilderDraft(onLimit: () => void, onCrowded: () => void) {
+export function useBuilderDraft(onCrowded: () => void) {
   const [builderType, setBuilderType] = useState<BuilderType>('illustration');
   const photo = builderType === 'photo';
   const design = builderType === 'design';
@@ -80,7 +76,7 @@ export function useBuilderDraft(onLimit: () => void, onCrowded: () => void) {
         Object.entries(effectiveFilters).filter(
           ([category, ids]) =>
             builderCategories(composerPhoto, composerDesign).includes(category) &&
-            ids.length <= builderFilterLimit(category),
+            ids.length <= optionLimit(),
         ),
       );
       setPendingChoices(pendingBuilderFilters(effectiveFilters, composerPhoto, composerDesign));
@@ -102,16 +98,7 @@ export function useBuilderDraft(onLimit: () => void, onCrowded: () => void) {
     appliedFilters.current = signature;
   }
   function choosePending(category: string, id: string) {
-    if (builderFilterLimit(category) === 1) {
-      setPendingSelection((previous) => ({ ...previous, [category]: [id] }));
-      return;
-    }
-    const next = toggleFilter(pendingSelection, category, id);
-    if (next[category].length > builderFilterLimit(category)) {
-      onLimit();
-      return;
-    }
-    setPendingSelection(next);
+    setPendingSelection((previous) => ({ ...previous, [category]: [id] }));
   }
   function applyPending() {
     if (
@@ -119,7 +106,7 @@ export function useBuilderDraft(onLimit: () => void, onCrowded: () => void) {
         const chosen = pendingSelection[category] ?? [];
         return (
           chosen.length === 0 ||
-          chosen.length > builderFilterLimit(category) ||
+          chosen.length > optionLimit() ||
           chosen.some((id) => !ids.includes(id))
         );
       })
@@ -148,11 +135,8 @@ export function useBuilderDraft(onLimit: () => void, onCrowded: () => void) {
       Object.entries(value)
         .filter(([key]) => key !== 'Outline' && builderCategories(photo, design).includes(key))
         .reduce((sum, [, ids]) => sum + ids.length, 0);
-    if (next === selection) onLimit();
-    else {
-      setSelection(next);
-      if (total(next) > recommendedTotal && total(next) > total(selection)) onCrowded();
-    }
+    setSelection(next);
+    if (total(next) > recommendedTotal && total(next) > total(selection)) onCrowded();
     if (category === 'Design Format' && !ratioChosen.current && designFormatRatios[id])
       setFields({ ...fields, 'Aspect Ratio': designFormatRatios[id] });
   }

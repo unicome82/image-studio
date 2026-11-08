@@ -97,11 +97,11 @@ export function parsePresets(raw: string | null, catalog: Option[]): StylePreset
                 catalog.some((o) => o.category === category && o.id === id),
             ),
           ),
-        ].slice(0, optionLimit(category));
+        ].slice(0, optionLimit());
       }
-      // Replacements join after the kept choices, within limits and conflict rules.
+      // Replacements only fill categories the kept choices left empty.
       for (const [category, id] of migrated)
-        if (exists(category, id) && !selection[category]?.includes(id))
+        if (exists(category, id) && !selection[category]?.length)
           selection = toggleOption(selection, category, id);
       const fields = Object.fromEntries(
         Object.entries(item.fields).filter(
