@@ -381,7 +381,7 @@ test('Prompts state the typography setting without a conflict priority', () => {
     {},
     false,
   );
-  assert.ok(off.includes('Typography: Off'));
+  assert.ok(!off.includes('Typograph'));
   assert.ok(!off.includes('follow this priority'));
   const on = makePrompt(catalog, { Color: ['muted'] }, { 'Typography Enabled': 'true' }, true);
   assert.ok(on.includes('Typography: On'));

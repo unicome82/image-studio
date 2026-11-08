@@ -70,9 +70,9 @@ test('design prompts use canonical format/style instructions, shared options and
       instructions(catalog.find((o) => o.category === 'Outline' && o.id === 'coloronly')!),
     ),
   );
-  assert.match(
+  assert.doesNotMatch(
     makePrompt(catalog, selection, { ...fields, 'Typography Enabled': 'false' }, false, true),
-    /\nTypography: Off\n/,
+    /Typograph/,
   );
 });
 test('design presets round-trip with their type and rebuild the same prompt; legacy sets remain valid', () => {

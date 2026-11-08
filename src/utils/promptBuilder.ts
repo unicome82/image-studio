@@ -170,9 +170,10 @@ export function makePrompt(
       : `Subject: Not specified. Choose a random subject and scene consistent with the selected settings${extra.length ? ' and additional instructions' : ''}, and create the ${output} without asking for a subject.`,
     `Aspect Ratio: ${fields['Aspect Ratio']?.trim() || '1:1'}`,
     ...extra.map(([key, value]) => `${key}: ${value}`),
-    `Typography: ${typography ? 'On' : 'Off'}`,
+    // Typography is mentioned only when on; naming it when off can itself invite lettering.
     ...(typography
       ? [
+          'Typography: On',
           text
             ? `Text: ${fields.Text}`
             : `Text: Not specified. Choose suitable wording freely to complement the ${output}.`,

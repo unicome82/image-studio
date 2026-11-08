@@ -82,7 +82,7 @@ Color는 팔레트를, Rendering Mode는 채움과 윤곽선의 표현 방식을
 
 **출력 방식**
 
-선택된 스타일·기법·색상·Typography·Rendering Mode의 MD 본문과 고정 Depiction 본문을 원본에서 빌드 시 읽어 출력에 포함한다. 각 옵션은 원본 제목과 Category·Style ID 메타데이터 줄 대신 `## {카테고리}: {표시명}` 제목 아래 본문 섹션만 빈 줄로 구분해 출력하고, Outline은 제목·요약 모두 Rendering Mode로 표기한다. 첫 줄 다음 Key direction 한 줄, 옵션 본문, 이어서 `## Settings`에 Subject·비율·추가 지시·`Typography: On/Off`·Text·선택 요약·Depiction을 출력하고 프롬프트를 끝낸다. `## Final Instructions`(결합·주 방향·초점·Rendering Mode 우선·충돌 우선순위·글자 규칙·보존·Key direction 재강조)는 출력하지 않는다. 도입·랜덤 Subject·자동 문구 지시는 유형(image·photograph·graphic design)에 맞춘다. 선택하지 않았거나 현재 유형에서 숨겨진 옵션은 제외한다. 복사한 프롬프트만으로 사용할 수 있으며 외부 도구의 파일 또는 URL 접근을 요구하지 않는다. LocalStorage에는 기존처럼 선택 ID·설정만 저장하고 본문을 중복 저장하지 않는다.
+선택된 스타일·기법·색상·Typography·Rendering Mode의 MD 본문과 고정 Depiction 본문을 원본에서 빌드 시 읽어 출력에 포함한다. 각 옵션은 원본 제목과 Category·Style ID 메타데이터 줄 대신 `## {카테고리}: {표시명}` 제목 아래 본문 섹션만 빈 줄로 구분해 출력하고, Outline은 제목·요약 모두 Rendering Mode로 표기한다. 첫 줄 다음 Key direction 한 줄, 옵션 본문, 이어서 `## Settings`에 Subject·비율·추가 지시·Typography ON일 때만 `Typography: On`·Text(OFF이면 Typography를 언급하지 않음)·선택 요약·Depiction을 출력하고 프롬프트를 끝낸다. `## Final Instructions`(결합·주 방향·초점·Rendering Mode 우선·충돌 우선순위·글자 규칙·보존·Key direction 재강조)는 출력하지 않는다. 도입·랜덤 Subject·자동 문구 지시는 유형(image·photograph·graphic design)에 맞춘다. 선택하지 않았거나 현재 유형에서 숨겨진 옵션은 제외한다. 복사한 프롬프트만으로 사용할 수 있으며 외부 도구의 파일 또는 URL 접근을 요구하지 않는다. LocalStorage에는 기존처럼 선택 ID·설정만 저장하고 본문을 중복 저장하지 않는다.
 
 ## 6. 연동 및 UI
 
