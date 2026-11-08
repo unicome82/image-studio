@@ -48,7 +48,7 @@
 .gallery {
   display: flex;
   flex-direction: column;
-  min-height: calc(100dvh - var(--panel-top));
+  min-height: calc(100dvh - var(--header-height));
   min-width: 0;
   padding: 0 var(--gallery-padding) 88px;
 }

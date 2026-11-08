@@ -17,6 +17,13 @@
   backdrop-filter: blur(8px);
 }
 
+// Follows the header slide with the same timing so sticky edges stay attached.
+@mixin follow-header($properties...) {
+  transition-property: $properties;
+  transition-duration: var(--transition-duration);
+  transition-timing-function: ease;
+}
+
 @mixin flex-row($gap: null, $justify: null, $display: flex) {
   display: $display;
   align-items: center;

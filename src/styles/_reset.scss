@@ -65,13 +65,14 @@ table {
 
 // Base typography, form defaults and responsive size tokens
 :root {
-  --header-visible: 76px;
+  --header-height: 76px;
+  --header-visible: var(--header-height);
   --panel-top: max(var(--header-visible), env(safe-area-inset-top, 0px));
   --transition-duration: 0.3s;
   --text-input: 13px;
   --field-font-size: 16px;
   @media (max-width: $mobile) {
-    --header-visible: 80px;
+    --header-height: 80px;
     --input-height: 32px;
     --icon-button-size: 36px;
     --nav-control-height: 36px;

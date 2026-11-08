@@ -660,6 +660,7 @@ textarea,
 .detail {
   position: sticky;
   top: var(--panel-top);
+  @include follow-header(top, height);
   @include flex-column;
   min-height: 0;
   overflow-y: auto;
@@ -882,6 +883,7 @@ textarea,
 .results-heading {
   position: sticky;
   top: var(--panel-top);
+  @include follow-header(top);
   z-index: 20;
   margin: 0 calc(-1 * var(--gallery-padding));
   padding: 0 var(--gallery-padding);
@@ -1461,6 +1463,7 @@ textarea,
 .builder {
   position: sticky;
   top: var(--panel-top);
+  @include follow-header(top, height);
   @include flex-column;
   min-width: 0;
   min-height: 0;

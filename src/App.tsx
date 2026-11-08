@@ -1,7 +1,7 @@
 import { createPortal } from 'react-dom';
 import { useTranslation } from 'react-i18next';
 import Icon from './components/Icon';
-import { useEffect, useRef, useState, type CSSProperties } from 'react';
+import { useEffect, useLayoutEffect, useRef, useState, type CSSProperties } from 'react';
 import catalog from 'virtual:prompt-catalog';
 import Header from './components/Header';
 import Gallery from './components/Gallery';
@@ -116,24 +116,13 @@ export default function App() {
     else modalRef.current?.close();
   }, [modal]);
   useEffect(() => {
-    // Measure at most once per frame however often scroll and resize fire.
+    // Sticky edges follow the header through CSS transitions, so only the
+    // header height is measured here; scroll only decides the direction.
     const header = document.querySelector<HTMLElement>('.header');
-    let frame = 0;
-    let moving = false;
+    const root = document.documentElement;
     let lastY = window.scrollY;
-    const update = () => {
-      frame = 0;
-      const rect = header?.getBoundingClientRect();
-      document.documentElement.style.setProperty(
-        '--header-visible',
-        `${Math.max(0, rect?.bottom ?? 0)}px`,
-      );
-      // Keep following the header while its slide transition runs.
-      if (moving) schedule();
-    };
-    const schedule = () => {
-      if (!frame) frame = requestAnimationFrame(update);
-    };
+    const measure = () =>
+      root.style.setProperty('--header-height', `${header?.offsetHeight ?? 0}px`);
     const scroll = () => {
       const y = Math.max(0, window.scrollY);
       const delta = y - lastY;
@@ -144,35 +133,26 @@ export default function App() {
         setHeaderHidden(delta > 0 && !header?.contains(document.activeElement));
         lastY = y;
       }
-      schedule();
-    };
-    const start = () => {
-      moving = true;
-      schedule();
-    };
-    const end = () => {
-      moving = false;
-      schedule();
     };
     const reveal = () => setHeaderHidden(false);
-    update();
+    const observer = new ResizeObserver(measure);
+    if (header) observer.observe(header);
+    measure();
     window.addEventListener('scroll', scroll, { passive: true });
-    window.addEventListener('resize', schedule);
-    header?.addEventListener('transitionrun', start);
-    header?.addEventListener('transitionend', end);
-    header?.addEventListener('transitioncancel', end);
     header?.addEventListener('focusin', reveal);
     return () => {
-      cancelAnimationFrame(frame);
+      observer.disconnect();
       window.removeEventListener('scroll', scroll);
-      window.removeEventListener('resize', schedule);
-      header?.removeEventListener('transitionrun', start);
-      header?.removeEventListener('transitionend', end);
-      header?.removeEventListener('transitioncancel', end);
       header?.removeEventListener('focusin', reveal);
-      document.documentElement.style.removeProperty('--header-visible');
+      root.style.removeProperty('--header-height');
     };
   }, []);
+  // Apply in the same frame as the header class so both transitions start together.
+  useLayoutEffect(() => {
+    const root = document.documentElement.style;
+    if (headerHidden) root.setProperty('--header-visible', '0px');
+    else root.removeProperty('--header-visible');
+  }, [headerHidden]);
   async function copy(text: string) {
     try {
       await navigator.clipboard.writeText(text);
