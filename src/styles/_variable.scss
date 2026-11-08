@@ -25,6 +25,8 @@ $header-control-size: 32px;
 $header-content-height: 36px;
 $header-padding: 20px;
 $header-padding-mobile: 10px;
+// Sticky followers tuck under the header so sub-pixel drift never shows a gap.
+$header-overlap: 2px;
 $input-height: var(--input-height, 28px);
 $favorite: #e53935;
 $favorite-default: rgba($black, 0.2);

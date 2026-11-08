@@ -664,7 +664,8 @@ textarea,
   overflow-y: auto;
   overscroll-behavior: none;
   height: calc(100dvh - var(--panel-top));
-  padding: 0;
+  margin-top: -$header-overlap;
+  padding: $header-overlap 0 0;
   border-left: 1px solid $line;
   background: $page;
   > .panel-heading {
@@ -883,8 +884,8 @@ textarea,
   top: var(--panel-top);
   @include follow-header(top);
   z-index: 20;
-  margin: 0 calc(-1 * var(--gallery-padding));
-  padding: 0 var(--gallery-padding);
+  margin: (-$header-overlap) calc(-1 * var(--gallery-padding)) 0;
+  padding: $header-overlap var(--gallery-padding) 0;
   @include sticky-surface($results-background);
   .section-heading {
     min-height: 48px;
@@ -1466,7 +1467,8 @@ textarea,
   min-width: 0;
   min-height: 0;
   height: calc(100dvh - var(--panel-top));
-  padding: 0;
+  margin-top: -$header-overlap;
+  padding: $header-overlap 0 0;
   border-right: 1px solid $line;
   background: transparent;
   button {
@@ -1496,6 +1498,7 @@ textarea,
     height: 100dvh;
     max-height: none;
     margin: 0;
+    padding: 0;
     border: 0;
     background: $page;
     --composer-heading-height: 56px;

@@ -73,7 +73,7 @@ table {
     // Hiding waits briefly; revealing stays immediate.
     --header-delay: 0.4s;
   }
-  --panel-top: max(var(--header-visible), env(safe-area-inset-top, 0px));
+  --panel-top: max(calc(var(--header-visible) - #{$header-overlap}), env(safe-area-inset-top, 0px));
   --transition-duration: 0.3s;
   --text-input: 13px;
   --field-font-size: 16px;
