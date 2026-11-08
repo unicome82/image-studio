@@ -8,6 +8,3 @@
 
 ### Shape
 - Translate abstract concepts into a single memorable visual relationship; simplify supporting elements around the conceptual focal point.
-
-### Avoid
-- Avoid generic stock imagery, literal scene description without an idea, and gratuitous visual clutter.

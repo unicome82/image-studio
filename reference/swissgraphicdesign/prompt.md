@@ -8,6 +8,3 @@
 
 ### Shape
 - Structure visual elements with modular alignment, consistent proportional relationships, and clearly differentiated visual weights.
-
-### Avoid
-- Avoid arbitrary ornament, uncontrolled asymmetry, and ambiguous hierarchy.

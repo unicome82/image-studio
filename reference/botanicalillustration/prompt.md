@@ -8,6 +8,3 @@
 
 ### Shape
 - Represent identifiable stems, leaves, petals, seed structures, and branching patterns with coherent botanical relationships.
-
-### Avoid
-- Avoid invented plant anatomy, unrelated decorative foliage, and misleading structural details.

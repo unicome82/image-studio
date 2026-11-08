@@ -8,6 +8,3 @@
 
 ### Shape
 - Use a small number of decisive forms and purposeful relationships; remove every element that does not support recognition or concept.
-
-### Avoid
-- Avoid gratuitous details, redundant motifs, and ornamental accumulation.

@@ -5,6 +5,3 @@
 
 ### Apply
 - Use elaborate but coherent structures, numerous purposeful details, and sophisticated internal relationships.
-
-### Avoid
-- Avoid indiscriminate clutter; maintain readability of the primary subject.

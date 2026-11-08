@@ -5,6 +5,3 @@
 
 ### Apply
 - Simulate transparent watercolor washes, soft pigment diffusion, and organic wet-on-wet transitions.
-
-### Avoid
-- Avoid opaque plastic-looking fills and covering every luminous unpainted area.

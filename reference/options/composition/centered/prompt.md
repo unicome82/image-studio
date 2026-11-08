@@ -5,6 +5,3 @@
 
 ### Apply
 - Place the primary subject near the central axis with intentional visual balance.
-
-### Avoid
-- Avoid unintended off-center dominance.

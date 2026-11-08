@@ -5,6 +5,3 @@
 
 ### Apply
 - Use strong directional light with deep shadows and pronounced contrast to sculpt the subject.
-
-### Avoid
-- Avoid flat, evenly diffused illumination.

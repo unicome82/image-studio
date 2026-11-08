@@ -8,6 +8,3 @@
 
 ### Shape
 - Use systematic geometric relationships that imply vibration, apparent movement, depth ambiguity, or figure-ground reversal.
-
-### Avoid
-- Avoid random patterns without a perceptual mechanism and pictorial realism that overwhelms the optical effect.

@@ -8,6 +8,3 @@
 
 ### Shape
 - Distort familiar forms into undulating, melting, expanding, and interlocking shapes with perceptual ambiguity.
-
-### Avoid
-- Avoid literal realism, static conventional silhouettes, and generic fantasy symbolism.

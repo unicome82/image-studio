@@ -5,6 +5,3 @@
 
 ### Apply
 - Show food appetizingly with appealing texture, freshness, natural color, and purposeful styling of plates and surroundings.
-
-### Avoid
-- Avoid dull unappetizing color casts and messy, unintentional presentation.

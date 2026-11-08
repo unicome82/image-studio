@@ -8,6 +8,3 @@
 
 ### Shape
 - Use stepped profiles, fan motifs, elongated forms, sunburst geometry, and deliberate repetition of stylized architectural shapes.
-
-### Avoid
-- Avoid casual organic disorder, rustic irregularity, and unrelated ornament.

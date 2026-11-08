@@ -8,6 +8,3 @@
 
 ### Shape
 - Recontextualize familiar fragments into surprising, deliberately illogical relationships and visual interruptions.
-
-### Avoid
-- Avoid polished advertising logic, predictable harmony, and straightforward illustrative storytelling.

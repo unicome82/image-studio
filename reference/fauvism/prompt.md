@@ -8,6 +8,3 @@
 
 ### Shape
 - Simplify masses into confident, energetic silhouettes and allow forms to bend toward expressive impact.
-
-### Avoid
-- Avoid academic naturalism, timid literal rendering, and overly controlled precision.

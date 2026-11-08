@@ -8,6 +8,3 @@
 
 ### Shape
 - Simplify objects into emphatic recognizable emblems; exaggerate commercial iconography and repeated motifs.
-
-### Avoid
-- Avoid understated naturalism, nostalgic painterly romanticism, and ambiguous subject recognition.

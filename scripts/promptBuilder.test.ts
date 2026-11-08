@@ -444,9 +444,8 @@ test('Source prompts never depend on builder state the image model cannot see', 
       !/typography is enabled|selected palette|selected texture|supplied wording/i.test(text),
       path,
     );
-    const avoid = text.split('### Avoid')[1] ?? '';
-    for (const line of avoid.split('\n').filter((l) => l.startsWith('- ')))
-      assert.match(line, /^- (Avoid|Do not)/, path);
+    // Negative sections were removed: they repeated Apply and over-constrained results.
+    assert.ok(!text.includes('### Avoid'), path);
   }
 });
 

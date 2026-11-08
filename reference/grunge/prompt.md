@@ -8,6 +8,3 @@
 
 ### Shape
 - Use disrupted silhouettes, uneven structural relationships, and abrupt graphic interruptions that suggest an independent DIY attitude.
-
-### Avoid
-- Avoid pristine corporate regularity, immaculate symmetry, and ornamental perfection.

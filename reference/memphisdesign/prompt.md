@@ -8,6 +8,3 @@
 
 ### Shape
 - Combine unexpected geometric objects, squiggles, zigzags, and offbeat proportions into a spirited visual vocabulary.
-
-### Avoid
-- Avoid austere corporate uniformity, classical restraint, and predictable formal harmony.

@@ -63,7 +63,7 @@ image-assets/
 
 - 화풍별 카드, 레퍼런스 미리보기, 검색
 - `prompt.md` 확인·복사, 스타일 추가·관리
-- `prompt.md`는 Style, Shape, Line, Color, Texture, Typography, Avoid를 포함한 **영문 상세 스타일 지침**으로 작성
+- `prompt.md`는 Style, Shape, Line, Color, Texture, Typography 등을 포함한(Avoid 섹션 없음) **영문 상세 스타일 지침**으로 작성
 - 특정 피사체·구도에 종속되지 않도록 구성하며 레퍼런스 이미지는 선택 사항
 
 ### Prompt Builder

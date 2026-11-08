@@ -8,6 +8,3 @@
 
 ### Shape
 - Use era-conscious simplification, memorable emblematic shapes, and deliberately stylized visual symbolism.
-
-### Avoid
-- Avoid accidental mixing of unrelated historical periods and generic modern corporate imagery.

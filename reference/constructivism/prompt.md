@@ -8,6 +8,3 @@
 
 ### Shape
 - Build compositions from forceful diagonals, intersecting planes, mechanical geometry, and clearly organized structural relationships.
-
-### Avoid
-- Avoid nostalgic decoration, passive ornament, and unstructured pictorial sentimentality.

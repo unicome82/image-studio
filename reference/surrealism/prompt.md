@@ -8,6 +8,3 @@
 
 ### Shape
 - Combine recognizable objects in impossible transformations, displaced scales, and paradoxical physical relationships.
-
-### Avoid
-- Avoid predictable fantasy clichés, random incoherent objects, and explanations that remove the mystery.

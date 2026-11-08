@@ -5,6 +5,3 @@
 
 ### Apply
 - Build the palette from natural mineral, clay, sand, soil, and vegetation-inspired hues.
-
-### Avoid
-- Avoid synthetic neon colors.

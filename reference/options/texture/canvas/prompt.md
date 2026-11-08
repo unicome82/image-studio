@@ -5,6 +5,3 @@
 
 ### Apply
 - Reveal a subtle woven canvas surface beneath image marks.
-
-### Avoid
-- Avoid exaggerated fabric patterns.

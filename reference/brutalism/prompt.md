@@ -8,6 +8,3 @@
 
 ### Shape
 - Use blunt masses, hard interruptions, forceful scale changes, and unapologetic visual tension.
-
-### Avoid
-- Avoid delicate decorative refinement, overly softened shapes, and ornamental polish.

@@ -8,6 +8,3 @@
 
 ### Shape
 - Use discrete silhouette pieces, clearly separated edges, and plausible layered cut shapes; simplify small internal details.
-
-### Avoid
-- Avoid photographic anatomical rendering, impossible infinitely thin fragments, and confusing the cut shapes with painted brushwork.

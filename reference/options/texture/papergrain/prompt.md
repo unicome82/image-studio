@@ -5,6 +5,3 @@
 
 ### Apply
 - Introduce fine, natural paper-fiber grain and slight absorbency variations.
-
-### Avoid
-- Avoid oversized digital noise.

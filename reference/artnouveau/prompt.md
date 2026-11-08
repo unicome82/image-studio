@@ -8,6 +8,3 @@
 
 ### Shape
 - Transform structures into sinuous whiplash curves, botanical tendrils, elongated organic silhouettes, and continuous interwoven forms.
-
-### Avoid
-- Avoid rigid mechanical simplification, disconnected ornament, and literal botanical copying.

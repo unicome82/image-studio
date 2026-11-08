@@ -5,6 +5,3 @@
 
 ### Apply
 - Translate tonal transitions into controlled dot or line screens that visibly read as print halftones.
-
-### Avoid
-- Avoid uncontrolled noise that destroys screen regularity.

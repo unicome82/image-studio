@@ -5,6 +5,3 @@
 
 ### Apply
 - Suggest raised or recessed surface relief through coherent shallow edge lighting and pressure marks.
-
-### Avoid
-- Avoid exaggerated glossy 3D extrusion.

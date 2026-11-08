@@ -76,7 +76,7 @@ Color는 팔레트를, Rendering Mode는 채움과 윤곽선의 표현 방식을
 - 스타일 상세 설명·Mix Prompt를 별도 데이터로 중복 관리하지 않음
 - 옵션 정리로 삭제한 ID는 스타일셋 로드 시 흡수한 옵션으로 바꾼다: Linocut→Woodcut, Screen Printing→Risograph, 사진 Film·Analog→Texture Film Grain + Color Vintage Faded, 사진 Monochrome→Color Black & White, Diagonal→Dynamic, Rough Print→Distressed, Psychedelic Lettering→Groovy, Distorted·Kinetic Typography→Experimental Typography. 한도·충돌 규칙을 넘으면 추가하지 않는다.
 - 주 스타일 카테고리는 유형별로 Illustration Style·Photo Style·Design Style로 부른다. 기존 저장 데이터의 Base Style·Photography는 로드 시 새 이름으로 변환한다.
-- 원본 MD의 `### Avoid`에는 피해야 할 내용만 쓰고, 해야 할 지시는 `### Apply`·`### Style` 등에 둔다.
+- 원본 MD에는 `### Avoid` 섹션을 두지 않고 해야 할 지시를 `### Apply`·`### Style` 등에 긍정문으로 쓴다. 상표·기존 캐릭터 모방 금지 등 꼭 필요한 제한만 해당 지시 문장 안에 둔다.
 - 원본 MD는 이미지 모델이 볼 수 없는 빌더 상태(typography is enabled, selected palette 등)를 조건으로 쓰지 않는다. 글자는 "rendered text", 색은 "the Color instructions when given"처럼 프롬프트 안에서 확인할 수 있는 표현을 쓴다.
 
 **출력 방식**

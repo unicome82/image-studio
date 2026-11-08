@@ -5,6 +5,3 @@
 
 ### Apply
 - Give letterforms a reflective metallic appearance with coherent highlights and environmental reflections.
-
-### Avoid
-- Avoid plastic-looking highlights.

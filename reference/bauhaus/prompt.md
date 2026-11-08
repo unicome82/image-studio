@@ -8,6 +8,3 @@
 
 ### Shape
 - Construct subjects from circles, squares, triangles, bars, and rationally interlocking geometric masses; reduce ornamental contours to essential structure.
-
-### Avoid
-- Avoid decorative historicism, arbitrary embellishment, and forms that obscure functional organization.

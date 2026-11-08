@@ -8,6 +8,3 @@
 
 ### Shape
 - Allow subject boundaries to feel optically transient and loosely resolved; emphasize relationships between perceived masses.
-
-### Avoid
-- Avoid hard technical illustration, clinically exact detailing, and static diagrammatic representation.

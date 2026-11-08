@@ -5,6 +5,3 @@
 
 ### Apply
 - Favor blues, blue-greens, violets, and cool neutrals; let warm tones remain secondary if present.
-
-### Avoid
-- Avoid an overall warm color cast.

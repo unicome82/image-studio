@@ -8,6 +8,3 @@
 
 ### Shape
 - Use inflated or aerodynamic forms, playful techno-organic silhouettes, and exaggerated digital-age iconography.
-
-### Avoid
-- Avoid contemporary flat-corporate sameness and historically unrelated retro motifs.

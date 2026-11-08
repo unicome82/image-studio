@@ -8,6 +8,3 @@
 
 ### Shape
 - Combine numerous distinctive forms and motifs in layered relationships that reward prolonged inspection.
-
-### Avoid
-- Avoid empty repetition, monotonous uniformity, and visual chaos without recognizable intention.

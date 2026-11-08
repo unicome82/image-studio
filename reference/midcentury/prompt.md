@@ -8,6 +8,3 @@
 
 ### Shape
 - Favor confident abstracted silhouettes, playful organic geometry, and restrained asymmetrical relationships between forms.
-
-### Avoid
-- Avoid contemporary glossy UI aesthetics, excessive historical pastiche, and decorative complexity without structural purpose.
