@@ -5,6 +5,13 @@
   backdrop-filter: blur($popup-blur);
 }
 
+@mixin option-tag {
+  padding: 2px 4px;
+  border: 1px solid $option-tag-border;
+  border-radius: 4px;
+  background: $option-tag-bg;
+}
+
 @mixin sticky-surface($background: $sticky-background) {
   background: $background;
   backdrop-filter: blur(8px);

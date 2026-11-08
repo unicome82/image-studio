@@ -797,10 +797,7 @@ textarea,
   gap: 4px;
   color: $selected-summary;
   span {
-    padding: 2px 4px;
-    border: 1px solid $option-tag-border;
-    border-radius: 4px;
-    background: $option-tag-bg;
+    @include option-tag;
   }
 }
 
@@ -1138,11 +1135,12 @@ textarea,
   white-space: nowrap;
   &-values {
     display: flex;
-    gap: 2px 8px;
+    gap: 4px;
     min-width: 0;
     overflow: hidden;
     > span {
       flex-shrink: 0;
+      @include option-tag;
     }
   }
 }

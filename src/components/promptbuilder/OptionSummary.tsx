@@ -5,9 +5,9 @@ export default function OptionSummary({
   labels: string[];
   fallback: string;
 }) {
-  const tags = (labels.length ? labels : [fallback]).map((label) => `#${label}`);
+  const tags = labels.length ? labels : [fallback];
   return (
-    <p className="option-summary" title={tags.join(' ')}>
+    <p className="option-summary" title={tags.join(', ')}>
       <span className="option-summary-values">
         {tags.map((tag, index) => (
           <span key={`${index}-${tag}`}>{tag}</span>
