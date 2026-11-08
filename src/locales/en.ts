@@ -285,7 +285,6 @@ const translation: Record<string, string> = {
   'Neon Night': 'Neon Night',
   'Soft Daylight': 'Soft Daylight',
   'Fewer options give sharper results.': 'Fewer options give sharper results.',
-  Recipe: 'Recipe',
   New: 'New',
   'Start over': 'Start over',
   'Edit options': 'Edit options',

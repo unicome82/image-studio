@@ -10,8 +10,6 @@ interface Choice {
 }
 interface Props {
   title: string;
-  /** The group keeps its accessible name but shows no visible heading. */
-  hideTitle?: boolean;
   headerControl?: ReactNode;
   afterHeading?: ReactNode;
   showOptions?: boolean;
@@ -24,7 +22,6 @@ interface Props {
 }
 export default function OptionChoices({
   title,
-  hideTitle = false,
   options,
   selected,
   choose,
@@ -49,36 +46,34 @@ export default function OptionChoices({
   const unfiltered = allIsUnfiltered && (labels.length === 0 || labels.length === options.length);
   return (
     <>
-      {!hideTitle && (
-        <h3 className="option-heading" aria-label={t(title)}>
-          {canCollapse ? (
-            <button
-              className="option-heading-label"
-              aria-expanded={expanded}
-              aria-controls={rowId}
-              onClick={() => setExpanded(!expanded)}
-            >
-              {t(title)}
-            </button>
-          ) : (
-            t(title)
-          )}
-          {headerControl && <span className="option-heading-actions">{headerControl}</span>}
-          {canCollapse && (
-            <button
-              className="choice-toggle"
-              aria-label={t(expanded ? 'Collapse {{title}} options' : 'Expand {{title}} options', {
-                title: t(title),
-              })}
-              aria-expanded={expanded}
-              aria-controls={rowId}
-              onClick={() => setExpanded(!expanded)}
-            >
-              <Icon name={expanded ? 'expand_less' : 'expand_more'} size="16" />
-            </button>
-          )}
-        </h3>
-      )}
+      <h3 className="option-heading" aria-label={t(title)}>
+        {canCollapse ? (
+          <button
+            className="option-heading-label"
+            aria-expanded={expanded}
+            aria-controls={rowId}
+            onClick={() => setExpanded(!expanded)}
+          >
+            {t(title)}
+          </button>
+        ) : (
+          t(title)
+        )}
+        {headerControl && <span className="option-heading-actions">{headerControl}</span>}
+        {canCollapse && (
+          <button
+            className="choice-toggle"
+            aria-label={t(expanded ? 'Collapse {{title}} options' : 'Expand {{title}} options', {
+              title: t(title),
+            })}
+            aria-expanded={expanded}
+            aria-controls={rowId}
+            onClick={() => setExpanded(!expanded)}
+          >
+            <Icon name={expanded ? 'expand_less' : 'expand_more'} size="16" />
+          </button>
+        )}
+      </h3>
       {showOptions && isExpanded && afterHeading}
       {showOptions && (
         <div className="option-choices" id={rowId} role="group" aria-label={t(title)}>

@@ -1639,63 +1639,86 @@ textarea,
     @include uppercase-text;
     margin-top: 16px;
   }
-  &-subject-title {
+  &-section-title {
     margin: 0 0 8px;
     color: $black;
     font-size: 14px;
     font-weight: 700;
+    text-transform: none;
+    letter-spacing: normal;
+  }
+  .recipe-section {
+    padding-top: 20px;
+  }
+  .type-tabs {
+    @include flex-row($gap: 20px);
+    margin-top: 12px;
+    border-bottom: 1px solid $line;
+    button {
+      height: 40px;
+      padding: 0;
+      border: 0;
+      border-bottom: 2px solid transparent;
+      border-radius: 0;
+      background: transparent;
+      color: $black;
+      font-size: 14px;
+      font-weight: 500;
+      opacity: 0.5;
+      &[aria-pressed='true'] {
+        border-bottom-color: $black;
+        opacity: 1;
+      }
+    }
   }
   .recipe-cards {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(128px, 1fr));
     gap: 8px;
     margin: 0;
-    padding: 4px 0 0;
+    padding: 0;
     list-style: none;
     @media (max-width: $mobile) {
       grid-template-columns: repeat(3, minmax(0, 1fr));
     }
   }
   .recipe-card {
-    @include flex-column;
+    position: relative;
+    display: grid;
+    place-items: center;
     width: 100%;
-    height: 100%;
-    padding: 0;
+    height: 72px;
+    padding: 8px;
     overflow: hidden;
-    border: 1px solid $option-border;
+    border: 0;
     border-radius: 8px;
-    background: $page;
-    color: $ink;
-    text-align: left;
-    &:hover {
-      border-color: $option-hover-border;
+    color: $white;
+    text-align: center;
+    // Name and description share one cell so hover swaps them without resizing the card.
+    &::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: $recipe-overlay;
+      transition: background var(--transition-duration);
     }
-    &[aria-pressed='true'] {
-      border-color: $selected-border;
+    &[aria-pressed='true']::before {
+      background: $recipe-overlay-selected;
     }
-    &-swatch {
-      height: 48px;
-    }
-    // Name and description share one cell; hover swaps them without changing the card height.
-    &-body {
-      display: grid;
-      padding: 8px;
-      > span {
-        grid-area: 1 / 1;
-        transition: opacity var(--transition-duration);
-      }
+    > span {
+      position: relative;
+      grid-area: 1 / 1;
+      transition: opacity var(--transition-duration);
     }
     &-name {
       font-size: 13px;
       font-weight: 700;
     }
     &-description {
-      color: $muted;
       font-size: 12px;
       font-weight: 400;
       line-height: 1.3;
       opacity: 0;
-      // Touch screens cannot hover, so they show the name only.
       @media (hover: none) {
         display: none;
       }
@@ -1712,19 +1735,16 @@ textarea,
       }
     }
     &.recipe-new {
-      align-items: center;
-      justify-content: center;
-      gap: 4px;
-      min-height: 88px;
-      border-style: dashed;
+      @include flex-row($gap: 4px, $justify: center);
+      background: $recipe-new-background;
       color: $muted;
+      font-size: 13px;
+      font-weight: 500;
+      &::before {
+        content: none;
+      }
       &:hover {
         color: $ink;
-      }
-    }
-    @media (max-width: $mobile) {
-      &:hover {
-        border-color: $option-border;
       }
     }
   }

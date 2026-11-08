@@ -72,9 +72,15 @@ export default function Builder(p: Props) {
   }, []);
   const mobile = useMediaQuery(mobileQuery);
   const [promptCollapsed, setPromptCollapsed] = useState(mobile);
-  const typeRecipes = recipes.filter((recipe) => recipe.type === p.type);
-  const chosenRecipe = typeRecipes.find((recipe) =>
-    matchesRecipe(recipe, p.selection, p.complexity, p.fields['Aspect Ratio'] ?? ''),
+  const types = [
+    { id: 'illustration', label: 'Illustration' },
+    { id: 'photo', label: 'Photo' },
+    { id: 'design', label: 'Design' },
+  ] as const;
+  const chosenRecipe = recipes.find(
+    (recipe) =>
+      recipe.type === p.type &&
+      matchesRecipe(recipe, p.selection, p.complexity, p.fields['Aspect Ratio'] ?? ''),
   );
   const editor = p.step === 'editor';
   // Recipe cards show the output only once a recipe is chosen.
@@ -199,7 +205,7 @@ export default function Builder(p: Props) {
               </section>
             ) : (
               <>
-                <h3 className="builder-subject-title">
+                <h3 className="builder-section-title">
                   <label htmlFor={`${tabsId}-subject`}>{t('What would you like to draw?')}</label>
                 </h3>
                 <input
@@ -209,51 +215,55 @@ export default function Builder(p: Props) {
                   value={p.fields.Subject ?? ''}
                   onChange={(e) => p.setFields({ ...p.fields, Subject: e.target.value })}
                 />
-                <section className="option-section">
-                  <OptionChoices
-                    title="Type"
-                    hideTitle
-                    multiple={false}
-                    collapsible={false}
-                    options={[
-                      { id: 'illustration', label: 'Illustration' },
-                      { id: 'photo', label: 'Photo' },
-                      { id: 'design', label: 'Design' },
-                    ]}
-                    selected={[p.type]}
-                    choose={(type) => p.setType(type as Props['type'])}
-                  />
-                </section>
-                {!editor && (
-                  <ul className="recipe-cards" aria-label={t('Recipe')}>
-                    {typeRecipes.map((recipe) => (
-                      <li key={recipe.id}>
-                        <button
-                          className="recipe-card"
-                          aria-pressed={recipe === chosenRecipe}
-                          onClick={() => p.applyRecipe(recipe)}
-                        >
-                          <span
-                            className="recipe-card-swatch"
-                            style={{ backgroundColor: recipe.color }}
-                          />
-                          <span className="recipe-card-body">
-                            <span className="recipe-card-name">{t(recipe.label)}</span>
-                            <span className="recipe-card-description">{t(recipe.description)}</span>
-                          </span>
-                        </button>
-                      </li>
-                    ))}
-                    <li>
+                {editor ? (
+                  <div className="type-tabs" role="group" aria-label={t('Type')}>
+                    {types.map((type) => (
                       <button
-                        className="recipe-card recipe-new"
-                        onClick={() => p.setStep('editor')}
+                        key={type.id}
+                        aria-pressed={p.type === type.id}
+                        onClick={() => p.setType(type.id)}
                       >
-                        <Icon name="add" size="24" />
-                        <span className="recipe-card-name">{t('New')}</span>
+                        {t(type.label)}
                       </button>
-                    </li>
-                  </ul>
+                    ))}
+                  </div>
+                ) : (
+                  types.map((type) => (
+                    <section className="recipe-section" key={type.id}>
+                      <h3 className="builder-section-title">{t(type.label)}</h3>
+                      <ul className="recipe-cards">
+                        {recipes
+                          .filter((recipe) => recipe.type === type.id)
+                          .map((recipe) => (
+                            <li key={recipe.id}>
+                              <button
+                                className="recipe-card"
+                                style={{ backgroundColor: recipe.color }}
+                                aria-pressed={recipe === chosenRecipe}
+                                onClick={() => p.applyRecipe(recipe)}
+                              >
+                                <span className="recipe-card-name">{t(recipe.label)}</span>
+                                <span className="recipe-card-description">
+                                  {t(recipe.description)}
+                                </span>
+                              </button>
+                            </li>
+                          ))}
+                        <li>
+                          <button
+                            className="recipe-card recipe-new"
+                            onClick={() => {
+                              p.setType(type.id);
+                              p.setStep('editor');
+                            }}
+                          >
+                            <Icon name="add" size="20" />
+                            {t('New')}
+                          </button>
+                        </li>
+                      </ul>
+                    </section>
+                  ))
                 )}
                 {editor && !p.photo && !design && (
                   <section className="option-section">
