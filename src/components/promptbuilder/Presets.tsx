@@ -87,12 +87,15 @@ export default function Presets(p: Props) {
                     complexity={preset.complexity}
                   />
                 </div>
-                <div
-                  className="prompt-textarea"
-                  aria-label={t('{{name}} prompt', { name: title })}
-                  role="region"
-                  tabIndex={0}
-                >
+                <div className="prompt-box">
+                  <div
+                    className="prompt-textarea"
+                    aria-label={t('{{name}} prompt', { name: title })}
+                    role="region"
+                    tabIndex={0}
+                  >
+                    {prompt}
+                  </div>
                   <button
                     className="icon-button"
                     aria-label={t('Copy {{name}} prompt', { name: title })}
@@ -101,7 +104,6 @@ export default function Presets(p: Props) {
                   >
                     <Icon name="content_copy" size="16" />
                   </button>
-                  {prompt}
                 </div>
               </article>
             );

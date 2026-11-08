@@ -264,16 +264,15 @@ textarea,
   }
 }
 
-.prompt-textarea:has(> .icon-button) {
-  --copy-size: var(--icon-button-size, 32px);
-  padding-right: calc(var(--copy-size) + 4px);
-  scrollbar-gutter: auto;
+.prompt-box {
+  position: relative;
+  > .prompt-textarea {
+    padding-right: calc(var(--icon-button-size, 32px) + 4px);
+  }
   > .icon-button {
-    position: sticky;
-    top: calc(4px - 0.6em);
-    float: right;
-    margin: calc(4px - 0.6em) calc(-1 * var(--copy-size)) calc(-1 * var(--copy-size)) 0;
-    font-size: inherit;
+    position: absolute;
+    top: 4px;
+    right: 4px;
     &,
     &:hover {
       background: transparent;
@@ -752,7 +751,7 @@ textarea,
       @include builder-option-heading;
       margin-top: 16px;
     }
-    > .prompt-textarea {
+    .prompt-textarea {
       max-height: min(320px, 40dvh);
     }
   }
@@ -1440,11 +1439,16 @@ textarea,
 .preset-selected {
   margin-top: 16px;
 }
-.preset-item > .prompt-textarea {
+.preset-item > .prompt-box {
+  @include flex-column;
   flex: 1;
   min-height: 160px;
   max-height: 240px;
   margin-top: 12px;
+  > .prompt-textarea {
+    flex: 1;
+    min-height: 0;
+  }
 }
 // Builder
 .builder {

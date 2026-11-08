@@ -67,12 +67,15 @@ export default function ImageDetail(p: Props) {
         </div>
         <SelectedOptions {...p.saveOptions} english />
         <h3>{t('Prompt')}</h3>
-        <div
-          className="prompt-textarea"
-          aria-label={t('Selected style prompt')}
-          role="region"
-          tabIndex={0}
-        >
+        <div className="prompt-box">
+          <div
+            className="prompt-textarea"
+            aria-label={t('Selected style prompt')}
+            role="region"
+            tabIndex={0}
+          >
+            {p.stylePrompt}
+          </div>
           <button
             className="icon-button"
             aria-label={t('Copy style prompt')}
@@ -81,7 +84,6 @@ export default function ImageDetail(p: Props) {
           >
             <Icon name="content_copy" size="16" />
           </button>
-          {p.stylePrompt}
         </div>
       </div>
       <div className="prompt-actions detail-actions">
