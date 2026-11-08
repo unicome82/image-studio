@@ -794,7 +794,12 @@ textarea,
   color: $tag-text;
 }
 .option-tags {
+  gap: 4px;
   color: $selected-summary;
+  span {
+    padding: 0 4px;
+    background: $option-tag-bg;
+  }
 }
 
 // ImagePreview
