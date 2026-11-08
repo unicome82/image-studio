@@ -34,6 +34,7 @@ test('Recipes use real catalog options within Builder limits and translated name
     const design = recipe.type === 'design';
     assert.ok(aspectRatios.includes(recipe.ratio), recipe.id);
     assert.ok(en[recipe.label] && ko[recipe.label], recipe.label);
+    assert.ok(en[recipe.description] && ko[recipe.description], recipe.description);
     for (const [category, ids] of Object.entries(recipe.selection)) {
       assert.ok(builderCategories(photo, design).includes(category), `${recipe.id} ${category}`);
       assert.ok(ids.length <= optionLimit(), `${recipe.id} ${category}`);

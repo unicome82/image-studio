@@ -15,7 +15,6 @@ import {
   optionLimit,
 } from '../../utils/promptBuilder';
 import { matchesRecipe, recipes, type Recipe } from '../../utils/recipes';
-import { optionLabelKey } from '../../utils/optionChoices';
 import type { BuilderStep } from '../../utils/useBuilderDraft';
 import type { Option, Selection } from '../../utils/promptBuilder';
 interface Props {
@@ -80,16 +79,6 @@ export default function Builder(p: Props) {
   const editor = p.step === 'editor';
   // Recipe cards show the output only once a recipe is chosen.
   const showOutput = !resolving && (editor || !!chosenRecipe);
-  const recipeTags = (recipe: Recipe) =>
-    builderCategories(recipe.type === 'photo', recipe.type === 'design')
-      .filter((category) => category !== 'Outline')
-      .flatMap((category) =>
-        (recipe.selection[category] ?? []).flatMap((id) =>
-          p.catalog.filter((o) => o.category === category && o.id === id),
-        ),
-      )
-      .slice(0, 3)
-      .map((option) => t(optionLabelKey(option)));
   const categories = builderCategories(p.photo, design).filter(
     (category) => category !== 'Outline',
   );
@@ -147,11 +136,7 @@ export default function Builder(p: Props) {
       <div className="builder-viewport" ref={viewportRef}>
         <div className="builder-wrap builder-heading sticky-heading" ref={headingRef}>
           <h2 className="builder-title">
-            {resolving ? (
-              t('Refine filter choices')
-            ) : (
-              <label htmlFor={`${tabsId}-subject`}>{t('What would you like to draw?')}</label>
-            )}
+            {resolving ? t('Refine filter choices') : t('Prompt Builder')}
             {!resolving && editor && (
               <button
                 className="icon-button"
@@ -214,6 +199,9 @@ export default function Builder(p: Props) {
               </section>
             ) : (
               <>
+                <h3 className="builder-subject-title">
+                  <label htmlFor={`${tabsId}-subject`}>{t('What would you like to draw?')}</label>
+                </h3>
                 <input
                   id={`${tabsId}-subject`}
                   className="builder-subject"
@@ -221,23 +209,21 @@ export default function Builder(p: Props) {
                   value={p.fields.Subject ?? ''}
                   onChange={(e) => p.setFields({ ...p.fields, Subject: e.target.value })}
                 />
-                <div className="type-tabs" role="group" aria-label={t('Type')}>
-                  {(['illustration', 'photo', 'design'] as const).map((type) => (
-                    <button
-                      key={type}
-                      aria-pressed={p.type === type}
-                      onClick={() => p.setType(type)}
-                    >
-                      {t(
-                        type === 'illustration'
-                          ? 'Illustration'
-                          : type === 'photo'
-                            ? 'Photo'
-                            : 'Design',
-                      )}
-                    </button>
-                  ))}
-                </div>
+                <section className="option-section">
+                  <OptionChoices
+                    title="Type"
+                    hideTitle
+                    multiple={false}
+                    collapsible={false}
+                    options={[
+                      { id: 'illustration', label: 'Illustration' },
+                      { id: 'photo', label: 'Photo' },
+                      { id: 'design', label: 'Design' },
+                    ]}
+                    selected={[p.type]}
+                    choose={(type) => p.setType(type as Props['type'])}
+                  />
+                </section>
                 {!editor && (
                   <ul className="recipe-cards" aria-label={t('Recipe')}>
                     {typeRecipes.map((recipe) => (
@@ -253,9 +239,7 @@ export default function Builder(p: Props) {
                           />
                           <span className="recipe-card-body">
                             <span className="recipe-card-name">{t(recipe.label)}</span>
-                            <span className="recipe-card-tags">
-                              {recipeTags(recipe).join(' · ')}
-                            </span>
+                            <span className="recipe-card-description">{t(recipe.description)}</span>
                           </span>
                         </button>
                       </li>

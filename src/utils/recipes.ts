@@ -4,6 +4,8 @@ import type { Selection } from './promptBuilder.ts';
 export interface Recipe {
   id: string;
   label: string;
+  /** Shown on hover in place of the name; also a translation key. */
+  description: string;
   /** Card swatch until the recipe has a sample image. */
   color: string;
   type: 'illustration' | 'photo' | 'design';
@@ -16,6 +18,7 @@ export const recipes: Recipe[] = [
   {
     id: 'softminimaleditorial',
     label: 'Soft Minimal Editorial',
+    description: 'Calm flat editorial with one accent',
     color: '#e9e7e1',
     type: 'illustration',
     selection: {
@@ -33,6 +36,7 @@ export const recipes: Recipe[] = [
   {
     id: 'cozystorybook',
     label: 'Cozy Storybook',
+    description: 'Warm painted picture-book scenes',
     color: '#f2dcc4',
     type: 'illustration',
     selection: {
@@ -49,6 +53,7 @@ export const recipes: Recipe[] = [
   {
     id: 'playfulclay',
     label: 'Playful Clay 3D',
+    description: 'Soft matte clay 3D in pastel',
     color: '#f5cfdc',
     type: 'illustration',
     selection: {
@@ -66,6 +71,7 @@ export const recipes: Recipe[] = [
   {
     id: 'boldriso',
     label: 'Bold Riso Print',
+    description: 'Punchy geometric risograph print',
     color: '#ff6b4a',
     type: 'illustration',
     selection: {
@@ -82,6 +88,7 @@ export const recipes: Recipe[] = [
   {
     id: 'quietluxuryproduct',
     label: 'Quiet Luxury Product',
+    description: 'Minimal product shot, soft depth',
     color: '#ddd5ca',
     type: 'photo',
     selection: {
@@ -99,6 +106,7 @@ export const recipes: Recipe[] = [
   {
     id: 'airyfood',
     label: 'Airy Food Flat Lay',
+    description: 'Bright overhead food shot',
     color: '#eef0e6',
     type: 'photo',
     selection: {
@@ -114,6 +122,7 @@ export const recipes: Recipe[] = [
   {
     id: 'moodyfilmportrait',
     label: 'Moody Film Portrait',
+    description: 'Backlit portrait with film grain',
     color: '#4a4550',
     type: 'photo',
     selection: {
@@ -130,6 +139,7 @@ export const recipes: Recipe[] = [
   {
     id: 'flashfashion',
     label: 'Raw Flash Fashion',
+    description: 'Vivid direct-flash fashion',
     color: '#ff4f8b',
     type: 'photo',
     selection: {
@@ -145,6 +155,7 @@ export const recipes: Recipe[] = [
   {
     id: 'swissposter',
     label: 'Swiss Type Poster',
+    description: 'Grid poster with bold type',
     color: '#e63022',
     type: 'design',
     selection: {
@@ -161,6 +172,7 @@ export const recipes: Recipe[] = [
   {
     id: 'gradientglassposter',
     label: 'Gradient Glass Poster',
+    description: 'Iridescent frosted-glass poster',
     color: '#b9a7ff',
     type: 'design',
     selection: {
@@ -176,6 +188,7 @@ export const recipes: Recipe[] = [
   {
     id: 'playfulpattern',
     label: 'Playful Pattern',
+    description: 'Vivid Memphis repeat pattern',
     color: '#3ec7b1',
     type: 'design',
     selection: {
@@ -190,6 +203,7 @@ export const recipes: Recipe[] = [
   {
     id: 'minimalpackaging',
     label: 'Minimal Packaging',
+    description: 'Quiet luxe matte packaging',
     color: '#d6d2c8',
     type: 'design',
     selection: {
