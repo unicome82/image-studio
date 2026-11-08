@@ -576,7 +576,9 @@ textarea,
 }
 .tile {
   position: relative;
-  display: block;
+  // inline-block keeps Safari from carrying a column's last margin to the next column's top.
+  display: inline-block;
+  vertical-align: top;
   break-inside: avoid;
   width: 100%;
   margin-bottom: 12px;
