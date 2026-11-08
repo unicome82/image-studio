@@ -383,7 +383,7 @@ textarea,
   position: sticky;
   top: 0;
   z-index: 30;
-  transition: transform var(--transition-duration) ease;
+  transition: transform var(--transition-duration) ease var(--header-delay);
   &.header-hidden {
     transform: translateY(-100%);
   }

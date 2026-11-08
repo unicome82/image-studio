@@ -67,8 +67,11 @@ table {
 :root {
   --header-height: #{$header-content-height + 2 * $header-padding + 1px};
   --header-visible: var(--header-height);
+  --header-delay: 0s;
   &:has(.header-hidden) {
     --header-visible: 0px;
+    // Hiding waits briefly; revealing stays immediate.
+    --header-delay: 0.4s;
   }
   --panel-top: max(var(--header-visible), env(safe-area-inset-top, 0px));
   --transition-duration: 0.3s;

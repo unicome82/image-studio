@@ -22,6 +22,7 @@
   transition-property: $properties;
   transition-duration: var(--transition-duration);
   transition-timing-function: ease;
+  transition-delay: var(--header-delay);
 }
 
 @mixin flex-row($gap: null, $justify: null, $display: flex) {
