@@ -28,19 +28,11 @@
   height: var(--icon-button-size, 32px);
   padding: 0;
   border-radius: 8px;
-  @media (min-width: 601px) and (hover: hover) {
-    &:hover:not(.active):not(.close-button):not(.prompt-box > *) {
-      background: $icon-hover-background;
-    }
-  }
 }
 .close-button {
   margin-right: -8px;
-  &:hover {
-    background: transparent;
-    [data-icon='close'] {
-      transform: rotate(180deg);
-    }
+  &:hover [data-icon='close'] {
+    transform: rotate(180deg);
   }
   [data-icon='close'] {
     transition: transform var(--transition-duration) ease;
@@ -434,8 +426,7 @@ textarea,
       width: 36px;
       height: 36px;
       &,
-      &.active,
-      &:hover {
+      &.active {
         background: transparent;
         color: $black;
       }
@@ -1416,12 +1407,9 @@ textarea,
       font-size: 12px;
     }
     .icon-button {
-      &,
-      &:hover {
-        background: transparent;
-        border: 0;
-        color: $ink;
-      }
+      border: 0;
+      background: transparent;
+      color: $ink;
     }
   }
 }
