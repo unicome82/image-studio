@@ -4,7 +4,6 @@ import { readdirSync, readFileSync } from 'node:fs';
 import { join } from 'node:path';
 import {
   makePrompt,
-  instructions,
   builderCategories,
   toggleOption,
   designFormatRatios,
@@ -30,7 +29,7 @@ function catalogAt(dir: string): Option[] {
   });
 }
 const catalog = catalogAt('reference');
-test('design prompts use canonical format/style instructions, shared options and exact subject', () => {
+test('design prompts list format, style and shared options as keywords with the exact subject', () => {
   const selection = {
     'Design Format': ['poster'],
     'Design Style': ['swiss'],
@@ -46,30 +45,18 @@ test('design prompts use canonical format/style instructions, shared options and
   };
   const prompt = makePrompt(catalog, selection, fields, false, true);
   assert.match(prompt, /Create a finished graphic design/);
+  const label = (category: string, id: string) =>
+    catalog.find((o) => o.category === category && o.id === id)!.label;
   for (const [category, id] of [
     ['Design Format', 'poster'],
     ['Design Style', 'swiss'],
     ['Color', 'muted'],
   ])
-    assert.ok(
-      prompt.includes(
-        instructions(catalog.find((o) => o.category === category && o.id === id)!, true),
-      ),
-    );
+    assert.ok(prompt.includes(`\n${category}: ${label(category, id)}\n`), category);
   assert.match(prompt, /Subject "A spring exhibition"/);
   assert.match(prompt, /Text: SPRING 2027/);
-  assert.ok(
-    !prompt.includes(
-      instructions(
-        catalog.find((o) => o.category === 'Illustration Style' && o.id === 'naivefolk')!,
-      ),
-    ),
-  );
-  assert.ok(
-    !prompt.includes(
-      instructions(catalog.find((o) => o.category === 'Outline' && o.id === 'coloronly')!),
-    ),
-  );
+  assert.ok(!prompt.includes(label('Illustration Style', 'naivefolk')));
+  assert.ok(!prompt.includes('Rendering Mode'));
   assert.doesNotMatch(
     makePrompt(catalog, selection, { ...fields, 'Typography Enabled': 'false' }, false, true),
     /Typograph/,

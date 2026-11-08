@@ -1,6 +1,6 @@
 import { useTranslation } from 'react-i18next';
 import Icon from '../Icon';
-import type { Option, Selection } from '../../utils/promptBuilder';
+import { defaultDepiction, type Option, type Selection } from '../../utils/promptBuilder';
 import { selectedBuilderOptions } from '../../utils/selectedOptions';
 import { optionLabelKey } from '../../utils/optionChoices';
 export interface SelectedOptionsProps {
@@ -32,6 +32,11 @@ export default function SelectedOptions({
             option.category === 'Outline' && option.id === (selection.Outline?.[0] ?? 'coloronly'),
         )
       : undefined;
+  const depiction = catalog.find(
+    (option) =>
+      option.category === 'Depiction' &&
+      option.id === (selection.Depiction?.[0] ?? defaultDepiction),
+  );
   const fixedOptions = [
     {
       key: 'type',
@@ -40,6 +45,9 @@ export default function SelectedOptions({
     },
     { key: 'ratio', title: t('Aspect ratio'), label: fields['Aspect Ratio'] || '1:1' },
     ...(outline ? [{ key: 'outline', title: t('Outline'), label: t(outline.label) }] : []),
+    ...(depiction
+      ? [{ key: 'depiction', title: t('Depiction'), label: t(optionLabelKey(depiction)) }]
+      : []),
   ];
   const optionLabel = (option: Option) => t(optionLabelKey(option));
   if (!remove) {

@@ -10,6 +10,8 @@ import { mobileQuery, useMediaQuery } from '../../utils/useMediaQuery';
 import {
   aspectRatios,
   builderCategories,
+  defaultDepiction,
+  depictionLevels,
   isTypographyEnabled,
   optionLimit,
 } from '../../utils/promptBuilder';
@@ -290,6 +292,20 @@ export default function Builder(p: Props) {
                           .map((ratio) => ({ id: ratio, label: ratio }))}
                         selected={[p.fields['Aspect Ratio'] || '2:3']}
                         choose={(ratio) => p.setFields({ ...p.fields, 'Aspect Ratio': ratio })}
+                      />
+                    </section>
+                    <section className="option-section">
+                      <OptionChoices
+                        title="Depiction"
+                        multiple={false}
+                        options={p.catalog
+                          .filter((o) => o.category === 'Depiction')
+                          .sort(
+                            (a, b) => depictionLevels.indexOf(a.id) - depictionLevels.indexOf(b.id),
+                          )
+                          .map((o) => ({ id: o.id, label: o.label, category: o.category }))}
+                        selected={p.selection.Depiction ?? [defaultDepiction]}
+                        choose={(id) => p.toggle('Depiction', id)}
                       />
                     </section>
                     {categories.map((category) => {

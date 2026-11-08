@@ -1,4 +1,4 @@
-import type { Selection } from './promptBuilder.ts';
+import { defaultDepiction, type Selection } from './promptBuilder.ts';
 
 /** Curated starting points; they only set Builder values, so hand-picked settings use the same prompt rules. */
 export interface Recipe {
@@ -207,10 +207,14 @@ export const recipes: Recipe[] = [
 ];
 /** A recipe stays marked while the draft still matches it exactly. */
 export function matchesRecipe(recipe: Recipe, selection: Selection, ratio: string): boolean {
+  // A Simple depiction is the default, so stating it explicitly still matches.
   const ids = (value: Selection) =>
     JSON.stringify(
       Object.entries(value)
-        .filter(([, list]) => list.length)
+        .filter(
+          ([category, list]) =>
+            list.length && !(category === 'Depiction' && list[0] === defaultDepiction),
+        )
         .map(([category, list]) => [category, [...list].sort()])
         .sort(),
     );

@@ -39,7 +39,7 @@ IMAGE STUDIO의 **부가 메뉴**로 스타일 조합용 영문 지시문을 생
 5. **Custom Input:** 최상단 라벨 없는 Subject input으로 피사체를 입력하고 Your direction textarea로 추가 지시를 입력. Aspect ratio(1:1/4:5/3:4/2:3/9:16/4:3/3:2/16:9)는 상위 독립 옵션으로 선택. 기존 프리셋의 Subject는 주제 입력란에 보존하고 Negative Prompt는 이름표와 함께 Your direction으로 합쳐 보존하며, Text는 별도 Typography 입력칸에 보존
 6. **Copy Prompt:** 영문 지시문 복사
 7. **Save Preset:** 스타일명·선택값·입력값 저장/목록 조회·복사/이름 수정/삭제; Save 클릭 시 스타일명 입력·프롬프트 미리보기·Cancel·Save가 있는 팝업 제공. 저장 목록은 본문 페이지에서 실제 콘텐츠 폭에 따라 최대 3열로 표시. 이름 바로 옆에 편집 아이콘, 하단에 저장값으로 재구성한 전체 프롬프트와 Copy 버튼을 제공하며 Load 버튼은 사용하지 않는다. LocalStorage 사용(기기 간 동기화 없음)
-8. **Simple Depiction:** 복잡도 옵션은 없다. 모든 프롬프트에 단순한 묘사(Depiction: Simple)를 고정 기본값으로 넣으며 UI에서 바꾸지 않는다. 기존 스타일셋의 복잡도 값은 로드 시 버린다
+8. **Depiction:** 묘사 정도를 Very Simple~Very Complex 5단계 필수 단일 선택으로 고르며 기본값은 Simple이다. 선택이 없는 기존 데이터는 Simple로 읽고, 옛 복잡도 숫자 값은 로드 시 버린다
 9. **Rendering Mode:** 컬러만 / 컬러 + 윤곽선 / 윤곽선만 중 하나 선택, 기본값 Color Only. 프리셋 저장·프롬프트 재구성에 포함하며 기존 프리셋에 값이 없으면 기본값 적용.
 
 ### Rendering Mode
@@ -56,9 +56,13 @@ Color는 팔레트를, Rendering Mode는 채움과 윤곽선의 표현 방식을
 
 | ID | 이름 | 프롬프트 |
 |---|---|---|
-| `simple` | Simple | [prompt.md](reference/options/depiction/simple/prompt.md) |
+| `verysimple` | Very Simple | [prompt.md](reference/options/depiction/verysimple/prompt.md) |
+| `simple` | Simple (기본) | [prompt.md](reference/options/depiction/simple/prompt.md) |
+| `balanced` | Balanced | [prompt.md](reference/options/depiction/balanced/prompt.md) |
+| `complex` | Complex | [prompt.md](reference/options/depiction/complex/prompt.md) |
+| `verycomplex` | Very Complex | [prompt.md](reference/options/depiction/verycomplex/prompt.md) |
 
-선택 옵션 본문 뒤에 `## Depiction: Simple`로 항상 출력하고 Settings에는 반복하지 않는다. 'complexity' 단어는 프롬프트에 쓰지 않는다.
+`## Options` 목록 끝에 `Depiction: {표시명}`으로 항상 출력하고 Settings에는 반복하지 않는다. 'complexity' 단어는 프롬프트에 쓰지 않는다.
 
 ## 5. 생성 규칙
 
@@ -66,7 +70,7 @@ Color는 팔레트를, Rendering Mode는 채움과 윤곽선의 표현 방식을
 - 선택하지 않은 항목은 생략, Subject·Text는 사용자 입력 그대로 유지
 - Typography는 옵션 제목 옆 ON/OFF 토글로 제어하며 기본 OFF. ON이면 스타일 선택과 별도 문구 input을 활성화한다. 문구가 있으면 그대로 사용하고 비어 있으면 AI가 적절한 문구를 자유롭게 정하도록 지시한다. OFF에서는 저장된 문구·Typography 옵션을 생성 지시문에서 제외한다. 토글 상태와 입력값은 스타일셋에 저장한다.
 - Rendering Mode의 표시명과 선택한 실제 프롬프트 본문을 출력한다. 채움·윤곽선에 관한 스타일·기법·질감 지침과 충돌하면 Rendering Mode를 우선하고, 나머지 스타일 특징은 유지한다. 사진 스타일을 선택해도 같은 표현 규칙을 적용한다.
-- Illustration Style은 `reference/{id}/prompt.md`, 옵션은 `reference/options/{category}/{id}/prompt.md`에 연결한다. Rendering Mode의 경로 카테고리는 `outline`이다. Depiction은 항상 `depiction/simple`을 연결한다.
+- Illustration Style은 `reference/{id}/prompt.md`, 옵션은 `reference/options/{category}/{id}/prompt.md`에 연결한다. Rendering Mode의 경로 카테고리는 `outline`이다. Depiction은 선택 단계(기본 `simple`)의 `depiction/{id}`를 연결한다.
 - 위 선택 목록의 링크가 Builder ID와 실제 파일의 매핑이다. ID·표시명은 각 파일의 Category·Style ID·제목에서 읽으며 별도 목록이나 상세 설명 데이터를 복제하지 않는다. 동일 ID가 다른 카테고리에 있으면 카테고리와 ID를 함께 식별자로 사용한다.
 - **실제로 존재하는 파일만** 선택한 항목의 원문 본문을 출력하며, 파일 경로를 읽으라는 지시는 출력하지 않는다. Typography는 ON일 때, Photo Style은 사진 기반 결과를 요청할 때만 포함한다.
 - 파일이 없는 옵션은 표시명만 전달
@@ -82,7 +86,7 @@ Color는 팔레트를, Rendering Mode는 채움과 윤곽선의 표현 방식을
 
 **출력 방식**
 
-선택된 스타일·기법·색상·Typography·Rendering Mode의 MD 본문과 고정 Depiction 본문을 원본에서 빌드 시 읽어 출력에 포함한다. 각 옵션은 원본 제목과 Category·Style ID 메타데이터 줄 대신 `## {카테고리}: {표시명}` 제목 아래 본문 섹션만 빈 줄로 구분해 출력하고, Outline은 제목·요약 모두 Rendering Mode로 표기한다. 첫 줄 다음 Key direction 한 줄, 옵션 본문, 이어서 `## Settings`에는 Key direction·옵션 제목에 없는 내용만 출력한다: Subject 미입력 시 랜덤 Subject 지시, 추가 지시, Typography ON일 때만 `Typography: On`·Text(OFF이면 Typography를 언급하지 않음). 입력 Subject·비율·선택 요약·Depiction은 반복하지 않으며, 출력할 내용이 없으면 Settings 섹션을 생략한다. `## Final Instructions`(결합·주 방향·초점·Rendering Mode 우선·충돌 우선순위·글자 규칙·보존·Key direction 재강조)는 출력하지 않는다. 도입·랜덤 Subject·자동 문구 지시는 유형(image·photograph·graphic design)에 맞춘다. 선택하지 않았거나 현재 유형에서 숨겨진 옵션은 제외한다. 복사한 프롬프트만으로 사용할 수 있으며 외부 도구의 파일 또는 URL 접근을 요구하지 않는다. LocalStorage에는 기존처럼 선택 ID·설정만 저장하고 본문을 중복 저장하지 않는다.
+프롬프트는 키워드 방식이다. 유형별 첫 줄(`Create an image|a photograph|a finished graphic design using the instructions below.`), Key direction 한 줄, `## Options`에 선택 옵션을 `{카테고리}: {표시명}`으로 한 줄씩 출력한다. 순서는 대표 스타일 → Typography(ON일 때) → Rendering Mode → Color → Lighting → Texture → Composition → Mood → Depiction이며 Outline은 Rendering Mode로 표기한다. 원본 MD 본문은 출력하지 않고 보관만 한다. 이어서 `## Settings`에는 Key direction·옵션 목록에 없는 내용만 출력한다: Subject 미입력 시 랜덤 Subject 지시, 추가 지시, Typography ON일 때만 `Typography: On`·Text(OFF이면 Typography를 언급하지 않음). 출력할 내용이 없으면 Settings 섹션을 생략하고 `## Final Instructions`는 출력하지 않는다. 선택하지 않았거나 현재 유형에서 숨겨진 옵션은 제외한다. 복사한 프롬프트만으로 사용할 수 있으며 외부 도구의 파일 또는 URL 접근을 요구하지 않는다. LocalStorage에는 기존처럼 선택 ID·설정만 저장하고 본문을 중복 저장하지 않는다.
 
 ## 6. 연동 및 UI
 

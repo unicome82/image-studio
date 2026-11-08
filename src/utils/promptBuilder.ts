@@ -24,7 +24,10 @@ export const designFormatRatios: Record<string, string> = {
 };
 export const aspectRatios = ['1:1', '4:5', '3:4', '2:3', '9:16', '4:3', '3:2', '16:9'];
 // Every Builder category takes one decisive choice; choosing it again clears it.
-const requiredCategories = ['Outline', 'Design Format'];
+const requiredCategories = ['Outline', 'Design Format', 'Depiction'];
+// How simply or richly the subject is depicted; every prompt states one level.
+export const depictionLevels = ['verysimple', 'simple', 'balanced', 'complex', 'verycomplex'];
+export const defaultDepiction = 'simple';
 // Past this many choices the Builder suggests trimming; it is guidance, not a limit.
 export const recommendedTotal = 6;
 export function optionLimit(): number {
@@ -89,22 +92,8 @@ export function toggleOption(selection: Selection, category: string, id: string)
     [category]: !requiredCategories.includes(category) && current.includes(id) ? [] : [id],
   };
 }
-// The prompt names Outline by its role so the option heading, summary and final rules agree.
+// The prompt names Outline by its role so the option list and summary agree.
 const promptCategory = (category: string) => (category === 'Outline' ? 'Rendering Mode' : category);
-// Style fallbacks that only apply while the user leaves these categories open.
-const fallbackLine = /^- When no Color, Lighting, or Texture instructions are given/;
-// Option instructions without the source title, catalog metadata lines and, when asked, the fallbacks.
-export function instructions(option: Option, dropFallbacks = false): string {
-  return option.prompt
-    .split('\n')
-    .filter(
-      (line) =>
-        !/^## |^- \*\*(Category|Style ID):\*\*/.test(line) &&
-        !(dropFallbacks && fallbackLine.test(line)),
-    )
-    .join('\n')
-    .trim();
-}
 export function makePrompt(
   catalog: Option[],
   selection: Selection,
@@ -135,9 +124,9 @@ export function makePrompt(
       catalog.filter((o) => o.category === category && o.id === id),
     );
   });
-  // Every prompt asks for a simple depiction; it is a fixed default, not a Builder choice.
-  const depiction = catalog.filter((o) => o.category === 'Depiction');
-  const options = [...chosen, ...depiction];
+  // Older drafts and recipes carry no depiction, so they read as the Simple default.
+  const depictionId = selection.Depiction?.[0] ?? defaultDepiction;
+  const depiction = catalog.find((o) => o.category === 'Depiction' && o.id === depictionId);
   const output = design ? 'graphic design' : photo ? 'photograph' : 'image';
   const subject = fields.Subject?.trim();
   const text = typography ? fields.Text?.trim() : '';
@@ -145,8 +134,6 @@ export function makePrompt(
     ([key, value]) =>
       !['Subject', 'Aspect Ratio', 'Typography Enabled', 'Text'].includes(key) && value.trim(),
   );
-  const present = new Set(options.map((o) => o.category));
-  const dropFallbacks = ['Color', 'Lighting', 'Texture'].some((category) => present.has(category));
   // The subject and lead style open the prompt so they carry the most weight.
   const keyDirection = [
     subject ? `Subject "${fields.Subject}"` : 'a random subject you choose',
@@ -172,15 +159,14 @@ export function makePrompt(
         ]
       : []),
   ];
+  // Options are keywords only; the source MD bodies stay in reference/ and are not copied in.
   return [
     `Create ${design ? 'a finished graphic design' : photo ? 'a photograph' : 'an image'} using the instructions below.`,
     `Key direction: ${keyDirection}.`,
-    ...options.flatMap((o) => [
-      '',
-      `## ${promptCategory(o.category)}: ${o.label}`,
-      instructions(o, dropFallbacks),
-    ]),
-    // Settings carries only what the key direction and option headings above do not already state.
+    '',
+    '## Options',
+    ...chosen.map((o) => `${promptCategory(o.category)}: ${o.label}`),
+    ...(depiction ? [`Depiction: ${depiction.label}`] : []),
     ...(settings.length ? ['', '## Settings', ...settings] : []),
   ].join('\n');
 }
