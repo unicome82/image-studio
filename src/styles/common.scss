@@ -388,7 +388,7 @@ textarea,
     transform: translateY(-100%);
   }
   @include flex-row($gap: 24px);
-  padding: 20px;
+  padding: $header-padding;
   border-bottom: 1px solid $line;
   background: $page;
   &-search {
@@ -445,8 +445,8 @@ textarea,
     }
   }
   @media (max-width: $mobile) {
-    padding-top: calc(3em / 4 + env(safe-area-inset-top, 0px));
-    padding-bottom: calc(3em / 4);
+    padding-top: calc(#{$header-padding-mobile} + env(safe-area-inset-top, 0px));
+    padding-bottom: $header-padding-mobile;
     gap: calc(1em / 4);
     &-actions {
       gap: 0;

@@ -21,6 +21,10 @@ $option-heading-font-size: var(--option-heading-font-size, 11px);
 $option-font-size: var(--text-input, 12px);
 $compact-control-size: var(--nav-control-height, 28px);
 $header-control-size: 32px;
+// Header height = padding + tallest control (36px action buttons) + 1px border.
+$header-content-height: 36px;
+$header-padding: 20px;
+$header-padding-mobile: 10px;
 $input-height: var(--input-height, 28px);
 $favorite: #e53935;
 $favorite-default: rgba($black, 0.2);

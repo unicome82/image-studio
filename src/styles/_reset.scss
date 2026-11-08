@@ -65,14 +65,19 @@ table {
 
 // Base typography, form defaults and responsive size tokens
 :root {
-  --header-height: 76px;
+  --header-height: #{$header-content-height + 2 * $header-padding + 1px};
   --header-visible: var(--header-height);
+  &:has(.header-hidden) {
+    --header-visible: 0px;
+  }
   --panel-top: max(var(--header-visible), env(safe-area-inset-top, 0px));
   --transition-duration: 0.3s;
   --text-input: 13px;
   --field-font-size: 16px;
   @media (max-width: $mobile) {
-    --header-height: 80px;
+    --header-height: calc(
+      #{$header-content-height + 2 * $header-padding-mobile + 1px} + env(safe-area-inset-top, 0px)
+    );
     --input-height: 32px;
     --icon-button-size: 36px;
     --nav-control-height: 36px;

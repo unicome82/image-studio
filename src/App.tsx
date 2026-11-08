@@ -1,7 +1,7 @@
 import { createPortal } from 'react-dom';
 import { useTranslation } from 'react-i18next';
 import Icon from './components/Icon';
-import { useEffect, useLayoutEffect, useRef, useState, type CSSProperties } from 'react';
+import { useEffect, useRef, useState, type CSSProperties } from 'react';
 import catalog from 'virtual:prompt-catalog';
 import Header from './components/Header';
 import Gallery from './components/Gallery';
@@ -116,13 +116,9 @@ export default function App() {
     else modalRef.current?.close();
   }, [modal]);
   useEffect(() => {
-    // Sticky edges follow the header through CSS transitions, so only the
-    // header height is measured here; scroll only decides the direction.
+    // CSS owns the header height and sticky offsets; JS only reads scroll direction.
     const header = document.querySelector<HTMLElement>('.header');
-    const root = document.documentElement;
     let lastY = window.scrollY;
-    const measure = () =>
-      root.style.setProperty('--header-height', `${header?.offsetHeight ?? 0}px`);
     const scroll = () => {
       const y = Math.max(0, window.scrollY);
       const delta = y - lastY;
@@ -135,24 +131,13 @@ export default function App() {
       }
     };
     const reveal = () => setHeaderHidden(false);
-    const observer = new ResizeObserver(measure);
-    if (header) observer.observe(header);
-    measure();
     window.addEventListener('scroll', scroll, { passive: true });
     header?.addEventListener('focusin', reveal);
     return () => {
-      observer.disconnect();
       window.removeEventListener('scroll', scroll);
       header?.removeEventListener('focusin', reveal);
-      root.style.removeProperty('--header-height');
     };
   }, []);
-  // Apply in the same frame as the header class so both transitions start together.
-  useLayoutEffect(() => {
-    const root = document.documentElement.style;
-    if (headerHidden) root.setProperty('--header-visible', '0px');
-    else root.removeProperty('--header-visible');
-  }, [headerHidden]);
   async function copy(text: string) {
     try {
       await navigator.clipboard.writeText(text);
