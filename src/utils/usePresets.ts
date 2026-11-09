@@ -58,7 +58,7 @@ export function usePresets({ filterType, query, effectiveFilters, showToast }: O
           filterMetadata(
             preset.selection,
             preset.photo,
-            preset.fields['Aspect Ratio'] || '1:1',
+            preset.fields['Aspect Ratio'] ?? '',
             preset.design,
           ),
           effectiveFilters,

@@ -2,7 +2,7 @@ import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 import { readdirSync, readFileSync } from 'node:fs';
 import { join } from 'node:path';
-import { designFormatRatios } from './src/utils/promptBuilder';
+import { designFormatOrder } from './src/utils/promptBuilder';
 // Bundle canonical prompt text so copied prompts work without repository access. Images stay out.
 function catalog(dir = 'reference'): { category?: string; id?: string; cue?: string }[] {
   return readdirSync(dir, { withFileTypes: true }).flatMap((entry) => {
@@ -33,8 +33,8 @@ export default defineConfig({
       },
       load(id) {
         if (id !== '\0prompt-catalog') return;
-        // Design formats follow the curated order of designFormatRatios instead of folder names.
-        const formats = Object.keys(designFormatRatios);
+        // Design formats follow the curated order of designFormatOrder instead of folder names.
+        const formats = designFormatOrder;
         const options = catalog();
         const sorted = options
           .filter((option) => option.category === 'Design Format')

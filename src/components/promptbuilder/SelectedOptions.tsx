@@ -45,9 +45,9 @@ export default function SelectedOptions({
       title: t('Type'),
       label: t(design ? 'Design' : photo ? 'Photo' : 'Illustration'),
     },
-    ...(mockup
+    ...(mockup || !fields['Aspect Ratio']
       ? []
-      : [{ key: 'ratio', title: t('Aspect ratio'), label: fields['Aspect Ratio'] || '1:1' }]),
+      : [{ key: 'ratio', title: t('Aspect ratio'), label: fields['Aspect Ratio'] }]),
     ...(outline ? [{ key: 'outline', title: t('Outline'), label: t(outline.label) }] : []),
     ...(mockup && depiction
       ? [{ key: 'depiction', title: t('Depiction'), label: t(optionLabelKey(depiction)) }]

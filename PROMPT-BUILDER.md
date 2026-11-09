@@ -5,7 +5,7 @@
 IMAGE STUDIO의 **부가 메뉴**로 2단계 이미지 생성용 영문 프롬프트를 만든다. 이미지 갤러리가 메인 화면이다.
 
 1. **갤러리 시안:** 정한 스타일의 이미지 10장이 걸린 미니멀 갤러리 사이트 시안 한 장을 만든다.
-2. **개별 이미지:** 시안에서 마음에 드는 이미지를 같은 채팅에서 원하는 비율의 단독 이미지로 다시 만든다.
+2. **개별 이미지:** 시안에서 마음에 드는 이미지를 같은 채팅에서 단독 이미지로 다시 만든다. 비율을 고르지 않으면 지정 비율 중 고른 이미지에 가장 가까운 비율을 쓴다([IMAGE-RULES.md](IMAGE-RULES.md)).
 
 - AI API·데이터베이스 불필요
 - 기존 React + TypeScript + SCSS 및 디자인 시스템 재사용
@@ -31,7 +31,7 @@ Technique·Camera·Mood·Lighting·Composition·Typography 카테고리는 사�
 
 1. **Single Select:** 모든 카테고리는 단일 선택이다. Design Format·Depiction은 항상 하나를 유지하고 나머지는 다시 누르면 해제된다.
 2. **Live Prompt:** 선택 즉시 갤러리 시안·개별 이미지 프롬프트를 갱신한다. 하단 탭으로 두 프롬프트를 전환하고 복사는 보이는 탭을 복사한다.
-3. **입력:** 시안에는 무엇을 그릴지 적는 대상(예: woman, building, 비우면 subject)과 묘사 정도만 쓴다. 각 이미지 설명이나 이미지 번호는 받지 않는다. 개별 이미지는 Texture와 비율(1:1/4:5/3:4/2:3/9:16/4:3/3:2/16:9, 기본 4:5)을 고른다. Design Format은 기본 비율을 제안한다.
+3. **입력:** 시안에는 무엇을 그릴지 적는 대상(예: woman, building, 비우면 subject)과 묘사 정도만 쓴다. 각 이미지 설명이나 이미지 번호는 받지 않는다. 개별 이미지는 Texture와 선택 사항인 비율(1:1/4:5/3:4/2:3/9:16/4:3/3:2/16:9, 기본 미선택)을 고른다. 비율은 다시 누르면 해제된다.
 4. **시안 저장함:** 유형·선택 옵션·묘사 정도·대상·비율을 LocalStorage에 저장하고, 카드에는 대표 스타일 이름·선택 태그·갤러리 시안 프롬프트를 표시한다. 수정·삭제·복사를 제공한다.
 
 ## 4. 생성 규칙
@@ -54,6 +54,7 @@ Technique·Camera·Mood·Lighting·Composition·Typography 카테고리는 사�
   Keep the same style and colors, and show the full composition inside the frame.
   {Texture: 표시명 — Cue — 선택한 경우만}
   Aspect Ratio: {비율}
+  (비율 미선택) Aspect Ratio: the closest of 1:1, 4:5, 3:4, 2:3, 9:16, 4:3, 3:2, 16:9 to the chosen image
   ```
 - **갤러리 상세 (단독 사용):** `Create a standalone {…} of "{Subject}".`, 옵션 줄, `Aspect Ratio: {비율}` 순서다.
 - 입력·Subject는 원문 그대로 유지한다. 피할 대상을 나열하는 부정문, 완성도 강조 문구, 파일 읽기 지시·경로는 출력하지 않는다.

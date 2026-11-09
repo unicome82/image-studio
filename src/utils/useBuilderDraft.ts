@@ -4,7 +4,6 @@ import { pendingBuilderFilters, type FilterType } from './filters';
 import type { StylePreset } from './presets';
 import {
   builderCategories,
-  designFormatRatios,
   imageType,
   makeMockupPrompt,
   makeRecreatePrompt,
@@ -17,7 +16,7 @@ import {
 export type BuilderType = ImageType;
 export type PresetSettings = Pick<StylePreset, 'photo' | 'design' | 'selection' | 'fields'>;
 
-const defaultFields: Record<string, string> = { Subject: '', 'Aspect Ratio': '4:5' };
+const defaultFields: Record<string, string> = { Subject: '', 'Aspect Ratio': '' };
 
 export function useBuilderDraft() {
   const [builderType, setBuilderType] = useState<BuilderType>('illustration');
@@ -36,8 +35,6 @@ export function useBuilderDraft() {
   const [fields, setFields] = useState<Record<string, string>>(defaultFields);
   const [pendingChoices, setPendingChoices] = useState<Selection>({});
   const [pendingSelection, setPendingSelection] = useState<Selection>({});
-  // Once the user picks a ratio, design formats stop suggesting their default ratio.
-  const ratioChosen = useRef(false);
   const appliedFilters = useRef('');
   const [editingId, setEditingId] = useState<string | null>(null);
   const backup = useRef<(() => void) | null>(null);
@@ -67,7 +64,6 @@ export function useBuilderDraft() {
       setPendingChoices(pendingBuilderFilters(effectiveFilters, composerPhoto, composerDesign));
       setPendingSelection({});
       if (effectiveFilters['Aspect Ratio']?.length === 1) {
-        ratioChosen.current = true;
         setFields((previous) => ({
           ...previous,
           'Aspect Ratio': effectiveFilters['Aspect Ratio'][0],
@@ -101,7 +97,6 @@ export function useBuilderDraft() {
     );
     setSelection((previous) => ({ ...previous, ...resolved }));
     if (pendingSelection['Aspect Ratio']?.length) {
-      ratioChosen.current = true;
       setFields((previous) => ({
         ...previous,
         'Aspect Ratio': pendingSelection['Aspect Ratio'][0],
@@ -112,8 +107,6 @@ export function useBuilderDraft() {
   }
   function toggle(category: string, id: string) {
     setSelection(toggleOption(selection, category, id));
-    if (category === 'Design Format' && !ratioChosen.current && designFormatRatios[id])
-      setFields({ ...fields, 'Aspect Ratio': designFormatRatios[id] });
   }
   function removeOption(category: string, id: string) {
     setSelection((previous) => ({
@@ -122,7 +115,6 @@ export function useBuilderDraft() {
     }));
   }
   function changeFields(next: Record<string, string>) {
-    if (next['Aspect Ratio'] !== fields['Aspect Ratio']) ratioChosen.current = true;
     setFields(next);
   }
   // Load a saved mockup, keeping the current draft to restore after editing.
@@ -136,10 +128,8 @@ export function useBuilderDraft() {
         fields,
         pendingChoices,
         pendingSelection,
-        ratioChosen: ratioChosen.current,
       };
       backup.current = () => {
-        ratioChosen.current = draft.ratioChosen;
         setBuilderType(draft.builderType);
         setIllustrationSelection(draft.illustrationSelection);
         setPhotoSelection(draft.photoSelection);
@@ -153,7 +143,6 @@ export function useBuilderDraft() {
     setBuilderType(type);
     selections[type][1](structuredClone(preset.selection));
     setFields({ ...defaultFields, ...preset.fields });
-    ratioChosen.current = true;
     setPendingChoices({});
     setPendingSelection({});
     setEditingId(preset.id);

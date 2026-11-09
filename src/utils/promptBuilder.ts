@@ -9,22 +9,22 @@ export interface Option {
 }
 export type Selection = Record<string, string[]>;
 export type ImageType = 'illustration' | 'photo' | 'design';
-// Suggested ratio when a design format is chosen; a ratio the user picked stays.
-export const designFormatRatios: Record<string, string> = {
-  poster: '3:4',
-  logo: '1:1',
-  packaging: '3:4',
-  infographic: '3:4',
-  iconset: '1:1',
-  pattern: '1:1',
-  greetingcard: '3:4',
-  website: '16:9',
-  emblem: '1:1',
-  product: '1:1',
-  character: '3:4',
-  appscreen: '9:16',
-  signage: '16:9',
-};
+// Curated display order of design formats.
+export const designFormatOrder = [
+  'poster',
+  'logo',
+  'packaging',
+  'infographic',
+  'iconset',
+  'pattern',
+  'greetingcard',
+  'website',
+  'emblem',
+  'product',
+  'character',
+  'appscreen',
+  'signage',
+];
 export const aspectRatios = ['1:1', '4:5', '3:4', '2:3', '9:16', '4:3', '3:2', '16:9'];
 // Every Builder category takes one decisive choice; choosing it again clears it.
 const requiredCategories = ['Design Format', 'Depiction'];
@@ -34,13 +34,15 @@ export const defaultDepiction = 'simple';
 export function optionLimit(): number {
   return 1;
 }
-// Subject feeds the mockup; the ratio feeds the single-image step.
+// Subject feeds the mockup; an optional ratio feeds the single-image step (empty = closest ratio).
 export function compactFields(fields: Record<string, string>): Record<string, string> {
   return {
     Subject: fields.Subject ?? '',
-    'Aspect Ratio': fields['Aspect Ratio'] || '1:1',
+    'Aspect Ratio': fields['Aspect Ratio'] ?? '',
   };
 }
+// Without a chosen ratio the recreated image takes the closest standard ratio to its mockup shape.
+export const closestRatioLine = `Aspect Ratio: the closest of ${aspectRatios.join(', ')} to the chosen image`;
 export function imageType(photo: boolean, design = false): ImageType {
   return design ? 'design' : photo ? 'photo' : 'illustration';
 }
@@ -129,7 +131,7 @@ export function makeMockupPrompt(
     subjectLine(depictionPhrase(catalog, selection), fields.Subject?.trim()),
   ].join('\n');
 }
-/** Step 2: recreate the image picked in the mockup chat, adding texture and a ratio. */
+/** Step 2: recreate the image picked in the mockup chat, adding texture and the chosen or closest ratio. */
 export function makeRecreatePrompt(
   catalog: Option[],
   selection: Selection,
@@ -143,7 +145,9 @@ export function makeRecreatePrompt(
     `Recreate the image I choose from this gallery mockup as a standalone ${words[type].one}.`,
     'Keep the same style and colors, and show the full composition inside the frame.',
     ...texture.map(optionLine),
-    `Aspect Ratio: ${fields['Aspect Ratio']?.trim() || '1:1'}`,
+    fields['Aspect Ratio']?.trim()
+      ? `Aspect Ratio: ${fields['Aspect Ratio'].trim()}`
+      : closestRatioLine,
   ].join('\n');
 }
 /** A standalone prompt for one gallery image, usable without the mockup chat. */

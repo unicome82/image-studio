@@ -108,7 +108,7 @@ test('mockup prompt names one style, the depiction level and the subject without
   assert.ok(makeMockupPrompt(catalog, {}, {}, 'photo').includes('photography portfolio website'));
 });
 
-test('single-image prompts add texture and the ratio to the picked image', () => {
+test('single-image prompts add texture and the chosen or closest ratio to the picked image', () => {
   const recreate = makeRecreatePrompt(
     catalog,
     { Texture: ['papergrain'], Color: ['pastel'] },
@@ -123,7 +123,12 @@ test('single-image prompts add texture and the ratio to the picked image', () =>
   assert.match(lines[2], /^Texture: Paper Grain — /);
   assert.equal(lines[3], 'Aspect Ratio: 4:5');
   assert.ok(!recreate.includes('Pastel'));
-  assert.equal(makeRecreatePrompt(catalog, {}, {}, 'photo').split('\n').length, 3);
+  const closest = makeRecreatePrompt(catalog, {}, {}, 'photo').split('\n');
+  assert.equal(closest.length, 3);
+  assert.equal(
+    closest[2],
+    'Aspect Ratio: the closest of 1:1, 4:5, 3:4, 2:3, 9:16, 4:3, 3:2, 16:9 to the chosen image',
+  );
   const image = makeImagePrompt(
     catalog,
     { 'Illustration Style': ['risograph'], Color: ['pastel'] },
@@ -143,7 +148,7 @@ test('single choice per category; required categories stay selected', () => {
   assert.equal(defaultDepiction, 'simple');
   assert.deepEqual(compactFields({ Subject: 'A', Text: 'B', 'Typography Enabled': 'true' }), {
     Subject: 'A',
-    'Aspect Ratio': '1:1',
+    'Aspect Ratio': '',
   });
 });
 

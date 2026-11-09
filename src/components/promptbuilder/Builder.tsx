@@ -217,8 +217,16 @@ export default function Builder(p: Props) {
                     options={[...new Set([...aspectRatios, p.fields['Aspect Ratio']])]
                       .filter(Boolean)
                       .map((ratio) => ({ id: ratio, label: ratio }))}
-                    selected={[p.fields['Aspect Ratio'] || '4:5']}
-                    choose={(ratio) => setFields({ ...p.fields, 'Aspect Ratio': ratio }, 'image')}
+                    selected={p.fields['Aspect Ratio'] ? [p.fields['Aspect Ratio']] : []}
+                    choose={(ratio) =>
+                      setFields(
+                        {
+                          ...p.fields,
+                          'Aspect Ratio': p.fields['Aspect Ratio'] === ratio ? '' : ratio,
+                        },
+                        'image',
+                      )
+                    }
                   />
                 </section>
               </>
