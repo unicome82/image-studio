@@ -8,7 +8,7 @@ const translation: Record<string, string> = {
   'Very Complex': '아주 복잡',
   Depiction: '묘사 정도',
   Subject: '대상',
-  'Mockup subject placeholder': '예: {{example}} (선택)',
+  'Mockup subject placeholder': '예: {{example}}',
   'Mockup subject example 1': '아늑한 부엌, 아침 햇살, 커피',
   'Mockup subject example 2': '고요한 도시의 밤, 네온, 비',
   'Mockup subject example 3': '바닷가의 여름, 파도, 아이스크림',
