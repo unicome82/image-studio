@@ -5,6 +5,8 @@ import { join } from 'node:path';
 import {
   builderCategories,
   compactFields,
+  defaultDepiction,
+  depictionLevels,
   makeImagePrompt,
   makeMockupPrompt,
   makeRecreatePrompt,
@@ -41,16 +43,15 @@ test('each type keeps only its lead style, color, texture and illustration outli
     'Color',
     'Texture',
   ]);
-  const categories = new Set(catalog.map((o) => o.category));
-  for (const category of categories)
-    assert.ok(
-      [
-        ...builderCategories(false),
-        ...builderCategories(true),
-        ...builderCategories(false, true),
-      ].includes(category),
-      category,
-    );
+  const offered = new Set([
+    ...builderCategories(false),
+    ...builderCategories(true),
+    ...builderCategories(false, true),
+    'Depiction',
+  ]);
+  for (const option of catalog) assert.ok(offered.has(option.category), option.path);
+  const levels = catalog.filter((o) => o.category === 'Depiction').map((o) => o.id);
+  assert.deepEqual(levels.sort(), [...depictionLevels].sort());
 });
 
 test('every source MD carries a short Cue', () => {
@@ -58,47 +59,57 @@ test('every source MD carries a short Cue', () => {
     assert.ok(option.cue && option.cue.split(' ').length <= 15, option.path);
 });
 
-test('mockup prompt sets a minimal gallery of ten images in one style with label and cue', () => {
+test('mockup prompt names one style, the depiction level and the subject without a ratio', () => {
   const text = makeMockupPrompt(
     catalog,
+    { 'Illustration Style': ['geometricillustration'], Depiction: ['verysimple'] },
+    { Subject: 'building', 'Aspect Ratio': '4:5' },
+    'illustration',
+  );
+  assert.equal(
+    text,
+    [
+      'Design a mockup of a minimal gallery website: white background, simple header, a clean grid of 10 images.',
+      '',
+      'All 10 images share one style: Geometric Illustration',
+      'Each image shows a different very simple building.',
+    ].join('\n'),
+  );
+  const rich = makeMockupPrompt(
+    catalog,
     {
-      'Illustration Style': ['pixelart'],
+      'Illustration Style': ['risograph'],
       Color: ['pastel'],
       Texture: ['papergrain'],
-      Outline: ['coloronly'],
+      Outline: ['outlineonly'],
+      Depiction: ['verycomplex'],
       'Photo Style': ['portrait'],
     },
+    {},
     'illustration',
   );
-  const lines = text.split('\n');
-  assert.equal(
-    lines[0],
-    'Design a mockup of a minimal gallery website: white background, simple header, a clean grid of 10 illustrations.',
-  );
-  assert.equal(lines[1], 'All 10 illustrations share one style:');
-  assert.match(lines[2], /^Illustration Style: Pixel Art — /);
-  assert.match(lines[3], /^Color: Pastel — /);
-  assert.match(lines[4], /^Texture: Paper Grain — /);
-  assert.match(lines[5], /^Rendering Mode: Color Only — /);
-  assert.equal(lines.at(-1), 'Each illustration shows a different subject.');
-  assert.ok(!text.includes('Portrait'));
-  assert.ok(!text.includes('Aspect Ratio'));
-  assert.ok(makeMockupPrompt(catalog, {}, 'photo').includes('photography portfolio website'));
+  assert.ok(rich.includes('\nColor: Pastel\nTexture: Paper Grain\nRendering Mode: Outline Only\n'));
+  assert.ok(rich.endsWith('Each image shows a different very complex subject.'));
+  assert.ok(!rich.includes('Portrait') && !rich.includes('Aspect Ratio'));
   assert.ok(
-    makeMockupPrompt(catalog, { 'Design Format': ['poster'] }, 'design').includes(
-      'Design Format: Poster — ',
-    ),
+    makeMockupPrompt(catalog, {}, {}, 'illustration').includes('a different simple subject'),
   );
+  assert.ok(
+    makeMockupPrompt(
+      catalog,
+      { 'Design Format': ['poster'], 'Design Style': ['swiss'] },
+      {},
+      'design',
+    ).includes('share one style: Swiss Graphic Design Poster'),
+  );
+  assert.ok(makeMockupPrompt(catalog, {}, {}, 'photo').includes('photography portfolio website'));
 });
 
-test('single-image prompts keep the subject verbatim and state the ratio', () => {
-  const recreate = makeRecreatePrompt(
-    { Subject: 'the sleeping cat', 'Aspect Ratio': '4:5' },
-    'illustration',
-  );
-  assert.ok(recreate.startsWith('Recreate "the sleeping cat" from this gallery mockup'));
+test('single-image prompts pick an image number and state the ratio', () => {
+  const recreate = makeRecreatePrompt({ Image: '3', 'Aspect Ratio': '4:5' }, 'illustration');
+  assert.ok(recreate.startsWith('Recreate image 3 of 10 from this gallery mockup'));
   assert.ok(recreate.endsWith('Aspect Ratio: 4:5'));
-  assert.ok(makeRecreatePrompt({}, 'photo').includes('the image I like best'));
+  assert.ok(makeRecreatePrompt({ Image: 'x' }, 'photo').startsWith('Recreate image 1 of 10'));
   const image = makeImagePrompt(
     catalog,
     { 'Illustration Style': ['risograph'], Color: ['pastel'] },
@@ -113,11 +124,12 @@ test('single-image prompts keep the subject verbatim and state the ratio', () =>
 test('single choice per category; required categories stay selected', () => {
   assert.deepEqual(toggleOption({ Color: ['muted'] }, 'Color', 'vivid').Color, ['vivid']);
   assert.deepEqual(toggleOption({ Color: ['muted'] }, 'Color', 'muted').Color, []);
-  assert.deepEqual(toggleOption({ Outline: ['coloronly'] }, 'Outline', 'coloronly').Outline, [
-    'coloronly',
-  ]);
+  assert.deepEqual(toggleOption({ Outline: ['coloronly'] }, 'Outline', 'coloronly').Outline, []);
+  assert.deepEqual(toggleOption({ Depiction: ['rich'] }, 'Depiction', 'rich').Depiction, ['rich']);
+  assert.equal(defaultDepiction, 'simple');
   assert.deepEqual(compactFields({ Subject: 'A', Text: 'B', 'Typography Enabled': 'true' }), {
     Subject: 'A',
+    Image: '',
     'Aspect Ratio': '1:1',
   });
 });
@@ -131,6 +143,7 @@ test('saved mockups keep only offered categories and migrate removed styles', ()
         'Illustration Style': ['celshadedanime'],
         Technique: ['watercolor'],
         Color: ['muted'],
+        Depiction: ['complex'],
       },
       fields: { Subject: 'A tree', Text: 'TREE', 'Aspect Ratio': '3:4' },
     },
@@ -141,8 +154,9 @@ test('saved mockups keep only offered categories and migrate removed styles', ()
   assert.deepEqual(illustration.selection, {
     'Illustration Style': ['contemporaryflat'],
     Color: ['muted'],
+    Depiction: ['complex'],
   });
-  assert.deepEqual(illustration.fields, { Subject: 'A tree', 'Aspect Ratio': '3:4' });
+  assert.deepEqual(illustration.fields, { Subject: 'A tree', Image: '', 'Aspect Ratio': '3:4' });
   assert.deepEqual(photo.selection, {
     'Photo Style': [],
     Texture: ['filmgrain'],

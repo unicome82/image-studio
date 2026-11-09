@@ -32,7 +32,7 @@ export default function Presets(p: Props) {
           p.presets.map((preset) => {
             // Rebuild from saved settings and the canonical catalog; never duplicate prompt bodies in storage.
             const type = imageType(preset.photo, preset.design);
-            const prompt = makeMockupPrompt(p.catalog, preset.selection, type);
+            const prompt = makeMockupPrompt(p.catalog, preset.selection, preset.fields, type);
             // A saved mockup is named after its lead style.
             const lead = builderCategories(preset.photo, preset.design)
               .flatMap((category) =>
@@ -92,6 +92,7 @@ export default function Presets(p: Props) {
                     fields={preset.fields}
                     photo={preset.photo}
                     design={preset.design}
+                    mockup
                   />
                 </div>
                 <div className="prompt-box">

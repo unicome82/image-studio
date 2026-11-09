@@ -171,6 +171,11 @@ export default function App() {
       'Aspect Ratio': selected ? normalizeRatio(`${selected.width}:${selected.height}`) : '1:1',
     },
   };
+  // Saving from a gallery image keeps its style and ratio for a new mockup.
+  const mockupPreset = {
+    ...detailPreset,
+    fields: { 'Aspect Ratio': detailPreset.fields['Aspect Ratio'] },
+  };
   const detailPrompt = makeImagePrompt(
     catalog,
     detailPreset.selection,
@@ -364,11 +369,12 @@ export default function App() {
               stylePrompt={detailPrompt}
               savePreview={makeMockupPrompt(
                 catalog,
-                detailPreset.selection,
+                mockupPreset.selection,
+                mockupPreset.fields,
                 imageType(detailPhoto, detailDesign),
               )}
-              saveOptions={{ catalog, ...detailPreset }}
-              save={() => presets.save(detailPreset)}
+              saveOptions={{ catalog, ...mockupPreset }}
+              save={() => presets.save(mockupPreset)}
               copy={copy}
               toggleBookmark={() => toggleBookmark(selected.id)}
               close={() => setSelected(null)}

@@ -1,6 +1,6 @@
 import { useTranslation } from 'react-i18next';
 import Icon from '../Icon';
-import type { Option, Selection } from '../../utils/promptBuilder';
+import { defaultDepiction, type Option, type Selection } from '../../utils/promptBuilder';
 import { selectedBuilderOptions } from '../../utils/selectedOptions';
 import { optionLabelKey } from '../../utils/optionChoices';
 export interface SelectedOptionsProps {
@@ -11,6 +11,8 @@ export interface SelectedOptionsProps {
   design?: boolean;
   remove?: (category: string, id: string) => void;
   english?: boolean;
+  /** Mockup settings show the depiction level instead of a single image's ratio. */
+  mockup?: boolean;
 }
 export default function SelectedOptions({
   catalog,
@@ -20,6 +22,7 @@ export default function SelectedOptions({
   design = false,
   remove,
   english = false,
+  mockup = false,
 }: SelectedOptionsProps) {
   const { t } = useTranslation(undefined, english ? { lng: 'en' } : undefined);
   const options = selectedBuilderOptions(catalog, selection, photo, design).filter(
@@ -28,18 +31,27 @@ export default function SelectedOptions({
   const outline =
     !photo && !design
       ? catalog.find(
-          (option) =>
-            option.category === 'Outline' && option.id === (selection.Outline?.[0] ?? 'coloronly'),
+          (option) => option.category === 'Outline' && option.id === selection.Outline?.[0],
         )
       : undefined;
+  const depiction = catalog.find(
+    (option) =>
+      option.category === 'Depiction' &&
+      option.id === (selection.Depiction?.[0] ?? defaultDepiction),
+  );
   const fixedOptions = [
     {
       key: 'type',
       title: t('Type'),
       label: t(design ? 'Design' : photo ? 'Photo' : 'Illustration'),
     },
-    { key: 'ratio', title: t('Aspect ratio'), label: fields['Aspect Ratio'] || '1:1' },
+    ...(mockup
+      ? []
+      : [{ key: 'ratio', title: t('Aspect ratio'), label: fields['Aspect Ratio'] || '1:1' }]),
     ...(outline ? [{ key: 'outline', title: t('Outline'), label: t(outline.label) }] : []),
+    ...(mockup && depiction
+      ? [{ key: 'depiction', title: t('Depiction'), label: t(optionLabelKey(depiction)) }]
+      : []),
   ];
   const optionLabel = (option: Option) => t(optionLabelKey(option));
   if (!remove) {

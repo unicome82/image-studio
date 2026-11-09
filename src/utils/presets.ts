@@ -79,7 +79,7 @@ export function parsePresets(raw: string | null, catalog: Option[]): StylePreset
       let selection: Selection = {};
       const migrated: [string, string][] = [];
       // Only the categories the mockup Builder still offers are kept.
-      const categories = builderCategories(item.photo, item.design === true);
+      const categories = [...builderCategories(item.photo, item.design === true), 'Depiction'];
       for (const [saved, ids] of Object.entries(item.selection)) {
         if (!Array.isArray(ids)) return [];
         const category = legacyCategories[saved] ?? saved;

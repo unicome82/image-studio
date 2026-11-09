@@ -13,7 +13,7 @@ IMAGE STUDIO의 **부가 메뉴**로 2단계 이미지 생성용 영문 프롬�
 
 ## 2. 선택 라이브러리
 
-각 항목은 영문 표시명과 고유 ID를 가진다. 유형별로 아래 카테고리만 사용한다: 일러스트 Style·Color·Texture·Rendering Mode, 사진 Photo Style·Color·Texture, 디자인 Format·Style·Color·Texture.
+각 항목은 영문 표시명과 고유 ID를 가진다. 유형별로 아래 카테고리만 사용한다: 일러스트 Style·Color·Texture·Rendering Mode, 사진 Photo Style·Color·Texture, 디자인 Format·Style·Color·Texture. 모든 유형에 Depiction을 둔다.
 
 - **Illustration Style (26):** [Art Deco](reference/artdeco/prompt.md), [Bauhaus](reference/bauhaus/prompt.md), [Botanical Illustration](reference/botanicalillustration/prompt.md), [Brutalism](reference/brutalism/prompt.md), [Childlike Illustration](reference/childlikeillustration/prompt.md), [Contemporary Flat Illustration](reference/contemporaryflat/prompt.md), [Continuous Line](reference/continuousline/prompt.md), [Editorial Illustration](reference/editorialillustration/prompt.md), [Expressionism](reference/expressionism/prompt.md), [Geometric Illustration](reference/geometricillustration/prompt.md), [Grunge](reference/grunge/prompt.md), [Impressionism](reference/impressionism/prompt.md), [Isometric Illustration](reference/isometric/prompt.md), [Low Poly](reference/lowpoly/prompt.md), [Maximalism](reference/maximalism/prompt.md), [Memphis Design](reference/memphisdesign/prompt.md), [Mid-century Modern](reference/midcentury/prompt.md), [Minimalism](reference/minimalism/prompt.md), [Naive Folk Art](reference/naivefolk/prompt.md), [Paper Cutout](reference/papercutout/prompt.md), [Pixel Art](reference/pixelart/prompt.md), [Pop Art](reference/popart/prompt.md), [Psychedelic Art](reference/psychedelicart/prompt.md), [Risograph](reference/risograph/prompt.md), [Surrealism](reference/surrealism/prompt.md), [Y2K](reference/y2k/prompt.md).
 - **Photo Style (12):** [Architectural](reference/options/photography/architectural/prompt.md), [Cinematic](reference/options/photography/cinematic/prompt.md), [Documentary](reference/options/photography/documentary/prompt.md), [Editorial](reference/options/photography/editorial/prompt.md), [Fashion](reference/options/photography/fashion/prompt.md), [Fine Art](reference/options/photography/fineart/prompt.md), [Food](reference/options/photography/food/prompt.md), [Landscape](reference/options/photography/landscape/prompt.md), [Portrait](reference/options/photography/portrait/prompt.md), [Product](reference/options/photography/product/prompt.md), [Still Life](reference/options/photography/stilllife/prompt.md), [Street](reference/options/photography/street/prompt.md).
@@ -23,34 +23,36 @@ IMAGE STUDIO의 **부가 메뉴**로 2단계 이미지 생성용 영문 프롬�
 - **Texture (10):** [Brushstroke](reference/options/texture/brushstroke/prompt.md), [Canvas](reference/options/texture/canvas/prompt.md), [Clean](reference/options/texture/clean/prompt.md), [Digital Noise](reference/options/texture/digitalnoise/prompt.md), [Emboss](reference/options/texture/emboss/prompt.md), [Film Grain](reference/options/texture/filmgrain/prompt.md), [Frosted Glass](reference/options/texture/frostedglass/prompt.md), [Glossy](reference/options/texture/glossy/prompt.md), [Paper Grain](reference/options/texture/papergrain/prompt.md), [Soft Matte](reference/options/texture/softmatte/prompt.md).
 - **Rendering Mode (Outline, 일러스트 전용·필수) (3):** [Color Only](reference/options/outline/coloronly/prompt.md), [Color + Outline](reference/options/outline/coloroutline/prompt.md), [Outline Only](reference/options/outline/outlineonly/prompt.md).
 
-Technique·Camera·Mood·Lighting·Composition·Typography·Depiction 카테고리는 사용하지 않는다.
+- **Depiction (5, 필수·기본 Simple):** Essential(`verysimple`, very simple), Simple(`simple`, simple), Moderate(`balanced`, moderately complex), Detailed(`complex`, complex), Rich(`verycomplex`, very complex). 괄호 안 마지막 값이 Cue이며 시안 문장에 그대로 들어간다.
+
+Technique·Camera·Mood·Lighting·Composition·Typography 카테고리는 사용하지 않는다. Color·Texture·Rendering Mode는 기본 미선택이다.
 
 ## 3. 기능
 
-1. **Single Select:** 모든 카테고리는 단일 선택이다. Rendering Mode·Design Format은 항상 하나를 유지하고 나머지는 다시 누르면 해제된다.
+1. **Single Select:** 모든 카테고리는 단일 선택이다. Design Format·Depiction은 항상 하나를 유지하고 나머지는 다시 누르면 해제된다.
 2. **Live Prompt:** 선택 즉시 갤러리 시안·개별 이미지 프롬프트를 갱신한다. 하단 탭으로 두 프롬프트를 전환하고 복사는 보이는 탭을 복사한다.
-3. **개별 이미지 입력:** 시안에서 고른 이미지 설명(예: 창가에서 자는 고양이)과 비율(1:1/4:5/3:4/2:3/9:16/4:3/3:2/16:9, 기본 4:5)을 입력한다. Design Format은 기본 비율을 제안한다.
-4. **시안 저장함:** 유형·선택 옵션·개별 이미지 입력·비율을 LocalStorage에 저장하고, 카드에는 대표 스타일 이름·선택 태그·갤러리 시안 프롬프트를 표시한다. 수정·삭제·복사를 제공한다.
+3. **입력:** 시안에는 무엇을 그릴지 적는 대상(예: woman, building, 비우면 subject)과 묘사 정도만 쓴다. 각 이미지 설명은 받지 않는다. 개별 이미지는 이미지 번호(1–10, 왼쪽에서 오른쪽·위에서 아래)와 비율(1:1/4:5/3:4/2:3/9:16/4:3/3:2/16:9, 기본 4:5)을 고른다. Design Format은 기본 비율을 제안한다.
+4. **시안 저장함:** 유형·선택 옵션·묘사 정도·대상·이미지 번호·비율을 LocalStorage에 저장하고, 카드에는 대표 스타일 이름·선택 태그·갤러리 시안 프롬프트를 표시한다. 수정·삭제·복사를 제공한다.
 
 ## 4. 생성 규칙
 
-- 모든 원본 MD는 Style ID 아래에 `- **Cue:** …` 한 줄을 둔다. 15단어 이내 긍정문으로 해당 카테고리 범위의 결정적 규칙·수치만 쓴다. 프롬프트에는 `카테고리: 표시명 — Cue`만 출력하고 나머지 본문은 보관만 한다. Outline은 `Rendering Mode`로 표기한다.
+- 모든 원본 MD는 Style ID 아래에 `- **Cue:** …` 한 줄을 둔다. 15단어 이내 긍정문으로 해당 카테고리 범위의 결정적 규칙·수치만 쓴다. 시안 프롬프트에는 표시명만, 갤러리 상세 프롬프트에는 `카테고리: 표시명 — Cue`를 출력하고 나머지 본문은 보관만 한다. Depiction Cue는 시안 문장의 묘사 정도 구절로 쓴다. Outline은 `Rendering Mode`로 표기한다.
 - 옵션 순서는 대표 스타일 → Color → Texture → Rendering Mode이다. 선택하지 않은 항목과 현재 유형에서 숨겨진 항목은 제외한다.
 - **갤러리 시안:**
   ```text
-  Design a mockup of a minimal {gallery | photography portfolio | design studio portfolio} website: white background, simple header, a clean grid of 10 {illustrations | photographs | designs}.
-  All 10 {…} share one style:
-  {카테고리}: {표시명} — {Cue}
-  Each {illustration | photograph | design} shows a different subject.
+  Design a mockup of a minimal {gallery | photography portfolio | design studio portfolio} website: white background, simple header, a clean grid of 10 images.
+
+  All 10 images share one style: {대표 스타일 | Design Style + Design Format}
+  {Color: 표시명 / Texture: 표시명 / Rendering Mode: 표시명 — 선택한 경우만}
+  Each image shows a different {Depiction Cue} {대상 | subject}.
   ```
-  비율·피사체·테마는 넣지 않는다. 선택이 없으면 `All 10 {…} share one consistent style.`로 쓴다.
+  비율은 넣지 않는다. 대표 스타일이 없으면 `All 10 images share one consistent style.`로 쓴다.
 - **개별 이미지 (시안 채팅에서 이어서 사용):**
   ```text
-  Recreate "{입력}" from this gallery mockup as a standalone {illustration | photograph | design}.
+  Recreate image {번호} of 10 from this gallery mockup, counting left to right and top to bottom, as a standalone {illustration | photograph | design}.
   Keep the same style, colors, and texture, and show the full composition inside the frame.
   Aspect Ratio: {비율}
   ```
-  입력이 비면 `the image I like best`를 쓴다.
 - **갤러리 상세 (단독 사용):** `Create a standalone {…} of "{Subject}".`, 옵션 줄, `Aspect Ratio: {비율}` 순서다.
 - 입력·Subject는 원문 그대로 유지한다. 피할 대상을 나열하는 부정문, 완성도 강조 문구, 파일 읽기 지시·경로는 출력하지 않는다.
 - 저장소에는 선택 ID·입력값만 저장하고 프롬프트 본문을 복제하지 않는다.

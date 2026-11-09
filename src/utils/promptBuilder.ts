@@ -27,14 +27,18 @@ export const designFormatRatios: Record<string, string> = {
 };
 export const aspectRatios = ['1:1', '4:5', '3:4', '2:3', '9:16', '4:3', '3:2', '16:9'];
 // Every Builder category takes one decisive choice; choosing it again clears it.
-const requiredCategories = ['Outline', 'Design Format'];
+const requiredCategories = ['Design Format', 'Depiction'];
+// How simply or richly each mockup image depicts its subject; every mockup states one level.
+export const depictionLevels = ['verysimple', 'simple', 'balanced', 'complex', 'verycomplex'];
+export const defaultDepiction = 'simple';
 export function optionLimit(): number {
   return 1;
 }
-// Saved settings keep only the subject and ratio of the single-image step.
+// Subject feeds the mockup; the picked image number and the ratio feed the single-image step.
 export function compactFields(fields: Record<string, string>): Record<string, string> {
   return {
     Subject: fields.Subject ?? '',
+    Image: fields.Image ?? '',
     'Aspect Ratio': fields['Aspect Ratio'] || '1:1',
   };
 }
@@ -68,28 +72,56 @@ function chosenOptions(catalog: Option[], selection: Selection, type: ImageType)
     ),
   );
 }
-const words: Record<ImageType, { site: string; one: string; many: string }> = {
-  illustration: { site: 'minimal gallery website', one: 'illustration', many: 'illustrations' },
-  photo: { site: 'minimal photography portfolio website', one: 'photograph', many: 'photographs' },
-  design: { site: 'minimal design studio portfolio website', one: 'design', many: 'designs' },
+const words: Record<ImageType, { site: string; one: string }> = {
+  illustration: { site: 'minimal gallery website', one: 'illustration' },
+  photo: { site: 'minimal photography portfolio website', one: 'photograph' },
+  design: { site: 'minimal design studio portfolio website', one: 'design' },
 };
+// The lead style names the look; design reads as "Swiss Poster".
+function styleName(catalog: Option[], selection: Selection, type: ImageType) {
+  const lead =
+    type === 'design'
+      ? ['Design Style', 'Design Format']
+      : [builderCategories(type === 'photo')[0]];
+  return lead
+    .map(
+      (category) =>
+        catalog.find((o) => o.category === category && o.id === selection[category]?.[0])?.label,
+    )
+    .filter(Boolean)
+    .join(' ');
+}
+/** The level phrase (its Cue) such as "very simple"; missing levels read as Simple. */
+export function depictionPhrase(catalog: Option[], selection: Selection) {
+  const id = selection.Depiction?.[0] ?? defaultDepiction;
+  return catalog.find((o) => o.category === 'Depiction' && o.id === id)?.cue ?? 'simple';
+}
 /** Step 1: one mockup of a minimal gallery site whose ten images share the chosen style. */
-export function makeMockupPrompt(catalog: Option[], selection: Selection, type: ImageType) {
-  const w = words[type];
-  const options = chosenOptions(catalog, selection, type);
+export function makeMockupPrompt(
+  catalog: Option[],
+  selection: Selection,
+  fields: Record<string, string>,
+  type: ImageType,
+) {
+  const style = styleName(catalog, selection, type);
+  // Color, texture and outline are optional extras listed only when chosen.
+  const extras = chosenOptions(catalog, selection, type).filter(
+    (o) =>
+      !['Illustration Style', 'Photo Style', 'Design Format', 'Design Style'].includes(o.category),
+  );
   return [
-    `Design a mockup of a ${w.site}: white background, simple header, a clean grid of 10 ${w.many}.`,
-    ...(options.length
-      ? [`All 10 ${w.many} share one style:`, ...options.map(optionLine)]
-      : [`All 10 ${w.many} share one consistent style.`]),
-    `Each ${w.one} shows a different subject.`,
+    `Design a mockup of a ${words[type].site}: white background, simple header, a clean grid of 10 images.`,
+    '',
+    style ? `All 10 images share one style: ${style}` : 'All 10 images share one consistent style.',
+    ...extras.map((o) => `${promptCategory(o.category)}: ${o.label}`),
+    `Each image shows a different ${depictionPhrase(catalog, selection)} ${fields.Subject?.trim() || 'subject'}.`,
   ].join('\n');
 }
 /** Step 2: recreate one image picked from the mockup, in the same chat, at a chosen ratio. */
 export function makeRecreatePrompt(fields: Record<string, string>, type: ImageType) {
-  const subject = fields.Subject?.trim();
+  const image = /^(10|[1-9])$/.test(fields.Image?.trim() ?? '') ? fields.Image.trim() : '1';
   return [
-    `Recreate ${subject ? `"${subject}"` : 'the image I like best'} from this gallery mockup as a standalone ${words[type].one}.`,
+    `Recreate image ${image} of 10 from this gallery mockup, counting left to right and top to bottom, as a standalone ${words[type].one}.`,
     'Keep the same style, colors, and texture, and show the full composition inside the frame.',
     `Aspect Ratio: ${fields['Aspect Ratio']?.trim() || '1:1'}`,
   ].join('\n');

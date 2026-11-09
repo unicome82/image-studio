@@ -7,7 +7,13 @@ import SavePrompt from './SavePrompt';
 import Panel from '../Panel';
 import SelectionSummary from '../SelectionSummary';
 import { mobileQuery, useMediaQuery } from '../../utils/useMediaQuery';
-import { aspectRatios, builderCategories, optionLimit } from '../../utils/promptBuilder';
+import {
+  aspectRatios,
+  builderCategories,
+  defaultDepiction,
+  depictionLevels,
+  optionLimit,
+} from '../../utils/promptBuilder';
 import type { ImageType, Option, Selection } from '../../utils/promptBuilder';
 interface Props {
   catalog: Option[];
@@ -32,6 +38,8 @@ interface Props {
   editing?: boolean;
 }
 type Output = 'mockup' | 'image';
+// Mockup images are counted left to right, top to bottom.
+const imageNumbers = Array.from({ length: 10 }, (_, i) => String(i + 1));
 export default function Builder(p: Props) {
   const { t } = useTranslation();
   const design = p.type === 'design';
@@ -76,9 +84,10 @@ export default function Builder(p: Props) {
     p.toggle(category, id);
     setOutput('mockup');
   }
-  function setFields(next: Record<string, string>) {
+  // The mockup subject updates the mockup; the picked image and ratio update the single image.
+  function setFields(next: Record<string, string>, target: Output) {
     p.setFields(next);
-    setOutput('image');
+    setOutput(target);
   }
   const outputs: { id: Output; label: string }[] = [
     { id: 'mockup', label: 'Gallery mockup' },
@@ -169,7 +178,7 @@ export default function Builder(p: Props) {
                       options={p.catalog
                         .filter((o) => o.category === 'Outline')
                         .map((o) => ({ id: o.id, label: o.label }))}
-                      selected={p.selection.Outline ?? ['coloronly']}
+                      selected={p.selection.Outline ?? []}
                       choose={(id) => toggle('Outline', id)}
                     />
                   </section>
@@ -191,20 +200,37 @@ export default function Builder(p: Props) {
                     />
                   </section>
                 ))}
-                <section className="option-section single-image">
+                <section className="option-section">
                   <h3>
-                    <label htmlFor={`${tabsId}-subject`}>{t('Single image')}</label>
+                    <label htmlFor={`${tabsId}-subject`}>{t('Subject')}</label>
                   </h3>
-                  <p className="builder-subject-hint" id={`${tabsId}-subject-hint`}>
-                    {t('Describe the image you picked from the mockup.')}
-                  </p>
                   <input
                     id={`${tabsId}-subject`}
                     className="builder-subject"
-                    aria-describedby={`${tabsId}-subject-hint`}
-                    placeholder={t('Subject example placeholder')}
+                    placeholder={t('Mockup subject placeholder')}
                     value={p.fields.Subject ?? ''}
-                    onChange={(e) => setFields({ ...p.fields, Subject: e.target.value })}
+                    onChange={(e) => setFields({ ...p.fields, Subject: e.target.value }, 'mockup')}
+                  />
+                </section>
+                <section className="option-section">
+                  <OptionChoices
+                    title="Depiction"
+                    multiple={false}
+                    options={p.catalog
+                      .filter((o) => o.category === 'Depiction')
+                      .sort((a, b) => depictionLevels.indexOf(a.id) - depictionLevels.indexOf(b.id))
+                      .map((o) => ({ id: o.id, label: o.label, category: o.category }))}
+                    selected={p.selection.Depiction ?? [defaultDepiction]}
+                    choose={(id) => toggle('Depiction', id)}
+                  />
+                </section>
+                <section className="option-section">
+                  <OptionChoices
+                    title="Image number"
+                    multiple={false}
+                    options={imageNumbers.map((n) => ({ id: n, label: n }))}
+                    selected={[p.fields.Image || '1']}
+                    choose={(n) => setFields({ ...p.fields, Image: n }, 'image')}
                   />
                 </section>
                 <section className="option-section">
@@ -215,7 +241,7 @@ export default function Builder(p: Props) {
                       .filter(Boolean)
                       .map((ratio) => ({ id: ratio, label: ratio }))}
                     selected={[p.fields['Aspect Ratio'] || '4:5']}
-                    choose={(ratio) => setFields({ ...p.fields, 'Aspect Ratio': ratio })}
+                    choose={(ratio) => setFields({ ...p.fields, 'Aspect Ratio': ratio }, 'image')}
                   />
                 </section>
               </>
@@ -233,6 +259,7 @@ export default function Builder(p: Props) {
                   photo={p.photo}
                   design={design}
                   remove={p.removeOption}
+                  mockup
                 />
               </SelectionSummary>
               <section
@@ -291,6 +318,7 @@ export default function Builder(p: Props) {
                   fields: p.fields,
                   photo: p.photo,
                   design,
+                  mockup: true,
                 }}
               />
               <button className="primary" onClick={() => p.copy(prompt)}>
