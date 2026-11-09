@@ -67,11 +67,10 @@ table {
 :root {
   --header-height: #{$header-content-height + 2 * $header-padding + 1px};
   --header-visible: var(--header-height);
-  --header-delay: 0s;
+  // Hiding and revealing both wait briefly so small scroll jitters do not flicker the header.
+  --header-delay: 0.1s;
   &:has(.header-hidden) {
     --header-visible: 0px;
-    // Hiding waits briefly; revealing stays immediate.
-    --header-delay: 0.1s;
   }
   --panel-top: calc(max(var(--header-visible), env(safe-area-inset-top, 0px)) - #{$header-overlap});
   --transition-duration: 0.3s;
