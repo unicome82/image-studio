@@ -7,6 +7,9 @@ import SavePrompt from './SavePrompt';
 import Panel from '../Panel';
 import SelectionSummary from '../SelectionSummary';
 import { mobileQuery, useMediaQuery } from '../../utils/useMediaQuery';
+
+/** Number of 'Mockup subject example N' strings in each locale. */
+const subjectExampleCount = 8;
 import {
   builderCategories,
   defaultDepiction,
@@ -37,6 +40,8 @@ interface Props {
 }
 export default function Builder(p: Props) {
   const { t } = useTranslation();
+  // Each opening suggests one of the gallery theme examples at random.
+  const [subjectExample] = useState(() => 1 + Math.floor(Math.random() * subjectExampleCount));
   const design = p.type === 'design';
   const pending = Object.entries(p.pending);
   const resolving = pending.length > 0;
@@ -152,7 +157,9 @@ export default function Builder(p: Props) {
                   <input
                     id={`${tabsId}-subject`}
                     className="builder-subject"
-                    placeholder={t('Mockup subject placeholder')}
+                    placeholder={t('Mockup subject placeholder', {
+                      example: t(`Mockup subject example ${subjectExample}`),
+                    })}
                     value={p.fields.Subject ?? ''}
                     onChange={(e) => p.setFields({ ...p.fields, Subject: e.target.value })}
                   />

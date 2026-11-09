@@ -29,7 +29,7 @@ Technique·Camera·Mood·Lighting·Composition·Typography 카테고리는 사�
 
 1. **Single Select:** 모든 카테고리는 단일 선택이다. Design Format·Depiction은 항상 하나를 유지하고 나머지는 다시 누르면 해제된다.
 2. **Live Prompt:** 선택 즉시 갤러리 시안 프롬프트를 갱신한다.
-3. **입력:** 시안에는 무엇을 그릴지 적는 대상(장면을 묘사하는 문장, 입력 예시는 언어별로 영어 `A quiet café corner on a rainy afternoon`·한국어 `비 오는 오후, 창가 자리가 있는 조용한 카페`, 비우면 subject)과 묘사 정도만 쓴다. 각 이미지 설명이나 이미지 번호는 받지 않는다.
+3. **입력:** 시안에는 무엇을 그릴지 적는 대상(갤러리에 보여 줄 테마를 분위기·단어로 쉼표 나열, 입력 예시는 언어별 8개 중 빌더를 열 때마다 무작위로 placeholder에 표시, 예: `cozy kitchen, morning light, coffee`·`아늑한 부엌, 아침 햇살, 커피`, 비우면 subject)과 묘사 정도만 쓴다. 각 이미지 설명이나 이미지 번호는 받지 않는다.
 4. **시안 저장함:** 유형·선택 옵션·묘사 정도·대상을 LocalStorage에 저장하고, 카드에는 대표 스타일 이름·선택 태그·갤러리 시안 프롬프트를 표시한다. 수정·삭제·복사를 제공한다.
 
 ## 4. 생성 규칙
