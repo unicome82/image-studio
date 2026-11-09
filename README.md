@@ -58,7 +58,7 @@ after applying the choices. Design Format is single-select and suggests its
 default ratio (for example Website 16:9, App Screen 9:16) until the user picks a ratio. No candidates are
 silently truncated, and unfinished choices survive closing/reopening the builder.
 Its circular-arrow reset icon clears the draft and optional choices, restoring
-the standard ratio and Color Only outline mode.
+the standard ratio and Fill Only outline mode.
 
 On mobile, the filter footer repeats active selections as removable chips above
 two equal-width actions: white Generate prompt on the left and black View images

@@ -1,4 +1,4 @@
-## Color Only
+## Fill Only
 
 - **Category:** Outline
 - **Style ID:** `coloronly`

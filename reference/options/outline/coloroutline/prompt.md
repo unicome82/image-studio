@@ -1,4 +1,4 @@
-## Color + Outline
+## Fill + Outline
 
 - **Category:** Outline
 - **Style ID:** `coloroutline`
