@@ -103,7 +103,7 @@ const subjectLine = (depiction: string, subject?: string) =>
     : `Each image shows a different ${depiction} subject.`;
 // Every mockup keeps a grown-up, modern and chic tone.
 const mockupMood = 'Mood: modern and chic, refined and grown-up';
-// Each image gets its own palette so the gallery does not settle on one color;
+// Each image gets its own colors so the gallery does not settle on one color;
 // black and white varies its grayscale tone and monochrome varies its hue.
 const colorVariation: Record<string, string> = {
   blackwhite: 'a different grayscale tone',
@@ -111,8 +111,8 @@ const colorVariation: Record<string, string> = {
 };
 const colorLine = (color?: Option) =>
   color
-    ? `Color: ${color.label}, with ${colorVariation[color.id] ?? 'a different palette'} in each image`
-    : 'Color: a different palette in each image';
+    ? `Color: ${color.label}, with ${colorVariation[color.id] ?? 'different colors'} for each image`
+    : 'Color: different colors for each image';
 /** One mockup of a minimal gallery site whose 9 to 12 images share the chosen style. */
 export function makeMockupPrompt(
   catalog: Option[],
@@ -121,7 +121,7 @@ export function makeMockupPrompt(
   type: ImageType,
 ) {
   const style = styleName(catalog, selection, type);
-  // Outline is listed only when chosen; color always asks each image for its own palette.
+  // Outline is listed only when chosen; color always asks for different colors per image.
   const extras = chosenOptions(
     builderCategories(type === 'photo', type === 'design'),
     catalog,

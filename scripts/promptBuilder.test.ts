@@ -71,7 +71,7 @@ test('mockup prompt names one style, the depiction level and the subject without
       '',
       'All images share one style: Geometric Illustration',
       'Mood: modern and chic, refined and grown-up',
-      'Color: a different palette in each image',
+      'Color: different colors for each image',
       'Each image shows a different very simple take on the subject: A tall building',
     ].join('\n'),
   );
@@ -90,7 +90,7 @@ test('mockup prompt names one style, the depiction level and the subject without
   );
   assert.ok(
     rich.includes(
-      '\nColor: Pastel, with a different palette in each image\nRendering Mode: Outline Only\nEach image',
+      '\nColor: Pastel, with different colors for each image\nRendering Mode: Outline Only\nEach image',
     ),
   );
   assert.ok(!rich.includes('Texture'));
@@ -98,9 +98,9 @@ test('mockup prompt names one style, the depiction level and the subject without
     makeMockupPrompt(catalog, { Color: [id] }, {}, 'photo').split('\n')[4];
   assert.equal(
     tone('blackwhite'),
-    'Color: Black & White, with a different grayscale tone in each image',
+    'Color: Black & White, with a different grayscale tone for each image',
   );
-  assert.equal(tone('monochrome'), 'Color: Monochrome, with a different hue in each image');
+  assert.equal(tone('monochrome'), 'Color: Monochrome, with a different hue for each image');
   assert.ok(rich.endsWith('Each image shows a different very complex subject.'));
   assert.ok(!rich.includes('Portrait') && !rich.includes('Aspect Ratio'));
   assert.ok(
