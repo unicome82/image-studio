@@ -15,13 +15,13 @@ export interface SampleImage {
 export const sampleImages: SampleImage[] = [
   {
     type: 'illustration',
-    fileName: 'midcentury-yellow-tram.webp',
+    fileName: 'editorialillustration-yellow-tram.webp',
     width: 765,
     height: 1020,
     color: '#b9a78b',
     fields: { Subject: 'A yellow tram on a narrow city street' },
     selection: {
-      'Illustration Style': ['midcentury'],
+      'Illustration Style': ['editorialillustration'],
       Color: ['warm'],
       Tone: ['soft'],
       Outline: ['coloronly'],
@@ -31,13 +31,13 @@ export const sampleImages: SampleImage[] = [
   },
   {
     type: 'illustration',
-    fileName: 'midcentury-red-tulips.webp',
+    fileName: 'editorialillustration-red-tulips.webp',
     width: 960,
     height: 960,
     color: '#cbad8f',
     fields: { Subject: 'Three red tulips with long leaves' },
     selection: {
-      'Illustration Style': ['midcentury'],
+      'Illustration Style': ['editorialillustration'],
       Color: ['earthy'],
       Tone: ['soft'],
       Outline: ['coloronly'],
@@ -47,13 +47,13 @@ export const sampleImages: SampleImage[] = [
   },
   {
     type: 'illustration',
-    fileName: 'midcentury-cyclist.webp',
+    fileName: 'editorialillustration-cyclist.webp',
     width: 816,
     height: 1020,
     color: '#8e9ca6',
     fields: { Subject: 'A woman in a trench coat riding a red bicycle' },
     selection: {
-      'Illustration Style': ['midcentury'],
+      'Illustration Style': ['editorialillustration'],
       Color: ['complementary'],
       Tone: ['soft'],
       Outline: ['coloronly'],
@@ -63,13 +63,13 @@ export const sampleImages: SampleImage[] = [
   },
   {
     type: 'illustration',
-    fileName: 'midcentury-record-player.webp',
+    fileName: 'editorialillustration-record-player.webp',
     width: 1020,
     height: 765,
     color: '#c89280',
     fields: { Subject: 'A vintage record player with the lid open' },
     selection: {
-      'Illustration Style': ['midcentury'],
+      'Illustration Style': ['editorialillustration'],
       Color: ['muted'],
       Tone: ['subtle'],
       Outline: ['coloronly'],
@@ -79,13 +79,13 @@ export const sampleImages: SampleImage[] = [
   },
   {
     type: 'illustration',
-    fileName: 'midcentury-snowy-mountains.webp',
+    fileName: 'editorialillustration-snowy-mountains.webp',
     width: 1008,
     height: 567,
     color: '#b0a79e',
     fields: { Subject: 'Snowy mountains behind pine trees' },
     selection: {
-      'Illustration Style': ['midcentury'],
+      'Illustration Style': ['editorialillustration'],
       Color: ['complementary'],
       Tone: ['bright'],
       Outline: ['coloronly'],
