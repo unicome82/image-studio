@@ -121,6 +121,8 @@ export function makeMockupPrompt(
   type: ImageType,
 ) {
   const style = styleName(catalog, selection, type);
+  // Naming the medium keeps an illustration style such as Minimalism from turning into photos.
+  const media = `${words[type].one}s`;
   // Outline is listed only when chosen; color always asks for different colors per image.
   const extras = chosenOptions(
     builderCategories(type === 'photo', type === 'design'),
@@ -131,9 +133,9 @@ export function makeMockupPrompt(
       !['Illustration Style', 'Photo Style', 'Design Format', 'Design Style'].includes(o.category),
   );
   return [
-    `Design a mockup of a ${words[type].site}: white background, only a simple header and a masonry gallery of 9 to 12 images in mixed aspect ratios.`,
+    `Design a mockup of a ${words[type].site}: white background, only a simple header and a masonry gallery of 9 to 12 ${media} in mixed aspect ratios.`,
     '',
-    style ? `All images share one style: ${style}` : 'All images share one consistent style.',
+    style ? `All ${media} share one style: ${style}` : `All ${media} share one consistent style.`,
     mockupMood,
     colorLine(extras.find((o) => o.category === 'Color')),
     ...extras
