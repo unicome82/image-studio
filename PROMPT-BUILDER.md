@@ -40,11 +40,12 @@ Technique·Camera·Mood·Lighting·Composition·Typography 카테고리는 사�
 - 옵션 순서는 대표 스타일 → Color → Texture → Rendering Mode이다. 선택하지 않은 항목과 현재 유형에서 숨겨진 항목은 제외한다.
 - **갤러리 시안:**
   ```text
-  Design a mockup of a minimal {gallery | photography portfolio | design studio portfolio} website: white background, simple header, a clean grid of 10 images.
+  Design a mockup of a minimal {gallery | photography portfolio | design studio portfolio} website: white background, simple header, a clean masonry grid of 10 images in mixed aspect ratios.
 
   All 10 images share one style: {대표 스타일 | Design Style + Design Format}
   {Color: 표시명 / Rendering Mode: 표시명 — 선택한 경우만}
-  Each image shows a different {Depiction Cue} {대상 | subject}.
+  Each image shows a different {Depiction Cue} take on the subject: {대상}
+  (대상이 비면) Each image shows a different {Depiction Cue} subject.
   ```
   Texture·비율은 넣지 않는다. 대표 스타일이 없으면 `All 10 images share one consistent style.`로 쓴다.
 - **개별 이미지 (시안 채팅에서 이어서 사용):**

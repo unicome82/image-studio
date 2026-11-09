@@ -97,6 +97,11 @@ export function depictionPhrase(catalog: Option[], selection: Selection) {
   const id = selection.Depiction?.[0] ?? defaultDepiction;
   return catalog.find((o) => o.category === 'Depiction' && o.id === id)?.cue ?? 'simple';
 }
+// The subject follows a colon so any input, with or without an article, reads naturally.
+const subjectLine = (depiction: string, subject?: string) =>
+  subject
+    ? `Each image shows a different ${depiction} take on the subject: ${subject}`
+    : `Each image shows a different ${depiction} subject.`;
 /** Step 1: one mockup of a minimal gallery site whose ten images share the chosen style. */
 export function makeMockupPrompt(
   catalog: Option[],
@@ -117,11 +122,11 @@ export function makeMockupPrompt(
       ].includes(o.category),
   );
   return [
-    `Design a mockup of a ${words[type].site}: white background, simple header, a clean grid of 10 images.`,
+    `Design a mockup of a ${words[type].site}: white background, simple header, a clean masonry grid of 10 images in mixed aspect ratios.`,
     '',
     style ? `All 10 images share one style: ${style}` : 'All 10 images share one consistent style.',
     ...extras.map((o) => `${promptCategory(o.category)}: ${o.label}`),
-    `Each image shows a different ${depictionPhrase(catalog, selection)} ${fields.Subject?.trim() || 'subject'}.`,
+    subjectLine(depictionPhrase(catalog, selection), fields.Subject?.trim()),
   ].join('\n');
 }
 /** Step 2: recreate the image picked in the mockup chat, adding texture and a ratio. */

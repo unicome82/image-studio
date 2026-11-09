@@ -24,6 +24,7 @@ export const sampleImages: SampleImage[] = [
       'Illustration Style': ['popart'],
       Outline: ['coloroutline'],
       Color: ['vivid'],
+      Depiction: ['simple'],
     },
   },
   {
@@ -38,6 +39,7 @@ export const sampleImages: SampleImage[] = [
       Outline: ['coloronly'],
       Color: ['pastel'],
       Texture: ['clean'],
+      Depiction: ['verycomplex'],
     },
   },
   {
@@ -51,6 +53,7 @@ export const sampleImages: SampleImage[] = [
       'Illustration Style': ['pixelart'],
       Outline: ['coloronly'],
       Color: ['neon'],
+      Depiction: ['verycomplex'],
     },
   },
   {
@@ -65,6 +68,7 @@ export const sampleImages: SampleImage[] = [
       Outline: ['coloronly'],
       Color: ['analogous'],
       Texture: ['canvas'],
+      Depiction: ['complex'],
     },
   },
   {
@@ -78,6 +82,7 @@ export const sampleImages: SampleImage[] = [
       'Illustration Style': ['geometricillustration'],
       Outline: ['coloronly'],
       Color: ['jeweltones'],
+      Depiction: ['balanced'],
     },
   },
   {
@@ -91,6 +96,7 @@ export const sampleImages: SampleImage[] = [
       'Illustration Style': ['continuousline'],
       Outline: ['outlineonly'],
       Color: ['monochrome'],
+      Depiction: ['verysimple'],
     },
   },
   {
@@ -104,6 +110,7 @@ export const sampleImages: SampleImage[] = [
       'Illustration Style': ['maximalism'],
       Outline: ['coloroutline'],
       Color: ['complementary'],
+      Depiction: ['verycomplex'],
     },
   },
   {
@@ -118,6 +125,7 @@ export const sampleImages: SampleImage[] = [
       Outline: ['coloronly'],
       Color: ['lowkey'],
       Texture: ['brushstroke'],
+      Depiction: ['complex'],
     },
   },
   {
@@ -131,6 +139,7 @@ export const sampleImages: SampleImage[] = [
       'Illustration Style': ['contemporaryflat'],
       Outline: ['coloronly'],
       Color: ['neutralaccent'],
+      Depiction: ['complex'],
     },
   },
   {
@@ -145,6 +154,7 @@ export const sampleImages: SampleImage[] = [
       Outline: ['coloronly'],
       Color: ['earthy'],
       Texture: ['softmatte'],
+      Depiction: ['balanced'],
     },
   },
   {
@@ -159,6 +169,7 @@ export const sampleImages: SampleImage[] = [
       Outline: ['coloronly'],
       Color: ['cool'],
       Texture: ['papergrain'],
+      Depiction: ['verysimple'],
     },
   },
   {
@@ -171,6 +182,7 @@ export const sampleImages: SampleImage[] = [
     selection: {
       'Photo Style': ['fashion'],
       Color: ['jeweltones'],
+      Depiction: ['balanced'],
     },
   },
   {
@@ -183,6 +195,7 @@ export const sampleImages: SampleImage[] = [
     selection: {
       'Photo Style': ['architectural'],
       Color: ['highkey'],
+      Depiction: ['balanced'],
     },
   },
   {
@@ -196,6 +209,7 @@ export const sampleImages: SampleImage[] = [
       'Photo Style': ['documentary'],
       Color: ['earthy'],
       Texture: ['filmgrain'],
+      Depiction: ['verycomplex'],
     },
   },
   {
@@ -209,6 +223,7 @@ export const sampleImages: SampleImage[] = [
       'Photo Style': ['stilllife'],
       Color: ['pastel'],
       Texture: ['frostedglass'],
+      Depiction: ['simple'],
     },
   },
   {
@@ -221,6 +236,7 @@ export const sampleImages: SampleImage[] = [
     selection: {
       'Photo Style': ['fineart'],
       Color: ['blackwhite'],
+      Depiction: ['simple'],
     },
   },
   {
@@ -234,6 +250,7 @@ export const sampleImages: SampleImage[] = [
       'Design Format': ['packaging'],
       'Design Style': ['retro'],
       Color: ['vivid'],
+      Depiction: ['simple'],
     },
   },
   {
@@ -247,6 +264,7 @@ export const sampleImages: SampleImage[] = [
       'Design Format': ['iconset'],
       'Design Style': ['boldgeometric'],
       Color: ['primarycolors'],
+      Depiction: ['verysimple'],
     },
   },
   {
@@ -261,6 +279,7 @@ export const sampleImages: SampleImage[] = [
       'Design Style': ['bauhaus'],
       Color: ['duotone'],
       Texture: ['clean'],
+      Depiction: ['verysimple'],
     },
   },
 ];
