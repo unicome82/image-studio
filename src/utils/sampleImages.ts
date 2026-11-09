@@ -81,23 +81,6 @@ export const sampleImages: SampleImage[] = [
   },
   {
     type: 'illustration',
-    fileName: 'celshadedanime-bicycle-by-the-sea.webp',
-    width: 1200,
-    height: 675,
-    color: '#84abcd',
-    fields: { Subject: 'A girl riding a bicycle by the sea' },
-    selection: {
-      'Illustration Style': ['celshadedanime'],
-      Technique: ['digitalpainting'],
-      Outline: ['coloroutline'],
-      Color: ['cool'],
-      Lighting: ['backlit'],
-      Composition: ['dynamic'],
-      Mood: ['fresh'],
-    },
-  },
-  {
-    type: 'illustration',
     fileName: 'geometricillustration-jeweled-peacock.webp',
     width: 1200,
     height: 1200,

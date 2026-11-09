@@ -37,7 +37,7 @@ test('Every catalog option and its shortened UI label has an English and Korean 
 
 test('Option labels map to translation keys without type suffixes', async () => {
   const { optionLabelKey } = await import('../src/utils/optionChoices.ts');
-  assert.equal(optionLabelKey({ label: 'Storybook Illustration' }), 'Storybook');
+  assert.equal(optionLabelKey({ label: 'Botanical Illustration' }), 'Botanical');
   assert.equal(optionLabelKey({ label: 'Mid-century Modern' }), 'Mid-century');
   assert.equal(ko['Black & White'], '흑백');
   assert.equal(ko.Cute, '귀여운');

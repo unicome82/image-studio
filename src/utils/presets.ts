@@ -23,6 +23,8 @@ const legacyOptions: Record<string, [string, string][]> = {
   'Illustration Style:opticalart': [['Illustration Style', 'geometricillustration']],
   'Illustration Style:retrographicdesign': [['Illustration Style', 'midcentury']],
   'Illustration Style:swissgraphicdesign': [['Illustration Style', 'geometricillustration']],
+  'Illustration Style:celshadedanime': [['Illustration Style', 'contemporaryflat']],
+  'Illustration Style:storybookillustration': [['Illustration Style', 'naivefolk']],
   'Technique:linocut': [['Technique', 'risograph']],
   'Technique:woodcut': [['Technique', 'risograph']],
   'Technique:screenprinting': [['Technique', 'risograph']],
