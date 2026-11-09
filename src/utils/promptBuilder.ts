@@ -8,6 +8,7 @@ export interface Option {
   cue?: string;
 }
 export type Selection = Record<string, string[]>;
+export type ImageType = 'illustration' | 'photo' | 'design';
 // Suggested ratio when a design format is chosen; a ratio the user picked stays.
 export const designFormatRatios: Record<string, string> = {
   poster: '3:4',
@@ -26,66 +27,27 @@ export const designFormatRatios: Record<string, string> = {
 };
 export const aspectRatios = ['1:1', '4:5', '3:4', '2:3', '9:16', '4:3', '3:2', '16:9'];
 // Every Builder category takes one decisive choice; choosing it again clears it.
-const requiredCategories = ['Outline', 'Design Format', 'Depiction'];
-// How simply or richly the subject is depicted; every prompt states one level.
-export const depictionLevels = ['verysimple', 'simple', 'balanced', 'complex', 'verycomplex'];
-export const defaultDepiction = 'simple';
-// Past this many choices the Builder suggests trimming; it is guidance, not a limit.
-export const recommendedTotal = 6;
+const requiredCategories = ['Outline', 'Design Format'];
 export function optionLimit(): number {
   return 1;
 }
-// Keep the subject editable while preserving older presets' negative instructions.
+// Saved settings keep only the subject and ratio of the single-image step.
 export function compactFields(fields: Record<string, string>): Record<string, string> {
-  const direction = ['Negative Prompt']
-    .filter((key) => fields[key]?.trim())
-    .map((key) => `${key}: ${fields[key]}`);
-  if (fields['Additional Instructions']?.trim()) direction.push(fields['Additional Instructions']);
   return {
     Subject: fields.Subject ?? '',
     'Aspect Ratio': fields['Aspect Ratio'] || '1:1',
-    'Additional Instructions': direction.join('\n'),
-    'Typography Enabled': fields['Typography Enabled'] === 'true' ? 'true' : 'false',
-    Text: fields.Text ?? '',
   };
 }
-export function isTypographyEnabled(fields: Record<string, string>): boolean {
-  return fields['Typography Enabled'] === 'true';
+export function imageType(photo: boolean, design = false): ImageType {
+  return design ? 'design' : photo ? 'photo' : 'illustration';
 }
+// The lead style comes first so the defining look is read before color and texture.
 export function builderCategories(photo: boolean, design = false): string[] {
   return design
-    ? [
-        'Design Format',
-        'Design Style',
-        'Mood',
-        'Color',
-        'Lighting',
-        'Composition',
-        'Texture',
-        'Typography',
-      ]
+    ? ['Design Format', 'Design Style', 'Color', 'Texture']
     : photo
-      ? [
-          'Photo Style',
-          'Camera',
-          'Mood',
-          'Color',
-          'Lighting',
-          'Composition',
-          'Texture',
-          'Typography',
-        ]
-      : [
-          'Illustration Style',
-          'Technique',
-          'Mood',
-          'Color',
-          'Lighting',
-          'Composition',
-          'Texture',
-          'Typography',
-          'Outline',
-        ];
+      ? ['Photo Style', 'Color', 'Texture']
+      : ['Illustration Style', 'Color', 'Texture', 'Outline'];
 }
 export function toggleOption(selection: Selection, category: string, id: string): Selection {
   const current = selection[category] ?? [];
@@ -99,86 +61,50 @@ const promptCategory = (category: string) => (category === 'Outline' ? 'Renderin
 // Each option prints its label plus the MD's one-line cue so the model gets the decisive rule.
 const optionLine = (o: Option) =>
   `${promptCategory(o.category)}: ${o.label}${o.cue ? ` — ${o.cue}` : ''}`;
-// The opening line names where the image will be used, which steers finish and taste.
-const openingLine = (photo: boolean, design: boolean) =>
-  design
-    ? 'Create a finished graphic design ready for a real brand, using the instructions below.'
-    : photo
-      ? 'Create a photograph for a feature in an independent print magazine, using the instructions below.'
-      : 'Create an illustration for a contemporary art print or editorial spread, using the instructions below.';
-export function makePrompt(
+function chosenOptions(catalog: Option[], selection: Selection, type: ImageType): Option[] {
+  return builderCategories(type === 'photo', type === 'design').flatMap((category) =>
+    (selection[category] ?? []).flatMap((id) =>
+      catalog.filter((o) => o.category === category && o.id === id),
+    ),
+  );
+}
+const words: Record<ImageType, { site: string; one: string; many: string }> = {
+  illustration: { site: 'minimal gallery website', one: 'illustration', many: 'illustrations' },
+  photo: { site: 'minimal photography portfolio website', one: 'photograph', many: 'photographs' },
+  design: { site: 'minimal design studio portfolio website', one: 'design', many: 'designs' },
+};
+/** Step 1: one mockup of a minimal gallery site whose ten images share the chosen style. */
+export function makeMockupPrompt(catalog: Option[], selection: Selection, type: ImageType) {
+  const w = words[type];
+  const options = chosenOptions(catalog, selection, type);
+  return [
+    `Design a mockup of a ${w.site}: white background, simple header, a clean grid of 10 ${w.many}.`,
+    ...(options.length
+      ? [`All 10 ${w.many} share one style:`, ...options.map(optionLine)]
+      : [`All 10 ${w.many} share one consistent style.`]),
+    `Each ${w.one} shows a different subject.`,
+  ].join('\n');
+}
+/** Step 2: recreate one image picked from the mockup, in the same chat, at a chosen ratio. */
+export function makeRecreatePrompt(fields: Record<string, string>, type: ImageType) {
+  const subject = fields.Subject?.trim();
+  return [
+    `Recreate ${subject ? `"${subject}"` : 'the image I like best'} from this gallery mockup as a standalone ${words[type].one}.`,
+    'Keep the same style, colors, and texture, and show the full composition inside the frame.',
+    `Aspect Ratio: ${fields['Aspect Ratio']?.trim() || '1:1'}`,
+  ].join('\n');
+}
+/** A standalone prompt for one gallery image, usable without the mockup chat. */
+export function makeImagePrompt(
   catalog: Option[],
   selection: Selection,
   fields: Record<string, string>,
-  photo: boolean,
-  design = false,
+  type: ImageType,
 ) {
-  // Lead categories come first so the defining style is read before supporting details.
-  const leadCategories = design
-    ? ['Design Format', 'Design Style']
-    : photo
-      ? ['Photo Style', 'Camera']
-      : ['Illustration Style', 'Technique'];
-  const categories = [
-    ...leadCategories,
-    'Typography',
-    'Outline',
-    'Color',
-    'Lighting',
-    'Texture',
-    'Composition',
-    'Mood',
-  ].filter((category) => builderCategories(photo, design).includes(category));
-  const typography = isTypographyEnabled(fields);
-  const chosen = categories.flatMap((category) => {
-    if (category === 'Typography' && !typography) return [];
-    return (selection[category] ?? []).flatMap((id) =>
-      catalog.filter((o) => o.category === category && o.id === id),
-    );
-  });
-  // Older drafts and recipes carry no depiction, so they read as the Simple default.
-  const depictionId = selection.Depiction?.[0] ?? defaultDepiction;
-  const depiction = catalog.find((o) => o.category === 'Depiction' && o.id === depictionId);
-  const output = design ? 'graphic design' : photo ? 'photograph' : 'image';
   const subject = fields.Subject?.trim();
-  const text = typography ? fields.Text?.trim() : '';
-  const extra = Object.entries(fields).filter(
-    ([key, value]) =>
-      !['Subject', 'Aspect Ratio', 'Typography Enabled', 'Text'].includes(key) && value.trim(),
-  );
-  // The subject and lead style open the prompt so they carry the most weight.
-  const keyDirection = [
-    subject ? `Subject "${fields.Subject}"` : 'a random subject you choose',
-    ...chosen
-      .filter((o) => leadCategories.includes(o.category))
-      .map((o) => `${o.category}: ${o.label}`),
-    `Aspect Ratio: ${fields['Aspect Ratio']?.trim() || '1:1'}`,
-  ].join('; ');
-  const settings = [
-    ...(subject
-      ? []
-      : [
-          `Subject: Not specified. Choose a random subject and scene consistent with the selected settings${extra.length ? ' and additional instructions' : ''}, and create the ${output} without asking for a subject.`,
-        ]),
-    ...extra.map(([key, value]) => `${key}: ${value}`),
-    // Typography is mentioned only when on; naming it when off can itself invite lettering.
-    ...(typography
-      ? [
-          'Typography: On',
-          text
-            ? `Text: ${fields.Text}`
-            : `Text: Not specified. Choose suitable wording freely to complement the ${output}.`,
-        ]
-      : []),
-  ];
-  // Options print the label and one-line cue; the rest of each source MD stays in reference/.
   return [
-    openingLine(photo, design),
-    `Key direction: ${keyDirection}.`,
-    '',
-    '## Options',
-    ...chosen.map(optionLine),
-    ...(depiction ? [optionLine(depiction)] : []),
-    ...(settings.length ? ['', '## Settings', ...settings] : []),
+    `Create a standalone ${words[type].one} of ${subject ? `"${subject}"` : 'a subject you choose'}.`,
+    ...chosenOptions(catalog, selection, type).map(optionLine),
+    `Aspect Ratio: ${fields['Aspect Ratio']?.trim() || '1:1'}`,
   ].join('\n');
 }

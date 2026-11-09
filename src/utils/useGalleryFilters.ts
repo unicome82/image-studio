@@ -22,7 +22,7 @@ const leadCategory = {
   design: 'Design Format',
 };
 export const filterCatalog = [
-  ...catalog.filter((option) => option.category !== 'Depiction'),
+  ...catalog,
   // Ratios cover the Builder choices plus any generated image's own shape.
   ...[
     ...new Set([

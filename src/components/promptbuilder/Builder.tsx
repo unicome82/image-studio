@@ -7,20 +7,9 @@ import SavePrompt from './SavePrompt';
 import Panel from '../Panel';
 import SelectionSummary from '../SelectionSummary';
 import { mobileQuery, useMediaQuery } from '../../utils/useMediaQuery';
-import {
-  aspectRatios,
-  builderCategories,
-  defaultDepiction,
-  depictionLevels,
-  isTypographyEnabled,
-  optionLimit,
-} from '../../utils/promptBuilder';
-import { matchesRecipe, recipes, type Recipe } from '../../utils/recipes';
-import type { BuilderStep } from '../../utils/useBuilderDraft';
-import type { Option, Selection } from '../../utils/promptBuilder';
+import { aspectRatios, builderCategories, optionLimit } from '../../utils/promptBuilder';
+import type { ImageType, Option, Selection } from '../../utils/promptBuilder';
 interface Props {
-  step: BuilderStep;
-  setStep: (step: BuilderStep) => void;
   catalog: Option[];
   filterCatalog: Option[];
   pending: Selection;
@@ -29,20 +18,20 @@ interface Props {
   applyPending: () => void;
   selection: Selection;
   toggle: (category: string, id: string) => void;
-  applyRecipe: (recipe: Recipe) => void;
-  startNew: (type: 'illustration' | 'photo' | 'design') => void;
   removeOption: (category: string, id: string) => void;
   fields: Record<string, string>;
   setFields: (fields: Record<string, string>) => void;
   photo: boolean;
-  type: 'illustration' | 'photo' | 'design';
-  setType: (type: 'illustration' | 'photo' | 'design') => void;
+  type: ImageType;
+  setType: (type: ImageType) => void;
   close: () => void;
-  prompt: string;
+  mockupPrompt: string;
+  recreatePrompt: string;
   copy: (text: string) => void;
   save: () => boolean;
   editing?: boolean;
 }
+type Output = 'mockup' | 'image';
 export default function Builder(p: Props) {
   const { t } = useTranslation();
   const design = p.type === 'design';
@@ -72,68 +61,32 @@ export default function Builder(p: Props) {
   }, []);
   const mobile = useMediaQuery(mobileQuery);
   const [promptCollapsed, setPromptCollapsed] = useState(mobile);
+  // Style choices shape the mockup; the subject and ratio shape the single image.
+  const [output, setOutput] = useState<Output>('mockup');
+  const prompt = output === 'mockup' ? p.mockupPrompt : p.recreatePrompt;
   const types = [
     { id: 'illustration', label: 'Illustration' },
     { id: 'photo', label: 'Photo' },
     { id: 'design', label: 'Design' },
   ] as const;
-  const chosenRecipe = recipes.find(
-    (recipe) =>
-      recipe.type === p.type && matchesRecipe(recipe, p.selection, p.fields['Aspect Ratio'] ?? ''),
-  );
-  const editor = p.step === 'editor';
-  // Recipe cards show the output only once a recipe is chosen.
-  const showOutput = !resolving && (editor || !!chosenRecipe);
   const categories = builderCategories(p.photo, design).filter(
     (category) => category !== 'Outline',
   );
-  const selectedOptions = (
-    <SelectedOptions
-      catalog={p.catalog}
-      selection={p.selection}
-      fields={p.fields}
-      photo={p.photo}
-      design={design}
-      remove={p.removeOption}
-    />
-  );
-  const promptActions = (
-    <div className="prompt-actions">
-      {!editor && (
-        <button
-          className="secondary edit-options-button"
-          aria-label={t('Edit options')}
-          title={t('Edit options')}
-          onClick={() => p.setStep('editor')}
-        >
-          <Icon name="edit" size="20" />
-        </button>
-      )}
-      {editor && (
-        <SavePrompt
-          save={p.save}
-          editing={p.editing}
-          disabled={resolving}
-          iconOnly
-          prompt={p.prompt}
-          selected={{
-            catalog: p.catalog,
-            selection: p.selection,
-            fields: p.fields,
-            photo: p.photo,
-            design,
-          }}
-        />
-      )}
-      <button className="primary" disabled={resolving} onClick={() => p.copy(p.prompt)}>
-        <Icon name="content_copy" size="14" />
-        {t('Copy prompt')}
-      </button>
-    </div>
-  );
+  function toggle(category: string, id: string) {
+    p.toggle(category, id);
+    setOutput('mockup');
+  }
+  function setFields(next: Record<string, string>) {
+    p.setFields(next);
+    setOutput('image');
+  }
+  const outputs: { id: Output; label: string }[] = [
+    { id: 'mockup', label: 'Gallery mockup' },
+    { id: 'image', label: 'Single image' },
+  ];
   return (
     <Panel
-      className={'builder builder-fullscreen' + (showOutput ? '' : ' no-output')}
+      className={'builder builder-fullscreen' + (resolving ? ' no-output' : '')}
       label={t('Prompt Builder')}
       fullscreen
       close={p.close}
@@ -141,17 +94,7 @@ export default function Builder(p: Props) {
       <div className="builder-viewport" ref={viewportRef}>
         <div className="builder-wrap builder-heading sticky-heading" ref={headingRef}>
           <h2 className="builder-title">
-            {resolving ? t('Refine filter choices') : t('What would you like to draw?')}
-            {!resolving && editor && (
-              <button
-                className="icon-button"
-                aria-label={t('Start over')}
-                title={t('Start over')}
-                onClick={() => p.setStep('recipes')}
-              >
-                <Icon name="refresh" size="20" />
-              </button>
-            )}
+            {resolving ? t('Refine filter choices') : t('Which style should we make?')}
           </h2>
           <div className="builder-composer-close">
             <button
@@ -204,71 +147,21 @@ export default function Builder(p: Props) {
               </section>
             ) : (
               <>
-                <label className="builder-subject-label" htmlFor={`${tabsId}-subject`}>
-                  {t('Describe the image you want to create.')}
-                </label>
-                <p className="builder-subject-hint" id={`${tabsId}-subject-hint`}>
-                  {t('Random generation if left blank')}
-                </p>
-                <input
-                  id={`${tabsId}-subject`}
-                  className="builder-subject"
-                  aria-describedby={`${tabsId}-subject-hint`}
-                  placeholder={t('Subject example placeholder')}
-                  value={p.fields.Subject ?? ''}
-                  onChange={(e) => p.setFields({ ...p.fields, Subject: e.target.value })}
-                />
-                {editor ? (
-                  <div className="type-tabs" role="group" aria-label={t('Type')}>
-                    {types.map((type) => (
-                      <button
-                        key={type.id}
-                        aria-pressed={p.type === type.id}
-                        onClick={() => p.setType(type.id)}
-                      >
-                        {t(type.label)}
-                      </button>
-                    ))}
-                  </div>
-                ) : (
-                  types.map((type) => (
-                    <section className="recipe-section" key={type.id}>
-                      <h3 className="builder-section-title">{t(type.label)}</h3>
-                      <ul className="recipe-cards">
-                        {recipes
-                          .filter((recipe) => recipe.type === type.id)
-                          .map((recipe) => (
-                            <li key={recipe.id}>
-                              <button
-                                className="recipe-card"
-                                style={{ backgroundColor: recipe.color }}
-                                aria-pressed={recipe === chosenRecipe}
-                                onClick={() => p.applyRecipe(recipe)}
-                              >
-                                <span className="recipe-card-name">{t(recipe.label)}</span>
-                                <span className="recipe-card-description">
-                                  {t(recipe.description)}
-                                </span>
-                              </button>
-                            </li>
-                          ))}
-                        <li>
-                          <button
-                            className="recipe-card recipe-new"
-                            onClick={() => {
-                              p.startNew(type.id);
-                              p.setStep('editor');
-                            }}
-                          >
-                            <Icon name="add" size="20" />
-                            {t('New')}
-                          </button>
-                        </li>
-                      </ul>
-                    </section>
-                  ))
-                )}
-                {editor && !p.photo && !design && (
+                <div className="type-tabs" role="group" aria-label={t('Type')}>
+                  {types.map((type) => (
+                    <button
+                      key={type.id}
+                      aria-pressed={p.type === type.id}
+                      onClick={() => {
+                        p.setType(type.id);
+                        setOutput('mockup');
+                      }}
+                    >
+                      {t(type.label)}
+                    </button>
+                  ))}
+                </div>
+                {!p.photo && !design && (
                   <section className="option-section">
                     <OptionChoices
                       title="Outline"
@@ -277,141 +170,86 @@ export default function Builder(p: Props) {
                         .filter((o) => o.category === 'Outline')
                         .map((o) => ({ id: o.id, label: o.label }))}
                       selected={p.selection.Outline ?? ['coloronly']}
-                      choose={(id) => p.toggle('Outline', id)}
+                      choose={(id) => toggle('Outline', id)}
                     />
                   </section>
                 )}
-                {editor && (
-                  <>
-                    <section className="option-section">
-                      <OptionChoices
-                        title="Aspect ratio"
-                        multiple={false}
-                        options={[...new Set([...aspectRatios, p.fields['Aspect Ratio']])]
-                          .filter(Boolean)
-                          .map((ratio) => ({ id: ratio, label: ratio }))}
-                        selected={[p.fields['Aspect Ratio'] || '2:3']}
-                        choose={(ratio) => p.setFields({ ...p.fields, 'Aspect Ratio': ratio })}
-                      />
-                    </section>
-                    <section className="option-section">
-                      <OptionChoices
-                        title="Depiction"
-                        multiple={false}
-                        options={p.catalog
-                          .filter((o) => o.category === 'Depiction')
-                          .sort(
-                            (a, b) => depictionLevels.indexOf(a.id) - depictionLevels.indexOf(b.id),
-                          )
-                          .map((o) => ({ id: o.id, label: o.label, category: o.category }))}
-                        selected={p.selection.Depiction ?? [defaultDepiction]}
-                        choose={(id) => p.toggle('Depiction', id)}
-                      />
-                    </section>
-                    {categories.map((category) => {
-                      const preferred = [
-                        'contemporaryflat',
-                        'isometric',
-                        'midcentury',
-                        'flatcolor',
-                        'digitalpainting',
-                        'risograph',
-                        'vivid',
-                        'pastel',
-                        'muted',
-                        'minimal',
-                        'centered',
-                        'asymmetric',
-                        'cute',
-                        'chic',
-                        'fresh',
-                      ];
-                      const options = p.catalog
+                {categories.map((category) => (
+                  <section className="option-section" key={category}>
+                    <OptionChoices
+                      title={category === 'Illustration Style' ? 'Style' : category}
+                      options={p.catalog
                         .filter((o) => o.category === category)
-                        .sort(
-                          (a, b) =>
-                            (preferred.indexOf(a.id) < 0 ? 100 : preferred.indexOf(a.id)) -
-                            (preferred.indexOf(b.id) < 0 ? 100 : preferred.indexOf(b.id)),
-                        );
-                      return (
-                        <section className="option-section" key={category}>
-                          <OptionChoices
-                            title={category === 'Illustration Style' ? 'Style' : category}
-                            options={options.map((o) => ({
-                              id: o.id,
-                              label: o.label.replace(' Modern', ''),
-                              category,
-                            }))}
-                            selected={p.selection[category] ?? []}
-                            headerControl={
-                              category === 'Typography' ? (
-                                <button
-                                  className="typography-toggle"
-                                  role="switch"
-                                  aria-label={t('Typography')}
-                                  aria-checked={isTypographyEnabled(p.fields)}
-                                  onClick={() =>
-                                    p.setFields({
-                                      ...p.fields,
-                                      'Typography Enabled': isTypographyEnabled(p.fields)
-                                        ? 'false'
-                                        : 'true',
-                                    })
-                                  }
-                                >
-                                  <span />
-                                </button>
-                              ) : undefined
-                            }
-                            showOptions={category !== 'Typography' || isTypographyEnabled(p.fields)}
-                            multiple={false}
-                            afterHeading={
-                              category === 'Typography' && isTypographyEnabled(p.fields) ? (
-                                <input
-                                  className="typography-input"
-                                  aria-label={t('Typography text')}
-                                  placeholder={t('Text (optional)')}
-                                  value={p.fields.Text ?? ''}
-                                  onChange={(e) =>
-                                    p.setFields({ ...p.fields, Text: e.target.value })
-                                  }
-                                />
-                              ) : undefined
-                            }
-                            choose={(id) => p.toggle(category, id)}
-                          />
-                        </section>
-                      );
-                    })}
-                    <section className="option-section inputs">
-                      <h3>
-                        <label htmlFor="builder-direction">{t('Your direction')}</label>
-                      </h3>
-                      <textarea
-                        id="builder-direction"
-                        rows={4}
-                        value={p.fields['Additional Instructions'] ?? ''}
-                        onChange={(e) =>
-                          p.setFields({ ...p.fields, 'Additional Instructions': e.target.value })
-                        }
-                        placeholder={t('Add your direction\u2026')}
-                      />
-                    </section>
-                  </>
-                )}
+                        .map((o) => ({
+                          id: o.id,
+                          label: o.label.replace(' Modern', ''),
+                          category,
+                        }))}
+                      selected={p.selection[category] ?? []}
+                      multiple={false}
+                      choose={(id) => toggle(category, id)}
+                    />
+                  </section>
+                ))}
+                <section className="option-section single-image">
+                  <h3>
+                    <label htmlFor={`${tabsId}-subject`}>{t('Single image')}</label>
+                  </h3>
+                  <p className="builder-subject-hint" id={`${tabsId}-subject-hint`}>
+                    {t('Describe the image you picked from the mockup.')}
+                  </p>
+                  <input
+                    id={`${tabsId}-subject`}
+                    className="builder-subject"
+                    aria-describedby={`${tabsId}-subject-hint`}
+                    placeholder={t('Subject example placeholder')}
+                    value={p.fields.Subject ?? ''}
+                    onChange={(e) => setFields({ ...p.fields, Subject: e.target.value })}
+                  />
+                </section>
+                <section className="option-section">
+                  <OptionChoices
+                    title="Aspect ratio"
+                    multiple={false}
+                    options={[...new Set([...aspectRatios, p.fields['Aspect Ratio']])]
+                      .filter(Boolean)
+                      .map((ratio) => ({ id: ratio, label: ratio }))}
+                    selected={[p.fields['Aspect Ratio'] || '4:5']}
+                    choose={(ratio) => setFields({ ...p.fields, 'Aspect Ratio': ratio })}
+                  />
+                </section>
               </>
             )}
           </div>
         </div>
-        {showOutput && (
+        {!resolving && (
           <div className="builder-fullscreen-output">
             <div className="builder-fullscreen-output-scroll">
-              <SelectionSummary label={t('Selected')}>{selectedOptions}</SelectionSummary>
+              <SelectionSummary label={t('Selected')}>
+                <SelectedOptions
+                  catalog={p.catalog}
+                  selection={p.selection}
+                  fields={p.fields}
+                  photo={p.photo}
+                  design={design}
+                  remove={p.removeOption}
+                />
+              </SelectionSummary>
               <section
                 className={'builder-fullscreen-prompt' + (promptCollapsed ? ' collapsed' : '')}
               >
                 <h3>
-                  {t('Prompt')}
+                  <span className="prompt-tabs" role="group" aria-label={t('Prompt')}>
+                    {outputs.map((item) => (
+                      <button
+                        key={item.id}
+                        aria-pressed={output === item.id}
+                        onClick={() => setOutput(item.id)}
+                      >
+                        {t(item.label)}
+                      </button>
+                    ))}
+                  </span>
                   <button
                     className="choice-toggle"
                     aria-label={t(
@@ -431,18 +269,35 @@ export default function Builder(p: Props) {
                   hidden={promptCollapsed}
                 >
                   <div
-                    id={`${tabsId}-fullscreen-prompt`}
                     className="prompt-textarea"
                     aria-label={t('Builder prompt')}
                     role="region"
                     tabIndex={0}
                   >
-                    {p.prompt}
+                    {prompt}
                   </div>
                 </div>
               </section>
             </div>
-            {promptActions}
+            <div className="prompt-actions">
+              <SavePrompt
+                save={p.save}
+                editing={p.editing}
+                iconOnly
+                prompt={p.mockupPrompt}
+                selected={{
+                  catalog: p.catalog,
+                  selection: p.selection,
+                  fields: p.fields,
+                  photo: p.photo,
+                  design,
+                }}
+              />
+              <button className="primary" onClick={() => p.copy(prompt)}>
+                <Icon name="content_copy" size="14" />
+                {t('Copy prompt')}
+              </button>
+            </div>
           </div>
         )}
       </div>

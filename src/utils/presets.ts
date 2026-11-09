@@ -1,4 +1,11 @@
-import { optionLimit, toggleOption, type Option, type Selection } from './promptBuilder.ts';
+import {
+  builderCategories,
+  compactFields,
+  optionLimit,
+  toggleOption,
+  type Option,
+  type Selection,
+} from './promptBuilder.ts';
 export interface StylePreset {
   id: string;
   photo: boolean;
@@ -25,11 +32,11 @@ const legacyOptions: Record<string, [string, string][]> = {
   'Illustration Style:swissgraphicdesign': [['Illustration Style', 'geometricillustration']],
   'Illustration Style:celshadedanime': [['Illustration Style', 'contemporaryflat']],
   'Illustration Style:storybookillustration': [['Illustration Style', 'naivefolk']],
-  'Technique:linocut': [['Technique', 'risograph']],
-  'Technique:woodcut': [['Technique', 'risograph']],
-  'Technique:screenprinting': [['Technique', 'risograph']],
-  'Technique:halftoneprinting': [['Technique', 'risograph']],
-  'Technique:handdrawn': [['Technique', 'marker']],
+  'Technique:risograph': [['Illustration Style', 'risograph']],
+  'Technique:linocut': [['Illustration Style', 'risograph']],
+  'Technique:woodcut': [['Illustration Style', 'risograph']],
+  'Technique:screenprinting': [['Illustration Style', 'risograph']],
+  'Technique:halftoneprinting': [['Illustration Style', 'risograph']],
   'Color:vintage': [['Color', 'muted']],
   'Color:midcenturypalette': [['Color', 'muted']],
   'Photo Style:film': [
@@ -41,19 +48,9 @@ const legacyOptions: Record<string, [string, string][]> = {
     ['Color', 'muted'],
   ],
   'Photo Style:monochrome': [['Color', 'blackwhite']],
-  'Mood:epic': [['Mood', 'bold']],
-  'Mood:dark': [['Mood', 'moody']],
-  'Mood:elegant': [['Mood', 'luxe']],
-  'Mood:nostalgic': [['Mood', 'cozy']],
-  'Composition:diagonal': [['Composition', 'dynamic']],
   'Texture:roughprint': [['Texture', 'papergrain']],
   'Texture:distressed': [['Texture', 'papergrain']],
   'Texture:inkbleed': [['Texture', 'papergrain']],
-  'Typography:blackletter': [['Typography', 'calligraphy']],
-  'Typography:groovy': [['Typography', 'bubblelettering']],
-  'Typography:psychedeliclettering': [['Typography', 'bubblelettering']],
-  'Typography:distortedtypography': [['Typography', 'experimentaltypography']],
-  'Typography:kinetictypography': [['Typography', 'experimentaltypography']],
 };
 export function parsePresets(raw: string | null, catalog: Option[]): StylePreset[] {
   const exists = (category: string, id: string) =>
@@ -81,12 +78,15 @@ export function parsePresets(raw: string | null, catalog: Option[]): StylePreset
         return [];
       let selection: Selection = {};
       const migrated: [string, string][] = [];
+      // Only the categories the mockup Builder still offers are kept.
+      const categories = builderCategories(item.photo, item.design === true);
       for (const [saved, ids] of Object.entries(item.selection)) {
         if (!Array.isArray(ids)) return [];
         const category = legacyCategories[saved] ?? saved;
         for (const id of ids)
           if (typeof id === 'string' && !exists(category, id))
             migrated.push(...(legacyOptions[`${category}:${id}`] ?? []));
+        if (!categories.includes(category)) continue;
         selection[category] = [
           ...new Set(
             ids.filter(
@@ -99,11 +99,13 @@ export function parsePresets(raw: string | null, catalog: Option[]): StylePreset
       }
       // Replacements only fill categories the kept choices left empty.
       for (const [category, id] of migrated)
-        if (exists(category, id) && !selection[category]?.length)
+        if (categories.includes(category) && exists(category, id) && !selection[category]?.length)
           selection = toggleOption(selection, category, id);
-      const fields = Object.fromEntries(
-        Object.entries(item.fields).filter(
-          (entry): entry is [string, string] => typeof entry[1] === 'string',
+      const fields = compactFields(
+        Object.fromEntries(
+          Object.entries(item.fields).filter(
+            (entry): entry is [string, string] => typeof entry[1] === 'string',
+          ),
         ),
       );
       seen.add(item.id);

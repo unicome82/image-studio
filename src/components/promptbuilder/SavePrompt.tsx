@@ -30,7 +30,7 @@ function SaveDialog({ save, prompt, selected, editing, close }: Props & { close:
     <dialog
       ref={ref}
       className="save-style-dialog"
-      aria-label={t(editing ? 'Update style set' : 'Save style')}
+      aria-label={t(editing ? 'Update mockup' : 'Save mockup')}
       onCancel={(e) => {
         e.preventDefault();
         e.stopPropagation();
@@ -50,7 +50,7 @@ function SaveDialog({ save, prompt, selected, editing, close }: Props & { close:
       }}
     >
       <div className="panel-heading">
-        <span>{t(editing ? 'Update style set' : 'Save style')}</span>
+        <span>{t(editing ? 'Update mockup' : 'Save mockup')}</span>
         <button
           className="icon-button close-button"
           aria-label={t('Close save style')}

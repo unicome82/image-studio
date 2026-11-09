@@ -3,8 +3,9 @@ import { useTranslation } from 'react-i18next';
 import catalog from 'virtual:prompt-catalog';
 import { sortCollection, type CollectionSort } from './collectionSort';
 import { filterMetadata, matchesFilters, type FilterType } from './filters';
+import { optionLabelKey } from './optionChoices';
 import { parsePresets, presetKey, type StylePreset } from './presets';
-import type { Selection } from './promptBuilder';
+import { compactFields, type Selection } from './promptBuilder';
 import type { PresetSettings } from './useBuilderDraft';
 
 interface Options {
@@ -32,7 +33,17 @@ export function usePresets({ filterType, query, effectiveFilters, showToast }: O
       /* Storage may be disabled. */
     }
   }, []);
-  const presetTitle = (preset: StylePreset) => preset.fields.Subject?.trim() || t('Random image');
+  // Search matches the saved style names in either language.
+  const matchesQuery = (preset: StylePreset) => {
+    const text = Object.entries(preset.selection)
+      .flatMap(([category, ids]) =>
+        ids.map((id) => catalog.find((o) => o.category === category && o.id === id)),
+      )
+      .flatMap((option) => (option ? [option.label, t(optionLabelKey(option))] : []))
+      .join(' ')
+      .toLowerCase();
+    return text.includes(query.trim().toLowerCase());
+  };
   const visiblePresets = sortCollection(
     presets.filter(
       (preset) =>
@@ -42,7 +53,7 @@ export function usePresets({ filterType, query, effectiveFilters, showToast }: O
             : preset.photo
               ? filterType === 'photo'
               : filterType === 'illustration')) &&
-        presetTitle(preset).toLowerCase().includes(query.trim().toLowerCase()) &&
+        matchesQuery(preset) &&
         matchesFilters(
           filterMetadata(
             preset.selection,
@@ -66,21 +77,21 @@ export function usePresets({ filterType, query, effectiveFilters, showToast }: O
       return false;
     }
   }
-  // Saves a new style set, or overwrites the one with the given id.
+  // Saves a new mockup, or overwrites the one with the given id.
   function save(settings: PresetSettings, id?: string) {
     const value: StylePreset = {
       id: id ?? crypto.randomUUID(),
       photo: settings.photo,
       design: !!settings.design,
       selection: structuredClone(settings.selection),
-      fields: { ...settings.fields },
+      fields: compactFields(settings.fields),
     };
     const saved = persist(id ? presets.map((p) => (p.id === id ? value : p)) : [value, ...presets]);
-    if (saved) showToast(id ? 'Style set updated' : 'Style set saved');
+    if (saved) showToast(id ? 'Mockup updated' : 'Mockup saved');
     return saved;
   }
   function remove(id: string) {
-    if (persist(presets.filter((p) => p.id !== id))) showToast('Style set deleted');
+    if (persist(presets.filter((p) => p.id !== id))) showToast('Mockup deleted');
   }
   return { visiblePresets, presetSort, setPresetSort, save, remove };
 }

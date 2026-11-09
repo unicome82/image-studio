@@ -1,6 +1,6 @@
 import { useTranslation } from 'react-i18next';
 import Icon from '../Icon';
-import { defaultDepiction, type Option, type Selection } from '../../utils/promptBuilder';
+import type { Option, Selection } from '../../utils/promptBuilder';
 import { selectedBuilderOptions } from '../../utils/selectedOptions';
 import { optionLabelKey } from '../../utils/optionChoices';
 export interface SelectedOptionsProps {
@@ -22,7 +22,7 @@ export default function SelectedOptions({
   english = false,
 }: SelectedOptionsProps) {
   const { t } = useTranslation(undefined, english ? { lng: 'en' } : undefined);
-  const options = selectedBuilderOptions(catalog, selection, fields, photo, design).filter(
+  const options = selectedBuilderOptions(catalog, selection, photo, design).filter(
     (option) => option.category !== 'Outline',
   );
   const outline =
@@ -32,11 +32,6 @@ export default function SelectedOptions({
             option.category === 'Outline' && option.id === (selection.Outline?.[0] ?? 'coloronly'),
         )
       : undefined;
-  const depiction = catalog.find(
-    (option) =>
-      option.category === 'Depiction' &&
-      option.id === (selection.Depiction?.[0] ?? defaultDepiction),
-  );
   const fixedOptions = [
     {
       key: 'type',
@@ -45,9 +40,6 @@ export default function SelectedOptions({
     },
     { key: 'ratio', title: t('Aspect ratio'), label: fields['Aspect Ratio'] || '1:1' },
     ...(outline ? [{ key: 'outline', title: t('Outline'), label: t(outline.label) }] : []),
-    ...(depiction
-      ? [{ key: 'depiction', title: t('Depiction'), label: t(optionLabelKey(depiction)) }]
-      : []),
   ];
   const optionLabel = (option: Option) => t(optionLabelKey(option));
   if (!remove) {

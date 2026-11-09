@@ -1,21 +1,14 @@
-import {
-  builderCategories,
-  isTypographyEnabled,
-  type Option,
-  type Selection,
-} from './promptBuilder.ts';
-/** The summary mirrors active Builder categories; hidden photo/illustration/typography choices stay out. */
+import { builderCategories, type Option, type Selection } from './promptBuilder.ts';
+/** The summary mirrors active Builder categories; hidden photo/illustration choices stay out. */
 export function selectedBuilderOptions(
   catalog: Option[],
   selection: Selection,
-  fields: Record<string, string>,
   photo: boolean,
   design = false,
 ): Option[] {
-  return builderCategories(photo, design).flatMap((category) => {
-    if (category === 'Typography' && !isTypographyEnabled(fields)) return [];
-    return (selection[category] ?? []).flatMap((id) =>
+  return builderCategories(photo, design).flatMap((category) =>
+    (selection[category] ?? []).flatMap((id) =>
       catalog.filter((option) => option.category === category && option.id === id),
-    );
-  });
+    ),
+  );
 }

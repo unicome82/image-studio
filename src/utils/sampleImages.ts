@@ -22,11 +22,8 @@ export const sampleImages: SampleImage[] = [
     fields: { Subject: 'A dog astronaut' },
     selection: {
       'Illustration Style': ['popart'],
-      Technique: ['collage'],
       Outline: ['coloroutline'],
       Color: ['vivid'],
-      Composition: ['centered'],
-      Mood: ['bold'],
     },
   },
   {
@@ -38,12 +35,9 @@ export const sampleImages: SampleImage[] = [
     fields: { Subject: 'A tiny rooftop garden cafe' },
     selection: {
       'Illustration Style': ['isometric'],
-      Technique: ['vector'],
       Outline: ['coloronly'],
       Color: ['pastel'],
-      Lighting: ['softdaylight'],
       Texture: ['clean'],
-      Mood: ['cozy'],
     },
   },
   {
@@ -55,11 +49,8 @@ export const sampleImages: SampleImage[] = [
     fields: { Subject: 'A cat in front of an arcade' },
     selection: {
       'Illustration Style': ['pixelart'],
-      Technique: ['flatcolor'],
       Outline: ['coloronly'],
       Color: ['neon'],
-      Lighting: ['neonnight'],
-      Mood: ['playful'],
     },
   },
   {
@@ -71,12 +62,9 @@ export const sampleImages: SampleImage[] = [
     fields: { Subject: 'A rowing boat on a misty lake' },
     selection: {
       'Illustration Style': ['impressionism'],
-      Technique: ['oilpainting'],
       Outline: ['coloronly'],
       Color: ['analogous'],
-      Lighting: ['goldenhour'],
       Texture: ['canvas'],
-      Mood: ['serene'],
     },
   },
   {
@@ -88,11 +76,8 @@ export const sampleImages: SampleImage[] = [
     fields: { Subject: 'A jeweled peacock' },
     selection: {
       'Illustration Style': ['geometricillustration'],
-      Technique: ['gradientmesh'],
       Outline: ['coloronly'],
       Color: ['jeweltones'],
-      Composition: ['symmetric'],
-      Mood: ['luxe'],
     },
   },
   {
@@ -104,11 +89,8 @@ export const sampleImages: SampleImage[] = [
     fields: { Subject: 'A jazz pianist' },
     selection: {
       'Illustration Style': ['continuousline'],
-      Technique: ['inkwash'],
       Outline: ['outlineonly'],
       Color: ['monochrome'],
-      Composition: ['minimal'],
-      Mood: ['chic'],
     },
   },
   {
@@ -120,11 +102,8 @@ export const sampleImages: SampleImage[] = [
     fields: { Subject: "A cat's birthday party" },
     selection: {
       'Illustration Style': ['maximalism'],
-      Technique: ['gouache'],
       Outline: ['coloroutline'],
       Color: ['complementary'],
-      Composition: ['fullbleed'],
-      Mood: ['whimsical'],
     },
   },
   {
@@ -136,12 +115,9 @@ export const sampleImages: SampleImage[] = [
     fields: { Subject: 'A skateboarder under a bridge' },
     selection: {
       'Illustration Style': ['grunge'],
-      Technique: ['charcoal'],
       Outline: ['coloronly'],
       Color: ['lowkey'],
-      Lighting: ['dramatic'],
       Texture: ['brushstroke'],
-      Mood: ['raw'],
     },
   },
   {
@@ -153,12 +129,8 @@ export const sampleImages: SampleImage[] = [
     fields: { Subject: 'A woman working from home among plants' },
     selection: {
       'Illustration Style': ['contemporaryflat'],
-      Technique: ['flatcolor'],
       Outline: ['coloronly'],
       Color: ['neutralaccent'],
-      Lighting: ['softdaylight'],
-      Composition: ['asymmetric'],
-      Mood: ['serene'],
     },
   },
   {
@@ -170,12 +142,9 @@ export const sampleImages: SampleImage[] = [
     fields: { Subject: 'A tiny concrete house' },
     selection: {
       'Illustration Style': ['brutalism'],
-      Technique: ['clayrender'],
       Outline: ['coloronly'],
       Color: ['earthy'],
-      Lighting: ['studio'],
       Texture: ['softmatte'],
-      Mood: ['cute'],
     },
   },
   {
@@ -187,12 +156,9 @@ export const sampleImages: SampleImage[] = [
     fields: { Subject: 'A lighthouse in winter' },
     selection: {
       'Illustration Style': ['minimalism'],
-      Technique: ['watercolor'],
       Outline: ['coloronly'],
       Color: ['cool'],
       Texture: ['papergrain'],
-      Composition: ['minimal'],
-      Mood: ['dreamy'],
     },
   },
   {
@@ -204,10 +170,7 @@ export const sampleImages: SampleImage[] = [
     fields: { Subject: 'A model in a red trench coat' },
     selection: {
       'Photo Style': ['fashion'],
-      Camera: ['portraitlens'],
       Color: ['jeweltones'],
-      Lighting: ['coloredgel'],
-      Mood: ['bold'],
     },
   },
   {
@@ -219,11 +182,7 @@ export const sampleImages: SampleImage[] = [
     fields: { Subject: 'A spiral staircase' },
     selection: {
       'Photo Style': ['architectural'],
-      Camera: ['wideangle'],
       Color: ['highkey'],
-      Lighting: ['softdaylight'],
-      Composition: ['symmetric'],
-      Mood: ['serene'],
     },
   },
   {
@@ -235,11 +194,8 @@ export const sampleImages: SampleImage[] = [
     fields: { Subject: 'A street market vendor at dawn' },
     selection: {
       'Photo Style': ['documentary'],
-      Camera: ['shallowdepth'],
       Color: ['earthy'],
-      Lighting: ['goldenhour'],
       Texture: ['filmgrain'],
-      Mood: ['raw'],
     },
   },
   {
@@ -251,11 +207,8 @@ export const sampleImages: SampleImage[] = [
     fields: { Subject: 'A lemon slice in a glass' },
     selection: {
       'Photo Style': ['stilllife'],
-      Camera: ['macro'],
       Color: ['pastel'],
-      Lighting: ['studio'],
       Texture: ['frostedglass'],
-      Mood: ['fresh'],
     },
   },
   {
@@ -267,11 +220,7 @@ export const sampleImages: SampleImage[] = [
     fields: { Subject: 'A dancer in flowing fabric' },
     selection: {
       'Photo Style': ['fineart'],
-      Camera: ['portraitlens'],
       Color: ['blackwhite'],
-      Lighting: ['dramatic'],
-      Composition: ['minimal'],
-      Mood: ['moody'],
     },
   },
   {
@@ -280,17 +229,11 @@ export const sampleImages: SampleImage[] = [
     width: 960,
     height: 1200,
     color: '#7fa9ac',
-    fields: {
-      Subject: 'Packaging for a lemon soda',
-      'Typography Enabled': 'true',
-      Text: 'LEMON POP',
-    },
+    fields: { Subject: 'Packaging for a lemon soda' },
     selection: {
       'Design Format': ['packaging'],
       'Design Style': ['retro'],
-      Typography: ['bubblelettering'],
       Color: ['vivid'],
-      Mood: ['playful'],
     },
   },
   {
@@ -304,7 +247,6 @@ export const sampleImages: SampleImage[] = [
       'Design Format': ['iconset'],
       'Design Style': ['boldgeometric'],
       Color: ['primarycolors'],
-      Composition: ['grid'],
     },
   },
   {
@@ -319,7 +261,6 @@ export const sampleImages: SampleImage[] = [
       'Design Style': ['bauhaus'],
       Color: ['duotone'],
       Texture: ['clean'],
-      Mood: ['bold'],
     },
   },
 ];

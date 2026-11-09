@@ -14,7 +14,7 @@ import type { GalleryTile as Tile } from './types';
 import ImagePreview from './components/ImagePreview';
 import Presets from './components/promptbuilder/Presets';
 import Builder from './components/promptbuilder/Builder';
-import { makePrompt } from './utils/promptBuilder';
+import { imageType, makeImagePrompt, makeMockupPrompt } from './utils/promptBuilder';
 import { normalizeRatio } from './utils/filters';
 import { compactQuery, mobileQuery } from './utils/useMediaQuery';
 import { filterCatalog, useGalleryFilters } from './utils/useGalleryFilters';
@@ -85,7 +85,7 @@ export default function App() {
     onChange: () => setSelected(null),
   });
   const { effectiveFilters, filterType, query, displayGroups } = gallery;
-  const draft = useBuilderDraft(() => showToast('Fewer options give sharper results.'));
+  const draft = useBuilderDraft();
   const presets = usePresets({ filterType, query, effectiveFilters, showToast });
   const resultCount = presetOpen ? presets.visiblePresets.length : displayGroups[0].tiles.length;
   function openComposer() {
@@ -169,15 +169,13 @@ export default function App() {
     fields: {
       ...selected?.fields,
       'Aspect Ratio': selected ? normalizeRatio(`${selected.width}:${selected.height}`) : '1:1',
-      'Additional Instructions': '',
     },
   };
-  const detailPrompt = makePrompt(
+  const detailPrompt = makeImagePrompt(
     catalog,
     detailPreset.selection,
     detailPreset.fields,
-    detailPhoto,
-    detailDesign,
+    imageType(detailPhoto, detailDesign),
   );
   return (
     <>
@@ -244,9 +242,7 @@ export default function App() {
         )}
         <main
           className="gallery"
-          aria-label={t(
-            presetOpen ? 'Saved style sets' : onlySaved ? 'Favorites' : 'Image gallery',
-          )}
+          aria-label={t(presetOpen ? 'Saved mockups' : onlySaved ? 'Favorites' : 'Image gallery')}
         >
           <div className="results-heading">
             <div className="section-heading">
@@ -366,7 +362,11 @@ export default function App() {
               photo={detailPhoto}
               bookmarked={bookmarks.includes(selected.id)}
               stylePrompt={detailPrompt}
-              savePreview={detailPrompt}
+              savePreview={makeMockupPrompt(
+                catalog,
+                detailPreset.selection,
+                imageType(detailPhoto, detailDesign),
+              )}
               saveOptions={{ catalog, ...detailPreset }}
               save={() => presets.save(detailPreset)}
               copy={copy}
@@ -379,8 +379,6 @@ export default function App() {
       </div>
       {composerOpen && (
         <Builder
-          step={draft.step}
-          setStep={draft.setStep}
           catalog={catalog}
           filterCatalog={filterCatalog}
           pending={draft.pendingChoices}
@@ -389,8 +387,6 @@ export default function App() {
           applyPending={draft.applyPending}
           selection={draft.selection}
           toggle={draft.toggle}
-          applyRecipe={draft.applyRecipe}
-          startNew={draft.startNew}
           removeOption={draft.removeOption}
           fields={draft.fields}
           setFields={draft.setFields}
@@ -398,7 +394,8 @@ export default function App() {
           type={draft.type}
           setType={draft.setType}
           close={closeComposer}
-          prompt={draft.prompt}
+          mockupPrompt={draft.mockupPrompt}
+          recreatePrompt={draft.recreatePrompt}
           copy={copy}
           save={saveDraft}
           editing={!!draft.editingId}
@@ -424,9 +421,9 @@ export default function App() {
           </button>
         </div>
         <div className="prompt-textarea" aria-label={t('Full prompt')} role="region" tabIndex={0}>
-          {copyFallback || draft.prompt}
+          {copyFallback || draft.mockupPrompt}
         </div>
-        <button className="primary" onClick={() => copy(copyFallback || draft.prompt)}>
+        <button className="primary" onClick={() => copy(copyFallback || draft.mockupPrompt)}>
           <Icon name="content_copy" size="14" />
           {t('Copy')}
         </button>

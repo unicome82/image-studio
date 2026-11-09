@@ -3,7 +3,13 @@ import Icon from '../Icon';
 import { useState } from 'react';
 import SelectedOptions from './SelectedOptions';
 import type { StylePreset } from '../../utils/presets';
-import { makePrompt, type Option } from '../../utils/promptBuilder';
+import { optionLabelKey } from '../../utils/optionChoices';
+import {
+  builderCategories,
+  imageType,
+  makeMockupPrompt,
+  type Option,
+} from '../../utils/promptBuilder';
 interface Props {
   presets: StylePreset[];
   catalog: Option[];
@@ -15,24 +21,27 @@ export default function Presets(p: Props) {
   const { t } = useTranslation();
   const [deleting, setDeleting] = useState<string | null>(null);
   return (
-    <section className="presets-page" aria-label={t('Saved style sets')}>
+    <section className="presets-page" aria-label={t('Saved mockups')}>
       <div className="preset-list">
         {p.presets.length === 0 ? (
           <div className="empty-state" role="status">
-            <h2>{t('No saved style sets')}</h2>
-            <p>{t('Save a prompt to collect your style sets here.')}</p>
+            <h2>{t('No saved mockups')}</h2>
+            <p>{t('Save a mockup prompt to collect it here.')}</p>
           </div>
         ) : (
           p.presets.map((preset) => {
             // Rebuild from saved settings and the canonical catalog; never duplicate prompt bodies in storage.
-            const prompt = makePrompt(
-              p.catalog,
-              preset.selection,
-              preset.fields,
-              preset.photo,
-              preset.design,
-            );
-            const title = preset.fields.Subject?.trim() || t('Random image');
+            const type = imageType(preset.photo, preset.design);
+            const prompt = makeMockupPrompt(p.catalog, preset.selection, type);
+            // A saved mockup is named after its lead style.
+            const lead = builderCategories(preset.photo, preset.design)
+              .flatMap((category) =>
+                (preset.selection[category] ?? []).map((id) =>
+                  p.catalog.find((o) => o.category === category && o.id === id),
+                ),
+              )
+              .find(Boolean);
+            const title = lead ? t(optionLabelKey(lead)) : t('Untitled mockup');
             return (
               <article className="preset-item" key={preset.id} aria-label={title}>
                 <div className="preset-item-heading">
@@ -59,7 +68,7 @@ export default function Presets(p: Props) {
                         <button
                           className="icon-button"
                           aria-label={t('Edit {{name}} settings', { name: title })}
-                          title={t('Edit style set')}
+                          title={t('Edit mockup')}
                           onClick={() => p.edit(preset)}
                         >
                           <Icon name="edit" size="16" />
@@ -67,7 +76,7 @@ export default function Presets(p: Props) {
                         <button
                           className="icon-button"
                           aria-label={t('Delete {{name}}', { name: title })}
-                          title={t('Delete style set')}
+                          title={t('Delete mockup')}
                           onClick={() => setDeleting(preset.id)}
                         >
                           <Icon name="delete" size="16" />

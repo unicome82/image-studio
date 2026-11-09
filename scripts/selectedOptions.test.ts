@@ -21,7 +21,7 @@ const catalog = [
     prompt: 'CONTENT_outline',
   },
 ];
-test('Summary follows active image type, Typography switch, and category-scoped selection IDs', () => {
+test('Summary follows the active image type and category-scoped selection IDs', () => {
   const selection = {
     'Illustration Style': ['style'],
     Color: ['same'],
@@ -31,16 +31,14 @@ test('Summary follows active image type, Typography switch, and category-scoped 
     Outline: ['outline'],
   };
   assert.deepEqual(
-    selectedBuilderOptions(catalog, selection, {}, false).map((o) => o.path),
+    selectedBuilderOptions(catalog, selection, false).map((o) => o.path),
     ['style', 'color', 'texture', 'outline'],
   );
   assert.deepEqual(
-    selectedBuilderOptions(catalog, selection, { 'Typography Enabled': 'true' }, true).map(
-      (o) => o.path,
-    ),
-    ['film', 'color', 'texture', 'type'],
+    selectedBuilderOptions(catalog, selection, true).map((o) => o.path),
+    ['film', 'color', 'texture'],
   );
   const removed = { ...selection, Color: [] };
-  assert(!selectedBuilderOptions(catalog, removed, {}, false).some((o) => o.path === 'color'));
-  assert(selectedBuilderOptions(catalog, removed, {}, false).some((o) => o.path === 'texture'));
+  assert(!selectedBuilderOptions(catalog, removed, false).some((o) => o.path === 'color'));
+  assert(selectedBuilderOptions(catalog, removed, false).some((o) => o.path === 'texture'));
 });

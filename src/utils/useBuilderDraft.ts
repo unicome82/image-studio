@@ -5,44 +5,30 @@ import type { StylePreset } from './presets';
 import {
   builderCategories,
   designFormatRatios,
-  makePrompt,
+  imageType,
+  makeMockupPrompt,
+  makeRecreatePrompt,
   optionLimit,
-  recommendedTotal,
   toggleOption,
+  type ImageType,
   type Selection,
 } from './promptBuilder';
-import type { Recipe } from './recipes';
 
-export type BuilderType = 'illustration' | 'photo' | 'design';
-/** The Builder opens on recipe cards; the editor lists every option. */
-export type BuilderStep = 'recipes' | 'editor';
+export type BuilderType = ImageType;
 export type PresetSettings = Pick<StylePreset, 'photo' | 'design' | 'selection' | 'fields'>;
 
-const initial: Selection = {
-  'Illustration Style': ['contemporaryflat'],
-  Technique: ['digitalpainting'],
-  Color: ['neutralaccent'],
-  Outline: ['coloronly'],
-  Composition: ['minimal'],
-};
-const defaultFields: Record<string, string> = {
-  Subject: '',
-  'Aspect Ratio': '2:3',
-  'Additional Instructions': '',
-  'Typography Enabled': 'false',
-  Text: '',
-};
+const defaultFields: Record<string, string> = { Subject: '', 'Aspect Ratio': '4:5' };
 
-export function useBuilderDraft(onCrowded: () => void) {
+export function useBuilderDraft() {
   const [builderType, setBuilderType] = useState<BuilderType>('illustration');
-  const [step, setStep] = useState<BuilderStep>('recipes');
   const photo = builderType === 'photo';
   const design = builderType === 'design';
-  const [illustrationSelection, setIllustrationSelection] = useState(initial);
+  const [illustrationSelection, setIllustrationSelection] = useState<Selection>({
+    'Illustration Style': ['contemporaryflat'],
+    Outline: ['coloronly'],
+  });
   const [photoSelection, setPhotoSelection] = useState<Selection>({
     'Photo Style': ['portrait'],
-    Camera: ['portraitlens'],
-    Lighting: ['softdaylight'],
   });
   const [designSelection, setDesignSelection] = useState<Selection>({
     'Design Format': ['poster'],
@@ -63,7 +49,8 @@ export function useBuilderDraft(onCrowded: () => void) {
   } as const;
   const [selection, setSelection] = selections[builderType];
   const pending = Object.keys(pendingChoices).length > 0;
-  const prompt = pending ? '' : makePrompt(catalog, selection, fields, photo, design);
+  const mockupPrompt = pending ? '' : makeMockupPrompt(catalog, selection, builderType);
+  const recreatePrompt = makeRecreatePrompt(fields, builderType);
 
   // Seed the draft from gallery filters that changed since the last time the Builder opened.
   function applyFilters(effectiveFilters: Selection, filterType: FilterType) {
@@ -80,19 +67,16 @@ export function useBuilderDraft(onCrowded: () => void) {
       );
       setPendingChoices(pendingBuilderFilters(effectiveFilters, composerPhoto, composerDesign));
       setPendingSelection({});
-      setFields((previous) => ({
-        ...previous,
-        ...(effectiveFilters['Aspect Ratio']?.length === 1
-          ? { 'Aspect Ratio': effectiveFilters['Aspect Ratio'][0] }
-          : {}),
-        ...(effectiveFilters.Typography?.length ? { 'Typography Enabled': 'true' } : {}),
-      }));
-      if (effectiveFilters['Aspect Ratio']?.length === 1) ratioChosen.current = true;
-      const composerType = composerDesign ? 'design' : composerPhoto ? 'photo' : 'illustration';
+      if (effectiveFilters['Aspect Ratio']?.length === 1) {
+        ratioChosen.current = true;
+        setFields((previous) => ({
+          ...previous,
+          'Aspect Ratio': effectiveFilters['Aspect Ratio'][0],
+        }));
+      }
+      const composerType = imageType(composerPhoto, composerDesign);
       selections[composerType][1]((previous) => ({ ...previous, ...relevant }));
       setBuilderType(composerType);
-      // Gallery filters are hand-picked settings, so they open the editor instead of recipes.
-      if (Object.values(effectiveFilters).some((ids) => ids.length)) setStep('editor');
     }
     appliedFilters.current = signature;
   }
@@ -128,43 +112,9 @@ export function useBuilderDraft(onCrowded: () => void) {
     setPendingSelection({});
   }
   function toggle(category: string, id: string) {
-    const next = toggleOption(selection, category, id);
-    const total = (value: Selection) =>
-      Object.entries(value)
-        .filter(([key]) => key !== 'Outline' && builderCategories(photo, design).includes(key))
-        .reduce((sum, [, ids]) => sum + ids.length, 0);
-    setSelection(next);
-    if (total(next) > recommendedTotal && total(next) > total(selection)) onCrowded();
+    setSelection(toggleOption(selection, category, id));
     if (category === 'Design Format' && !ratioChosen.current && designFormatRatios[id])
       setFields({ ...fields, 'Aspect Ratio': designFormatRatios[id] });
-  }
-  // A recipe replaces this type's choices and framing but keeps the subject and direction.
-  function applyRecipe(recipe: Recipe) {
-    selections[recipe.type][1](structuredClone(recipe.selection));
-    setBuilderType(recipe.type);
-    ratioChosen.current = true;
-    setFields({
-      ...fields,
-      'Aspect Ratio': recipe.ratio,
-      'Typography Enabled': recipe.typography ? 'true' : 'false',
-    });
-  }
-  // New starts this type from no style choices, keeping only the required rendering mode or format.
-  function startNew(type: BuilderType) {
-    selections[type][1](
-      type === 'illustration'
-        ? { Outline: ['coloronly'] }
-        : type === 'design'
-          ? { 'Design Format': ['poster'] }
-          : {},
-    );
-    setBuilderType(type);
-    ratioChosen.current = false;
-    setFields({
-      ...fields,
-      'Aspect Ratio': type === 'design' ? designFormatRatios.poster : defaultFields['Aspect Ratio'],
-      'Typography Enabled': 'false',
-    });
   }
   function removeOption(category: string, id: string) {
     setSelection((previous) => ({
@@ -176,12 +126,11 @@ export function useBuilderDraft(onCrowded: () => void) {
     if (next['Aspect Ratio'] !== fields['Aspect Ratio']) ratioChosen.current = true;
     setFields(next);
   }
-  // Load a saved style set, keeping the current draft to restore after editing.
+  // Load a saved mockup, keeping the current draft to restore after editing.
   function startEdit(preset: StylePreset) {
     if (!editingId) {
       const draft = {
         builderType,
-        step,
         illustrationSelection,
         photoSelection,
         designSelection,
@@ -193,7 +142,6 @@ export function useBuilderDraft(onCrowded: () => void) {
       backup.current = () => {
         ratioChosen.current = draft.ratioChosen;
         setBuilderType(draft.builderType);
-        setStep(draft.step);
         setIllustrationSelection(draft.illustrationSelection);
         setPhotoSelection(draft.photoSelection);
         setDesignSelection(draft.designSelection);
@@ -202,9 +150,8 @@ export function useBuilderDraft(onCrowded: () => void) {
         setPendingSelection(draft.pendingSelection);
       };
     }
-    const type = preset.design ? 'design' : preset.photo ? 'photo' : 'illustration';
+    const type = imageType(preset.photo, preset.design);
     setBuilderType(type);
-    setStep('editor');
     selections[type][1](structuredClone(preset.selection));
     setFields({ ...defaultFields, ...preset.fields });
     ratioChosen.current = true;
@@ -222,8 +169,6 @@ export function useBuilderDraft(onCrowded: () => void) {
   return {
     type: builderType,
     setType: setBuilderType,
-    step,
-    setStep,
     photo,
     selection,
     fields,
@@ -231,15 +176,14 @@ export function useBuilderDraft(onCrowded: () => void) {
     pendingChoices,
     pendingSelection,
     pending,
-    prompt,
+    mockupPrompt,
+    recreatePrompt,
     settings,
     editingId,
     applyFilters,
     choosePending,
     applyPending,
     toggle,
-    applyRecipe,
-    startNew,
     removeOption,
     startEdit,
     endEdit,
