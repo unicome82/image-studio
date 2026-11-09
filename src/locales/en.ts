@@ -3,7 +3,7 @@ const translation: Record<string, string> = {
   'Design style': 'Design Style',
   'Very Simple': 'Very Simple',
   Simple: 'Simple',
-  'Moderately Complex': 'Moderately Complex',
+  Moderate: 'Moderate',
   Complex: 'Complex',
   'Very Complex': 'Very Complex',
   Depiction: 'Depiction',

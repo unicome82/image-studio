@@ -53,8 +53,11 @@ test('each type keeps only its lead style, color, tone and illustration outline;
   for (const option of catalog) assert.ok(offered.has(option.category), option.path);
   const levels = catalog.filter((o) => o.category === 'Depiction');
   assert.deepEqual(levels.map((o) => o.id).sort(), [...depictionLevels].sort());
-  // The level label shown on screen is the same phrase the prompt uses.
-  for (const level of levels) assert.equal(level.label.toLowerCase(), level.cue);
+  // The prompt uses each level's lowercase Cue phrase; the screen label may be shorter.
+  assert.deepEqual(
+    depictionLevels.map((id) => levels.find((o) => o.id === id)?.cue),
+    ['very simple', 'simple', 'moderately complex', 'complex', 'very complex'],
+  );
 });
 
 test('every source MD carries a short Cue', () => {

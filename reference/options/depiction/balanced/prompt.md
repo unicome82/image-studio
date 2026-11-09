@@ -1,4 +1,4 @@
-## Moderately Complex
+## Moderate
 
 - **Category:** Depiction
 - **Style ID:** `balanced`

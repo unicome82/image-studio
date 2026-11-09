@@ -21,9 +21,9 @@ IMAGE STUDIO의 **부가 메뉴**로 **갤러리 시안** 영문 프롬프트를
 - **Texture (10):** [Brushstroke](reference/options/texture/brushstroke/prompt.md), [Canvas](reference/options/texture/canvas/prompt.md), [Clean](reference/options/texture/clean/prompt.md), [Digital Noise](reference/options/texture/digitalnoise/prompt.md), [Emboss](reference/options/texture/emboss/prompt.md), [Film Grain](reference/options/texture/filmgrain/prompt.md), [Frosted Glass](reference/options/texture/frostedglass/prompt.md), [Glossy](reference/options/texture/glossy/prompt.md), [Paper Grain](reference/options/texture/papergrain/prompt.md), [Soft Matte](reference/options/texture/softmatte/prompt.md).
 - **Rendering Mode (Outline, 일러스트 전용·필수) (3):** [Fill Only](reference/options/outline/coloronly/prompt.md), [Fill + Outline](reference/options/outline/coloroutline/prompt.md), [Outline Only](reference/options/outline/outlineonly/prompt.md).
 
-- **Depiction (5, 필수·기본 Simple):** Very Simple(`verysimple`), Simple(`simple`), Moderately Complex(`balanced`), Complex(`complex`), Very Complex(`verycomplex`). 화면 표시명(모든 언어 동일)과 Cue(소문자)가 같고, Cue가 시안 문장에 그대로 들어간다.
+- **Depiction (5, 필수·기본 Simple):** Very Simple(`verysimple`), Simple(`simple`), Moderate(`balanced`, Cue moderately complex), Complex(`complex`), Very Complex(`verycomplex`). 화면 표시명은 한국어에서 아주 단순·단순·보통·복잡·아주 복잡으로 번역하고, 소문자 Cue가 시안 문장에 그대로 들어간다.
 
-Technique·Camera·Mood·Lighting·Composition·Typography 카테고리는 사용하지 않는다. Color·Tone·Rendering Mode는 기본 미선택이다. 빌더 순서는 대표 스타일 → 대상 → Depiction → Color → Tone → Rendering Mode이다.
+Technique·Camera·Mood·Lighting·Composition·Typography 카테고리는 사용하지 않는다. Color·Tone·Rendering Mode는 기본 미선택이다. 빌더 순서는 대상(모든 유형 공통, 유형을 바꿔도 유지) → 유형 탭 → 대표 스타일 → Depiction → Color → Tone → Rendering Mode이다.
 
 ## 3. 기능
 

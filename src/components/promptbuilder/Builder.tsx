@@ -70,7 +70,7 @@ export default function Builder(p: Props) {
     { id: 'photo', label: 'Photo' },
     { id: 'design', label: 'Design' },
   ] as const;
-  // Lead styles, subject and depiction come first.
+  // The subject is shared by every type and sits above the type tabs; lead styles follow the tabs.
   const categories = builderCategories(p.photo, design);
   const leadCategories = ['Illustration Style', 'Photo Style', 'Design Format', 'Design Style'];
   const lead = categories.filter((category) => leadCategories.includes(category));
@@ -145,18 +145,6 @@ export default function Builder(p: Props) {
               </section>
             ) : (
               <>
-                <div className="type-tabs" role="group" aria-label={t('Type')}>
-                  {types.map((type) => (
-                    <button
-                      key={type.id}
-                      aria-pressed={p.type === type.id}
-                      onClick={() => p.setType(type.id)}
-                    >
-                      {t(type.label)}
-                    </button>
-                  ))}
-                </div>
-                {lead.map(choices)}
                 <section className="option-section">
                   <h3>
                     <label htmlFor={`${tabsId}-subject`}>{t('Subject')}</label>
@@ -169,6 +157,18 @@ export default function Builder(p: Props) {
                     onChange={(e) => p.setFields({ ...p.fields, Subject: e.target.value })}
                   />
                 </section>
+                <div className="type-tabs" role="group" aria-label={t('Type')}>
+                  {types.map((type) => (
+                    <button
+                      key={type.id}
+                      aria-pressed={p.type === type.id}
+                      onClick={() => p.setType(type.id)}
+                    >
+                      {t(type.label)}
+                    </button>
+                  ))}
+                </div>
+                {lead.map(choices)}
                 <section className="option-section">
                   <OptionChoices
                     title="Depiction"
