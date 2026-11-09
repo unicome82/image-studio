@@ -14,13 +14,19 @@ export interface SampleImage {
 }
 export const sampleImages: SampleImage[] = [
   {
-    type: 'illustration',
-    fileName: 'blank-sample.webp',
-    width: 1200,
+    type: 'photo',
+    fileName: 'stilllife-lemon-sparkling-water.webp',
+    width: 960,
     height: 1200,
-    color: '#f0f0f3',
-    fields: { Subject: '' },
-    selection: { Depiction: ['simple'] },
+    color: '#a9906a',
+    fields: { Subject: 'A glass of sparkling water with lemon' },
+    selection: {
+      'Photo Style': ['stilllife'],
+      Color: ['earthy'],
+      Tone: ['highcontrast'],
+      Texture: ['softmatte'],
+      Depiction: ['simple'],
+    },
   },
 ];
 
