@@ -71,7 +71,7 @@ table {
   &:has(.header-hidden) {
     --header-visible: 0px;
     // Hiding waits briefly; revealing stays immediate.
-    --header-delay: 0.4s;
+    --header-delay: 0.1s;
   }
   --panel-top: calc(max(var(--header-visible), env(safe-area-inset-top, 0px)) - #{$header-overlap});
   --transition-duration: 0.3s;
