@@ -2,8 +2,16 @@ import { builderCategories, optionLimit, type Option, type Selection } from './p
 
 export type FilterType = 'all' | 'illustration' | 'photo' | 'design';
 
+export const imageTypes = ['illustration', 'photo', 'design'] as const;
+// One chosen type shows its own options; none or several show only the shared ones.
+export function filterTypeOf(filters: Selection): FilterType {
+  const types = (filters.Type ?? []).filter((id) => (imageTypes as readonly string[]).includes(id));
+  return types.length === 1 ? (types[0] as FilterType) : 'all';
+}
+
 export function filterCategories(type: FilterType): string[] {
   return [
+    'Type',
     'Aspect Ratio',
     ...(type === 'illustration'
       ? builderCategories(false)

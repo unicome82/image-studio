@@ -6,7 +6,6 @@ import OptionChoices from './promptbuilder/OptionChoices';
 import ResizeHandle from './promptbuilder/ResizeHandle';
 import type { Option, Selection } from '../utils/promptBuilder';
 import { activeFilters, filterCategories, type FilterType } from '../utils/filters';
-import BuilderSelect from './promptbuilder/BuilderSelect';
 import { mobileQuery, useMediaQuery } from '../utils/useMediaQuery';
 import { optionLabelKey } from '../utils/optionChoices';
 
@@ -18,7 +17,6 @@ interface Props {
   type: FilterType;
   // Categories that at least one gallery image carries.
   available: string[];
-  setType: (type: FilterType) => void;
   toggle: (category: string, id: string) => void;
   reset: () => void;
   close: () => void;
@@ -44,7 +42,7 @@ export default function Filter(p: Props) {
       <div className="builder-viewport">
         <div className="builder-wrap builder-heading sticky-heading">
           <div className="builder-title">
-            <FilterTypeSelect type={p.type} setType={p.setType} />
+            <span>{t('Filter')}</span>
             <button
               className="icon-button"
               aria-label={t('Reset filters')}
@@ -120,24 +118,6 @@ export default function Filter(p: Props) {
         </div>
       </div>
     </Panel>
-  );
-}
-
-export function FilterTypeSelect({ type, setType }: Pick<Props, 'type' | 'setType'>) {
-  const { t } = useTranslation();
-  return (
-    <BuilderSelect
-      className="filter-type-select"
-      label={t('Image type')}
-      value={type}
-      options={(['all', 'illustration', 'photo', 'design'] as const).map((value) => ({
-        value,
-        label: t(
-          { all: 'All', illustration: 'Illustration', photo: 'Photo', design: 'Design' }[value],
-        ),
-      }))}
-      change={(value) => setType(value as FilterType)}
-    />
   );
 }
 

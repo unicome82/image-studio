@@ -7,7 +7,7 @@ import Header from './components/Header';
 import Gallery from './components/Gallery';
 import CollectionSort from './components/CollectionSort';
 import type { CollectionSort as SortOrder } from './utils/collectionSort';
-import Filter, { FilterTypeSelect, SelectedFilters } from './components/Filter';
+import Filter, { SelectedFilters } from './components/Filter';
 import SelectionSummary from './components/SelectionSummary';
 import ImageDetail from './components/ImageDetail';
 import type { GalleryTile as Tile } from './types';
@@ -235,7 +235,6 @@ export default function App() {
               filters={gallery.filters}
               type={filterType}
               available={gallery.availableCategories}
-              setType={gallery.changeType}
               toggle={gallery.toggle}
               reset={gallery.reset}
               close={() => closeFilter()}
@@ -261,7 +260,6 @@ export default function App() {
                 >
                   <Icon name="filter_list" size="20" />
                 </button>
-                {!builder && <FilterTypeSelect type={filterType} setType={gallery.changeType} />}
                 <span className="result-count" role="status" aria-live="polite">
                   {resultCount}
                 </span>

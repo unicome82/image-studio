@@ -7,11 +7,12 @@ import { optionLabelKey } from './optionChoices';
 import {
   activeFilters,
   filterMetadata,
+  filterTypeOf,
+  imageTypes,
   matchesFilters,
   normalizeRatio,
   retainFilters,
   toggleFilter,
-  type FilterType,
 } from './filters';
 import { aspectRatios, type Selection } from './promptBuilder';
 import { sampleImages } from './sampleImages';
@@ -21,7 +22,10 @@ const leadCategory = {
   photo: 'Photo Style',
   design: 'Design Format',
 };
+const typeLabel = { illustration: 'Illustration', photo: 'Photo', design: 'Design' };
 export const filterCatalog = [
+  // Image types are multi-select buttons like any other filter category.
+  ...imageTypes.map((id) => ({ id, label: typeLabel[id], category: 'Type', path: '', prompt: '' })),
   ...catalog,
   // Ratios cover the Builder choices plus any generated image's own shape.
   ...[
@@ -62,7 +66,7 @@ interface Options {
 export function useGalleryFilters({ onlySaved, bookmarks, favoriteSort, onChange }: Options) {
   const { t } = useTranslation();
   const [filters, setFilters] = useState<Selection>({});
-  const [filterType, setFilterType] = useState<FilterType>('all');
+  const filterType = filterTypeOf(filters);
   const [query, setQuery] = useState('');
   const effectiveFilters = activeFilters(filters, filterCatalog);
   // Every word must appear in the image name or one of its tags; a leading # is ignored.
@@ -75,10 +79,8 @@ export function useGalleryFilters({ onlySaved, bookmarks, favoriteSort, onChange
     option ? [option.label, t(optionLabelKey(option))] : [];
   // Categories some image actually carries; the filter panel hides the rest.
   const availableCategories = new Set<string>();
-  const typeLabel = { illustration: 'Illustration', photo: 'Photo', design: 'Design' };
   const visible = tiles.filter((tile) => {
-    if (filterType !== 'all' && tile.type !== filterType) return false;
-    [...Object.keys(tile.selection), 'Aspect Ratio'].forEach((category) =>
+    [...Object.keys(tile.selection), 'Type', 'Aspect Ratio'].forEach((category) =>
       availableCategories.add(category),
     );
     const ratio = `${tile.width}:${tile.height}`;
@@ -124,17 +126,14 @@ export function useGalleryFilters({ onlySaved, bookmarks, favoriteSort, onChange
     query,
     displayGroups,
     toggle(category: string, id: string) {
-      setFilters(toggleFilter(filters, category, id));
+      const next = toggleFilter(filters, category, id);
+      // Changing the types keeps shared choices and drops options the new type set lacks.
+      setFilters(category === 'Type' ? retainFilters(next, filterTypeOf(next)) : next);
       onChange();
     },
     reset() {
       setFilters({});
       setQuery('');
-      onChange();
-    },
-    changeType(type: FilterType) {
-      setFilterType(type);
-      setFilters((previous) => retainFilters(previous, type));
       onChange();
     },
     search(value: string) {
@@ -144,7 +143,6 @@ export function useGalleryFilters({ onlySaved, bookmarks, favoriteSort, onChange
     // Header navigation clears the query or the whole filter state without other side effects.
     clearQuery: () => setQuery(''),
     clearAll() {
-      setFilterType('all');
       setFilters({});
       setQuery('');
     },

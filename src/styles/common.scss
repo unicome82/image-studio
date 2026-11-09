@@ -1066,14 +1066,6 @@ textarea,
 .builder-select {
   position: relative;
   min-width: 0;
-  &.filter-type-select .builder-select-trigger {
-    border-radius: 4px;
-    color: $black;
-    font-size: var(--text-title, 16px);
-    font-weight: 700;
-    text-transform: none;
-    letter-spacing: normal;
-  }
   &-trigger {
     font-size: $button-font-size;
     @include flex-row($gap: 4px, $display: inline-flex);

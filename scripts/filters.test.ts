@@ -108,3 +108,14 @@ test('image dimensions and saved aspect ratios match equivalent reduced ratios',
   const preset = filterMetadata({ 'Photo Style': ['film'] }, true, '1200:1500');
   assert.equal(matchesFilters(preset, { Type: ['photo'], 'Aspect Ratio': ['4:5'] }), true);
 });
+
+test('image types are multi-select filter buttons; one type unlocks its own options', async () => {
+  const { filterTypeOf } = await import('../src/utils/filters.ts');
+  assert.equal(filterTypeOf({}), 'all');
+  assert.equal(filterTypeOf({ Type: ['photo'] }), 'photo');
+  assert.equal(filterTypeOf({ Type: ['photo', 'design'] }), 'all');
+  assert.equal(filterCategories('all')[0], 'Type');
+  const both = { Type: ['illustration', 'photo'] };
+  assert.equal(matchesFilters(filterMetadata({}, true, '1:1'), both), true);
+  assert.equal(matchesFilters(filterMetadata({}, false, '1:1', true), both), false);
+});
