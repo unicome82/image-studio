@@ -1,4 +1,4 @@
-## Rich
+## Very Complex
 
 - **Category:** Depiction
 - **Style ID:** `verycomplex`

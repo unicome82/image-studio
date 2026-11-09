@@ -1,4 +1,4 @@
-## Essential
+## Very Simple
 
 - **Category:** Depiction
 - **Style ID:** `verysimple`

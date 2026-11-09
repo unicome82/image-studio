@@ -34,11 +34,10 @@ export const defaultDepiction = 'simple';
 export function optionLimit(): number {
   return 1;
 }
-// Subject feeds the mockup; the picked image number and the ratio feed the single-image step.
+// Subject feeds the mockup; the ratio feeds the single-image step.
 export function compactFields(fields: Record<string, string>): Record<string, string> {
   return {
     Subject: fields.Subject ?? '',
-    Image: fields.Image ?? '',
     'Aspect Ratio': fields['Aspect Ratio'] || '1:1',
   };
 }
@@ -51,8 +50,10 @@ export function builderCategories(photo: boolean, design = false): string[] {
     ? ['Design Format', 'Design Style', 'Color', 'Texture']
     : photo
       ? ['Photo Style', 'Color', 'Texture']
-      : ['Illustration Style', 'Color', 'Texture', 'Outline'];
+      : ['Illustration Style', 'Color', 'Outline', 'Texture'];
 }
+// Texture is applied only when a picked image is recreated, not in the mockup.
+export const recreateCategories = ['Texture'];
 export function toggleOption(selection: Selection, category: string, id: string): Selection {
   const current = selection[category] ?? [];
   return {
@@ -104,10 +105,16 @@ export function makeMockupPrompt(
   type: ImageType,
 ) {
   const style = styleName(catalog, selection, type);
-  // Color, texture and outline are optional extras listed only when chosen.
+  // Color and outline are optional extras listed only when chosen.
   const extras = chosenOptions(catalog, selection, type).filter(
     (o) =>
-      !['Illustration Style', 'Photo Style', 'Design Format', 'Design Style'].includes(o.category),
+      ![
+        'Illustration Style',
+        'Photo Style',
+        'Design Format',
+        'Design Style',
+        ...recreateCategories,
+      ].includes(o.category),
   );
   return [
     `Design a mockup of a ${words[type].site}: white background, simple header, a clean grid of 10 images.`,
@@ -117,12 +124,20 @@ export function makeMockupPrompt(
     `Each image shows a different ${depictionPhrase(catalog, selection)} ${fields.Subject?.trim() || 'subject'}.`,
   ].join('\n');
 }
-/** Step 2: recreate one image picked from the mockup, in the same chat, at a chosen ratio. */
-export function makeRecreatePrompt(fields: Record<string, string>, type: ImageType) {
-  const image = /^(10|[1-9])$/.test(fields.Image?.trim() ?? '') ? fields.Image.trim() : '1';
+/** Step 2: recreate the image picked in the mockup chat, adding texture and a ratio. */
+export function makeRecreatePrompt(
+  catalog: Option[],
+  selection: Selection,
+  fields: Record<string, string>,
+  type: ImageType,
+) {
+  const texture = chosenOptions(catalog, selection, type).filter((o) =>
+    recreateCategories.includes(o.category),
+  );
   return [
-    `Recreate image ${image} of 10 from this gallery mockup, counting left to right and top to bottom, as a standalone ${words[type].one}.`,
-    'Keep the same style, colors, and texture, and show the full composition inside the frame.',
+    `Recreate the image I choose from this gallery mockup as a standalone ${words[type].one}.`,
+    'Keep the same style and colors, and show the full composition inside the frame.',
+    ...texture.map(optionLine),
     `Aspect Ratio: ${fields['Aspect Ratio']?.trim() || '1:1'}`,
   ].join('\n');
 }

@@ -23,16 +23,16 @@ IMAGE STUDIO의 **부가 메뉴**로 2단계 이미지 생성용 영문 프롬�
 - **Texture (10):** [Brushstroke](reference/options/texture/brushstroke/prompt.md), [Canvas](reference/options/texture/canvas/prompt.md), [Clean](reference/options/texture/clean/prompt.md), [Digital Noise](reference/options/texture/digitalnoise/prompt.md), [Emboss](reference/options/texture/emboss/prompt.md), [Film Grain](reference/options/texture/filmgrain/prompt.md), [Frosted Glass](reference/options/texture/frostedglass/prompt.md), [Glossy](reference/options/texture/glossy/prompt.md), [Paper Grain](reference/options/texture/papergrain/prompt.md), [Soft Matte](reference/options/texture/softmatte/prompt.md).
 - **Rendering Mode (Outline, 일러스트 전용·필수) (3):** [Color Only](reference/options/outline/coloronly/prompt.md), [Color + Outline](reference/options/outline/coloroutline/prompt.md), [Outline Only](reference/options/outline/outlineonly/prompt.md).
 
-- **Depiction (5, 필수·기본 Simple):** Essential(`verysimple`, very simple), Simple(`simple`, simple), Moderate(`balanced`, moderately complex), Detailed(`complex`, complex), Rich(`verycomplex`, very complex). 괄호 안 마지막 값이 Cue이며 시안 문장에 그대로 들어간다.
+- **Depiction (5, 필수·기본 Simple):** Very Simple(`verysimple`), Simple(`simple`), Moderately Complex(`balanced`), Complex(`complex`), Very Complex(`verycomplex`). 화면 표시명(모든 언어 동일)과 Cue(소문자)가 같고, Cue가 시안 문장에 그대로 들어간다.
 
-Technique·Camera·Mood·Lighting·Composition·Typography 카테고리는 사용하지 않는다. Color·Texture·Rendering Mode는 기본 미선택이다.
+Technique·Camera·Mood·Lighting·Composition·Typography 카테고리는 사용하지 않는다. Color·Texture·Rendering Mode는 기본 미선택이다. 빌더 순서는 대표 스타일 → 대상 → Depiction → Color → Rendering Mode → Texture → 비율이며, Texture와 비율은 개별 이미지 프롬프트에만 쓴다.
 
 ## 3. 기능
 
 1. **Single Select:** 모든 카테고리는 단일 선택이다. Design Format·Depiction은 항상 하나를 유지하고 나머지는 다시 누르면 해제된다.
 2. **Live Prompt:** 선택 즉시 갤러리 시안·개별 이미지 프롬프트를 갱신한다. 하단 탭으로 두 프롬프트를 전환하고 복사는 보이는 탭을 복사한다.
-3. **입력:** 시안에는 무엇을 그릴지 적는 대상(예: woman, building, 비우면 subject)과 묘사 정도만 쓴다. 각 이미지 설명은 받지 않는다. 개별 이미지는 이미지 번호(1–10, 왼쪽에서 오른쪽·위에서 아래)와 비율(1:1/4:5/3:4/2:3/9:16/4:3/3:2/16:9, 기본 4:5)을 고른다. Design Format은 기본 비율을 제안한다.
-4. **시안 저장함:** 유형·선택 옵션·묘사 정도·대상·이미지 번호·비율을 LocalStorage에 저장하고, 카드에는 대표 스타일 이름·선택 태그·갤러리 시안 프롬프트를 표시한다. 수정·삭제·복사를 제공한다.
+3. **입력:** 시안에는 무엇을 그릴지 적는 대상(예: woman, building, 비우면 subject)과 묘사 정도만 쓴다. 각 이미지 설명이나 이미지 번호는 받지 않는다. 개별 이미지는 Texture와 비율(1:1/4:5/3:4/2:3/9:16/4:3/3:2/16:9, 기본 4:5)을 고른다. Design Format은 기본 비율을 제안한다.
+4. **시안 저장함:** 유형·선택 옵션·묘사 정도·대상·비율을 LocalStorage에 저장하고, 카드에는 대표 스타일 이름·선택 태그·갤러리 시안 프롬프트를 표시한다. 수정·삭제·복사를 제공한다.
 
 ## 4. 생성 규칙
 
@@ -43,14 +43,15 @@ Technique·Camera·Mood·Lighting·Composition·Typography 카테고리는 사�
   Design a mockup of a minimal {gallery | photography portfolio | design studio portfolio} website: white background, simple header, a clean grid of 10 images.
 
   All 10 images share one style: {대표 스타일 | Design Style + Design Format}
-  {Color: 표시명 / Texture: 표시명 / Rendering Mode: 표시명 — 선택한 경우만}
+  {Color: 표시명 / Rendering Mode: 표시명 — 선택한 경우만}
   Each image shows a different {Depiction Cue} {대상 | subject}.
   ```
-  비율은 넣지 않는다. 대표 스타일이 없으면 `All 10 images share one consistent style.`로 쓴다.
+  Texture·비율은 넣지 않는다. 대표 스타일이 없으면 `All 10 images share one consistent style.`로 쓴다.
 - **개별 이미지 (시안 채팅에서 이어서 사용):**
   ```text
-  Recreate image {번호} of 10 from this gallery mockup, counting left to right and top to bottom, as a standalone {illustration | photograph | design}.
-  Keep the same style, colors, and texture, and show the full composition inside the frame.
+  Recreate the image I choose from this gallery mockup as a standalone {illustration | photograph | design}.
+  Keep the same style and colors, and show the full composition inside the frame.
+  {Texture: 표시명 — Cue — 선택한 경우만}
   Aspect Ratio: {비율}
   ```
 - **갤러리 상세 (단독 사용):** `Create a standalone {…} of "{Subject}".`, 옵션 줄, `Aspect Ratio: {비율}` 순서다.

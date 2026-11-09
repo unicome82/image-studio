@@ -17,7 +17,7 @@ import {
 export type BuilderType = ImageType;
 export type PresetSettings = Pick<StylePreset, 'photo' | 'design' | 'selection' | 'fields'>;
 
-const defaultFields: Record<string, string> = { Subject: '', Image: '', 'Aspect Ratio': '4:5' };
+const defaultFields: Record<string, string> = { Subject: '', 'Aspect Ratio': '4:5' };
 
 export function useBuilderDraft() {
   const [builderType, setBuilderType] = useState<BuilderType>('illustration');
@@ -49,7 +49,7 @@ export function useBuilderDraft() {
   const [selection, setSelection] = selections[builderType];
   const pending = Object.keys(pendingChoices).length > 0;
   const mockupPrompt = pending ? '' : makeMockupPrompt(catalog, selection, fields, builderType);
-  const recreatePrompt = makeRecreatePrompt(fields, builderType);
+  const recreatePrompt = makeRecreatePrompt(catalog, selection, fields, builderType);
 
   // Seed the draft from gallery filters that changed since the last time the Builder opened.
   function applyFilters(effectiveFilters: Selection, filterType: FilterType) {

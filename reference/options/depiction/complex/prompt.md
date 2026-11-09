@@ -1,4 +1,4 @@
-## Detailed
+## Complex
 
 - **Category:** Depiction
 - **Style ID:** `complex`

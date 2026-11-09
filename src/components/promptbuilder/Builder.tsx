@@ -13,6 +13,7 @@ import {
   defaultDepiction,
   depictionLevels,
   optionLimit,
+  recreateCategories,
 } from '../../utils/promptBuilder';
 import type { ImageType, Option, Selection } from '../../utils/promptBuilder';
 interface Props {
@@ -38,8 +39,6 @@ interface Props {
   editing?: boolean;
 }
 type Output = 'mockup' | 'image';
-// Mockup images are counted left to right, top to bottom.
-const imageNumbers = Array.from({ length: 10 }, (_, i) => String(i + 1));
 export default function Builder(p: Props) {
   const { t } = useTranslation();
   const design = p.type === 'design';
@@ -69,7 +68,7 @@ export default function Builder(p: Props) {
   }, []);
   const mobile = useMediaQuery(mobileQuery);
   const [promptCollapsed, setPromptCollapsed] = useState(mobile);
-  // Style choices shape the mockup; the subject and ratio shape the single image.
+  // Style, subject and depiction shape the mockup; texture and ratio shape the single image.
   const [output, setOutput] = useState<Output>('mockup');
   const prompt = output === 'mockup' ? p.mockupPrompt : p.recreatePrompt;
   const types = [
@@ -77,14 +76,29 @@ export default function Builder(p: Props) {
     { id: 'photo', label: 'Photo' },
     { id: 'design', label: 'Design' },
   ] as const;
-  const categories = builderCategories(p.photo, design).filter(
-    (category) => category !== 'Outline',
-  );
+  // Lead styles, subject and depiction come first; texture and ratio only feed the single image.
+  const categories = builderCategories(p.photo, design);
+  const leadCategories = ['Illustration Style', 'Photo Style', 'Design Format', 'Design Style'];
+  const lead = categories.filter((category) => leadCategories.includes(category));
+  const rest = categories.filter((category) => !leadCategories.includes(category));
   function toggle(category: string, id: string) {
     p.toggle(category, id);
-    setOutput('mockup');
+    setOutput(recreateCategories.includes(category) ? 'image' : 'mockup');
   }
-  // The mockup subject updates the mockup; the picked image and ratio update the single image.
+  const choices = (category: string) => (
+    <section className="option-section" key={category}>
+      <OptionChoices
+        title={category === 'Illustration Style' ? 'Style' : category}
+        options={p.catalog
+          .filter((o) => o.category === category)
+          .map((o) => ({ id: o.id, label: o.label.replace(' Modern', ''), category }))}
+        selected={p.selection[category] ?? []}
+        multiple={false}
+        choose={(id) => toggle(category, id)}
+      />
+    </section>
+  );
+  // The subject updates the mockup; the ratio updates the single image.
   function setFields(next: Record<string, string>, target: Output) {
     p.setFields(next);
     setOutput(target);
@@ -170,36 +184,7 @@ export default function Builder(p: Props) {
                     </button>
                   ))}
                 </div>
-                {!p.photo && !design && (
-                  <section className="option-section">
-                    <OptionChoices
-                      title="Outline"
-                      multiple={false}
-                      options={p.catalog
-                        .filter((o) => o.category === 'Outline')
-                        .map((o) => ({ id: o.id, label: o.label }))}
-                      selected={p.selection.Outline ?? []}
-                      choose={(id) => toggle('Outline', id)}
-                    />
-                  </section>
-                )}
-                {categories.map((category) => (
-                  <section className="option-section" key={category}>
-                    <OptionChoices
-                      title={category === 'Illustration Style' ? 'Style' : category}
-                      options={p.catalog
-                        .filter((o) => o.category === category)
-                        .map((o) => ({
-                          id: o.id,
-                          label: o.label.replace(' Modern', ''),
-                          category,
-                        }))}
-                      selected={p.selection[category] ?? []}
-                      multiple={false}
-                      choose={(id) => toggle(category, id)}
-                    />
-                  </section>
-                ))}
+                {lead.map(choices)}
                 <section className="option-section">
                   <h3>
                     <label htmlFor={`${tabsId}-subject`}>{t('Subject')}</label>
@@ -224,15 +209,7 @@ export default function Builder(p: Props) {
                     choose={(id) => toggle('Depiction', id)}
                   />
                 </section>
-                <section className="option-section">
-                  <OptionChoices
-                    title="Image number"
-                    multiple={false}
-                    options={imageNumbers.map((n) => ({ id: n, label: n }))}
-                    selected={[p.fields.Image || '1']}
-                    choose={(n) => setFields({ ...p.fields, Image: n }, 'image')}
-                  />
-                </section>
+                {rest.map(choices)}
                 <section className="option-section">
                   <OptionChoices
                     title="Aspect ratio"

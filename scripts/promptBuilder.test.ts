@@ -35,7 +35,7 @@ function catalogAt(dir: string): Option[] {
 const catalog = catalogAt('reference');
 
 test('each type keeps only its lead style, color, texture and illustration outline', () => {
-  assert.deepEqual(builderCategories(false), ['Illustration Style', 'Color', 'Texture', 'Outline']);
+  assert.deepEqual(builderCategories(false), ['Illustration Style', 'Color', 'Outline', 'Texture']);
   assert.deepEqual(builderCategories(true), ['Photo Style', 'Color', 'Texture']);
   assert.deepEqual(builderCategories(false, true), [
     'Design Format',
@@ -50,8 +50,10 @@ test('each type keeps only its lead style, color, texture and illustration outli
     'Depiction',
   ]);
   for (const option of catalog) assert.ok(offered.has(option.category), option.path);
-  const levels = catalog.filter((o) => o.category === 'Depiction').map((o) => o.id);
-  assert.deepEqual(levels.sort(), [...depictionLevels].sort());
+  const levels = catalog.filter((o) => o.category === 'Depiction');
+  assert.deepEqual(levels.map((o) => o.id).sort(), [...depictionLevels].sort());
+  // The level label shown on screen is the same phrase the prompt uses.
+  for (const level of levels) assert.equal(level.label.toLowerCase(), level.cue);
 });
 
 test('every source MD carries a short Cue', () => {
@@ -88,7 +90,8 @@ test('mockup prompt names one style, the depiction level and the subject without
     {},
     'illustration',
   );
-  assert.ok(rich.includes('\nColor: Pastel\nTexture: Paper Grain\nRendering Mode: Outline Only\n'));
+  assert.ok(rich.includes('\nColor: Pastel\nRendering Mode: Outline Only\nEach image'));
+  assert.ok(!rich.includes('Texture'));
   assert.ok(rich.endsWith('Each image shows a different very complex subject.'));
   assert.ok(!rich.includes('Portrait') && !rich.includes('Aspect Ratio'));
   assert.ok(
@@ -105,11 +108,22 @@ test('mockup prompt names one style, the depiction level and the subject without
   assert.ok(makeMockupPrompt(catalog, {}, {}, 'photo').includes('photography portfolio website'));
 });
 
-test('single-image prompts pick an image number and state the ratio', () => {
-  const recreate = makeRecreatePrompt({ Image: '3', 'Aspect Ratio': '4:5' }, 'illustration');
-  assert.ok(recreate.startsWith('Recreate image 3 of 10 from this gallery mockup'));
-  assert.ok(recreate.endsWith('Aspect Ratio: 4:5'));
-  assert.ok(makeRecreatePrompt({ Image: 'x' }, 'photo').startsWith('Recreate image 1 of 10'));
+test('single-image prompts add texture and the ratio to the picked image', () => {
+  const recreate = makeRecreatePrompt(
+    catalog,
+    { Texture: ['papergrain'], Color: ['pastel'] },
+    { 'Aspect Ratio': '4:5' },
+    'illustration',
+  );
+  const lines = recreate.split('\n');
+  assert.equal(
+    lines[0],
+    'Recreate the image I choose from this gallery mockup as a standalone illustration.',
+  );
+  assert.match(lines[2], /^Texture: Paper Grain — /);
+  assert.equal(lines[3], 'Aspect Ratio: 4:5');
+  assert.ok(!recreate.includes('Pastel'));
+  assert.equal(makeRecreatePrompt(catalog, {}, {}, 'photo').split('\n').length, 3);
   const image = makeImagePrompt(
     catalog,
     { 'Illustration Style': ['risograph'], Color: ['pastel'] },
@@ -129,7 +143,6 @@ test('single choice per category; required categories stay selected', () => {
   assert.equal(defaultDepiction, 'simple');
   assert.deepEqual(compactFields({ Subject: 'A', Text: 'B', 'Typography Enabled': 'true' }), {
     Subject: 'A',
-    Image: '',
     'Aspect Ratio': '1:1',
   });
 });
@@ -156,7 +169,7 @@ test('saved mockups keep only offered categories and migrate removed styles', ()
     Color: ['muted'],
     Depiction: ['complex'],
   });
-  assert.deepEqual(illustration.fields, { Subject: 'A tree', Image: '', 'Aspect Ratio': '3:4' });
+  assert.deepEqual(illustration.fields, { Subject: 'A tree', 'Aspect Ratio': '3:4' });
   assert.deepEqual(photo.selection, {
     'Photo Style': [],
     Texture: ['filmgrain'],
