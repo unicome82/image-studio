@@ -132,8 +132,15 @@ export function makeMockupPrompt(
     (o) =>
       !['Illustration Style', 'Photo Style', 'Design Format', 'Design Style'].includes(o.category),
   );
+  // The header spells out the chosen look so each mockup labels its own settings.
+  const depictionId = selection.Depiction?.[0] ?? defaultDepiction;
+  const depiction = catalog.find((o) => o.category === 'Depiction' && o.id === depictionId);
+  const headerText = [style, ...extras.map((o) => o.label), depiction?.label]
+    .filter(Boolean)
+    .join(' · ');
   return [
     `Design a mockup of a ${words[type].site}: white background, only a simple header and a masonry gallery of 9 to 12 ${media} in mixed aspect ratios.`,
+    `The header shows the style and options as text: ${headerText}`,
     '',
     style ? `All ${media} share one style: ${style}` : `All ${media} share one consistent style.`,
     mockupMood,

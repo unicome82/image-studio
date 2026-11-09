@@ -39,6 +39,7 @@ Technique·Camera·Mood·Lighting·Composition·Typography 카테고리는 사�
 - **갤러리 시안:**
   ```text
   Design a mockup of a minimal {gallery | photography portfolio | design studio portfolio} website: white background, only a simple header and a masonry gallery of 9 to 12 {illustrations | photographs | designs} in mixed aspect ratios.
+  The header shows the style and options as text: {대표 스타일} · {Color} · {Tone} · {Rendering Mode} · {Depiction 표시명}
 
   All {illustrations | photographs | designs} share one style: {대표 스타일 | Design Style + Design Format}
   Mood: modern and chic, refined and grown-up
@@ -51,7 +52,7 @@ Technique·Camera·Mood·Lighting·Composition·Typography 카테고리는 사�
   Each image shows a different {Depiction Cue} take on the subject: {대상}
   (대상이 비면) Each image shows a different {Depiction Cue} subject.
   ```
-  Texture·비율은 넣지 않는다. 대표 스타일이 없으면 `All {…} share one consistent style.`로 쓴다.
+  헤더 텍스트는 선택한 값의 표시명만 ` · `로 잇고 미선택 항목은 뺀다. Texture·비율은 넣지 않는다. 대표 스타일이 없으면 `All {…} share one consistent style.`로 쓴다.
 - **갤러리 상세 (단독 사용):** `Create a standalone {…} of "{Subject}".`, 옵션 줄, `Aspect Ratio: {비율}` 순서다.
 - 입력·Subject는 원문 그대로 유지한다. 피할 대상을 나열하는 부정문, 완성도 강조 문구, 파일 읽기 지시·경로는 출력하지 않는다.
 - 저장소에는 선택 ID·입력값만 저장하고 프롬프트 본문을 복제하지 않는다.

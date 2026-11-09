@@ -76,6 +76,7 @@ test('mockup prompt names one style, the depiction level and the subject without
     text,
     [
       'Design a mockup of a minimal gallery website: white background, only a simple header and a masonry gallery of 9 to 12 illustrations in mixed aspect ratios.',
+      'The header shows the style and options as text: Geometric Illustration · Very Simple',
       '',
       'All illustrations share one style: Geometric Illustration',
       'Mood: modern and chic, refined and grown-up',
@@ -102,9 +103,14 @@ test('mockup prompt names one style, the depiction level and the subject without
       '\nColor: Pastel, with different colors for each image\nTone: Hazy\nRendering Mode: Outline Only\nEach image',
     ),
   );
+  assert.ok(
+    rich.includes(
+      'The header shows the style and options as text: Risograph · Pastel · Hazy · Outline Only · Very Complex\n',
+    ),
+  );
   assert.ok(!rich.includes('Texture'));
   const tone = (id: string) =>
-    makeMockupPrompt(catalog, { Color: [id] }, {}, 'photo').split('\n')[4];
+    makeMockupPrompt(catalog, { Color: [id] }, {}, 'photo').split('\n')[5];
   assert.equal(
     tone('blackwhite'),
     'Color: Black & White, with a different grayscale tone for each image',
