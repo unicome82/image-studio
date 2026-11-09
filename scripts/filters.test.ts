@@ -55,6 +55,7 @@ test('no type shows every style; chosen types show only their own styles', () =>
     'Aspect Ratio',
     'Photo Style',
     'Color',
+    'Tone',
     'Texture',
   ]);
 });

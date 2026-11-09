@@ -44,10 +44,10 @@ export function imageType(photo: boolean, design = false): ImageType {
 // The lead style comes first so the defining look is read before color.
 export function builderCategories(photo: boolean, design = false): string[] {
   return design
-    ? ['Design Format', 'Design Style', 'Color']
+    ? ['Design Format', 'Design Style', 'Color', 'Tone']
     : photo
-      ? ['Photo Style', 'Color']
-      : ['Illustration Style', 'Color', 'Outline'];
+      ? ['Photo Style', 'Color', 'Tone']
+      : ['Illustration Style', 'Color', 'Tone', 'Outline'];
 }
 // Gallery images also carry the texture they were made with.
 export function imageCategories(photo: boolean, design = false): string[] {

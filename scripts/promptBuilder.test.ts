@@ -34,11 +34,16 @@ function catalogAt(dir: string): Option[] {
 }
 const catalog = catalogAt('reference');
 
-test('each type keeps only its lead style, color and illustration outline; images add texture', () => {
-  assert.deepEqual(builderCategories(false), ['Illustration Style', 'Color', 'Outline']);
-  assert.deepEqual(builderCategories(true), ['Photo Style', 'Color']);
-  assert.deepEqual(builderCategories(false, true), ['Design Format', 'Design Style', 'Color']);
-  assert.deepEqual(imageCategories(true), ['Photo Style', 'Color', 'Texture']);
+test('each type keeps only its lead style, color, tone and illustration outline; images add texture', () => {
+  assert.deepEqual(builderCategories(false), ['Illustration Style', 'Color', 'Tone', 'Outline']);
+  assert.deepEqual(builderCategories(true), ['Photo Style', 'Color', 'Tone']);
+  assert.deepEqual(builderCategories(false, true), [
+    'Design Format',
+    'Design Style',
+    'Color',
+    'Tone',
+  ]);
+  assert.deepEqual(imageCategories(true), ['Photo Style', 'Color', 'Tone', 'Texture']);
   const offered = new Set([
     ...imageCategories(false),
     ...imageCategories(true),
@@ -80,6 +85,7 @@ test('mockup prompt names one style, the depiction level and the subject without
     {
       'Illustration Style': ['risograph'],
       Color: ['pastel'],
+      Tone: ['hazy'],
       Texture: ['papergrain'],
       Outline: ['outlineonly'],
       Depiction: ['verycomplex'],
@@ -90,7 +96,7 @@ test('mockup prompt names one style, the depiction level and the subject without
   );
   assert.ok(
     rich.includes(
-      '\nColor: Pastel, with different colors for each image\nRendering Mode: Outline Only\nEach image',
+      '\nColor: Pastel, with different colors for each image\nTone: Hazy\nRendering Mode: Outline Only\nEach image',
     ),
   );
   assert.ok(!rich.includes('Texture'));
@@ -156,8 +162,10 @@ test('saved mockups keep only offered categories and migrate removed styles', ()
     },
     { id: '2', photo: true, selection: { 'Photo Style': ['film'] }, fields: {} },
     { id: '3', photo: false, selection: { Technique: ['risograph'] }, fields: {} },
+    { id: '4', photo: true, selection: { Color: ['highkey'] }, fields: {} },
+    { id: '5', photo: false, selection: { 'Illustration Style': ['lowpoly'] }, fields: {} },
   ]);
-  const [illustration, photo, riso] = parsePresets(raw, catalog);
+  const [illustration, photo, riso, highkey, lowpoly] = parsePresets(raw, catalog);
   assert.deepEqual(illustration.selection, {
     'Illustration Style': ['contemporaryflat'],
     Color: ['muted'],
@@ -169,4 +177,6 @@ test('saved mockups keep only offered categories and migrate removed styles', ()
     Color: ['muted'],
   });
   assert.deepEqual(riso.selection, { 'Illustration Style': ['risograph'] });
+  assert.deepEqual(highkey.selection, { Color: [], Tone: ['bright'] });
+  assert.deepEqual(lowpoly.selection, { 'Illustration Style': ['geometricillustration'] });
 });

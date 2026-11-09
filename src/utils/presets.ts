@@ -40,6 +40,8 @@ const legacyOptions: Record<string, [string, string][]> = {
   'Color:vintage': [['Color', 'muted']],
   'Color:midcenturypalette': [['Color', 'muted']],
   'Color:jeweltones': [['Color', 'vivid']],
+  'Color:highkey': [['Tone', 'bright']],
+  'Color:lowkey': [['Tone', 'dark']],
   'Illustration Style:lowpoly': [['Illustration Style', 'geometricillustration']],
   'Photo Style:film': [['Color', 'muted']],
   'Photo Style:analog': [['Color', 'muted']],

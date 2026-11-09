@@ -34,6 +34,7 @@ export function filterCategories(filters: Selection): string[] {
     'Aspect Ratio',
     ...types.flatMap((type) => styleCategories[type]),
     'Color',
+    'Tone',
     ...(types.includes('illustration') ? ['Outline'] : []),
     'Texture',
   ];
