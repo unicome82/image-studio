@@ -529,9 +529,11 @@ export const sampleImages: SampleImage[] = [
 ];
 
 /** Placeholder color with the real image layered on top when the tile has one. */
-export function imageStyle(image: { color: string; src?: string }) {
+// The cached tile thumbnail sits under the original, so detail and zoom show it at once.
+export function imageStyle(image: { color: string; src?: string; thumb?: string }) {
+  const layers = [image.src, image.thumb].filter(Boolean).map((url) => `url("${url}")`);
   return {
     backgroundColor: image.color,
-    ...(image.src ? { backgroundImage: `url("${image.src}")` } : {}),
+    ...(layers.length ? { backgroundImage: layers.join(', ') } : {}),
   };
 }

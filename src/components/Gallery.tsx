@@ -31,7 +31,15 @@ export default function Gallery(p: Props) {
                 {tile.src && (
                   <img
                     className="tile-image"
-                    src={tile.src}
+                    src={tile.thumb}
+                    // Small tiles always take the 480px copy to save data, even on 3x phones;
+                    // large tiles may switch to the original where 480px would look soft.
+                    srcSet={
+                      p.largeThumbnails
+                        ? `${tile.thumb} 480w, ${tile.src} ${tile.width}w`
+                        : undefined
+                    }
+                    sizes={p.largeThumbnails ? '(max-width: 600px) 100vw, 400px' : undefined}
                     alt=""
                     loading="lazy"
                     decoding="async"

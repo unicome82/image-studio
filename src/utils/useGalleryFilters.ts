@@ -46,6 +46,7 @@ const tiles = shuffle(sampleImages).map((image, index) => {
     label: catalog.find((o) => o.category === category && o.id === id)?.label ?? id,
     fileName: image.fileName,
     src: `${import.meta.env.BASE_URL}samples/${image.fileName}`,
+    thumb: `${import.meta.env.BASE_URL}samples/thumbs/${image.fileName}`,
     color: image.color,
     index,
     width: image.width,

@@ -2,6 +2,8 @@ export interface GalleryTile {
   fileName: string;
   // Generated image URL; the placeholder color shows until it loads.
   src: string;
+  // 480px-wide copy built by the sample-thumbnails Vite plugin for tiles.
+  thumb: string;
   id: string;
   type: 'illustration' | 'photo' | 'design';
   // Lead style or format ID and its catalog name.

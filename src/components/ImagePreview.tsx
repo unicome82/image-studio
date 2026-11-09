@@ -11,6 +11,7 @@ interface PreviewImage {
   height: number;
   color: string;
   src?: string;
+  thumb?: string;
   label: string;
 }
 export const minZoom = 1;
