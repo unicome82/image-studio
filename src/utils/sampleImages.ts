@@ -81,7 +81,6 @@ export const sampleImages: SampleImage[] = [
     selection: {
       'Illustration Style': ['geometricillustration'],
       Outline: ['coloronly'],
-      Color: ['jeweltones'],
       Depiction: ['balanced'],
     },
   },
@@ -181,7 +180,6 @@ export const sampleImages: SampleImage[] = [
     fields: { Subject: 'A model in a red trench coat' },
     selection: {
       'Photo Style': ['fashion'],
-      Color: ['jeweltones'],
       Depiction: ['balanced'],
     },
   },

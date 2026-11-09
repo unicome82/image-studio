@@ -240,7 +240,6 @@ const translation: Record<string, string> = {
   'Low Poly': '로우 폴리',
   'Pixel Art': '픽셀 아트',
   'Neutral + Accent': '포인트',
-  'Jewel Tones': '주얼 톤',
   Iridescent: '홀로그램',
   Glossy: '유광',
   'Frosted Glass': '유리',

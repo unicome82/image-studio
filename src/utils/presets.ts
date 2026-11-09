@@ -39,6 +39,7 @@ const legacyOptions: Record<string, [string, string][]> = {
   'Technique:halftoneprinting': [['Illustration Style', 'risograph']],
   'Color:vintage': [['Color', 'muted']],
   'Color:midcenturypalette': [['Color', 'muted']],
+  'Color:jeweltones': [['Color', 'vivid']],
   'Photo Style:film': [['Color', 'muted']],
   'Photo Style:analog': [['Color', 'muted']],
   'Photo Style:monochrome': [['Color', 'blackwhite']],
