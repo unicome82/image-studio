@@ -44,15 +44,20 @@ test('filters have no selection limit and builder handoff retains every unresolv
   assert.deepEqual(pendingBuilderFilters({ Outline: singles.Outline }, true), {});
 });
 
-test('All and Design show shared filters while illustration and photo expose their own options', () => {
-  for (const type of ['all', 'design'] as const) {
-    assert.ok(filterCategories(type).includes('Color'));
-    assert.ok(!filterCategories(type).includes('Illustration Style'));
-    assert.ok(!filterCategories(type).includes('Photo Style'));
-    assert.ok(!filterCategories(type).includes('Outline'));
-  }
-  assert.ok(filterCategories('illustration').includes('Illustration Style'));
-  assert.ok(filterCategories('photo').includes('Photo Style'));
+test('no type shows every style; chosen types show only their own styles', () => {
+  const all = filterCategories({});
+  for (const category of ['Illustration Style', 'Photo Style', 'Design Format', 'Design Style'])
+    assert.ok(all.includes(category), category);
+  const photoDesign = filterCategories({ Type: ['photo', 'design'] });
+  assert.ok(photoDesign.includes('Photo Style') && photoDesign.includes('Design Style'));
+  assert.ok(!photoDesign.includes('Illustration Style') && !photoDesign.includes('Outline'));
+  assert.deepEqual(filterCategories({ Type: ['photo'] }), [
+    'Type',
+    'Aspect Ratio',
+    'Photo Style',
+    'Color',
+    'Texture',
+  ]);
 });
 
 test('changing type preserves shared selections and drops incompatible filters without mutation', () => {
@@ -62,11 +67,35 @@ test('changing type preserves shared selections and drops incompatible filters w
     Color: ['muted'],
     'Aspect Ratio': ['4:5'],
   };
-  const expected = { Color: ['muted'], 'Aspect Ratio': ['4:5'] };
-  assert.deepEqual(retainFilters(filters, 'photo'), expected);
-  assert.deepEqual(retainFilters(filters, 'all'), expected);
-  assert.deepEqual(retainFilters(filters, 'illustration'), filters);
+  const expected = { Type: ['photo'], Color: ['muted'], 'Aspect Ratio': ['4:5'] };
+  assert.deepEqual(retainFilters({ ...filters, Type: ['photo'] }), expected);
+  assert.deepEqual(retainFilters(filters), filters);
   assert.deepEqual(filters['Illustration Style'], ['naivefolk']);
+});
+
+test('styles of different types are alternatives; a style choice shows only that style', () => {
+  const pop = filterMetadata({ 'Illustration Style': ['popart'] }, false, '1:1');
+  const portrait = filterMetadata({ 'Photo Style': ['portrait'] }, true, '1:1');
+  const onlyPop = { 'Illustration Style': ['popart'] };
+  assert.equal(matchesFilters(pop, onlyPop), true);
+  assert.equal(matchesFilters(portrait, onlyPop), false);
+  const either = { 'Illustration Style': ['popart'], 'Photo Style': ['portrait'] };
+  assert.equal(matchesFilters(pop, either), true);
+  assert.equal(matchesFilters(portrait, either), true);
+  const poster = filterMetadata(
+    { 'Design Format': ['poster'], 'Design Style': ['swiss'] },
+    false,
+    '3:4',
+    true,
+  );
+  assert.equal(
+    matchesFilters(poster, { 'Design Format': ['poster'], 'Design Style': ['swiss'] }),
+    true,
+  );
+  assert.equal(
+    matchesFilters(poster, { 'Design Format': ['poster'], 'Design Style': ['retro'] }),
+    false,
+  );
 });
 
 test('empty filters include records even when they have no option metadata', () => {
@@ -114,7 +143,7 @@ test('image types are multi-select filter buttons; one type unlocks its own opti
   assert.equal(filterTypeOf({}), 'all');
   assert.equal(filterTypeOf({ Type: ['photo'] }), 'photo');
   assert.equal(filterTypeOf({ Type: ['photo', 'design'] }), 'all');
-  assert.equal(filterCategories('all')[0], 'Type');
+  assert.equal(filterCategories({})[0], 'Type');
   const both = { Type: ['illustration', 'photo'] };
   assert.equal(matchesFilters(filterMetadata({}, true, '1:1'), both), true);
   assert.equal(matchesFilters(filterMetadata({}, false, '1:1', true), both), false);

@@ -5,7 +5,7 @@ import Icon from './Icon';
 import OptionChoices from './promptbuilder/OptionChoices';
 import ResizeHandle from './promptbuilder/ResizeHandle';
 import type { Option, Selection } from '../utils/promptBuilder';
-import { activeFilters, filterCategories, type FilterType } from '../utils/filters';
+import { activeFilters, filterCategories } from '../utils/filters';
 import { mobileQuery, useMediaQuery } from '../utils/useMediaQuery';
 import { optionLabelKey } from '../utils/optionChoices';
 
@@ -14,7 +14,6 @@ interface Props {
   resize: (width: number) => void;
   catalog: Option[];
   filters: Selection;
-  type: FilterType;
   // Categories that at least one gallery image carries.
   available: string[];
   toggle: (category: string, id: string) => void;
@@ -24,6 +23,12 @@ interface Props {
   closed: () => void;
   compose: () => void;
 }
+
+const filterTitles: Record<string, string> = {
+  'Aspect Ratio': 'Aspect ratio',
+  'Design Format': 'Design format',
+  'Design Style': 'Design style',
+};
 
 export default function Filter(p: Props) {
   const { t } = useTranslation();
@@ -64,18 +69,13 @@ export default function Filter(p: Props) {
         </div>
         <div className="builder-scroll">
           <div className="builder-wrap">
-            {filterCategories(p.type)
+            {filterCategories(p.filters)
               .filter((category) => p.available.includes(category))
               .map((category) => (
                 <section className="option-section" key={category}>
                   <OptionChoices
-                    title={
-                      category === 'Illustration Style'
-                        ? 'Style'
-                        : category === 'Aspect Ratio'
-                          ? 'Aspect ratio'
-                          : category
-                    }
+                    // Styles of several types can show together, so each title names its type.
+                    title={filterTitles[category] ?? category}
                     options={p.catalog
                       .filter((option) => option.category === category)
                       .map((option) => ({

@@ -1,4 +1,6 @@
 const translation: Record<string, string> = {
+  'Design format': 'Design Format',
+  'Design style': 'Design Style',
   'Very Simple': 'Very Simple',
   Simple: 'Simple',
   'Moderately Complex': 'Moderately Complex',

@@ -128,7 +128,7 @@ export function useGalleryFilters({ onlySaved, bookmarks, favoriteSort, onChange
     toggle(category: string, id: string) {
       const next = toggleFilter(filters, category, id);
       // Changing the types keeps shared choices and drops options the new type set lacks.
-      setFilters(category === 'Type' ? retainFilters(next, filterTypeOf(next)) : next);
+      setFilters(category === 'Type' ? retainFilters(next) : next);
       onChange();
     },
     reset() {

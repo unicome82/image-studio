@@ -233,7 +233,6 @@ export default function App() {
               resize={setBuilderWidth}
               catalog={filterCatalog}
               filters={gallery.filters}
-              type={filterType}
               available={gallery.availableCategories}
               toggle={gallery.toggle}
               reset={gallery.reset}

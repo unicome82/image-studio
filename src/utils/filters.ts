@@ -1,30 +1,46 @@
-import { builderCategories, optionLimit, type Option, type Selection } from './promptBuilder.ts';
+import {
+  builderCategories,
+  optionLimit,
+  type ImageType,
+  type Option,
+  type Selection,
+} from './promptBuilder.ts';
 
 export type FilterType = 'all' | 'illustration' | 'photo' | 'design';
 
-export const imageTypes = ['illustration', 'photo', 'design'] as const;
-// One chosen type shows its own options; none or several show only the shared ones.
+export const imageTypes: ImageType[] = ['illustration', 'photo', 'design'];
+// Each type's own style categories; the remaining filter categories are shared.
+const styleCategories: Record<ImageType, string[]> = {
+  illustration: ['Illustration Style'],
+  photo: ['Photo Style'],
+  design: ['Design Format', 'Design Style'],
+};
+/** The chosen image types, or every type when none is chosen. */
+export function filterTypes(filters: Selection): ImageType[] {
+  const chosen = imageTypes.filter((type) => filters.Type?.includes(type));
+  return chosen.length ? chosen : imageTypes;
+}
+// The Builder and saved mockups follow a single chosen type; several or none read as all.
 export function filterTypeOf(filters: Selection): FilterType {
-  const types = (filters.Type ?? []).filter((id) => (imageTypes as readonly string[]).includes(id));
-  return types.length === 1 ? (types[0] as FilterType) : 'all';
+  const chosen = imageTypes.filter((type) => filters.Type?.includes(type));
+  return chosen.length === 1 ? chosen[0] : 'all';
 }
 
-export function filterCategories(type: FilterType): string[] {
+// Styles of every chosen type (all types when none is chosen) plus the shared options.
+export function filterCategories(filters: Selection): string[] {
+  const types = filterTypes(filters);
   return [
     'Type',
     'Aspect Ratio',
-    ...(type === 'illustration'
-      ? builderCategories(false)
-      : type === 'design'
-        ? builderCategories(false, true)
-        : type === 'photo'
-          ? builderCategories(true)
-          : ['Color', 'Texture']),
+    ...types.flatMap((type) => styleCategories[type]),
+    'Color',
+    ...(types.includes('illustration') ? ['Outline'] : []),
+    'Texture',
   ];
 }
 
-export function retainFilters(filters: Selection, type: FilterType): Selection {
-  const allowed = new Set(filterCategories(type));
+export function retainFilters(filters: Selection): Selection {
+  const allowed = new Set(filterCategories(filters));
   return Object.fromEntries(Object.entries(filters).filter(([category]) => allowed.has(category)));
 }
 
@@ -57,9 +73,24 @@ export function pendingBuilderFilters(
 }
 
 // OR within a category, AND between categories. Missing metadata never implies a match.
+// Style filters of different types are alternatives: an image matches the styles of its own type.
 export function matchesFilters(metadata: Selection, filters: Selection): boolean {
-  return Object.entries(filters).every(
-    ([category, ids]) => ids.length === 0 || ids.some((id) => metadata[category]?.includes(id)),
+  const matches = ([category, ids]: [string, string[]]) =>
+    ids.length === 0 || ids.some((id) => metadata[category]?.includes(id));
+  const styled = imageTypes
+    .map((type) => styleCategories[type].filter((category) => filters[category]?.length))
+    .filter((categories) => categories.length);
+  const styleMatch =
+    styled.length === 0 ||
+    styled.some((categories) =>
+      categories.every((category) => matches([category, filters[category]])),
+    );
+  const styles = new Set(Object.values(styleCategories).flat());
+  return (
+    styleMatch &&
+    Object.entries(filters)
+      .filter(([category]) => !styles.has(category))
+      .every(matches)
   );
 }
 
