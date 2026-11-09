@@ -36,7 +36,7 @@ export const filterCatalog = [
   ].map((ratio) => ({ id: ratio, label: ratio, category: 'Aspect Ratio', path: '', prompt: '' })),
 ];
 // Every gallery tile is a generated image carrying the settings that made it.
-const tiles = sampleImages.map((image, index) => {
+const tiles = shuffle(sampleImages).map((image, index) => {
   const category = leadCategory[image.type];
   const id = image.selection[category]?.[0] ?? image.type;
   return {
@@ -54,6 +54,16 @@ const tiles = sampleImages.map((image, index) => {
     selection: image.selection,
   };
 });
+
+// Each visit shows the gallery in a new random order; it stays fixed until the page reloads.
+function shuffle<T>(items: T[]): T[] {
+  const result = [...items];
+  for (let i = result.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [result[i], result[j]] = [result[j], result[i]];
+  }
+  return result;
+}
 
 interface Options {
   onlySaved: boolean;
