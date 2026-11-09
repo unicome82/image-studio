@@ -101,6 +101,8 @@ const subjectLine = (depiction: string, subject?: string) =>
   subject
     ? `Each image shows a different ${depiction} take on the subject: ${subject}`
     : `Each image shows a different ${depiction} subject.`;
+// Every mockup keeps a grown-up, modern and chic tone.
+const mockupMood = 'Mood: modern and chic, refined and grown-up';
 /** One mockup of a minimal gallery site whose 9 to 12 images share the chosen style. */
 export function makeMockupPrompt(
   catalog: Option[],
@@ -122,6 +124,7 @@ export function makeMockupPrompt(
     `Design a mockup of a ${words[type].site}: white background, only a simple header and a masonry gallery of 9 to 12 images in mixed aspect ratios.`,
     '',
     style ? `All images share one style: ${style}` : 'All images share one consistent style.',
+    mockupMood,
     ...extras.map((o) => `${promptCategory(o.category)}: ${o.label}`),
     subjectLine(depictionPhrase(catalog, selection), fields.Subject?.trim()),
   ].join('\n');

@@ -40,6 +40,7 @@ Technique·Camera·Mood·Lighting·Composition·Typography 카테고리는 사�
   Design a mockup of a minimal {gallery | photography portfolio | design studio portfolio} website: white background, only a simple header and a masonry gallery of 9 to 12 images in mixed aspect ratios.
 
   All images share one style: {대표 스타일 | Design Style + Design Format}
+  Mood: modern and chic, refined and grown-up
   {Color: 표시명 / Rendering Mode: 표시명 — 선택한 경우만}
   Each image shows a different {Depiction Cue} take on the subject: {대상}
   (대상이 비면) Each image shows a different {Depiction Cue} subject.

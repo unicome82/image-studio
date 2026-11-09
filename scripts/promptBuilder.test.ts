@@ -70,6 +70,7 @@ test('mockup prompt names one style, the depiction level and the subject without
       'Design a mockup of a minimal gallery website: white background, only a simple header and a masonry gallery of 9 to 12 images in mixed aspect ratios.',
       '',
       'All images share one style: Geometric Illustration',
+      'Mood: modern and chic, refined and grown-up',
       'Each image shows a different very simple take on the subject: A tall building',
     ].join('\n'),
   );
