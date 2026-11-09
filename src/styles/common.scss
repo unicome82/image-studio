@@ -1593,21 +1593,6 @@ textarea,
     @include flex-column;
     flex: 1;
     min-height: 0;
-    // Mockup and single-image prompts share one box; the active tab is black, the other dimmed.
-    .prompt-tabs {
-      @include flex-row($gap: 12px, $display: inline-flex);
-      button {
-        padding: 0;
-        border: 0;
-        background: transparent;
-        color: $black;
-        font: inherit;
-        opacity: 0.5;
-        &[aria-pressed='true'] {
-          opacity: 1;
-        }
-      }
-    }
     &.collapsed {
       flex: none;
     }

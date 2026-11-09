@@ -6,10 +6,10 @@ import {
   builderCategories,
   compactFields,
   defaultDepiction,
+  imageCategories,
   depictionLevels,
   makeImagePrompt,
   makeMockupPrompt,
-  makeRecreatePrompt,
   toggleOption,
   type Option,
 } from '../src/utils/promptBuilder.ts';
@@ -34,19 +34,15 @@ function catalogAt(dir: string): Option[] {
 }
 const catalog = catalogAt('reference');
 
-test('each type keeps only its lead style, color, texture and illustration outline', () => {
-  assert.deepEqual(builderCategories(false), ['Illustration Style', 'Color', 'Outline', 'Texture']);
-  assert.deepEqual(builderCategories(true), ['Photo Style', 'Color', 'Texture']);
-  assert.deepEqual(builderCategories(false, true), [
-    'Design Format',
-    'Design Style',
-    'Color',
-    'Texture',
-  ]);
+test('each type keeps only its lead style, color and illustration outline; images add texture', () => {
+  assert.deepEqual(builderCategories(false), ['Illustration Style', 'Color', 'Outline']);
+  assert.deepEqual(builderCategories(true), ['Photo Style', 'Color']);
+  assert.deepEqual(builderCategories(false, true), ['Design Format', 'Design Style', 'Color']);
+  assert.deepEqual(imageCategories(true), ['Photo Style', 'Color', 'Texture']);
   const offered = new Set([
-    ...builderCategories(false),
-    ...builderCategories(true),
-    ...builderCategories(false, true),
+    ...imageCategories(false),
+    ...imageCategories(true),
+    ...imageCategories(false, true),
     'Depiction',
   ]);
   for (const option of catalog) assert.ok(offered.has(option.category), option.path);
@@ -65,7 +61,7 @@ test('mockup prompt names one style, the depiction level and the subject without
   const text = makeMockupPrompt(
     catalog,
     { 'Illustration Style': ['geometricillustration'], Depiction: ['verysimple'] },
-    { Subject: 'A tall building', 'Aspect Ratio': '4:5' },
+    { Subject: 'A tall building' },
     'illustration',
   );
   assert.equal(
@@ -108,35 +104,16 @@ test('mockup prompt names one style, the depiction level and the subject without
   assert.ok(makeMockupPrompt(catalog, {}, {}, 'photo').includes('photography portfolio website'));
 });
 
-test('single-image prompts add texture and the chosen or closest ratio to the picked image', () => {
-  const recreate = makeRecreatePrompt(
-    catalog,
-    { Texture: ['papergrain'], Color: ['pastel'] },
-    { 'Aspect Ratio': '4:5' },
-    'illustration',
-  );
-  const lines = recreate.split('\n');
-  assert.equal(
-    lines[0],
-    'Recreate the image I choose from this gallery mockup as a standalone illustration.',
-  );
-  assert.match(lines[2], /^Texture: Paper Grain — /);
-  assert.equal(lines[3], 'Aspect Ratio: 4:5');
-  assert.ok(!recreate.includes('Pastel'));
-  const closest = makeRecreatePrompt(catalog, {}, {}, 'photo').split('\n');
-  assert.equal(closest.length, 3);
-  assert.equal(
-    closest[2],
-    'Aspect Ratio: the closest of 1:1, 4:5, 3:4, 2:3, 9:16, 4:3, 3:2, 16:9 to the chosen image',
-  );
+test('gallery image prompts list texture and the image ratio', () => {
   const image = makeImagePrompt(
     catalog,
-    { 'Illustration Style': ['risograph'], Color: ['pastel'] },
+    { 'Illustration Style': ['risograph'], Color: ['pastel'], Texture: ['papergrain'] },
     { Subject: 'A cat', 'Aspect Ratio': '3:4' },
     'illustration',
   );
   assert.ok(image.startsWith('Create a standalone illustration of "A cat".'));
   assert.ok(image.includes('\nColor: Pastel — '));
+  assert.match(image, /\nTexture: Paper Grain — /);
   assert.ok(image.endsWith('Aspect Ratio: 3:4'));
 });
 
@@ -148,7 +125,6 @@ test('single choice per category; required categories stay selected', () => {
   assert.equal(defaultDepiction, 'simple');
   assert.deepEqual(compactFields({ Subject: 'A', Text: 'B', 'Typography Enabled': 'true' }), {
     Subject: 'A',
-    'Aspect Ratio': '',
   });
 });
 
@@ -174,10 +150,9 @@ test('saved mockups keep only offered categories and migrate removed styles', ()
     Color: ['muted'],
     Depiction: ['complex'],
   });
-  assert.deepEqual(illustration.fields, { Subject: 'A tree', 'Aspect Ratio': '3:4' });
+  assert.deepEqual(illustration.fields, { Subject: 'A tree' });
   assert.deepEqual(photo.selection, {
     'Photo Style': [],
-    Texture: ['filmgrain'],
     Color: ['muted'],
   });
   assert.deepEqual(riso.selection, { 'Illustration Style': ['risograph'] });

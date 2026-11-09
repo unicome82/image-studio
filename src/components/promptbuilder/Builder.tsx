@@ -8,12 +8,10 @@ import Panel from '../Panel';
 import SelectionSummary from '../SelectionSummary';
 import { mobileQuery, useMediaQuery } from '../../utils/useMediaQuery';
 import {
-  aspectRatios,
   builderCategories,
   defaultDepiction,
   depictionLevels,
   optionLimit,
-  recreateCategories,
 } from '../../utils/promptBuilder';
 import type { ImageType, Option, Selection } from '../../utils/promptBuilder';
 interface Props {
@@ -33,12 +31,10 @@ interface Props {
   setType: (type: ImageType) => void;
   close: () => void;
   mockupPrompt: string;
-  recreatePrompt: string;
   copy: (text: string) => void;
   save: () => boolean;
   editing?: boolean;
 }
-type Output = 'mockup' | 'image';
 export default function Builder(p: Props) {
   const { t } = useTranslation();
   const design = p.type === 'design';
@@ -68,23 +64,17 @@ export default function Builder(p: Props) {
   }, []);
   const mobile = useMediaQuery(mobileQuery);
   const [promptCollapsed, setPromptCollapsed] = useState(mobile);
-  // Style, subject and depiction shape the mockup; texture and ratio shape the single image.
-  const [output, setOutput] = useState<Output>('mockup');
-  const prompt = output === 'mockup' ? p.mockupPrompt : p.recreatePrompt;
+  const prompt = p.mockupPrompt;
   const types = [
     { id: 'illustration', label: 'Illustration' },
     { id: 'photo', label: 'Photo' },
     { id: 'design', label: 'Design' },
   ] as const;
-  // Lead styles, subject and depiction come first; texture and ratio only feed the single image.
+  // Lead styles, subject and depiction come first.
   const categories = builderCategories(p.photo, design);
   const leadCategories = ['Illustration Style', 'Photo Style', 'Design Format', 'Design Style'];
   const lead = categories.filter((category) => leadCategories.includes(category));
   const rest = categories.filter((category) => !leadCategories.includes(category));
-  function toggle(category: string, id: string) {
-    p.toggle(category, id);
-    setOutput(recreateCategories.includes(category) ? 'image' : 'mockup');
-  }
   const choices = (category: string) => (
     <section className="option-section" key={category}>
       <OptionChoices
@@ -94,19 +84,10 @@ export default function Builder(p: Props) {
           .map((o) => ({ id: o.id, label: o.label.replace(' Modern', ''), category }))}
         selected={p.selection[category] ?? []}
         multiple={false}
-        choose={(id) => toggle(category, id)}
+        choose={(id) => p.toggle(category, id)}
       />
     </section>
   );
-  // The subject updates the mockup; the ratio updates the single image.
-  function setFields(next: Record<string, string>, target: Output) {
-    p.setFields(next);
-    setOutput(target);
-  }
-  const outputs: { id: Output; label: string }[] = [
-    { id: 'mockup', label: 'Gallery mockup' },
-    { id: 'image', label: 'Single image' },
-  ];
   return (
     <Panel
       className={'builder builder-fullscreen' + (resolving ? ' no-output' : '')}
@@ -137,13 +118,7 @@ export default function Builder(p: Props) {
                 {pending.map(([category, ids]) => (
                   <section className="option-section" key={category}>
                     <OptionChoices
-                      title={
-                        category === 'Illustration Style'
-                          ? 'Style'
-                          : category === 'Aspect Ratio'
-                            ? 'Aspect ratio'
-                            : category
-                      }
+                      title={category === 'Illustration Style' ? 'Style' : category}
                       options={ids.map((id) => ({
                         id,
                         label: (
@@ -175,10 +150,7 @@ export default function Builder(p: Props) {
                     <button
                       key={type.id}
                       aria-pressed={p.type === type.id}
-                      onClick={() => {
-                        p.setType(type.id);
-                        setOutput('mockup');
-                      }}
+                      onClick={() => p.setType(type.id)}
                     >
                       {t(type.label)}
                     </button>
@@ -194,7 +166,7 @@ export default function Builder(p: Props) {
                     className="builder-subject"
                     placeholder={t('Mockup subject placeholder')}
                     value={p.fields.Subject ?? ''}
-                    onChange={(e) => setFields({ ...p.fields, Subject: e.target.value }, 'mockup')}
+                    onChange={(e) => p.setFields({ ...p.fields, Subject: e.target.value })}
                   />
                 </section>
                 <section className="option-section">
@@ -206,29 +178,10 @@ export default function Builder(p: Props) {
                       .sort((a, b) => depictionLevels.indexOf(a.id) - depictionLevels.indexOf(b.id))
                       .map((o) => ({ id: o.id, label: o.label, category: o.category }))}
                     selected={p.selection.Depiction ?? [defaultDepiction]}
-                    choose={(id) => toggle('Depiction', id)}
+                    choose={(id) => p.toggle('Depiction', id)}
                   />
                 </section>
                 {rest.map(choices)}
-                <section className="option-section">
-                  <OptionChoices
-                    title="Aspect ratio"
-                    multiple={false}
-                    options={[...new Set([...aspectRatios, p.fields['Aspect Ratio']])]
-                      .filter(Boolean)
-                      .map((ratio) => ({ id: ratio, label: ratio }))}
-                    selected={p.fields['Aspect Ratio'] ? [p.fields['Aspect Ratio']] : []}
-                    choose={(ratio) =>
-                      setFields(
-                        {
-                          ...p.fields,
-                          'Aspect Ratio': p.fields['Aspect Ratio'] === ratio ? '' : ratio,
-                        },
-                        'image',
-                      )
-                    }
-                  />
-                </section>
               </>
             )}
           </div>
@@ -251,17 +204,7 @@ export default function Builder(p: Props) {
                 className={'builder-fullscreen-prompt' + (promptCollapsed ? ' collapsed' : '')}
               >
                 <h3>
-                  <span className="prompt-tabs" role="group" aria-label={t('Prompt')}>
-                    {outputs.map((item) => (
-                      <button
-                        key={item.id}
-                        aria-pressed={output === item.id}
-                        onClick={() => setOutput(item.id)}
-                      >
-                        {t(item.label)}
-                      </button>
-                    ))}
-                  </span>
+                  <span>{t('Prompt')}</span>
                   <button
                     className="choice-toggle"
                     aria-label={t(

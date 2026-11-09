@@ -11,8 +11,6 @@ const translation: Record<string, string> = {
   'Mockup subject placeholder': 'e.g. woman, building, cat (optional)',
   Risograph: 'Risograph',
   'Which style should we make?': 'Which style should we make?',
-  'Gallery mockup': 'Gallery mockup',
-  'Single image': 'Single image',
   'Saved mockups': 'Saved mockups',
   'Untitled mockup': 'Untitled mockup',
   'No saved mockups': 'No saved mockups',

@@ -39,18 +39,9 @@ const legacyOptions: Record<string, [string, string][]> = {
   'Technique:halftoneprinting': [['Illustration Style', 'risograph']],
   'Color:vintage': [['Color', 'muted']],
   'Color:midcenturypalette': [['Color', 'muted']],
-  'Photo Style:film': [
-    ['Texture', 'filmgrain'],
-    ['Color', 'muted'],
-  ],
-  'Photo Style:analog': [
-    ['Texture', 'filmgrain'],
-    ['Color', 'muted'],
-  ],
+  'Photo Style:film': [['Color', 'muted']],
+  'Photo Style:analog': [['Color', 'muted']],
   'Photo Style:monochrome': [['Color', 'blackwhite']],
-  'Texture:roughprint': [['Texture', 'papergrain']],
-  'Texture:distressed': [['Texture', 'papergrain']],
-  'Texture:inkbleed': [['Texture', 'papergrain']],
 };
 export function parsePresets(raw: string | null, catalog: Option[]): StylePreset[] {
   const exists = (category: string, id: string) =>

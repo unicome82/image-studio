@@ -25,7 +25,7 @@ export default function SelectedOptions({
   mockup = false,
 }: SelectedOptionsProps) {
   const { t } = useTranslation(undefined, english ? { lng: 'en' } : undefined);
-  const options = selectedBuilderOptions(catalog, selection, photo, design).filter(
+  const options = selectedBuilderOptions(catalog, selection, photo, design, !mockup).filter(
     (option) => option.category !== 'Outline',
   );
   const outline =

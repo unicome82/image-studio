@@ -34,28 +34,25 @@ export const defaultDepiction = 'simple';
 export function optionLimit(): number {
   return 1;
 }
-// Subject feeds the mockup; an optional ratio feeds the single-image step (empty = closest ratio).
+// Saved mockups keep only the subject.
 export function compactFields(fields: Record<string, string>): Record<string, string> {
-  return {
-    Subject: fields.Subject ?? '',
-    'Aspect Ratio': fields['Aspect Ratio'] ?? '',
-  };
+  return { Subject: fields.Subject ?? '' };
 }
-// Without a chosen ratio the recreated image takes the closest standard ratio to its mockup shape.
-export const closestRatioLine = `Aspect Ratio: the closest of ${aspectRatios.join(', ')} to the chosen image`;
 export function imageType(photo: boolean, design = false): ImageType {
   return design ? 'design' : photo ? 'photo' : 'illustration';
 }
-// The lead style comes first so the defining look is read before color and texture.
+// The lead style comes first so the defining look is read before color.
 export function builderCategories(photo: boolean, design = false): string[] {
   return design
-    ? ['Design Format', 'Design Style', 'Color', 'Texture']
+    ? ['Design Format', 'Design Style', 'Color']
     : photo
-      ? ['Photo Style', 'Color', 'Texture']
-      : ['Illustration Style', 'Color', 'Outline', 'Texture'];
+      ? ['Photo Style', 'Color']
+      : ['Illustration Style', 'Color', 'Outline'];
 }
-// Texture is applied only when a picked image is recreated, not in the mockup.
-export const recreateCategories = ['Texture'];
+// Gallery images also carry the texture they were made with.
+export function imageCategories(photo: boolean, design = false): string[] {
+  return [...builderCategories(photo, design), 'Texture'];
+}
 export function toggleOption(selection: Selection, category: string, id: string): Selection {
   const current = selection[category] ?? [];
   return {
@@ -68,8 +65,8 @@ const promptCategory = (category: string) => (category === 'Outline' ? 'Renderin
 // Each option prints its label plus the MD's one-line cue so the model gets the decisive rule.
 const optionLine = (o: Option) =>
   `${promptCategory(o.category)}: ${o.label}${o.cue ? ` — ${o.cue}` : ''}`;
-function chosenOptions(catalog: Option[], selection: Selection, type: ImageType): Option[] {
-  return builderCategories(type === 'photo', type === 'design').flatMap((category) =>
+function chosenOptions(categories: string[], catalog: Option[], selection: Selection): Option[] {
+  return categories.flatMap((category) =>
     (selection[category] ?? []).flatMap((id) =>
       catalog.filter((o) => o.category === category && o.id === id),
     ),
@@ -104,7 +101,7 @@ const subjectLine = (depiction: string, subject?: string) =>
   subject
     ? `Each image shows a different ${depiction} take on the subject: ${subject}`
     : `Each image shows a different ${depiction} subject.`;
-/** Step 1: one mockup of a minimal gallery site whose ten images share the chosen style. */
+/** One mockup of a minimal gallery site whose ten images share the chosen style. */
 export function makeMockupPrompt(
   catalog: Option[],
   selection: Selection,
@@ -113,15 +110,13 @@ export function makeMockupPrompt(
 ) {
   const style = styleName(catalog, selection, type);
   // Color and outline are optional extras listed only when chosen.
-  const extras = chosenOptions(catalog, selection, type).filter(
+  const extras = chosenOptions(
+    builderCategories(type === 'photo', type === 'design'),
+    catalog,
+    selection,
+  ).filter(
     (o) =>
-      ![
-        'Illustration Style',
-        'Photo Style',
-        'Design Format',
-        'Design Style',
-        ...recreateCategories,
-      ].includes(o.category),
+      !['Illustration Style', 'Photo Style', 'Design Format', 'Design Style'].includes(o.category),
   );
   return [
     `Design a mockup of a ${words[type].site}: white background, simple header, a clean masonry grid of 10 images in mixed aspect ratios.`,
@@ -129,25 +124,6 @@ export function makeMockupPrompt(
     style ? `All 10 images share one style: ${style}` : 'All 10 images share one consistent style.',
     ...extras.map((o) => `${promptCategory(o.category)}: ${o.label}`),
     subjectLine(depictionPhrase(catalog, selection), fields.Subject?.trim()),
-  ].join('\n');
-}
-/** Step 2: recreate the image picked in the mockup chat, adding texture and the chosen or closest ratio. */
-export function makeRecreatePrompt(
-  catalog: Option[],
-  selection: Selection,
-  fields: Record<string, string>,
-  type: ImageType,
-) {
-  const texture = chosenOptions(catalog, selection, type).filter((o) =>
-    recreateCategories.includes(o.category),
-  );
-  return [
-    `Recreate the image I choose from this gallery mockup as a standalone ${words[type].one}.`,
-    'Keep the same style and colors, and show the full composition inside the frame.',
-    ...texture.map(optionLine),
-    fields['Aspect Ratio']?.trim()
-      ? `Aspect Ratio: ${fields['Aspect Ratio'].trim()}`
-      : closestRatioLine,
   ].join('\n');
 }
 /** A standalone prompt for one gallery image, usable without the mockup chat. */
@@ -160,7 +136,9 @@ export function makeImagePrompt(
   const subject = fields.Subject?.trim();
   return [
     `Create a standalone ${words[type].one} of ${subject ? `"${subject}"` : 'a subject you choose'}.`,
-    ...chosenOptions(catalog, selection, type).map(optionLine),
+    ...chosenOptions(imageCategories(type === 'photo', type === 'design'), catalog, selection).map(
+      optionLine,
+    ),
     `Aspect Ratio: ${fields['Aspect Ratio']?.trim() || '1:1'}`,
   ].join('\n');
 }

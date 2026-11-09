@@ -64,7 +64,7 @@ export function pendingBuilderFilters(
   photo: boolean,
   design = false,
 ): Selection {
-  const categories = [...builderCategories(photo, design), 'Aspect Ratio'];
+  const categories = builderCategories(photo, design);
   return Object.fromEntries(
     Object.entries(filters).filter(
       ([category, ids]) => categories.includes(category) && ids.length > optionLimit(),

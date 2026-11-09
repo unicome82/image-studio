@@ -6,7 +6,6 @@ import {
   builderCategories,
   imageType,
   makeMockupPrompt,
-  makeRecreatePrompt,
   optionLimit,
   toggleOption,
   type ImageType,
@@ -16,7 +15,7 @@ import {
 export type BuilderType = ImageType;
 export type PresetSettings = Pick<StylePreset, 'photo' | 'design' | 'selection' | 'fields'>;
 
-const defaultFields: Record<string, string> = { Subject: '', 'Aspect Ratio': '' };
+const defaultFields: Record<string, string> = { Subject: '' };
 
 export function useBuilderDraft() {
   const [builderType, setBuilderType] = useState<BuilderType>('illustration');
@@ -46,7 +45,6 @@ export function useBuilderDraft() {
   const [selection, setSelection] = selections[builderType];
   const pending = Object.keys(pendingChoices).length > 0;
   const mockupPrompt = pending ? '' : makeMockupPrompt(catalog, selection, fields, builderType);
-  const recreatePrompt = makeRecreatePrompt(catalog, selection, fields, builderType);
 
   // Seed the draft from gallery filters that changed since the last time the Builder opened.
   function applyFilters(effectiveFilters: Selection, filterType: FilterType) {
@@ -63,12 +61,6 @@ export function useBuilderDraft() {
       );
       setPendingChoices(pendingBuilderFilters(effectiveFilters, composerPhoto, composerDesign));
       setPendingSelection({});
-      if (effectiveFilters['Aspect Ratio']?.length === 1) {
-        setFields((previous) => ({
-          ...previous,
-          'Aspect Ratio': effectiveFilters['Aspect Ratio'][0],
-        }));
-      }
       const composerType = imageType(composerPhoto, composerDesign);
       selections[composerType][1]((previous) => ({ ...previous, ...relevant }));
       setBuilderType(composerType);
@@ -96,12 +88,6 @@ export function useBuilderDraft() {
       ),
     );
     setSelection((previous) => ({ ...previous, ...resolved }));
-    if (pendingSelection['Aspect Ratio']?.length) {
-      setFields((previous) => ({
-        ...previous,
-        'Aspect Ratio': pendingSelection['Aspect Ratio'][0],
-      }));
-    }
     setPendingChoices({});
     setPendingSelection({});
   }
@@ -165,7 +151,6 @@ export function useBuilderDraft() {
     pendingSelection,
     pending,
     mockupPrompt,
-    recreatePrompt,
     settings,
     editingId,
     applyFilters,

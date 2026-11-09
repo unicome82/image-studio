@@ -398,7 +398,6 @@ export default function App() {
           setType={draft.setType}
           close={closeComposer}
           mockupPrompt={draft.mockupPrompt}
-          recreatePrompt={draft.recreatePrompt}
           copy={copy}
           save={saveDraft}
           editing={!!draft.editingId}
