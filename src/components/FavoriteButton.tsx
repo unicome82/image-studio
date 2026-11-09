@@ -22,7 +22,7 @@ export default function FavoriteButton({ active, label, toggle, className = '' }
         toggle();
       }}
     >
-      <Icon name="favorite" size={mobile ? '28' : '24'} className="fill" />
+      <Icon name="favorite" size={mobile ? '28' : '24'} className={active ? 'fill' : ''} />
     </button>
   );
 }

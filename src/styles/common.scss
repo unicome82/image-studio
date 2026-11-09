@@ -369,13 +369,10 @@ textarea,
   padding: 0;
   border-radius: 8px;
   background: transparent;
-  color: $favorite-default;
+  color: $favorite;
   // The font glyph takes a text shadow so the white heart stays visible on light images.
   .material-symbol {
     text-shadow: $favorite-shadow;
-  }
-  &[aria-pressed='true'] {
-    color: $favorite;
   }
   @media (max-width: $mobile) {
     &.tile-bookmark {

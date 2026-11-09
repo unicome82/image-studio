@@ -16,7 +16,7 @@ import Presets from './components/promptbuilder/Presets';
 import Builder from './components/promptbuilder/Builder';
 import { imageType, makeImagePrompt, makeMockupPrompt } from './utils/promptBuilder';
 import { normalizeRatio } from './utils/filters';
-import { compactQuery, mobileQuery } from './utils/useMediaQuery';
+import { compactQuery, mobileQuery, useMediaQuery } from './utils/useMediaQuery';
 import { filterCatalog, useGalleryFilters } from './utils/useGalleryFilters';
 import { useBuilderDraft } from './utils/useBuilderDraft';
 import { usePresets } from './utils/usePresets';
@@ -66,6 +66,11 @@ export default function App() {
   const [favoriteSort, setFavoriteSort] = useState<SortOrder>('newest');
   const [largeThumbnails, setLargeThumbnails] = useState(false);
   const [selected, setSelected] = useState<Tile | null>(null);
+  // Compact screens show the filter and the detail as overlays, so only one stays open.
+  const compact = useMediaQuery(compactQuery);
+  useEffect(() => {
+    if (compact && selected) setBuilder(false);
+  }, [compact, selected]);
   const [bookmarks, setBookmarks] = useState(storedBookmarks);
   const [onlySaved, setOnlySaved] = useState(false);
   const [headerHidden, setHeaderHidden] = useState(false);
@@ -255,7 +260,11 @@ export default function App() {
                   aria-label={t('Toggle filters')}
                   aria-pressed={builder}
                   aria-expanded={builder}
-                  onClick={() => (builder ? closeFilter() : setBuilder(true))}
+                  onClick={() => {
+                    if (builder) return closeFilter();
+                    if (compact) setSelected(null);
+                    setBuilder(true);
+                  }}
                 >
                   <Icon name="filter_list" size="20" />
                 </button>
@@ -332,7 +341,7 @@ export default function App() {
                     : 'No images'
               }
               select={(tile) => {
-                if (matchMedia(mobileQuery).matches) setBuilder(false);
+                if (compact) setBuilder(false);
                 setSelected(tile);
               }}
               toggleBookmark={toggleBookmark}
