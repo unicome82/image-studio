@@ -1694,6 +1694,13 @@ textarea,
     color: $black;
     font-size: var(--text-title, 16px);
     font-weight: 700;
+    // The reset icon lines its glyph up with the panel edge; on mobile the close button sits there.
+    > .icon-button {
+      margin-right: -8px;
+      @media (max-width: $mobile) {
+        margin-right: 0;
+      }
+    }
   }
   &-scroll {
     flex: none;

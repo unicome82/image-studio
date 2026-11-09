@@ -8,7 +8,7 @@ const translation: Record<string, string> = {
   'Very Complex': 'Very Complex',
   Depiction: 'Depiction',
   Subject: 'Subject',
-  'Mockup subject placeholder': 'e.g. city or garden, space or animal (optional)',
+  'Mockup subject placeholder': 'e.g. A quiet café corner on a rainy afternoon (optional)',
   Risograph: 'Risograph',
   'Which style should we make?': 'Which style should we make?',
   'Saved mockups': 'Saved mockups',
