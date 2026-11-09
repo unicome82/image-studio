@@ -2,7 +2,7 @@ import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 import { readdirSync, readFileSync } from 'node:fs';
 import { join } from 'node:path';
-import { designFormatOrder } from './src/utils/promptBuilder';
+import { optionOrder } from './src/utils/promptBuilder';
 // Bundle canonical prompt text so copied prompts work without repository access. Images stay out.
 function catalog(dir = 'reference'): { category?: string; id?: string; cue?: string }[] {
   return readdirSync(dir, { withFileTypes: true }).flatMap((entry) => {
@@ -33,14 +33,18 @@ export default defineConfig({
       },
       load(id) {
         if (id !== '\0prompt-catalog') return;
-        // Design formats follow the curated order of designFormatOrder instead of folder names.
-        const formats = designFormatOrder;
+        // Curated categories follow optionOrder instead of folder names.
         const options = catalog();
-        const sorted = options
-          .filter((option) => option.category === 'Design Format')
-          .sort((a, b) => formats.indexOf(a.id ?? '') - formats.indexOf(b.id ?? ''));
+        const sorted = Object.fromEntries(
+          Object.entries(optionOrder).map(([category, order]) => [
+            category,
+            options
+              .filter((option) => option.category === category)
+              .sort((a, b) => order.indexOf(a.id ?? '') - order.indexOf(b.id ?? '')),
+          ]),
+        );
         const ordered = options.map((option) =>
-          option.category === 'Design Format' ? sorted.shift() : option,
+          option.category && sorted[option.category] ? sorted[option.category].shift() : option,
         );
         return `export default ${JSON.stringify(ordered)}`;
       },

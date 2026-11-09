@@ -71,7 +71,7 @@ export const sampleImages: SampleImage[] = [
     selection: {
       'Illustration Style': ['editorialillustration'],
       Color: ['muted'],
-      Tone: ['subtle'],
+      Tone: ['lowcontrast'],
       Outline: ['coloronly'],
       Texture: ['papergrain'],
       Depiction: ['simple'],
@@ -87,7 +87,7 @@ export const sampleImages: SampleImage[] = [
     selection: {
       'Illustration Style': ['editorialillustration'],
       Color: ['complementary'],
-      Tone: ['bright'],
+      Tone: ['highkey'],
       Outline: ['coloronly'],
       Texture: ['papergrain'],
       Depiction: ['simple'],
@@ -103,7 +103,7 @@ export const sampleImages: SampleImage[] = [
     selection: {
       'Illustration Style': ['editorialillustration'],
       Color: ['complementary'],
-      Tone: ['bright'],
+      Tone: ['highkey'],
       Outline: ['coloronly'],
       Texture: ['brushstroke'],
       Depiction: ['complex'],
@@ -121,7 +121,7 @@ export const sampleImages: SampleImage[] = [
     selection: {
       'Illustration Style': ['editorialillustration'],
       Color: ['primarycolors'],
-      Tone: ['bright'],
+      Tone: ['highkey'],
       Outline: ['coloronly'],
       Texture: ['brushstroke'],
       Depiction: ['balanced'],
@@ -137,7 +137,7 @@ export const sampleImages: SampleImage[] = [
     selection: {
       'Illustration Style': ['editorialillustration'],
       Color: ['complementary'],
-      Tone: ['bright'],
+      Tone: ['highkey'],
       Outline: ['coloronly'],
       Texture: ['brushstroke'],
       Depiction: ['balanced'],
@@ -217,7 +217,7 @@ export const sampleImages: SampleImage[] = [
     selection: {
       'Illustration Style': ['midcentury'],
       Color: ['cool'],
-      Tone: ['bright'],
+      Tone: ['highkey'],
       Outline: ['coloronly'],
       Texture: ['papergrain'],
       Depiction: ['balanced'],
@@ -233,7 +233,7 @@ export const sampleImages: SampleImage[] = [
     selection: {
       'Illustration Style': ['midcentury'],
       Color: ['complementary'],
-      Tone: ['bright'],
+      Tone: ['highkey'],
       Outline: ['coloronly'],
       Texture: ['papergrain'],
       Depiction: ['simple'],
@@ -249,7 +249,7 @@ export const sampleImages: SampleImage[] = [
     selection: {
       'Illustration Style': ['midcentury'],
       Color: ['analogous'],
-      Tone: ['bright'],
+      Tone: ['highkey'],
       Outline: ['coloronly'],
       Texture: ['papergrain'],
       Depiction: ['simple'],
@@ -281,7 +281,7 @@ export const sampleImages: SampleImage[] = [
     selection: {
       'Illustration Style': ['popart'],
       Color: ['primarycolors'],
-      Tone: ['dark'],
+      Tone: ['lowkey'],
       Outline: ['coloroutline'],
       Texture: ['papergrain'],
       Depiction: ['simple'],
@@ -313,7 +313,7 @@ export const sampleImages: SampleImage[] = [
     selection: {
       'Illustration Style': ['popart'],
       Color: ['neutralaccent'],
-      Tone: ['dark'],
+      Tone: ['lowkey'],
       Outline: ['coloroutline'],
       Texture: ['papergrain'],
       Depiction: ['simple'],
@@ -345,7 +345,7 @@ export const sampleImages: SampleImage[] = [
     selection: {
       'Illustration Style': ['risograph'],
       Color: ['primarycolors'],
-      Tone: ['bright'],
+      Tone: ['highkey'],
       Outline: ['coloronly'],
       Texture: ['papergrain'],
       Depiction: ['simple'],
@@ -361,7 +361,7 @@ export const sampleImages: SampleImage[] = [
     selection: {
       'Illustration Style': ['risograph'],
       Color: ['vivid'],
-      Tone: ['bright'],
+      Tone: ['highkey'],
       Outline: ['coloronly'],
       Texture: ['papergrain'],
       Depiction: ['simple'],
@@ -377,7 +377,7 @@ export const sampleImages: SampleImage[] = [
     selection: {
       'Illustration Style': ['risograph'],
       Color: ['warm'],
-      Tone: ['bright'],
+      Tone: ['highkey'],
       Outline: ['coloroutline'],
       Texture: ['papergrain'],
       Depiction: ['simple'],
@@ -425,7 +425,7 @@ export const sampleImages: SampleImage[] = [
     selection: {
       'Illustration Style': ['risograph'],
       Color: ['vivid'],
-      Tone: ['bright'],
+      Tone: ['highkey'],
       Outline: ['coloronly'],
       Texture: ['papergrain'],
       Depiction: ['balanced'],
@@ -441,7 +441,7 @@ export const sampleImages: SampleImage[] = [
     selection: {
       'Illustration Style': ['risograph'],
       Color: ['complementary'],
-      Tone: ['bright'],
+      Tone: ['highkey'],
       Outline: ['coloronly'],
       Texture: ['papergrain'],
       Depiction: ['simple'],
@@ -457,7 +457,7 @@ export const sampleImages: SampleImage[] = [
     selection: {
       'Illustration Style': ['risograph'],
       Color: ['primarycolors'],
-      Tone: ['bright'],
+      Tone: ['highkey'],
       Outline: ['coloronly'],
       Texture: ['papergrain'],
       Depiction: ['simple'],
@@ -473,7 +473,7 @@ export const sampleImages: SampleImage[] = [
     selection: {
       'Illustration Style': ['risograph'],
       Color: ['primarycolors'],
-      Tone: ['bright'],
+      Tone: ['highkey'],
       Outline: ['coloronly'],
       Texture: ['papergrain'],
       Depiction: ['simple'],
@@ -489,7 +489,7 @@ export const sampleImages: SampleImage[] = [
     selection: {
       'Illustration Style': ['risograph'],
       Color: ['warm'],
-      Tone: ['bright'],
+      Tone: ['highkey'],
       Outline: ['coloroutline'],
       Texture: ['papergrain'],
       Depiction: ['simple'],
@@ -505,7 +505,7 @@ export const sampleImages: SampleImage[] = [
     selection: {
       'Illustration Style': ['risograph'],
       Color: ['complementary'],
-      Tone: ['bright'],
+      Tone: ['highkey'],
       Outline: ['coloroutline'],
       Texture: ['papergrain'],
       Depiction: ['simple'],

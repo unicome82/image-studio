@@ -2,7 +2,7 @@
 
 - **Category:** Tone
 - **Style ID:** `soft`
-- **Cue:** Gentle tonal gradations, diffused edges, smooth low-contrast transitions
+- **Cue:** Diffused light, soft shadow edges, smooth gradual transitions
 
 ### Apply
-- Render gentle tonal gradations with diffused light, soft edges, and smooth low-contrast transitions.
+- Use diffused light so shadow edges stay soft and tones blend in smooth, gradual transitions.

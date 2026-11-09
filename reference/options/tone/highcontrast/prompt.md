@@ -2,7 +2,7 @@
 
 - **Category:** Tone
 - **Style ID:** `highcontrast`
-- **Cue:** Bright lights against deep darks, crisp tonal separation
+- **Cue:** Bright lights against deep darks across the image, crisp separation
 
 ### Apply
-- Set bright lights directly against deep darks with crisp tonal separation and strong graphic impact.
+- Set bright lights directly against deep darks throughout the image with crisp tonal separation.

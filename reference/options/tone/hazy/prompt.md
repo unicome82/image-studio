@@ -2,7 +2,7 @@
 
 - **Category:** Tone
 - **Style ID:** `hazy`
-- **Cue:** Lifted blacks, atmospheric haze, softened distant detail
+- **Cue:** Atmospheric haze, detail and contrast fading with distance
 
 ### Apply
-- Lift the blacks and veil the scene in atmospheric haze so distant detail softens into light.
+- Fill the air with haze so detail and contrast fade as the scene recedes into distance.

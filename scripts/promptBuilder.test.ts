@@ -186,6 +186,6 @@ test('saved mockups keep only offered categories and migrate removed styles', ()
     Color: ['muted'],
   });
   assert.deepEqual(riso.selection, { 'Illustration Style': ['risograph'] });
-  assert.deepEqual(highkey.selection, { Color: [], Tone: ['bright'] });
+  assert.deepEqual(highkey.selection, { Color: [], Tone: ['highkey'] });
   assert.deepEqual(lowpoly.selection, { 'Illustration Style': ['geometricillustration'] });
 });

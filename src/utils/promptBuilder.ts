@@ -25,6 +25,29 @@ export const designFormatOrder = [
   'appscreen',
   'signage',
 ];
+// Curated display order of tones: brightness, contrast, shadow finish, light quality, then mood.
+export const toneOrder = [
+  'highkey',
+  'midkey',
+  'lowkey',
+  'airy',
+  'highcontrast',
+  'lowcontrast',
+  'faded',
+  'matte',
+  'soft',
+  'luminous',
+  'hazy',
+  'silhouette',
+  'moody',
+  'ethereal',
+  'dramatic',
+];
+// Categories whose options follow a curated order instead of folder names.
+export const optionOrder: Record<string, string[]> = {
+  'Design Format': designFormatOrder,
+  Tone: toneOrder,
+};
 export const aspectRatios = ['1:1', '4:5', '3:4', '2:3', '9:16', '4:3', '3:2', '16:9'];
 // Every Builder category takes one decisive choice; choosing it again clears it.
 const requiredCategories = ['Design Format', 'Depiction'];
