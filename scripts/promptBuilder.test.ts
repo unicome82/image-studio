@@ -67,9 +67,9 @@ test('mockup prompt names one style, the depiction level and the subject without
   assert.equal(
     text,
     [
-      'Design a mockup of a minimal gallery website: white background, simple header, a clean masonry grid of 10 images in mixed aspect ratios.',
+      'Design a mockup of a minimal gallery website: white background, only a simple header and a masonry gallery of 9 to 12 images in mixed aspect ratios.',
       '',
-      'All 10 images share one style: Geometric Illustration',
+      'All images share one style: Geometric Illustration',
       'Each image shows a different very simple take on the subject: A tall building',
     ].join('\n'),
   );
