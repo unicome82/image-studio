@@ -379,11 +379,17 @@ textarea,
     .material-symbol {
       font-size: var(--favorite-size, #{$favorite-size-mobile});
     }
+    // The box hugs the heart so its ink sits 8px from the top and right corner;
+    // the margins cancel the glyph's own side bearing (2/24) and top bearing (about 1/9).
     &.tile-bookmark {
       top: 0;
       right: 0;
-      place-items: start end;
+      width: auto;
+      height: auto;
       padding: 8px;
+      .material-symbol {
+        margin: calc(-1em / 9) calc(-1em / 12) 0 0;
+      }
     }
   }
 }
