@@ -694,7 +694,7 @@ textarea,
   background: $page;
   > .panel-heading {
     gap: 8px;
-    padding: 0 24px;
+    padding: 12px 24px;
     .icon-button {
       flex-shrink: 0;
     }
@@ -751,7 +751,7 @@ textarea,
   }
   &-title {
     min-width: 0;
-    font-size: inherit;
+    font-size: 14px;
     font-weight: 700;
     text-transform: none;
     letter-spacing: normal;

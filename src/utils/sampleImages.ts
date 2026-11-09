@@ -14,6 +14,22 @@ export interface SampleImage {
 }
 export const sampleImages: SampleImage[] = [
   {
+    type: 'illustration',
+    fileName: 'risograph-calico-cat-windowsill.webp',
+    width: 960,
+    height: 1280,
+    color: '#bac4d4',
+    fields: { Subject: 'A calico cat napping on a sunny windowsill' },
+    selection: {
+      'Illustration Style': ['risograph'],
+      Color: ['complementary'],
+      Tone: ['bright'],
+      Outline: ['coloroutline'],
+      Texture: ['papergrain'],
+      Depiction: ['simple'],
+    },
+  },
+  {
     type: 'photo',
     fileName: 'stilllife-lemon-sparkling-water.webp',
     width: 960,
