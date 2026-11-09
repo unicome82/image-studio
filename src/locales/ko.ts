@@ -237,7 +237,7 @@ const translation: Record<string, string> = {
   Landscape: '풍경',
   Fashion: '패션',
   Analogous: '유사색',
-  'Black & White': '흑백',
+  Grayscale: '흑백',
   'Contemporary Flat Illustration': '모던 플랫',
   'Contemporary Flat': '모던 플랫',
   'Isometric Illustration': '아이소메트릭',

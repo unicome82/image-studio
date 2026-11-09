@@ -39,6 +39,6 @@ test('Option labels map to translation keys without type suffixes', async () => 
   const { optionLabelKey } = await import('../src/utils/optionChoices.ts');
   assert.equal(optionLabelKey({ label: 'Botanical Illustration' }), 'Botanical');
   assert.equal(optionLabelKey({ label: 'Mid-century Modern' }), 'Mid-century');
-  assert.equal(ko['Black & White'], '흑백');
+  assert.equal(ko.Grayscale, '흑백');
   assert.equal(ko.Pastel, '파스텔');
 });

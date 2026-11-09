@@ -1,4 +1,4 @@
-## Black & White
+## Grayscale
 
 - **Category:** Color
 - **Style ID:** `blackwhite`

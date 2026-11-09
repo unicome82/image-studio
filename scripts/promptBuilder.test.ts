@@ -113,7 +113,7 @@ test('mockup prompt names one style, the depiction level and the subject without
     makeMockupPrompt(catalog, { Color: [id] }, {}, 'photo').split('\n')[5];
   assert.equal(
     tone('blackwhite'),
-    'Color: Black & White, with a different grayscale tone for each image',
+    'Color: Grayscale, with a different grayscale tone for each image',
   );
   assert.equal(tone('monochrome'), 'Color: Monochrome, with a different hue for each image');
   assert.ok(rich.endsWith('Each image shows a different very complex subject.'));
