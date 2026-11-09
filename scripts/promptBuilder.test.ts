@@ -94,6 +94,13 @@ test('mockup prompt names one style, the depiction level and the subject without
     ),
   );
   assert.ok(!rich.includes('Texture'));
+  const tone = (id: string) =>
+    makeMockupPrompt(catalog, { Color: [id] }, {}, 'photo').split('\n')[4];
+  assert.equal(
+    tone('blackwhite'),
+    'Color: Black & White, with a different grayscale tone in each image',
+  );
+  assert.equal(tone('monochrome'), 'Color: Monochrome, with a different hue in each image');
   assert.ok(rich.endsWith('Each image shows a different very complex subject.'));
   assert.ok(!rich.includes('Portrait') && !rich.includes('Aspect Ratio'));
   assert.ok(
