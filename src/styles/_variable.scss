@@ -29,6 +29,9 @@ $header-padding-mobile: 10px;
 $header-overlap: 2px;
 $input-height: var(--input-height, 28px);
 $favorite: $white;
+// Mobile hearts scale with the screen: about 24px beside two columns, 32px on full-width images.
+$favorite-size-mobile: round(nearest, clamp(20px, 6cqw, 28px), 2px);
+$favorite-size-wide: round(nearest, clamp(28px, 8cqw, 36px), 2px);
 $favorite-shadow: 0 1px 12px rgba($black, 0.3);
 $placeholder: $gray-400;
 $input-border: $gray-200;

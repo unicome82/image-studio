@@ -372,9 +372,13 @@ textarea,
   color: $favorite;
   // The font glyph takes a text shadow so the white heart stays visible on light images.
   .material-symbol {
+    overflow: visible; // The symbol box would clip the soft shadow into a square.
     text-shadow: $favorite-shadow;
   }
   @media (max-width: $mobile) {
+    .material-symbol {
+      font-size: var(--favorite-size, #{$favorite-size-mobile});
+    }
     &.tile-bookmark {
       top: 0;
       right: 0;
@@ -569,6 +573,7 @@ textarea,
     column-gap: 8px;
     &.large {
       columns: 1;
+      --favorite-size: #{$favorite-size-wide};
     }
   }
 }
@@ -733,6 +738,7 @@ textarea,
     }
     .favorite-button {
       z-index: 2;
+      --favorite-size: #{$favorite-size-wide};
     }
     &-open {
       position: absolute;

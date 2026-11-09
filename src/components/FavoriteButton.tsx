@@ -1,6 +1,5 @@
 import { useState } from 'react';
 import Icon from './Icon';
-import { mobileQuery, useMediaQuery } from '../utils/useMediaQuery';
 interface Props {
   active: boolean;
   label: string;
@@ -8,7 +7,6 @@ interface Props {
   className?: string;
 }
 export default function FavoriteButton({ active, label, toggle, className = '' }: Props) {
-  const mobile = useMediaQuery(mobileQuery);
   const [pulse, setPulse] = useState(false);
   return (
     <button
@@ -22,7 +20,7 @@ export default function FavoriteButton({ active, label, toggle, className = '' }
         toggle();
       }}
     >
-      <Icon name="favorite" size={mobile ? '28' : '24'} className={active ? 'fill' : ''} />
+      <Icon name="favorite" size="24" className={active ? 'fill' : ''} />
     </button>
   );
 }
