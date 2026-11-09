@@ -41,7 +41,9 @@ Technique·Camera·Mood·Lighting·Composition·Typography 카테고리는 사�
 
   All images share one style: {대표 스타일 | Design Style + Design Format}
   Mood: modern and chic, refined and grown-up
-  {Color: 표시명 / Rendering Mode: 표시명 — 선택한 경우만}
+  Color: {표시명}, with a different palette in each image
+  (Color 미선택) Color: a different palette in each image
+  {Rendering Mode: 표시명 — 선택한 경우만}
   Each image shows a different {Depiction Cue} take on the subject: {대상}
   (대상이 비면) Each image shows a different {Depiction Cue} subject.
   ```
