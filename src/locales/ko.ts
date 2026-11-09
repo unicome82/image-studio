@@ -237,7 +237,6 @@ const translation: Record<string, string> = {
   'Isometric Illustration': '아이소메트릭',
   Isometric: '아이소메트릭',
   'Continuous Line': '원라인',
-  'Low Poly': '로우 폴리',
   'Pixel Art': '픽셀 아트',
   'Neutral + Accent': '포인트',
   Iridescent: '홀로그램',
