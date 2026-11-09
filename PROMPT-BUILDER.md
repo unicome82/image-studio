@@ -39,7 +39,7 @@ IMAGE STUDIO의 **부가 메뉴**로 스타일 조합용 영문 지시문을 생
 5. **Custom Input:** 최상단 라벨 없는 Subject input으로 피사체를 입력하고 Your direction textarea로 추가 지시를 입력. Aspect ratio(1:1/4:5/3:4/2:3/9:16/4:3/3:2/16:9)는 상위 독립 옵션으로 선택. 기존 프리셋의 Subject는 주제 입력란에 보존하고 Negative Prompt는 이름표와 함께 Your direction으로 합쳐 보존하며, Text는 별도 Typography 입력칸에 보존
 6. **Copy Prompt:** 영문 지시문 복사
 7. **Save Preset:** 스타일명·선택값·입력값 저장/목록 조회·복사/이름 수정/삭제; Save 클릭 시 스타일명 입력·프롬프트 미리보기·Cancel·Save가 있는 팝업 제공. 저장 목록은 본문 페이지에서 실제 콘텐츠 폭에 따라 최대 3열로 표시. 이름 바로 옆에 편집 아이콘, 하단에 저장값으로 재구성한 전체 프롬프트와 Copy 버튼을 제공하며 Load 버튼은 사용하지 않는다. LocalStorage 사용(기기 간 동기화 없음)
-8. **Depiction:** 묘사 정도를 Very Simple~Very Complex 5단계 필수 단일 선택으로 고르며 기본값은 Simple이다. 선택이 없는 기존 데이터는 Simple로 읽고, 옛 복잡도 숫자 값은 로드 시 버린다
+8. **Depiction:** 묘사 정도를 Essential·Simple·Moderate·Detailed·Rich 5단계 필수 단일 선택으로 고르며 기본값은 Simple이다. 선택이 없는 기존 데이터는 Simple로 읽고, 옛 복잡도 숫자 값은 로드 시 버린다
 9. **Rendering Mode:** 컬러만 / 컬러 + 윤곽선 / 윤곽선만 중 하나 선택, 기본값 Color Only. 프리셋 저장·프롬프트 재구성에 포함하며 기존 프리셋에 값이 없으면 기본값 적용.
 
 ### Rendering Mode
@@ -56,11 +56,11 @@ Color는 팔레트를, Rendering Mode는 채움과 윤곽선의 표현 방식을
 
 | ID | 이름 | 프롬프트 |
 |---|---|---|
-| `verysimple` | Very Simple | [prompt.md](reference/options/depiction/verysimple/prompt.md) |
+| `verysimple` | Essential | [prompt.md](reference/options/depiction/verysimple/prompt.md) |
 | `simple` | Simple (기본) | [prompt.md](reference/options/depiction/simple/prompt.md) |
-| `balanced` | Balanced | [prompt.md](reference/options/depiction/balanced/prompt.md) |
-| `complex` | Complex | [prompt.md](reference/options/depiction/complex/prompt.md) |
-| `verycomplex` | Very Complex | [prompt.md](reference/options/depiction/verycomplex/prompt.md) |
+| `balanced` | Moderate | [prompt.md](reference/options/depiction/balanced/prompt.md) |
+| `complex` | Detailed | [prompt.md](reference/options/depiction/complex/prompt.md) |
+| `verycomplex` | Rich | [prompt.md](reference/options/depiction/verycomplex/prompt.md) |
 
 `## Options` 목록 끝에 `Depiction: {표시명} — {Cue}`로 항상 출력하고 Settings에는 반복하지 않는다. 'complexity' 단어는 프롬프트에 쓰지 않는다.
 

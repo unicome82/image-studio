@@ -1,8 +1,8 @@
-## Very Complex
+## Rich
 
 - **Category:** Depiction
 - **Style ID:** `verycomplex`
-- **Cue:** Dense intricate detail and many interacting elements around one focus
+- **Cue:** Abundant, well-organized scene with many supporting elements and clean readable shapes
 
 ### Apply
-- Depict the subject with dense, intricate detail and many interacting elements filling the scene, organized around a clear focal hierarchy.
+- Depict an abundant, well-organized scene with many supporting elements, clean readable shapes, and a clear focal hierarchy.

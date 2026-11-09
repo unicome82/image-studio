@@ -1,8 +1,8 @@
-## Complex
+## Detailed
 
 - **Category:** Depiction
 - **Style ID:** `complex`
-- **Cue:** Rich layered detail and a fuller setting around one clear focus
+- **Cue:** Fuller setting with well-organized supporting details around one clear focus
 
 ### Apply
-- Depict the subject with rich detail, layered elements, and a fuller setting arranged around a clear focal hierarchy.
+- Depict the subject in a fuller setting with well-organized supporting details arranged around one clear focus.

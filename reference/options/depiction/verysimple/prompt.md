@@ -1,8 +1,8 @@
-## Very Simple
+## Essential
 
 - **Category:** Depiction
 - **Style ID:** `verysimple`
-- **Cue:** Essential silhouette only, very few elements, wide empty space
+- **Cue:** Essential silhouette, very few elements, plain unified backdrop
 
 ### Apply
-- Reduce the subject to its essential silhouette with very few elements, flat surfaces, and wide empty space around one focus.
+- Reduce the subject to its essential silhouette with very few elements, flat surfaces, and a plain unified backdrop around one focus.
