@@ -370,9 +370,6 @@ textarea,
   border-radius: 8px;
   background: transparent;
   color: $favorite-default;
-  &[aria-pressed='false']:hover {
-    color: $black;
-  }
   &[aria-pressed='true'] {
     color: $favorite;
   }
@@ -602,7 +599,7 @@ textarea,
       content: '';
       position: absolute;
       inset: 0;
-      background: rgba($black, 0.2);
+      background: $image-overlay;
       opacity: 0;
       transition: opacity var(--transition-duration) ease;
     }
@@ -634,6 +631,11 @@ textarea,
   &.selected {
     .tile-main::before,
     .tile-caption {
+      opacity: 1;
+    }
+  }
+  @media (hover: hover) {
+    &:hover .tile-main::before {
       opacity: 1;
     }
   }
@@ -719,7 +721,14 @@ textarea,
       inset: 0;
       border-radius: inherit;
       background: $image-overlay;
+      opacity: 0;
+      transition: opacity var(--transition-duration) ease;
       pointer-events: none;
+    }
+    @media (hover: hover) {
+      &:hover::before {
+        opacity: 1;
+      }
     }
     .favorite-button {
       z-index: 2;
