@@ -25,23 +25,22 @@ export const designFormatOrder = [
   'appscreen',
   'signage',
 ];
-// Curated display order of tones: brightness, contrast, shadow finish, light quality, then mood.
+// Curated display order of tones: light and contrast, shadow finish, light quality, then mood.
 export const toneOrder = [
   'highkey',
-  'midkey',
   'lowkey',
-  'airy',
   'highcontrast',
   'lowcontrast',
   'faded',
   'matte',
   'soft',
-  'luminous',
   'hazy',
-  'silhouette',
-  'moody',
-  'ethereal',
+  'backlit',
   'dramatic',
+  'moody',
+  'calm',
+  'dreamy',
+  'elegant',
 ];
 // Categories whose options follow a curated order instead of folder names.
 export const optionOrder: Record<string, string[]> = {
