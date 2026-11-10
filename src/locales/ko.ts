@@ -292,11 +292,12 @@ const translation: Record<string, string> = {
   'Hand Lettering': '손글씨',
   'Bold Grotesk': '그로테스크',
   'Outline Type': '아웃라인',
-  'Serif Display': '세리프 디스플레이',
-  'Classic Serif': '클래식 세리프',
-  'Light Sans': '라이트 산세리프',
   Monospace: '모노스페이스',
-  'Pixel Type': '픽셀',
-  'Retro Display': '레트로 디스플레이',
+  'Sans-serif': '산세리프',
+  Serif: '세리프',
+  Display: '디스플레이',
+  Thin: '얇게',
+  Bold: '굵게',
+  'Typography Weight': '굵기',
 };
 export default translation;

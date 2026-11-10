@@ -292,11 +292,12 @@ const translation: Record<string, string> = {
   'Hand Lettering': 'Hand',
   'Bold Grotesk': 'Bold Grotesk',
   'Outline Type': 'Outline',
-  'Serif Display': 'Serif Display',
-  'Classic Serif': 'Classic Serif',
-  'Light Sans': 'Light Sans',
   Monospace: 'Monospace',
-  'Pixel Type': 'Pixel',
-  'Retro Display': 'Retro Display',
+  'Sans-serif': 'Sans-serif',
+  Serif: 'Serif',
+  Display: 'Display',
+  Thin: 'Thin',
+  Bold: 'Bold',
+  'Typography Weight': 'Weight',
 };
 export default translation;

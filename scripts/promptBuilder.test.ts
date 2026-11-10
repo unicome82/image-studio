@@ -41,6 +41,7 @@ test('each type keeps its lead style, technique, color, tone and illustration ou
     'Color',
     'Tone',
     'Outline',
+    'Typography Weight',
     'Typography',
   ]);
   assert.deepEqual(builderCategories(true), [
@@ -48,6 +49,7 @@ test('each type keeps its lead style, technique, color, tone and illustration ou
     'Photo Technique',
     'Color',
     'Tone',
+    'Typography Weight',
     'Typography',
   ]);
   assert.deepEqual(builderCategories(false, true), [
@@ -56,6 +58,7 @@ test('each type keeps its lead style, technique, color, tone and illustration ou
     'Design Graphic',
     'Color',
     'Tone',
+    'Typography Weight',
     'Typography',
   ]);
   assert.deepEqual(imageCategories(true), [
@@ -63,6 +66,7 @@ test('each type keeps its lead style, technique, color, tone and illustration ou
     'Photo Technique',
     'Color',
     'Tone',
+    'Typography Weight',
     'Typography',
     'Texture',
   ]);
@@ -318,7 +322,38 @@ test('retired typography styles load as the styles that absorbed them', () => {
     { id: '2', photo: false, selection: { Typography: ['swisstypography'] }, fields: {} },
   ]);
   const [editorial, swiss] = parsePresets(raw, catalog);
-  assert.deepEqual(editorial.selection.Typography, ['serifdisplay']);
+  assert.deepEqual(editorial.selection.Typography, ['display']);
   assert.deepEqual(editorial.fields, { Subject: '', 'Typography Enabled': 'true' });
-  assert.deepEqual(swiss.selection.Typography, ['lightsans']);
+  assert.deepEqual(swiss.selection.Typography, ['sansserif']);
+  const [light] = parsePresets(
+    JSON.stringify([
+      { id: '3', photo: false, selection: { Typography: ['lightsans'] }, fields: {} },
+    ]),
+    catalog,
+  );
+  assert.deepEqual(light.selection['Typography Weight'], ['thin']);
+  assert.deepEqual(light.selection.Typography, ['sansserif']);
+});
+
+test('typography weight pairs with the style as one phrase and only while typography is on', () => {
+  const selection = { 'Typography Weight': ['thin'], Typography: ['serif'] };
+  const on = { 'Typography Enabled': 'true', Text: 'HI' };
+  assert.ok(
+    makeMockupPrompt(catalog, selection, on, 'illustration').includes(
+      '\nTypography: Thin Serif\nText: HI\n',
+    ),
+  );
+  assert.ok(
+    makeMockupPrompt(catalog, { 'Typography Weight': ['bold'] }, on, 'design').includes(
+      '\nTypography: Bold\nText: HI\n',
+    ),
+  );
+  assert.ok(!makeMockupPrompt(catalog, selection, {}, 'illustration').includes('Thin'));
+  assert.deepEqual(toggleOption(selection, 'Typography Weight', 'bold')['Typography Weight'], [
+    'bold',
+  ]);
+  assert.match(
+    makeImagePrompt(catalog, selection, on, 'photo'),
+    /\nTypography Weight: Thin — .+\nTypography: Serif — .+\nText: HI\n/,
+  );
 });

@@ -4,6 +4,7 @@ import {
   activeSelection,
   defaultDepiction,
   isTypographyEnabled,
+  typographyCategories,
   requiredCategories,
   type Option,
   type Selection,
@@ -61,7 +62,8 @@ export default function SelectedOptions({
       : [{ key: 'ratio', title: t('Aspect ratio'), label: fields['Aspect Ratio'] }]),
     ...(outline ? [{ key: 'outline', title: t('Outline'), label: t(outline.label) }] : []),
     // Typography switched on without a style still shows that lettering is requested.
-    ...(isTypographyEnabled(fields) && !options.some((option) => option.category === 'Typography')
+    ...(isTypographyEnabled(fields) &&
+    !options.some((option) => typographyCategories.includes(option.category))
       ? [{ key: 'typography', title: t('Typography'), label: t('Typography') }]
       : []),
     ...(mockup && depiction

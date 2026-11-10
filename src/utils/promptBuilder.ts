@@ -87,13 +87,11 @@ export const designGraphicOrder = [
 ];
 // Typography runs from sans and serif families to display, effect and hand-made letters.
 export const typographyOrder = [
+  'sansserif',
+  'serif',
   'boldgrotesk',
-  'lightsans',
-  'serifdisplay',
-  'classicserif',
+  'display',
   'monospace',
-  'retrodisplay',
-  'pixeltype',
   'outlinetype',
   'bubblelettering',
   'calligraphy',
@@ -101,6 +99,8 @@ export const typographyOrder = [
   'childlikehandwriting',
   'experimentaltypography',
 ];
+// The letter weight sits before the typography styles and takes at most one choice.
+export const typographyWeights = ['thin', 'bold'];
 // Categories whose options follow a curated order instead of folder names.
 export const optionOrder: Record<string, string[]> = {
   'Photo Style': photoStyleOrder,
@@ -110,6 +110,7 @@ export const optionOrder: Record<string, string[]> = {
   'Design Graphic': designGraphicOrder,
   Tone: toneOrder,
   Typography: typographyOrder,
+  'Typography Weight': typographyWeights,
 };
 export const aspectRatios = ['1:1', '4:5', '3:4', '2:3', '9:16', '4:3', '3:2', '16:9'];
 // Every Builder category takes one decisive choice; choosing it again clears it,
@@ -146,11 +147,14 @@ export function compactFields(fields: Record<string, string>): Record<string, st
 export function isTypographyEnabled(fields: Record<string, string>): boolean {
   return fields['Typography Enabled'] === 'true';
 }
+// The weight and the typography style share the Typography section and its switch.
+export const typographyCategories = ['Typography Weight', 'Typography'];
 /** The selection that applies: a typography style counts only while typography is on. */
 export function activeSelection(selection: Selection, fields: Record<string, string>): Selection {
-  if (isTypographyEnabled(fields) || !selection.Typography) return selection;
-  const { Typography: _off, ...rest } = selection;
-  return rest;
+  if (isTypographyEnabled(fields)) return selection;
+  return Object.fromEntries(
+    Object.entries(selection).filter(([category]) => !typographyCategories.includes(category)),
+  );
 }
 export function imageType(photo: boolean, design = false): ImageType {
   return design ? 'design' : photo ? 'photo' : 'illustration';
@@ -159,10 +163,10 @@ export function imageType(photo: boolean, design = false): ImageType {
 // every type ends with the optional typography.
 export function builderCategories(photo: boolean, design = false): string[] {
   return design
-    ? ['Design Format', 'Design Style', 'Design Graphic', 'Color', 'Tone', 'Typography']
+    ? ['Design Format', 'Design Style', 'Design Graphic', 'Color', 'Tone', ...typographyCategories]
     : photo
-      ? ['Photo Style', 'Photo Technique', 'Color', 'Tone', 'Typography']
-      : ['Illustration Style', 'Color', 'Tone', 'Outline', 'Typography'];
+      ? ['Photo Style', 'Photo Technique', 'Color', 'Tone', ...typographyCategories]
+      : ['Illustration Style', 'Color', 'Tone', 'Outline', ...typographyCategories];
 }
 // Gallery images also carry the texture they were made with.
 export function imageCategories(photo: boolean, design = false): string[] {
@@ -228,9 +232,15 @@ function typographyLines(
   cue = false,
 ) {
   if (!isTypographyEnabled(fields)) return [];
-  const style = chosenOptions(['Typography'], catalog, selection)[0];
+  const [weight, style] = typographyCategories.map(
+    (category) => chosenOptions([category], catalog, selection)[0],
+  );
+  // The mockup reads the weight and style as one phrase such as "Thin Serif".
+  const look = [weight?.label, style?.label].filter(Boolean).join(' ');
   return [
-    style ? (cue ? optionLine(style) : `Typography: ${style.label}`) : 'Typography: On',
+    ...(cue && (weight || style)
+      ? [weight, style].filter((o): o is Option => !!o).map(optionLine)
+      : [`Typography: ${look || 'On'}`]),
     fields.Text?.trim()
       ? `Text: ${fields.Text}`
       : `Text: Not specified. Choose suitable wording freely to complement ${target}.`,
@@ -286,7 +296,7 @@ export function makeMockupPrompt(
     mockupMood,
     colorLine(extras.find((o) => o.category === 'Color')),
     ...extras
-      .filter((o) => !['Color', 'Typography'].includes(o.category))
+      .filter((o) => !['Color', ...typographyCategories].includes(o.category))
       .sort((a, b) => mockupLineOrder.indexOf(a.category) - mockupLineOrder.indexOf(b.category))
       .map((o) => `${promptCategory(o.category)}: ${o.label}`),
     ...typographyLines(catalog, selection, fields, `each ${words[type].one}`),
@@ -302,7 +312,7 @@ export function makeImagePrompt(
 ) {
   const subject = fields.Subject?.trim();
   const categories = imageCategories(type === 'photo', type === 'design').filter(
-    (category) => category !== 'Typography',
+    (category) => !typographyCategories.includes(category),
   );
   return [
     `Create a standalone ${words[type].one} of ${subject ? `"${subject}"` : 'a subject you choose'}.`,

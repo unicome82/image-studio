@@ -16,6 +16,7 @@ import {
   depictionLevels,
   isTypographyEnabled,
   optionLimit,
+  typographyCategories,
 } from '../../utils/promptBuilder';
 import type { ImageType, Option, Selection } from '../../utils/promptBuilder';
 interface Props {
@@ -88,7 +89,7 @@ export default function Builder(p: Props) {
   ];
   const lead = categories.filter((category) => leadCategories.includes(category));
   const rest = categories.filter(
-    (category) => !leadCategories.includes(category) && category !== 'Typography',
+    (category) => !leadCategories.includes(category) && !typographyCategories.includes(category),
   );
   const typography = isTypographyEnabled(p.fields);
   const choices = (category: string) => (
@@ -201,15 +202,27 @@ export default function Builder(p: Props) {
                   />
                 </section>
                 {rest.map(choices)}
-                {/* Typography stays off until its switch turns on the text input and styles. */}
+                {/* Typography stays off until its switch turns on the text input and styles;
+                    Thin or Bold leads the row as its own single choice beside the style. */}
                 <section className="option-section">
                   <OptionChoices
                     title="Typography"
-                    options={p.catalog
-                      .filter((o) => o.category === 'Typography')
-                      .map((o) => ({ id: o.id, label: o.label, category: o.category }))}
-                    selected={p.selection.Typography ?? []}
-                    choose={(id) => p.toggle('Typography', id)}
+                    options={typographyCategories.flatMap((category) =>
+                      p.catalog
+                        .filter((o) => o.category === category)
+                        .map((o) => ({ id: o.id, label: o.label, category })),
+                    )}
+                    selected={typographyCategories.flatMap(
+                      (category) => p.selection[category] ?? [],
+                    )}
+                    choose={(id) =>
+                      p.toggle(
+                        p.catalog.some((o) => o.category === 'Typography Weight' && o.id === id)
+                          ? 'Typography Weight'
+                          : 'Typography',
+                        id,
+                      )
+                    }
                     showOptions={typography}
                     headerControl={
                       <button
