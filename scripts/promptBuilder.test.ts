@@ -91,7 +91,6 @@ test('mockup prompt names one style, the depiction level and the subject without
       '',
       'All illustrations share one style: Geometric Illustration',
       'Mood: modern and chic, refined and grown-up',
-      'Framing: a different shot for each image, mixing close-ups, medium shots, wide scenes and distant views',
       'Color: different colors for each image',
       'Each image shows a different very simple take on the subject: A tall building',
     ].join('\n'),
@@ -119,7 +118,7 @@ test('mockup prompt names one style, the depiction level and the subject without
   );
   assert.ok(!rich.includes('Texture'));
   const tone = (id: string) =>
-    makeMockupPrompt(catalog, { Color: [id] }, {}, 'photo').split('\n')[6];
+    makeMockupPrompt(catalog, { Color: [id] }, {}, 'photo').split('\n')[5];
   assert.equal(
     tone('blackwhite'),
     'Color: Grayscale, with a different grayscale tone for each image',
@@ -146,9 +145,6 @@ test('mockup prompt names one style, the depiction level and the subject without
   );
   assert.ok(technique.includes('as text: Editorial · Film · Soft · Simple\n'));
   assert.ok(technique.includes('\nTone: Soft\nTechnique: Film\nEach image'));
-  // Designs such as logos keep their own framing; illustrations and photos vary their shots.
-  assert.ok(technique.includes('\nFraming: a different shot for each image,'));
-  assert.ok(!makeMockupPrompt(catalog, {}, {}, 'design').includes('Framing'));
   assert.ok(
     makeMockupPrompt(
       catalog,
