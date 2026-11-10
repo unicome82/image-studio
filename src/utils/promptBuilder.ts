@@ -85,6 +85,22 @@ export const designGraphicOrder = [
   '3d',
   'generative',
 ];
+// Typography runs from sans and serif families to display, effect and hand-made letters.
+export const typographyOrder = [
+  'boldgrotesk',
+  'lightsans',
+  'serifdisplay',
+  'classicserif',
+  'monospace',
+  'retrodisplay',
+  'pixeltype',
+  'outlinetype',
+  'bubblelettering',
+  'calligraphy',
+  'handlettering',
+  'childlikehandwriting',
+  'experimentaltypography',
+];
 // Categories whose options follow a curated order instead of folder names.
 export const optionOrder: Record<string, string[]> = {
   'Photo Style': photoStyleOrder,
@@ -93,6 +109,7 @@ export const optionOrder: Record<string, string[]> = {
   'Design Style': designStyleOrder,
   'Design Graphic': designGraphicOrder,
   Tone: toneOrder,
+  Typography: typographyOrder,
 };
 export const aspectRatios = ['1:1', '4:5', '3:4', '2:3', '9:16', '4:3', '3:2', '16:9'];
 // Every Builder category takes one decisive choice; choosing it again clears it,

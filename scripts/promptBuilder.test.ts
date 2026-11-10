@@ -306,3 +306,19 @@ test('every option has a short positive Cue and curated orders list exactly the 
       category,
     );
 });
+
+test('retired typography styles load as the styles that absorbed them', () => {
+  const raw = JSON.stringify([
+    {
+      id: '1',
+      photo: true,
+      selection: { Typography: ['editorialtypography'] },
+      fields: { 'Typography Enabled': 'true' },
+    },
+    { id: '2', photo: false, selection: { Typography: ['swisstypography'] }, fields: {} },
+  ]);
+  const [editorial, swiss] = parsePresets(raw, catalog);
+  assert.deepEqual(editorial.selection.Typography, ['serifdisplay']);
+  assert.deepEqual(editorial.fields, { Subject: '', 'Typography Enabled': 'true' });
+  assert.deepEqual(swiss.selection.Typography, ['lightsans']);
+});
