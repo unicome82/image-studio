@@ -231,7 +231,7 @@ export default function Builder(p: Props) {
                       <input
                         className="typography-input"
                         aria-label={t('Typography text')}
-                        placeholder={t('Text (optional)')}
+                        placeholder={t('Text (random if empty)')}
                         value={p.fields.Text ?? ''}
                         onChange={(e) => p.setFields({ ...p.fields, Text: e.target.value })}
                       />

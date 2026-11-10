@@ -10,6 +10,7 @@ import {
   depictionLevels,
   makeImagePrompt,
   makeMockupPrompt,
+  optionOrder,
   toggleOption,
   type Option,
 } from '../src/utils/promptBuilder.ts';
@@ -287,4 +288,21 @@ test('typography works for every type only while its switch is on', () => {
     image,
     /\nTypography: Bold Grotesk — .+\nText: Not specified\. .+ the photograph\.\n/,
   );
+});
+
+test('every option has a short positive Cue and curated orders list exactly the catalog IDs', () => {
+  for (const option of catalog) {
+    assert.ok(option.cue, option.path);
+    assert.ok(option.cue.split(/\s+/).length <= 15, option.path);
+    assert.doesNotMatch(option.cue, /\b(no|not|avoid|without|never)\b/i, option.path);
+  }
+  for (const [category, order] of Object.entries(optionOrder))
+    assert.deepEqual(
+      [...order].sort(),
+      catalog
+        .filter((o) => o.category === category)
+        .map((o) => o.id)
+        .sort(),
+      category,
+    );
 });

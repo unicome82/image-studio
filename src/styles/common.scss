@@ -1519,6 +1519,32 @@ textarea,
     text-transform: none;
     letter-spacing: normal;
   }
+  // Builder typography switch: a borderless rounded track whose thumb slides right when on.
+  .typography-toggle {
+    @include flex-row($display: inline-flex);
+    flex-shrink: 0;
+    width: 24px;
+    height: 16px;
+    padding: 2px;
+    border: 0;
+    border-radius: 999px;
+    background: $toggle-background;
+    transition: background var(--transition-duration);
+    span {
+      display: block;
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: $white;
+      transition: transform var(--transition-duration);
+    }
+    &[aria-checked='true'] {
+      background: $ink;
+      span {
+        transform: translateX(8px);
+      }
+    }
+  }
   &-viewport {
     @include flex-column;
     flex: 1;
@@ -1791,32 +1817,6 @@ textarea,
   margin-right: auto;
   @include flex-row($gap: 8px, $display: inline-flex);
   flex-shrink: 0;
-}
-// Builder typography switch: a borderless rounded track whose thumb slides right when on.
-.typography-toggle {
-  @include flex-row($display: inline-flex);
-  flex-shrink: 0;
-  width: 24px;
-  height: 16px;
-  padding: 2px;
-  border: 0;
-  border-radius: 999px;
-  background: $toggle-background;
-  transition: background var(--transition-duration);
-  span {
-    display: block;
-    width: 12px;
-    height: 12px;
-    border-radius: 50%;
-    background: $white;
-    transition: transform var(--transition-duration);
-  }
-  &[aria-checked='true'] {
-    background: $ink;
-    span {
-      transform: translateX(8px);
-    }
-  }
 }
 .typography-input {
   display: block;

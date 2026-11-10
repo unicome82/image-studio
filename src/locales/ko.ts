@@ -284,7 +284,7 @@ const translation: Record<string, string> = {
   Generative: '생성형',
   Gradient: '그라디언트',
   'Typography text': '타이포그래피 문구',
-  'Text (optional)': '문구 입력 (선택)',
+  'Text (random if empty)': '문구 입력 (미입력시 랜덤문구)',
   'Brutalist Typography': '브루탈리즘',
   'Bubble Lettering': '버블',
   Calligraphy: '캘리그래피',

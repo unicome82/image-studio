@@ -284,7 +284,7 @@ const translation: Record<string, string> = {
   Generative: 'Generative',
   Gradient: 'Gradient',
   'Typography text': 'Typography text',
-  'Text (optional)': 'Text (optional)',
+  'Text (random if empty)': 'Text (random if left empty)',
   'Brutalist Typography': 'Brutalist',
   'Bubble Lettering': 'Bubble',
   Calligraphy: 'Calligraphy',
