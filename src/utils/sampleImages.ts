@@ -19,8 +19,8 @@ export const sampleImages: SampleImage[] = [
     type: 'illustration',
     fileName: 'expressionism-glowing-stag-forest.webp',
     added: '2026-11-10T11:03:51Z',
-    width: 1632,
-    height: 964,
+    width: 1200,
+    height: 709,
     color: '#355052',
     fields: { Subject: 'Dreamy and Surreal' },
     selection: {
