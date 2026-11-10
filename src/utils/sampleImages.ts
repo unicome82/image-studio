@@ -16,6 +16,38 @@ export interface SampleImage {
 }
 export const sampleImages: SampleImage[] = [
   {
+    type: 'photo',
+    fileName: 'minimal-leather-tubular-armchair.webp',
+    added: '2026-11-10T05:15:12Z',
+    width: 1086,
+    height: 1448,
+    color: '#a28d77',
+    fields: { Subject: 'A cognac leather armchair with a tubular steel frame in window light' },
+    selection: {
+      'Photo Style': ['minimal'],
+      Color: ['earthy'],
+      Tone: ['calm'],
+      Texture: ['softmatte'],
+      Depiction: ['verysimple'],
+    },
+  },
+  {
+    type: 'photo',
+    fileName: 'stilllife-green-boucle-sofa-glass-table.webp',
+    added: '2026-11-10T05:15:12Z',
+    width: 1448,
+    height: 1086,
+    color: '#72664b',
+    fields: { Subject: 'A green boucle sofa beside an oval glass table with flowers and a book' },
+    selection: {
+      'Photo Style': ['stilllife'],
+      Color: ['earthy'],
+      Tone: ['soft'],
+      Texture: ['softmatte'],
+      Depiction: ['simple'],
+    },
+  },
+  {
     type: 'illustration',
     fileName: 'editorialillustration-bridge-street-dappled-shade.webp',
     added: '2026-11-10T05:10:04Z',
