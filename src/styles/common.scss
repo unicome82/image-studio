@@ -1479,9 +1479,11 @@ textarea,
   text-transform: none;
   letter-spacing: normal;
   overflow-wrap: anywhere;
+  // Small type label above the title, styled like the filter option headings.
   .preset-type {
-    margin-right: 8px;
-    color: $muted;
+    @include builder-option-heading;
+    @include uppercase-text;
+    margin-bottom: 4px;
   }
 }
 .preset-selected {
