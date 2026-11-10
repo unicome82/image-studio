@@ -46,6 +46,7 @@ IMAGE STUDIO의 **부가 메뉴**로 **갤러리 시안** 영문 프롬프트를
 
   All {illustrations | photographs | designs} share one style: {대표 스타일 | Design Style + Design Format}
   Mood: modern and chic, refined and grown-up
+  (일러스트·사진) Framing: a different shot for each image, mixing close-ups, medium shots, wide scenes and distant views
   Color: {표시명}, with different colors for each image
   (Grayscale) Color: Grayscale, with a different grayscale tone for each image
   (Monochrome) Color: Monochrome, with a different hue for each image

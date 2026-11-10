@@ -239,6 +239,9 @@ const subjectLine = (depiction: string, subject?: string) =>
     : `Each image shows a different ${depiction} subject.`;
 // Every mockup keeps a grown-up, modern and chic tone.
 const mockupMood = 'Mood: modern and chic, refined and grown-up';
+// Illustrations and photos mix their shot sizes so the gallery does not settle on close-ups.
+const mockupFraming =
+  'Framing: a different shot for each image, mixing close-ups, medium shots, wide scenes and distant views';
 // Each image gets its own colors so the gallery does not settle on one color;
 // black and white varies its grayscale tone and monochrome varies its hue.
 const colorVariation: Record<string, string> = {
@@ -280,6 +283,7 @@ export function makeMockupPrompt(
     '',
     style ? `All ${media} share one style: ${style}` : `All ${media} share one consistent style.`,
     mockupMood,
+    ...(type === 'design' ? [] : [mockupFraming]),
     colorLine(extras.find((o) => o.category === 'Color')),
     ...extras
       .filter((o) => o.category !== 'Color')
