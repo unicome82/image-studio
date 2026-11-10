@@ -51,6 +51,7 @@ const translation: Record<string, string> = {
   'Expand {{title}} section': '{{title}} 펼치기',
   'Collapse {{title}} section': '{{title}} 접기',
 
+  Random: '랜덤',
   Newest: '최신순',
   Oldest: '과거순',
   'Z–A': '하–가',

@@ -51,6 +51,7 @@ const translation: Record<string, string> = {
   'Expand {{title}} section': 'Expand {{title}} section',
   'Collapse {{title}} section': 'Collapse {{title}} section',
 
+  Random: 'Random',
   Newest: 'New',
   Oldest: 'Old',
   'Z–A': 'Z–A',

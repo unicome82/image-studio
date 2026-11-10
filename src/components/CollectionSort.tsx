@@ -1,12 +1,15 @@
 import { useTranslation } from 'react-i18next';
 import BuilderSelect from './promptbuilder/BuilderSelect';
-import type { CollectionSort as SortOrder } from '../utils/collectionSort';
-export default function CollectionSort({
+import type { GallerySort } from '../utils/collectionSort';
+export default function CollectionSort<T extends GallerySort>({
   value,
   change,
+  random = false,
 }: {
-  value: SortOrder;
-  change: (value: SortOrder) => void;
+  value: T;
+  change: (value: T) => void;
+  // Only the gallery offers its per-visit random order.
+  random?: boolean;
 }) {
   const { t } = useTranslation();
   return (
@@ -14,8 +17,9 @@ export default function CollectionSort({
       <BuilderSelect
         label={t('Sort')}
         value={value}
-        change={(next) => change(next as SortOrder)}
+        change={(next) => change(next as T)}
         options={[
+          ...(random ? [{ value: 'random', label: t('Random') }] : []),
           { value: 'newest', label: t('Newest') },
           { value: 'oldest', label: t('Oldest') },
         ]}

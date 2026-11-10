@@ -4,6 +4,8 @@ import type { Selection } from './promptBuilder';
 export interface SampleImage {
   type: 'illustration' | 'photo' | 'design';
   fileName: string;
+  /** When the image joined the gallery (UTC); orders the New and Old sorts. */
+  added: string;
   width: number;
   height: number;
   /** Placeholder color shown until the image loads. */
@@ -16,6 +18,7 @@ export const sampleImages: SampleImage[] = [
   {
     type: 'illustration',
     fileName: 'editorialillustration-yellow-tram.webp',
+    added: '2026-11-09T07:10:37Z',
     width: 765,
     height: 1020,
     color: '#b9a78b',
@@ -32,6 +35,7 @@ export const sampleImages: SampleImage[] = [
   {
     type: 'illustration',
     fileName: 'editorialillustration-red-tulips.webp',
+    added: '2026-11-09T07:10:37Z',
     width: 960,
     height: 960,
     color: '#cbad8f',
@@ -48,6 +52,7 @@ export const sampleImages: SampleImage[] = [
   {
     type: 'illustration',
     fileName: 'editorialillustration-cyclist.webp',
+    added: '2026-11-09T07:10:37Z',
     width: 816,
     height: 1020,
     color: '#8e9ca6',
@@ -64,6 +69,7 @@ export const sampleImages: SampleImage[] = [
   {
     type: 'illustration',
     fileName: 'editorialillustration-record-player.webp',
+    added: '2026-11-09T07:10:37Z',
     width: 1020,
     height: 765,
     color: '#c89280',
@@ -80,6 +86,7 @@ export const sampleImages: SampleImage[] = [
   {
     type: 'illustration',
     fileName: 'editorialillustration-snowy-mountains.webp',
+    added: '2026-11-09T07:10:37Z',
     width: 1008,
     height: 567,
     color: '#b0a79e',
@@ -96,6 +103,7 @@ export const sampleImages: SampleImage[] = [
   {
     type: 'illustration',
     fileName: 'editorialillustration-ferris-wheel-park.webp',
+    added: '2026-11-09T08:00:22Z',
     width: 765,
     height: 1020,
     color: '#98b3ba',
@@ -112,6 +120,7 @@ export const sampleImages: SampleImage[] = [
   {
     type: 'illustration',
     fileName: 'editorialillustration-egg-toast-breakfast.webp',
+    added: '2026-11-09T08:00:22Z',
     width: 765,
     height: 1020,
     color: '#bdb89d',
@@ -130,6 +139,7 @@ export const sampleImages: SampleImage[] = [
   {
     type: 'illustration',
     fileName: 'editorialillustration-camper-van-beach.webp',
+    added: '2026-11-09T08:00:22Z',
     width: 816,
     height: 1020,
     color: '#9fa2a0',
@@ -146,6 +156,7 @@ export const sampleImages: SampleImage[] = [
   {
     type: 'illustration',
     fileName: 'editorialillustration-black-cat-leaves.webp',
+    added: '2026-11-09T08:00:22Z',
     width: 1024,
     height: 1024,
     color: '#888f74',
@@ -162,6 +173,7 @@ export const sampleImages: SampleImage[] = [
   {
     type: 'illustration',
     fileName: 'editorialillustration-yellow-tulip.webp',
+    added: '2026-11-09T08:00:22Z',
     width: 765,
     height: 1020,
     color: '#e0d3a8',
@@ -178,6 +190,7 @@ export const sampleImages: SampleImage[] = [
   {
     type: 'illustration',
     fileName: 'editorialillustration-cat-sofa.webp',
+    added: '2026-11-10T00:07:36Z',
     width: 1020,
     height: 765,
     color: '#cf9a6d',
@@ -194,6 +207,7 @@ export const sampleImages: SampleImage[] = [
   {
     type: 'illustration',
     fileName: 'editorialillustration-cafe-table-flowers.webp',
+    added: '2026-11-10T00:07:36Z',
     width: 765,
     height: 1020,
     color: '#cca777',
@@ -210,6 +224,7 @@ export const sampleImages: SampleImage[] = [
   {
     type: 'illustration',
     fileName: 'editorialillustration-bathtub-hanging-plant.webp',
+    added: '2026-11-10T00:20:08Z',
     width: 1008,
     height: 567,
     color: '#c9baa8',
@@ -226,6 +241,7 @@ export const sampleImages: SampleImage[] = [
   {
     type: 'illustration',
     fileName: 'editorialillustration-sideboard-yellow-branches.webp',
+    added: '2026-11-10T00:20:08Z',
     width: 1008,
     height: 567,
     color: '#cca57b',
@@ -242,6 +258,7 @@ export const sampleImages: SampleImage[] = [
   {
     type: 'illustration',
     fileName: 'editorialillustration-sunlit-bedroom.webp',
+    added: '2026-11-10T00:20:08Z',
     width: 1008,
     height: 567,
     color: '#cabda6',
@@ -258,6 +275,7 @@ export const sampleImages: SampleImage[] = [
   {
     type: 'illustration',
     fileName: 'editorialillustration-kettle-dotted-mug.webp',
+    added: '2026-11-10T00:20:08Z',
     width: 765,
     height: 1020,
     color: '#d6b68a',
@@ -274,6 +292,7 @@ export const sampleImages: SampleImage[] = [
   {
     type: 'illustration',
     fileName: 'editorialillustration-turntable-lamp.webp',
+    added: '2026-11-10T00:20:08Z',
     width: 1008,
     height: 567,
     color: '#c9ab7b',
@@ -290,6 +309,7 @@ export const sampleImages: SampleImage[] = [
   {
     type: 'illustration',
     fileName: 'midcentury-headphones-profile.webp',
+    added: '2026-11-09T06:49:39Z',
     width: 960,
     height: 1280,
     color: '#d0987a',
@@ -306,6 +326,7 @@ export const sampleImages: SampleImage[] = [
   {
     type: 'illustration',
     fileName: 'midcentury-cat-on-books.webp',
+    added: '2026-11-09T06:49:39Z',
     width: 960,
     height: 960,
     color: '#c89081',
@@ -322,6 +343,7 @@ export const sampleImages: SampleImage[] = [
   {
     type: 'illustration',
     fileName: 'midcentury-lighthouse-coast.webp',
+    added: '2026-11-09T06:49:39Z',
     width: 960,
     height: 1440,
     color: '#7195b0',
@@ -338,6 +360,7 @@ export const sampleImages: SampleImage[] = [
   {
     type: 'illustration',
     fileName: 'midcentury-teapot-cup.webp',
+    added: '2026-11-09T06:49:39Z',
     width: 816,
     height: 1020,
     color: '#9e9896',
@@ -354,6 +377,7 @@ export const sampleImages: SampleImage[] = [
   {
     type: 'illustration',
     fileName: 'midcentury-lemon-branch.webp',
+    added: '2026-11-09T06:49:39Z',
     width: 960,
     height: 1280,
     color: '#c9b66a',
@@ -370,6 +394,7 @@ export const sampleImages: SampleImage[] = [
   {
     type: 'illustration',
     fileName: 'popart-dalmatian-sunglasses.webp',
+    added: '2026-11-09T06:41:20Z',
     width: 960,
     height: 1200,
     color: '#c6aa55',
@@ -386,6 +411,7 @@ export const sampleImages: SampleImage[] = [
   {
     type: 'illustration',
     fileName: 'popart-floating-astronaut.webp',
+    added: '2026-11-09T06:41:20Z',
     width: 900,
     height: 1600,
     color: '#404f59',
@@ -402,6 +428,7 @@ export const sampleImages: SampleImage[] = [
   {
     type: 'illustration',
     fileName: 'popart-ufo-cat.webp',
+    added: '2026-11-09T06:41:20Z',
     width: 1280,
     height: 960,
     color: '#505977',
@@ -418,6 +445,7 @@ export const sampleImages: SampleImage[] = [
   {
     type: 'illustration',
     fileName: 'popart-earthrise-moon.webp',
+    added: '2026-11-09T06:41:20Z',
     width: 1280,
     height: 720,
     color: '#6c6760',
@@ -434,6 +462,7 @@ export const sampleImages: SampleImage[] = [
   {
     type: 'illustration',
     fileName: 'popart-ufo-beam-cat.webp',
+    added: '2026-11-09T06:41:20Z',
     width: 1280,
     height: 960,
     color: '#9f70ae',
@@ -450,6 +479,7 @@ export const sampleImages: SampleImage[] = [
   {
     type: 'illustration',
     fileName: 'risograph-laundry-clothesline.webp',
+    added: '2026-11-09T06:26:52Z',
     width: 960,
     height: 1280,
     color: '#a6becf',
@@ -466,6 +496,7 @@ export const sampleImages: SampleImage[] = [
   {
     type: 'illustration',
     fileName: 'risograph-tulips-blue-vase.webp',
+    added: '2026-11-09T06:26:52Z',
     width: 960,
     height: 1280,
     color: '#c7c3d3',
@@ -482,6 +513,7 @@ export const sampleImages: SampleImage[] = [
   {
     type: 'illustration',
     fileName: 'risograph-puppy-chair.webp',
+    added: '2026-11-09T06:26:52Z',
     width: 960,
     height: 1280,
     color: '#e3cec2',
@@ -498,6 +530,7 @@ export const sampleImages: SampleImage[] = [
   {
     type: 'illustration',
     fileName: 'popart-astronaut-cat.webp',
+    added: '2026-11-09T06:26:52Z',
     width: 960,
     height: 960,
     color: '#b8818d',
@@ -514,6 +547,7 @@ export const sampleImages: SampleImage[] = [
   {
     type: 'illustration',
     fileName: 'popart-ringed-planet.webp',
+    added: '2026-11-09T06:26:52Z',
     width: 960,
     height: 960,
     color: '#2f5692',
@@ -530,6 +564,7 @@ export const sampleImages: SampleImage[] = [
   {
     type: 'illustration',
     fileName: 'popart-astronaut-woman.webp',
+    added: '2026-11-09T23:57:23Z',
     width: 1020,
     height: 1020,
     color: '#b67572',
@@ -546,6 +581,7 @@ export const sampleImages: SampleImage[] = [
   {
     type: 'illustration',
     fileName: 'popart-leopard-profile.webp',
+    added: '2026-11-09T23:57:23Z',
     width: 1020,
     height: 765,
     color: '#7b9133',
@@ -562,6 +598,7 @@ export const sampleImages: SampleImage[] = [
   {
     type: 'illustration',
     fileName: 'popart-rocket-moon.webp',
+    added: '2026-11-09T23:57:23Z',
     width: 765,
     height: 1020,
     color: '#636280',
@@ -578,6 +615,7 @@ export const sampleImages: SampleImage[] = [
   {
     type: 'illustration',
     fileName: 'popart-flamingo.webp',
+    added: '2026-11-09T23:57:23Z',
     width: 816,
     height: 1020,
     color: '#d78c4b',
@@ -594,6 +632,7 @@ export const sampleImages: SampleImage[] = [
   {
     type: 'illustration',
     fileName: 'popart-owl-yellow-eyes.webp',
+    added: '2026-11-09T23:57:23Z',
     width: 1020,
     height: 680,
     color: '#986c66',
@@ -610,6 +649,7 @@ export const sampleImages: SampleImage[] = [
   {
     type: 'illustration',
     fileName: 'popart-pink-ringed-planet.webp',
+    added: '2026-11-09T23:58:48Z',
     width: 1008,
     height: 567,
     color: '#804942',
@@ -626,6 +666,7 @@ export const sampleImages: SampleImage[] = [
   {
     type: 'illustration',
     fileName: 'popart-red-biplane.webp',
+    added: '2026-11-09T23:58:48Z',
     width: 1020,
     height: 765,
     color: '#77806d',
@@ -642,6 +683,7 @@ export const sampleImages: SampleImage[] = [
   {
     type: 'illustration',
     fileName: 'popart-zebra.webp',
+    added: '2026-11-09T23:58:48Z',
     width: 567,
     height: 1008,
     color: '#a9484a',
@@ -658,6 +700,7 @@ export const sampleImages: SampleImage[] = [
   {
     type: 'illustration',
     fileName: 'popart-astronaut-moon-rest.webp',
+    added: '2026-11-09T23:58:48Z',
     width: 1020,
     height: 1020,
     color: '#766277',
@@ -674,6 +717,7 @@ export const sampleImages: SampleImage[] = [
   {
     type: 'illustration',
     fileName: 'popart-cat-red-sunglasses.webp',
+    added: '2026-11-09T23:58:48Z',
     width: 1020,
     height: 680,
     color: '#75828e',
@@ -690,6 +734,7 @@ export const sampleImages: SampleImage[] = [
   {
     type: 'illustration',
     fileName: 'popart-spiral-galaxy.webp',
+    added: '2026-11-10T00:07:36Z',
     width: 1020,
     height: 1020,
     color: '#642864',
@@ -706,6 +751,7 @@ export const sampleImages: SampleImage[] = [
   {
     type: 'illustration',
     fileName: 'popart-whale-clouds.webp',
+    added: '2026-11-10T00:07:36Z',
     width: 765,
     height: 1020,
     color: '#63979a',
@@ -722,6 +768,7 @@ export const sampleImages: SampleImage[] = [
   {
     type: 'illustration',
     fileName: 'risograph-bicycle-flower-basket.webp',
+    added: '2026-11-09T06:14:42Z',
     width: 960,
     height: 1280,
     color: '#cfccc0',
@@ -738,6 +785,7 @@ export const sampleImages: SampleImage[] = [
   {
     type: 'illustration',
     fileName: 'risograph-moka-pot-croissant.webp',
+    added: '2026-11-09T06:14:42Z',
     width: 960,
     height: 1280,
     color: '#e3d7da',
@@ -754,6 +802,7 @@ export const sampleImages: SampleImage[] = [
   {
     type: 'illustration',
     fileName: 'risograph-books-glasses-lamp.webp',
+    added: '2026-11-09T06:14:42Z',
     width: 960,
     height: 1280,
     color: '#ddd6ca',
@@ -770,6 +819,7 @@ export const sampleImages: SampleImage[] = [
   {
     type: 'illustration',
     fileName: 'risograph-lemon-bowl.webp',
+    added: '2026-11-09T06:14:42Z',
     width: 960,
     height: 1280,
     color: '#d1ceb5',
@@ -786,6 +836,7 @@ export const sampleImages: SampleImage[] = [
   {
     type: 'illustration',
     fileName: 'risograph-iced-drink-strawberry-cake.webp',
+    added: '2026-11-09T06:14:42Z',
     width: 960,
     height: 1280,
     color: '#eecfbf',
@@ -802,6 +853,7 @@ export const sampleImages: SampleImage[] = [
   {
     type: 'illustration',
     fileName: 'risograph-calico-cat-windowsill.webp',
+    added: '2026-11-09T06:08:25Z',
     width: 960,
     height: 1280,
     color: '#bac4d4',
@@ -818,6 +870,7 @@ export const sampleImages: SampleImage[] = [
   {
     type: 'photo',
     fileName: 'stilllife-lemon-sparkling-water.webp',
+    added: '2026-11-09T05:04:45Z',
     width: 960,
     height: 1200,
     color: '#a9906a',

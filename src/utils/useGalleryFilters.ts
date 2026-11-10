@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import catalog from 'virtual:prompt-catalog';
-import { sortCollection, type CollectionSort } from './collectionSort';
+import { sortCollection, type CollectionSort, type GallerySort } from './collectionSort';
 import { imageName } from './imageName';
 import { optionLabelKey } from './optionChoices';
 import {
@@ -35,6 +35,13 @@ export const filterCatalog = [
     ]),
   ].map((ratio) => ({ id: ratio, label: ratio, category: 'Aspect Ratio', path: '', prompt: '' })),
 ];
+// Rank by the time each image joined the gallery; same-batch images keep their listed order.
+const addedRank = new Map(
+  sampleImages
+    .map((image, index) => ({ image, index }))
+    .sort((a, b) => a.image.added.localeCompare(b.image.added) || a.index - b.index)
+    .map(({ image }, rank) => [image.fileName, rank]),
+);
 // Every gallery tile is a generated image carrying the settings that made it.
 const tiles = shuffle(sampleImages).map((image, index) => {
   const category = leadCategory[image.type];
@@ -45,6 +52,7 @@ const tiles = shuffle(sampleImages).map((image, index) => {
     group: id,
     label: catalog.find((o) => o.category === category && o.id === id)?.label ?? id,
     fileName: image.fileName,
+    added: addedRank.get(image.fileName) ?? 0,
     src: `${import.meta.env.BASE_URL}samples/${image.fileName}`,
     thumb: `${import.meta.env.BASE_URL}samples/thumbs/${image.fileName}`,
     color: image.color,
@@ -70,11 +78,18 @@ interface Options {
   onlySaved: boolean;
   bookmarks: string[];
   favoriteSort: CollectionSort;
+  gallerySort: GallerySort;
   // Runs after any filter, type or query change, e.g. to close the image detail.
   onChange: () => void;
 }
 
-export function useGalleryFilters({ onlySaved, bookmarks, favoriteSort, onChange }: Options) {
+export function useGalleryFilters({
+  onlySaved,
+  bookmarks,
+  favoriteSort,
+  gallerySort,
+  onChange,
+}: Options) {
   const { t } = useTranslation();
   const [filters, setFilters] = useState<Selection>({});
   const filterType = filterTypeOf(filters);
@@ -128,7 +143,16 @@ export function useGalleryFilters({ onlySaved, bookmarks, favoriteSort, onChange
           tiles: sortCollection(visible, favoriteSort, (tile) => bookmarks.indexOf(tile.id)),
         },
       ]
-    : [{ id: 'all', label: 'All', tiles: visible }];
+    : [
+        {
+          id: 'all',
+          label: 'All',
+          tiles:
+            gallerySort === 'random'
+              ? visible
+              : sortCollection(visible, gallerySort, (tile) => tile.added),
+        },
+      ];
   return {
     filters,
     effectiveFilters,

@@ -6,7 +6,7 @@ import catalog from 'virtual:prompt-catalog';
 import Header from './components/Header';
 import Gallery from './components/Gallery';
 import CollectionSort from './components/CollectionSort';
-import type { CollectionSort as SortOrder } from './utils/collectionSort';
+import type { GallerySort, CollectionSort as SortOrder } from './utils/collectionSort';
 import Filter, { SelectedFilters } from './components/Filter';
 import SelectionSummary from './components/SelectionSummary';
 import ImageDetail from './components/ImageDetail';
@@ -64,6 +64,7 @@ export default function App() {
   const [composerOpen, setComposerOpen] = useState(false);
   const [presetOpen, setPresetOpen] = useState(false);
   const [favoriteSort, setFavoriteSort] = useState<SortOrder>('newest');
+  const [gallerySort, setGallerySort] = useState<GallerySort>('random');
   const [largeThumbnails, setLargeThumbnails] = useState(false);
   const [selected, setSelected] = useState<Tile | null>(null);
   // Compact screens show the filter and the detail as overlays, so only one stays open.
@@ -87,6 +88,7 @@ export default function App() {
     onlySaved,
     bookmarks,
     favoriteSort,
+    gallerySort,
     onChange: () => setSelected(null),
   });
   const { effectiveFilters, filterType, query, displayGroups } = gallery;
@@ -277,7 +279,9 @@ export default function App() {
                   <CollectionSort value={presets.presetSort} change={presets.setPresetSort} />
                 ) : onlySaved ? (
                   <CollectionSort value={favoriteSort} change={setFavoriteSort} />
-                ) : null}
+                ) : (
+                  <CollectionSort value={gallerySort} change={setGallerySort} random />
+                )}
                 {!presetOpen && (
                   <div className="thumbnail-sizes" role="group" aria-label={t('Thumbnail size')}>
                     <button
