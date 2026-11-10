@@ -24,7 +24,7 @@ IMAGE STUDIO의 **부가 메뉴**로 **갤러리 시안** 영문 프롬프트를
 - **Typography Weight (2, 무작위 후보):** [Thin](reference/options/typeweight/thin/prompt.md), [Bold](reference/options/typeweight/bold/prompt.md). 선택 버튼 없이 이미지마다 무작위로 고를 굵기 후보로만 쓴다.
 - **Typography (10, 무작위 후보):** [Sans-serif](reference/options/typography/sansserif/prompt.md), [Serif](reference/options/typography/serif/prompt.md), [Display](reference/options/typography/display/prompt.md), [Monospace](reference/options/typography/monospace/prompt.md), [Outline Type](reference/options/typography/outlinetype/prompt.md), [Bubble Lettering](reference/options/typography/bubblelettering/prompt.md), [Calligraphy](reference/options/typography/calligraphy/prompt.md), [Hand Lettering](reference/options/typography/handlettering/prompt.md), [Childlike Handwriting](reference/options/typography/childlikehandwriting/prompt.md), [Experimental Typography](reference/options/typography/experimentaltypography/prompt.md). 선택 버튼 없이 스위치를 켜면 이미지마다 다른 서체를 이 목록에서 무작위로 고르게 하며, 스위치와 문구(선택)만 빌더에 표시한다.
 
-- **Depiction (5, 필수·기본 Simple):** Very Simple(`verysimple`), Simple(`simple`), Moderate(`balanced`), Light Detail(`complex`, Cue lightly detailed), More Detail(`verycomplex`, Cue more detailed). 화면 표시명은 한국어에서 아주 단순·단순·보통·디테일 약간·디테일 많이로 번역하고, 소문자 Cue가 시안 문장에 그대로 들어간다. Moderate는 묘사 구절 없이 `Each image shows a different take on the subject: …`로 쓴다.
+- **Detail (Depiction, 5, 필수·기본 Simple):** 화면 이름은 Detail(디테일). Minimal(`verysimple`, 최소), Simple(`simple`, 단순), Balanced(`balanced`, 보통), Detailed(`complex`, 상세), Intricate(`verycomplex`, 정교). Cue는 각각 `minimal composition, very few elements`·`simple composition, limited details`·(Balanced는 출력 없음)·`detailed composition, rich visual elements`·`intricate composition, elaborate fine details`이며 시안의 `Detail: {Cue}` 줄로 들어간다.
 
 일러스트 Technique·Camera·Mood·Lighting·Composition 카테고리는 사용하지 않는다. Photo Technique·Design Graphic·Color·Tone은 기본 미선택이다. 빌더 순서는 대상(모든 유형 공통, 유형을 바꿔도 유지) → 유형 탭 → 대표 스타일 → Photo Technique·Design Graphic → Depiction → Color → Tone → Typography이다.
 
@@ -37,7 +37,7 @@ IMAGE STUDIO의 **부가 메뉴**로 **갤러리 시안** 영문 프롬프트를
 
 ## 4. 생성 규칙
 
-- 모든 원본 MD는 Style ID 아래에 `- **Cue:** …` 한 줄을 둔다. 15단어 이내 긍정문으로 해당 카테고리 범위의 결정적 규칙·수치만 쓴다. 시안 프롬프트에는 표시명만, 갤러리 상세 프롬프트에는 `카테고리: 표시명 — Cue`를 출력하고 나머지 본문은 보관만 한다. Depiction Cue는 시안 문장의 묘사 정도 구절로 쓴다.
+- 모든 원본 MD는 Style ID 아래에 `- **Cue:** …` 한 줄을 둔다. 15단어 이내 긍정문으로 해당 카테고리 범위의 결정적 규칙·수치만 쓴다. 시안 프롬프트에는 표시명만, 갤러리 상세 프롬프트에는 `카테고리: 표시명 — Cue`를 출력하고 나머지 본문은 보관만 한다. Depiction Cue는 시안의 `Detail:` 줄에 쓴다(Balanced 제외).
 - 옵션 순서는 대표 스타일 → Technique·Graphic → Color → Tone(상세 프롬프트는 이어서 Texture)이다. 시안 본문에서는 Technique·Graphic 줄을 Tone 다음에 둔다. Photo Technique은 `Technique`, Design Graphic은 `Graphic`으로 표기한다. 선택하지 않은 항목과 현재 유형에서 숨겨진 항목은 제외한다.
 - **갤러리 시안:**
   ```text
@@ -52,10 +52,11 @@ IMAGE STUDIO의 **부가 메뉴**로 **갤러리 시안** 영문 프롬프트를
   (Color 미선택) Color: different colors for each image
   {Tone: 표시명 — 선택한 경우만}
   {Technique | Graphic: 표시명 — 선택한 경우만}
+  {Detail: Depiction Cue — Balanced가 아닌 경우만}
   {Typography: a different typeface and lettering style for each image, picked at random from {Typography 목록}, in a thin or bold weight — 스위치를 켠 경우만}
   {Text: 문구 | Not specified. Choose suitable wording freely to complement each image. — 스위치를 켠 경우만}
-  Each image shows a different {Depiction Cue} take on the subject: {대상}
-  (대상이 비면) Each image shows a different {Depiction Cue} subject.
+  Each image shows a different take on the subject: {대상}
+  (대상이 비면) Each image shows a different subject.
   ```
   헤더 텍스트는 선택한 값의 표시명만 ` · `로 잇고 미선택 항목은 뺀다. Texture·비율은 넣지 않는다. 대표 스타일이 없으면 `All {…} share one consistent style.`로 쓴다.
 - **갤러리 상세 (단독 사용):** `Create a standalone {…} of "{Subject}".`, 옵션 줄, `Aspect Ratio: {비율}` 순서다.

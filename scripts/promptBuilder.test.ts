@@ -65,10 +65,16 @@ test('each type keeps its lead style, technique, color and tone; images add text
   for (const option of catalog) assert.ok(offered.has(option.category), option.path);
   const levels = catalog.filter((o) => o.category === 'Depiction');
   assert.deepEqual(levels.map((o) => o.id).sort(), [...depictionLevels].sort());
-  // The prompt uses each level's lowercase Cue phrase; Moderate adds no phrase.
+  // The Detail line uses each level's Cue; Balanced adds no line.
   assert.deepEqual(
     depictionLevels.map((id) => depictionPhrase(catalog, { Depiction: [id] })),
-    ['very simple', 'simple', '', 'lightly detailed', 'more detailed'],
+    [
+      'minimal composition, very few elements',
+      'simple composition, limited details',
+      '',
+      'detailed composition, rich visual elements',
+      'intricate composition, elaborate fine details',
+    ],
   );
   assert.ok(
     makeMockupPrompt(catalog, { Depiction: ['balanced'] }, { Subject: 'A cat' }, 'photo').endsWith(
@@ -93,12 +99,13 @@ test('mockup prompt names one style, the depiction level and the subject without
     text,
     [
       'Design a mockup of a minimal gallery website: white background, only a simple header and a masonry gallery of 9 to 12 illustrations in mixed aspect ratios.',
-      'The header shows the style and options as text: Geometric Illustration · Very Simple',
+      'The header shows the style and options as text: Geometric Illustration · Minimal',
       '',
       'All illustrations share one style: Geometric Illustration',
       'Mood: modern and chic, refined and grown-up',
       'Color: different colors for each image',
-      'Each image shows a different very simple take on the subject: A tall building',
+      'Detail: minimal composition, very few elements',
+      'Each image shows a different take on the subject: A tall building',
     ].join('\n'),
   );
   const rich = makeMockupPrompt(
@@ -115,11 +122,11 @@ test('mockup prompt names one style, the depiction level and the subject without
     'illustration',
   );
   assert.ok(
-    rich.includes('\nColor: Pastel, with different colors for each image\nTone: Hazy\nEach image'),
+    rich.includes('\nColor: Pastel, with different colors for each image\nTone: Hazy\nDetail: '),
   );
   assert.ok(
     rich.includes(
-      'The header shows the style and options as text: Risograph · Pastel · Hazy · More Detail\n',
+      'The header shows the style and options as text: Risograph · Pastel · Hazy · Intricate\n',
     ),
   );
   assert.ok(!rich.includes('Texture'));
@@ -130,10 +137,16 @@ test('mockup prompt names one style, the depiction level and the subject without
     'Color: Grayscale, with a different grayscale tone for each image',
   );
   assert.equal(tone('monochrome'), 'Color: Monochrome, with a different hue for each image');
-  assert.ok(rich.endsWith('Each image shows a different more detailed subject.'));
+  assert.ok(
+    rich.endsWith(
+      '\nDetail: intricate composition, elaborate fine details\nEach image shows a different subject.',
+    ),
+  );
   assert.ok(!rich.includes('Street') && !rich.includes('Aspect Ratio'));
   assert.ok(
-    makeMockupPrompt(catalog, {}, {}, 'illustration').includes('a different simple subject'),
+    makeMockupPrompt(catalog, {}, {}, 'illustration').includes(
+      '\nDetail: simple composition, limited details\nEach image shows a different subject.',
+    ),
   );
   assert.ok(
     makeMockupPrompt(
@@ -150,7 +163,7 @@ test('mockup prompt names one style, the depiction level and the subject without
     'photo',
   );
   assert.ok(technique.includes('as text: Editorial · Film · Soft · Simple\n'));
-  assert.ok(technique.includes('\nTone: Soft\nTechnique: Film\nEach image'));
+  assert.ok(technique.includes('\nTone: Soft\nTechnique: Film\nDetail: simple composition'));
   assert.ok(
     makeMockupPrompt(
       catalog,

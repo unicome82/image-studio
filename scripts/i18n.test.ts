@@ -21,12 +21,16 @@ test('Every catalog option and its shortened UI label has an English and Korean 
       const path = join(dir, entry.name);
       if (entry.isDirectory()) check(path);
       else if (entry.name === 'prompt.md') {
-        const label = readFileSync(path, 'utf8').match(/^## (.+)$/m)?.[1];
+        const text = readFileSync(path, 'utf8');
+        const label = text.match(/^## (.+)$/m)?.[1];
+        const category = text.match(/\*\*Category:\*\* (.+)/)?.[1];
         assert.ok(label, path);
-        for (const value of [
-          label,
-          label.replace(' Modern', '').replace(/\s+illustration\b/gi, ''),
-        ]) {
+        // Detail levels use their own keys; every other option also keeps its full label key.
+        const keys =
+          category === 'Depiction'
+            ? [`Detail ${label}`]
+            : [label, label.replace(' Modern', '').replace(/\s+illustration\b/gi, '')];
+        for (const value of keys) {
           assert.ok(en[value] && ko[value], `${path}: ${value}`);
         }
       }
