@@ -89,7 +89,6 @@ export const designGraphicOrder = [
 export const typographyOrder = [
   'sansserif',
   'serif',
-  'boldgrotesk',
   'display',
   'monospace',
   'outlinetype',

@@ -265,17 +265,17 @@ test('saved mockups keep only offered categories and migrate removed styles', ()
 });
 
 test('typography works for every type only while its switch is on', () => {
-  const selection = { 'Photo Style': ['editorial'], Typography: ['boldgrotesk'] };
+  const selection = { 'Photo Style': ['editorial'], Typography: ['calligraphy'] };
   const off = makeMockupPrompt(catalog, selection, { Text: 'HELLO' }, 'photo');
-  assert.ok(!off.includes('Typography') && !off.includes('HELLO') && !off.includes('Bold Grotesk'));
+  assert.ok(!off.includes('Typography') && !off.includes('HELLO') && !off.includes('Calligraphy'));
   const on = makeMockupPrompt(
     catalog,
     selection,
     { 'Typography Enabled': 'true', Text: 'HELLO' },
     'photo',
   );
-  assert.ok(on.includes('as text: Editorial · Bold Grotesk · Simple\n'));
-  assert.ok(on.includes('\nTypography: Bold Grotesk\nText: HELLO\nEach image'));
+  assert.ok(on.includes('as text: Editorial · Calligraphy · Simple\n'));
+  assert.ok(on.includes('\nTypography: Calligraphy\nText: HELLO\nEach image'));
   for (const type of ['illustration', 'design'] as const)
     assert.ok(
       makeMockupPrompt(catalog, {}, { 'Typography Enabled': 'true' }, type).includes(
@@ -290,7 +290,7 @@ test('typography works for every type only while its switch is on', () => {
   );
   assert.match(
     image,
-    /\nTypography: Bold Grotesk — .+\nText: Not specified\. .+ the photograph\.\n/,
+    /\nTypography: Calligraphy — .+\nText: Not specified\. .+ the photograph\.\n/,
   );
 });
 
@@ -325,6 +325,14 @@ test('retired typography styles load as the styles that absorbed them', () => {
   assert.deepEqual(editorial.selection.Typography, ['display']);
   assert.deepEqual(editorial.fields, { Subject: '', 'Typography Enabled': 'true' });
   assert.deepEqual(swiss.selection.Typography, ['sansserif']);
+  const [grotesk] = parsePresets(
+    JSON.stringify([
+      { id: '4', photo: false, selection: { Typography: ['boldgrotesk'] }, fields: {} },
+    ]),
+    catalog,
+  );
+  assert.deepEqual(grotesk.selection['Typography Weight'], ['bold']);
+  assert.deepEqual(grotesk.selection.Typography, ['sansserif']);
   const [light] = parsePresets(
     JSON.stringify([
       { id: '3', photo: false, selection: { Typography: ['lightsans'] }, fields: {} },

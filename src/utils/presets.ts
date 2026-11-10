@@ -68,7 +68,14 @@ const legacyOptions: Record<string, [string, string][]> = {
     ['Typography Weight', 'thin'],
   ],
   'Typography:swisstypography': [['Typography', 'sansserif']],
-  'Typography:brutalisttypography': [['Typography', 'boldgrotesk']],
+  'Typography:brutalisttypography': [
+    ['Typography', 'sansserif'],
+    ['Typography Weight', 'bold'],
+  ],
+  'Typography:boldgrotesk': [
+    ['Typography', 'sansserif'],
+    ['Typography Weight', 'bold'],
+  ],
   'Typography:chrometypography': [['Typography', 'display']],
   'Typography:modulartypography': [['Typography', 'display']],
   'Typography:pixeltype': [['Typography', 'display']],

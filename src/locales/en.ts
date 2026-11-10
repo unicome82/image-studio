@@ -290,7 +290,6 @@ const translation: Record<string, string> = {
   'Childlike Handwriting': 'Childlike',
   'Experimental Typography': 'Experimental',
   'Hand Lettering': 'Hand',
-  'Bold Grotesk': 'Bold Grotesk',
   'Outline Type': 'Outline',
   Monospace: 'Monospace',
   'Sans-serif': 'Sans-serif',
