@@ -25,7 +25,6 @@ interface Props {
 }
 
 const filterTitles: Record<string, string> = {
-  'Aspect Ratio': 'Aspect ratio',
   'Design Format': 'Design format',
   'Design Style': 'Design style',
   'Photo Technique': 'Photo technique',
@@ -140,7 +139,7 @@ export function SelectedFilters({
             <span
               className="selected-option"
               key={`${option.category}:${option.id}`}
-              title={`${t(option.category === 'Aspect Ratio' ? 'Aspect ratio' : option.category)}: ${label}`}
+              title={`${t(option.category)}: ${label}`}
             >
               <span className="selected-option-label">{label}</span>
               <button

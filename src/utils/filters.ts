@@ -1,4 +1,5 @@
 import {
+  aspectRatios,
   builderCategories,
   optionLimit,
   type ImageType,
@@ -29,14 +30,7 @@ export function filterTypeOf(filters: Selection): FilterType {
 // Styles of every chosen type (all types when none is chosen) plus the shared options.
 export function filterCategories(filters: Selection): string[] {
   const types = filterTypes(filters);
-  return [
-    'Type',
-    'Aspect Ratio',
-    ...types.flatMap((type) => styleCategories[type]),
-    'Color',
-    'Tone',
-    'Texture',
-  ];
+  return ['Type', ...types.flatMap((type) => styleCategories[type]), 'Color', 'Tone', 'Texture'];
 }
 
 export function retainFilters(filters: Selection): Selection {
@@ -102,25 +96,17 @@ export function toggleFilter(filters: Selection, category: string, id: string): 
   };
 }
 
+// Shows an image size as the closest of the Builder's aspect ratios.
 export function normalizeRatio(ratio: string): string {
   const [width, height] = ratio.split(':').map(Number);
-  if (!Number.isInteger(width) || !Number.isInteger(height) || width <= 0 || height <= 0)
-    return ratio;
-  let a = width;
-  let b = height;
-  while (b) [a, b] = [b, a % b];
-  return `${width / a}:${height / a}`;
+  if (!(width > 0) || !(height > 0)) return ratio;
+  const distance = (option: string) => {
+    const [w, h] = option.split(':').map(Number);
+    return Math.abs(Math.log(width / height / (w / h)));
+  };
+  return aspectRatios.reduce((best, option) => (distance(option) < distance(best) ? option : best));
 }
 
-export function filterMetadata(
-  selection: Selection,
-  photo: boolean,
-  ratio: string,
-  design = false,
-): Selection {
-  return {
-    ...selection,
-    Type: [design ? 'design' : photo ? 'photo' : 'illustration'],
-    'Aspect Ratio': [normalizeRatio(ratio)],
-  };
+export function filterMetadata(selection: Selection, photo: boolean, design = false): Selection {
+  return { ...selection, Type: [design ? 'design' : photo ? 'photo' : 'illustration'] };
 }

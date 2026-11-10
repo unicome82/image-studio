@@ -55,12 +55,7 @@ export function usePresets({ filterType, query, effectiveFilters, showToast }: O
               : filterType === 'illustration')) &&
         matchesQuery(preset) &&
         matchesFilters(
-          filterMetadata(
-            preset.selection,
-            preset.photo,
-            preset.fields['Aspect Ratio'] ?? '',
-            preset.design,
-          ),
+          filterMetadata(preset.selection, preset.photo, preset.design),
           effectiveFilters,
         ),
     ),

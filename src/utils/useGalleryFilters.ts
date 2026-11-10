@@ -14,7 +14,7 @@ import {
   retainFilters,
   toggleFilter,
 } from './filters';
-import { aspectRatios, type Selection } from './promptBuilder';
+import type { Selection } from './promptBuilder';
 import { sampleImages } from './sampleImages';
 
 const leadCategory = {
@@ -27,13 +27,6 @@ export const filterCatalog = [
   // Image types are multi-select buttons like any other filter category.
   ...imageTypes.map((id) => ({ id, label: typeLabel[id], category: 'Type', path: '', prompt: '' })),
   ...catalog,
-  // Ratios cover the Builder choices plus any generated image's own shape.
-  ...[
-    ...new Set([
-      ...aspectRatios,
-      ...sampleImages.map((image) => normalizeRatio(`${image.width}:${image.height}`)),
-    ]),
-  ].map((ratio) => ({ id: ratio, label: ratio, category: 'Aspect Ratio', path: '', prompt: '' })),
 ];
 // Rank by the time each image joined the gallery; same-batch images keep their listed order.
 const addedRank = new Map(
@@ -106,10 +99,9 @@ export function useGalleryFilters({
   // Categories some image actually carries; the filter panel hides the rest.
   const availableCategories = new Set<string>();
   const visible = tiles.filter((tile) => {
-    [...Object.keys(tile.selection), 'Type', 'Aspect Ratio'].forEach((category) =>
+    [...Object.keys(tile.selection), 'Type'].forEach((category) =>
       availableCategories.add(category),
     );
-    const ratio = `${tile.width}:${tile.height}`;
     const applied = Object.entries(tile.selection).flatMap(([category, ids]) =>
       ids.map((id) => catalog.find((o) => o.category === category && o.id === id)),
     );
@@ -121,8 +113,7 @@ export function useGalleryFilters({
       ...applied.flatMap(label),
       typeLabel[tile.type],
       t(typeLabel[tile.type]),
-      ratio,
-      normalizeRatio(ratio),
+      normalizeRatio(`${tile.width}:${tile.height}`),
     ]
       .join(' ')
       .toLowerCase();
@@ -130,7 +121,7 @@ export function useGalleryFilters({
       terms.every((term) => text.includes(term)) &&
       (!onlySaved || bookmarks.includes(tile.id)) &&
       matchesFilters(
-        filterMetadata(tile.selection, tile.type === 'photo', ratio, tile.type === 'design'),
+        filterMetadata(tile.selection, tile.type === 'photo', tile.type === 'design'),
         effectiveFilters,
       )
     );

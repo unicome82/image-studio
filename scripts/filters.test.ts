@@ -54,7 +54,6 @@ test('no type shows every style; chosen types show only their own styles', () =>
   );
   assert.deepEqual(filterCategories({ Type: ['photo'] }), [
     'Type',
-    'Aspect Ratio',
     'Photo Style',
     'Photo Technique',
     'Color',
@@ -67,17 +66,20 @@ test('changing type preserves shared selections and drops incompatible filters w
   const filters = {
     'Illustration Style': ['naivefolk'],
     Color: ['muted'],
-    'Aspect Ratio': ['4:5'],
   };
-  const expected = { Type: ['photo'], Color: ['muted'], 'Aspect Ratio': ['4:5'] };
+  const expected = { Type: ['photo'], Color: ['muted'] };
+  // Aspect ratio is no longer a filter, so a stored ratio filter is dropped.
+  assert.deepEqual(retainFilters({ Color: ['muted'], 'Aspect Ratio': ['4:5'] }), {
+    Color: ['muted'],
+  });
   assert.deepEqual(retainFilters({ ...filters, Type: ['photo'] }), expected);
   assert.deepEqual(retainFilters(filters), filters);
   assert.deepEqual(filters['Illustration Style'], ['naivefolk']);
 });
 
 test('styles of different types are alternatives; a style choice shows only that style', () => {
-  const pop = filterMetadata({ 'Illustration Style': ['popart'] }, false, '1:1');
-  const portrait = filterMetadata({ 'Photo Style': ['editorial'] }, true, '1:1');
+  const pop = filterMetadata({ 'Illustration Style': ['popart'] }, false);
+  const portrait = filterMetadata({ 'Photo Style': ['editorial'] }, true);
   const onlyPop = { 'Illustration Style': ['popart'] };
   assert.equal(matchesFilters(pop, onlyPop), true);
   assert.equal(matchesFilters(portrait, onlyPop), false);
@@ -87,7 +89,6 @@ test('styles of different types are alternatives; a style choice shows only that
   const poster = filterMetadata(
     { 'Design Format': ['poster'], 'Design Style': ['swiss'] },
     false,
-    '3:4',
     true,
   );
   assert.equal(
@@ -129,15 +130,13 @@ test('removing the last filter restores all records without mutating prior state
   assert.deepEqual(filters, { Technique: ['risograph'] });
 });
 
-test('image dimensions and saved aspect ratios match equivalent reduced ratios', () => {
+test('image sizes show as the closest Builder aspect ratio', () => {
   assert.equal(normalizeRatio('1200:1500'), '4:5');
   assert.equal(normalizeRatio('1:1'), '1:1');
+  assert.equal(normalizeRatio('1200:709'), '16:9');
+  assert.equal(normalizeRatio('1122:1402'), '4:5');
+  assert.equal(normalizeRatio('1200:914'), '4:3');
   assert.equal(normalizeRatio('invalid'), 'invalid');
-  const image = filterMetadata({ Technique: ['risograph'] }, false, '1200:1500');
-  assert.equal(matchesFilters(image, { Type: ['illustration'], 'Aspect Ratio': ['4:5'] }), true);
-  assert.equal(matchesFilters(image, { 'Aspect Ratio': ['1:1'] }), false);
-  const preset = filterMetadata({ 'Photo Style': ['film'] }, true, '1200:1500');
-  assert.equal(matchesFilters(preset, { Type: ['photo'], 'Aspect Ratio': ['4:5'] }), true);
 });
 
 test('image types are multi-select filter buttons; one type unlocks its own options', async () => {
@@ -147,6 +146,6 @@ test('image types are multi-select filter buttons; one type unlocks its own opti
   assert.equal(filterTypeOf({ Type: ['photo', 'design'] }), 'all');
   assert.equal(filterCategories({})[0], 'Type');
   const both = { Type: ['illustration', 'photo'] };
-  assert.equal(matchesFilters(filterMetadata({}, true, '1:1'), both), true);
-  assert.equal(matchesFilters(filterMetadata({}, false, '1:1', true), both), false);
+  assert.equal(matchesFilters(filterMetadata({}, true), both), true);
+  assert.equal(matchesFilters(filterMetadata({}, false, true), both), false);
 });
