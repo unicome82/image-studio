@@ -230,11 +230,16 @@ test('saved mockups keep only offered categories and migrate removed styles', ()
       fields: {},
     },
     { id: '8', photo: false, design: true, selection: {}, fields: {} },
+    {
+      id: '9',
+      photo: false,
+      design: true,
+      selection: { 'Design Format': ['logo'], 'Design Style': ['postmodernism'] },
+      fields: {},
+    },
   ]);
-  const [illustration, photo, riso, highkey, lowpoly, portrait, glass, design] = parsePresets(
-    raw,
-    catalog,
-  );
+  const [illustration, photo, riso, highkey, lowpoly, portrait, glass, design, movement] =
+    parsePresets(raw, catalog);
   assert.deepEqual(illustration.selection, {
     'Illustration Style': ['contemporaryflat'],
     Color: ['muted'],
@@ -263,6 +268,8 @@ test('saved mockups keep only offered categories and migrate removed styles', ()
     'Design Format': ['poster'],
     'Design Style': ['minimalist'],
   });
+  // Art-movement design styles load as the working styles that absorbed them.
+  assert.deepEqual(movement.selection, { 'Design Format': ['logo'], 'Design Style': ['acid'] });
 });
 
 test('every option has a short positive Cue and curated orders list exactly the catalog IDs', () => {

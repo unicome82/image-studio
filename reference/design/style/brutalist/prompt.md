@@ -1,9 +1,9 @@
-## Brutalism
+## Neo-Brutalism
 
 - **Category:** Design Style
 - **Style ID:** `brutalist`
-- **Cue:** Raw geometric blocks, oversized scale shifts, tense direct layout
+- **Cue:** Thick black outlines, hard offset shadows, flat bright blocks, raw grid
 
 ### Instructions
-- Use bold scale changes, raw geometric blocks, direct composition, and deliberate tension in spacing and alignment. Keep hierarchy intentional and any rendered text readable. Follow the Color instructions when given; keep the raw look deliberate, with readable text and fully finished rendering.
-- When no Color, Lighting, or Texture instructions are given, use black, white, and one loud accent, even light, and a raw flat surface.
+- Use a neo-brutalist web-inspired approach: thick black outlines, hard offset drop shadows, flat bright color blocks, raw visible grids, and blunt oversized type. Keep the roughness deliberate and the hierarchy readable. Follow the Color instructions when given.
+- When no Color, Lighting, or Texture instructions are given, use off-white with black and two loud accents such as yellow and blue, even light, and a flat surface.

@@ -5,5 +5,5 @@
 - **Cue:** Period-inspired shapes, badge framing, bold hierarchy, balanced ornament
 
 ### Instructions
-- Use a coherent retro graphic vocabulary with period-inspired shapes, deliberate framing, bold hierarchy, and carefully balanced ornament. Add period texture only when Texture instructions are given. Follow the Color instructions when given; keep any rendered lettering clean and readable.
-- When no Color, Lighting, or Texture instructions are given, use a fresh retro palette of warm red, cream, and teal with clean whites, even light, and a smooth clean surface.
+- Evoke graphic design from the 1950s to the 1990s through period-inspired shapes, badge and banner framing, chunky display type, simple ornament, and a confident hierarchy, rendered fresh and clean rather than worn. Follow the Color instructions when given.
+- When no Color, Lighting, or Texture instructions are given, use warm mustard, orange, teal, and cream, even light, and a smooth printed surface.

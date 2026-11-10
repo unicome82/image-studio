@@ -5,5 +5,5 @@
 - **Cue:** Glossy chrome, bubbly shapes, pixel accents, millennium tech optimism
 
 ### Instructions
-- Use a turn-of-the-millennium digital aesthetic with glossy bubbly shapes, chrome and translucent plastic accents, pixel and grid details, and an optimistic tech mood. Follow the Color instructions when given.
-- When no Color, Lighting, or Texture instructions are given, use icy blue, silver, and candy pink, soft glowing light, and glossy surfaces.
+- Capture turn-of-the-millennium digital optimism: glossy chrome and translucent plastic forms, bubbly inflated shapes, pixel and interface accents, and playful techno type. Follow the Color instructions when given.
+- When no Color, Lighting, or Texture instructions are given, use icy silver, baby blue, and lilac with a pink accent, bright studio light, and a glossy surface.

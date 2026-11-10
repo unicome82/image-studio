@@ -63,16 +63,20 @@ export const photoTechniqueOrder = [
 ];
 export const designStyleOrder = [
   'minimalist',
-  'maximalism',
+  'flat',
   'swiss',
-  'artdeco',
-  'midcentury',
-  'brutalist',
-  'y2k',
-  'avantgarde',
+  'editorial',
+  'luxury',
+  'organic',
   'retro',
-  'futurism',
-  'postmodernism',
+  'y2k',
+  'brutalist',
+  'acid',
+  'kawaii',
+  'neumorphism',
+  'corporate',
+  'antidesign',
+  'maximalism',
 ];
 export const designGraphicOrder = [
   'geometric',
