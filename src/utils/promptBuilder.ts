@@ -74,7 +74,6 @@ export const designStyleOrder = [
   'postmodernism',
 ];
 export const designGraphicOrder = [
-  'typography',
   'geometric',
   'abstract',
   'risograph',
@@ -118,20 +117,35 @@ export const defaultDepiction = 'simple';
 export function optionLimit(): number {
   return 1;
 }
-// Saved mockups keep only the subject.
+// Saved mockups keep the subject and the typography switch and text.
 export function compactFields(fields: Record<string, string>): Record<string, string> {
-  return { Subject: fields.Subject ?? '' };
+  return {
+    Subject: fields.Subject ?? '',
+    ...(isTypographyEnabled(fields) ? { 'Typography Enabled': 'true' } : {}),
+    ...(fields.Text ? { Text: fields.Text } : {}),
+  };
+}
+/** Typography is optional for every type and applies only while its switch is on. */
+export function isTypographyEnabled(fields: Record<string, string>): boolean {
+  return fields['Typography Enabled'] === 'true';
+}
+/** The selection that applies: a typography style counts only while typography is on. */
+export function activeSelection(selection: Selection, fields: Record<string, string>): Selection {
+  if (isTypographyEnabled(fields) || !selection.Typography) return selection;
+  const { Typography: _off, ...rest } = selection;
+  return rest;
 }
 export function imageType(photo: boolean, design = false): ImageType {
   return design ? 'design' : photo ? 'photo' : 'illustration';
 }
-// The lead style and its optional technique come first so the defining look is read before color.
+// The lead style and its optional technique come first so the defining look is read before color;
+// every type ends with the optional typography.
 export function builderCategories(photo: boolean, design = false): string[] {
   return design
-    ? ['Design Format', 'Design Style', 'Design Graphic', 'Color', 'Tone']
+    ? ['Design Format', 'Design Style', 'Design Graphic', 'Color', 'Tone', 'Typography']
     : photo
-      ? ['Photo Style', 'Photo Technique', 'Color', 'Tone']
-      : ['Illustration Style', 'Color', 'Tone', 'Outline'];
+      ? ['Photo Style', 'Photo Technique', 'Color', 'Tone', 'Typography']
+      : ['Illustration Style', 'Color', 'Tone', 'Outline', 'Typography'];
 }
 // Gallery images also carry the texture they were made with.
 export function imageCategories(photo: boolean, design = false): string[] {
@@ -188,6 +202,23 @@ export function depictionPhrase(catalog: Option[], selection: Selection) {
   return catalog.find((o) => o.category === 'Depiction' && o.id === id)?.cue ?? 'simple';
 }
 // The subject follows a colon so any input, with or without an article, reads naturally.
+// Typography is mentioned only when on; naming it when off can itself invite lettering.
+function typographyLines(
+  catalog: Option[],
+  selection: Selection,
+  fields: Record<string, string>,
+  target: string,
+  cue = false,
+) {
+  if (!isTypographyEnabled(fields)) return [];
+  const style = chosenOptions(['Typography'], catalog, selection)[0];
+  return [
+    style ? (cue ? optionLine(style) : `Typography: ${style.label}`) : 'Typography: On',
+    fields.Text?.trim()
+      ? `Text: ${fields.Text}`
+      : `Text: Not specified. Choose suitable wording freely to complement ${target}.`,
+  ];
+}
 const subjectLine = (depiction: string, subject?: string) =>
   subject
     ? `Each image shows a different ${depiction} take on the subject: ${subject}`
@@ -211,6 +242,7 @@ export function makeMockupPrompt(
   fields: Record<string, string>,
   type: ImageType,
 ) {
+  selection = activeSelection(selection, fields);
   const style = styleName(catalog, selection, type);
   // Naming the medium keeps an illustration style such as Minimalism from turning into photos.
   const media = `${words[type].one}s`;
@@ -237,9 +269,10 @@ export function makeMockupPrompt(
     mockupMood,
     colorLine(extras.find((o) => o.category === 'Color')),
     ...extras
-      .filter((o) => o.category !== 'Color')
+      .filter((o) => !['Color', 'Typography'].includes(o.category))
       .sort((a, b) => mockupLineOrder.indexOf(a.category) - mockupLineOrder.indexOf(b.category))
       .map((o) => `${promptCategory(o.category)}: ${o.label}`),
+    ...typographyLines(catalog, selection, fields, `each ${words[type].one}`),
     subjectLine(depictionPhrase(catalog, selection), fields.Subject?.trim()),
   ].join('\n');
 }
@@ -251,11 +284,13 @@ export function makeImagePrompt(
   type: ImageType,
 ) {
   const subject = fields.Subject?.trim();
+  const categories = imageCategories(type === 'photo', type === 'design').filter(
+    (category) => category !== 'Typography',
+  );
   return [
     `Create a standalone ${words[type].one} of ${subject ? `"${subject}"` : 'a subject you choose'}.`,
-    ...chosenOptions(imageCategories(type === 'photo', type === 'design'), catalog, selection).map(
-      optionLine,
-    ),
+    ...chosenOptions(categories, catalog, selection).map(optionLine),
+    ...typographyLines(catalog, selection, fields, `the ${words[type].one}`, true),
     `Aspect Ratio: ${fields['Aspect Ratio']?.trim() || '1:1'}`,
   ].join('\n');
 }

@@ -35,20 +35,34 @@ function catalogAt(dir: string): Option[] {
 const catalog = catalogAt('reference');
 
 test('each type keeps its lead style, technique, color, tone and illustration outline; images add texture', () => {
-  assert.deepEqual(builderCategories(false), ['Illustration Style', 'Color', 'Tone', 'Outline']);
-  assert.deepEqual(builderCategories(true), ['Photo Style', 'Photo Technique', 'Color', 'Tone']);
+  assert.deepEqual(builderCategories(false), [
+    'Illustration Style',
+    'Color',
+    'Tone',
+    'Outline',
+    'Typography',
+  ]);
+  assert.deepEqual(builderCategories(true), [
+    'Photo Style',
+    'Photo Technique',
+    'Color',
+    'Tone',
+    'Typography',
+  ]);
   assert.deepEqual(builderCategories(false, true), [
     'Design Format',
     'Design Style',
     'Design Graphic',
     'Color',
     'Tone',
+    'Typography',
   ]);
   assert.deepEqual(imageCategories(true), [
     'Photo Style',
     'Photo Technique',
     'Color',
     'Tone',
+    'Typography',
     'Texture',
   ]);
   const offered = new Set([
@@ -178,9 +192,10 @@ test('single choice per category; required categories stay selected', () => {
   for (const category of ['Illustration Style', 'Photo Style', 'Design Style'])
     assert.deepEqual(toggleOption({ [category]: ['a'] }, category, 'a')[category], ['a']);
   assert.equal(defaultDepiction, 'simple');
-  assert.deepEqual(compactFields({ Subject: 'A', Text: 'B', 'Typography Enabled': 'true' }), {
-    Subject: 'A',
-  });
+  assert.deepEqual(
+    compactFields({ Subject: 'A', Text: 'B', 'Typography Enabled': 'true', Extra: 'C' }),
+    { Subject: 'A', 'Typography Enabled': 'true', Text: 'B' },
+  );
 });
 
 test('saved mockups keep only offered categories and migrate removed styles', () => {
@@ -219,7 +234,7 @@ test('saved mockups keep only offered categories and migrate removed styles', ()
     Color: ['muted'],
     Depiction: ['complex'],
   });
-  assert.deepEqual(illustration.fields, { Subject: 'A tree' });
+  assert.deepEqual(illustration.fields, { Subject: 'A tree', Text: 'TREE' });
   // Film moved from photo styles to techniques; the empty style takes the default.
   assert.deepEqual(photo.selection, {
     'Photo Style': ['editorial'],
@@ -242,4 +257,34 @@ test('saved mockups keep only offered categories and migrate removed styles', ()
     'Design Format': ['poster'],
     'Design Style': ['minimalist'],
   });
+});
+
+test('typography works for every type only while its switch is on', () => {
+  const selection = { 'Photo Style': ['editorial'], Typography: ['boldgrotesk'] };
+  const off = makeMockupPrompt(catalog, selection, { Text: 'HELLO' }, 'photo');
+  assert.ok(!off.includes('Typography') && !off.includes('HELLO') && !off.includes('Bold Grotesk'));
+  const on = makeMockupPrompt(
+    catalog,
+    selection,
+    { 'Typography Enabled': 'true', Text: 'HELLO' },
+    'photo',
+  );
+  assert.ok(on.includes('as text: Editorial · Bold Grotesk · Simple\n'));
+  assert.ok(on.includes('\nTypography: Bold Grotesk\nText: HELLO\nEach image'));
+  for (const type of ['illustration', 'design'] as const)
+    assert.ok(
+      makeMockupPrompt(catalog, {}, { 'Typography Enabled': 'true' }, type).includes(
+        `\nTypography: On\nText: Not specified. Choose suitable wording freely to complement each ${type}.\n`,
+      ),
+    );
+  const image = makeImagePrompt(
+    catalog,
+    selection,
+    { 'Typography Enabled': 'true', 'Aspect Ratio': '1:1' },
+    'photo',
+  );
+  assert.match(
+    image,
+    /\nTypography: Bold Grotesk — .+\nText: Not specified\. .+ the photograph\.\n/,
+  );
 });

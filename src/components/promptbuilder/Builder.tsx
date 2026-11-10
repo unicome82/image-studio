@@ -14,6 +14,7 @@ import {
   builderCategories,
   defaultDepiction,
   depictionLevels,
+  isTypographyEnabled,
   optionLimit,
 } from '../../utils/promptBuilder';
 import type { ImageType, Option, Selection } from '../../utils/promptBuilder';
@@ -86,7 +87,10 @@ export default function Builder(p: Props) {
     'Design Graphic',
   ];
   const lead = categories.filter((category) => leadCategories.includes(category));
-  const rest = categories.filter((category) => !leadCategories.includes(category));
+  const rest = categories.filter(
+    (category) => !leadCategories.includes(category) && category !== 'Typography',
+  );
+  const typography = isTypographyEnabled(p.fields);
   const choices = (category: string) => (
     <section className="option-section" key={category}>
       <OptionChoices
@@ -197,6 +201,43 @@ export default function Builder(p: Props) {
                   />
                 </section>
                 {rest.map(choices)}
+                {/* Typography stays off until its switch turns on the text input and styles. */}
+                <section className="option-section">
+                  <OptionChoices
+                    title="Typography"
+                    options={p.catalog
+                      .filter((o) => o.category === 'Typography')
+                      .map((o) => ({ id: o.id, label: o.label, category: o.category }))}
+                    selected={p.selection.Typography ?? []}
+                    choose={(id) => p.toggle('Typography', id)}
+                    showOptions={typography}
+                    headerControl={
+                      <button
+                        className="typography-toggle"
+                        role="switch"
+                        aria-label={t('Typography')}
+                        aria-checked={typography}
+                        onClick={() =>
+                          p.setFields({
+                            ...p.fields,
+                            'Typography Enabled': typography ? 'false' : 'true',
+                          })
+                        }
+                      >
+                        <span />
+                      </button>
+                    }
+                    afterHeading={
+                      <input
+                        className="typography-input"
+                        aria-label={t('Typography text')}
+                        placeholder={t('Text (optional)')}
+                        value={p.fields.Text ?? ''}
+                        onChange={(e) => p.setFields({ ...p.fields, Text: e.target.value })}
+                      />
+                    }
+                  />
+                </section>
               </>
             )}
           </div>
