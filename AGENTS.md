@@ -38,7 +38,7 @@
 ## 빌더·시안 저장
 
 - 빌더는 스타일을 정해 그 스타일 이미지 9–12장이 걸린 헤더와 갤러리만 있는 미니멀 갤러리 사이트 시안 프롬프트만 만든다. 개별 이미지 프롬프트·단계는 두지 않으며, 갤러리 이미지는 사용자가 Claude Code로 직접 등록한다.
-- Builder는 플로팅 버튼 또는 필터의 Generate prompt 버튼으로 여는 전체화면 대화상자이며 너비 조절·레시피·단계 화면을 두지 않는다. 헤더 제목은 “어떤 스타일로 만들까요?”이다. PC는 옵션 영역만 스크롤되고 제목·출력은 고정하며, 모바일은 빌더 전체가 스크롤되고 제목과 출력은 sticky·backdrop blur 8px로 고정한다. 공통 X 버튼으로 닫으며 다시 열어도 초안을 유지한다. Prompt는 모바일 접힘·데스크톱 펼침으로 시작한다.
+- Builder는 플로팅 버튼으로 여는 전체화면 대화상자이며 너비 조절·레시피·단계 화면을 두지 않는다. 헤더 제목은 “어떤 스타일로 만들까요?”이다. PC는 옵션 영역만 스크롤되고 제목·출력은 고정하며, 모바일은 빌더 전체가 스크롤되고 제목과 출력은 sticky·backdrop blur 8px로 고정한다. 공통 X 버튼으로 닫으며 다시 열어도 초안을 유지한다. Prompt는 모바일 접힘·데스크톱 펼침으로 시작한다.
 - 본문은 모든 유형이 공유하는 대상(Subject) 입력, 제목 없는 밑줄형 유형 탭(Illustration·Photo·Design, 선택 검정·미선택 opacity 0.5), 유형별 대표 스타일(일러스트 Style, 사진 Photo Style, 디자인 Format·Style), 묘사 정도(Depiction), Color, Tone(High Key·Low Key·High Contrast·Low Contrast·Faded·Matte·Soft·Hazy·Backlit·Dramatic·Moody·Calm·Dreamy·Elegant, 한국어는 밝은 조명·어두운 조명·강한 대비·낮은 대비·바랜·무광·부드러운·뿌연·역광·극적인·감성적인·차분한·몽환적인·우아한, 조명·대비→암부→빛→분위기 순서), 일러스트 전용 Outline(Rendering Mode) 순서다. Texture와 비율은 빌더에 두지 않는다(갤러리 필터·상세에는 유지). 각 이미지를 설명하는 입력이나 이미지 번호는 두지 않는다. Outline·Color·Tone은 기본 미선택이며, Depiction은 `reference/options/depiction/`의 Very Simple·Simple·Moderate·Complex·Very Complex(한국어 아주 단순·단순·보통·복잡·아주 복잡) 5단계 필수 단일 선택(기본 Simple)이며 프롬프트에는 각 Cue(very simple·simple·moderately complex·complex·very complex)를 쓴다. Technique·Camera·Mood·Lighting·Composition·Typography·추가 지시는 사용하지 않는다. 모든 옵션 카테고리는 단일 선택이며 Design Format·Depiction 외에는 다시 누르면 해제된다. 선택 옵션은 배경 없이 공통 선택 테두리와 진한 글자, 미선택은 회색 글자와 옵션 테두리이다.
 - 새로 바뀐 필터는 빌더 초기값으로 전달되지만 빌더 편집은 갤러리를 필터링하지 않는다. 전달된 필터가 카테고리에 2개 이상이면 후보를 모두 보여 주고 사용자가 하나를 고르게 한다. Texture·비율 필터는 빌더로 전달하지 않는다.
 - 하단 출력은 Selected 칩, 옵션 제목 스타일의 “프롬프트(Prompt)” 제목, 우측 출력 접기 버튼, 저장 아이콘 버튼과 복사 버튼이다. 접으면 칩·프롬프트만 숨긴다.
@@ -55,7 +55,7 @@
 - `npm run format` 후 `npm run format:check`, `npm test`, `npm run build`를 확인한다. UI 변경은 프로덕션 빌드의 모바일·데스크톱에서 영향받는 동작을 검증한다.
 - GitHub Pages의 기존 게시 절차를 유지한다. GitHub 토큰·비밀값을 브라우저 코드·LocalStorage·저장소·빌드에 넣지 않는다. Publish는 권한 있는 게시 절차가 구현되기 전까지 비활성화한다. 비용·게시 권한은 프로젝트 문서와 사용자 승인 범위를 따른다.
 
-- 선택 칩 요약은 갤러리·필터·빌더가 공통 SelectionSummary와 28px … 버튼을 사용한다. … 버튼은 접힌 칩이 가로 영역을 넘을 때만 표시하고 펼친 상태에서는 접기용으로 유지한다. 접힘은 한 줄 가로 스크롤, 펼침은 max-height나 내부 세로 스크롤 없이 전체 줄바꿈하며 빌더 Selected 제목은 숨긴다. 모바일 필터 하단은 좌측 흰색 프롬프트 생성·우측 검정 이미지 보기이며 PC는 기존 생성 버튼 하나를 유지한다.
+- 선택 칩 요약은 갤러리·필터·빌더가 공통 SelectionSummary와 28px … 버튼을 사용한다. … 버튼은 접힌 칩이 가로 영역을 넘을 때만 표시하고 펼친 상태에서는 접기용으로 유지한다. 접힘은 한 줄 가로 스크롤, 펼침은 max-height나 내부 세로 스크롤 없이 전체 줄바꿈하며 빌더 Selected 제목은 숨긴다. 필터의 프롬프트 생성 버튼은 기능을 유지한 채 숨기며, 모바일 필터 하단은 이미지 보기 버튼만, PC 필터 하단은 표시하지 않는다.
 - 모바일 버튼은 hover로 배경색을 바꾸지 않는다. 오렌지색 접힘 요약은 전체·선택 없음 상태도 포함한다.
 
 - 선택 영역 공통화로 칩 크기를 바꾸지 않는다. 기존 크기는 필터 칩 최소 28px, 빌더 칩 PC 22px·모바일 24px, 칩 삭제 버튼 20×20px이며 요약의 … 버튼은 28×28px을 유지한다.

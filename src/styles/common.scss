@@ -1011,10 +1011,18 @@ textarea,
   }
 }
 .filter-panel {
+  // The floating button still opens the Builder; the filter keeps only its own actions.
+  .generate-prompt {
+    display: none;
+  }
+  .builder-footer {
+    @media (min-width: #{$mobile + 1}) {
+      display: none;
+    }
+  }
   .filter-actions {
     display: flex;
     gap: 8px;
-    .generate-prompt,
     .filter-view-images {
       flex: 1;
       min-width: 0;
@@ -1022,19 +1030,12 @@ textarea,
       @include prompt-action-button;
       @include uppercase-text;
       white-space: nowrap;
+      @media (max-width: $mobile) {
+        background: $white;
+      }
     }
     @media (max-width: 360px) {
       --button-font-size: 12px;
-    }
-    @media (max-width: $mobile) {
-      .generate-prompt {
-        flex: 0 0 auto;
-        aspect-ratio: 1;
-        padding: 0;
-      }
-      .filter-view-images {
-        background: $white;
-      }
     }
   }
   .selection-summary {
