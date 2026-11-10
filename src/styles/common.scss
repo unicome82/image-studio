@@ -865,6 +865,12 @@ textarea,
     touch-action: none;
     user-select: none;
     cursor: default;
+    [data-panning] & {
+      cursor: grab;
+      &:active {
+        cursor: grabbing;
+      }
+    }
   }
   &-close,
   &-download {

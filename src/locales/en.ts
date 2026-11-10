@@ -168,8 +168,8 @@ const translation: Record<string, string> = {
     'Add an image and connect an authorized publishing workflow to publish',
   'Image preview': 'Image preview',
   'Close image preview': 'Close image preview',
-  'Scroll or pinch to zoom from 1 to 4 times; double-click or press 0 to reset.':
-    'Scroll or pinch to zoom from 1 to 4 times; double-click or press 0 to reset.',
+  'Scroll or pinch to zoom from 1 to 4 times and drag to move; double-click or press 0 to reset.':
+    'Scroll or pinch to zoom from 1 to 4 times and drag to move; double-click or press 0 to reset.',
   'Resize Builder': 'Resize Builder',
   'Image gallery': 'Image gallery',
   'Full prompt': 'Full prompt',

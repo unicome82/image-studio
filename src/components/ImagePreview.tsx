@@ -25,16 +25,47 @@ export default function ImagePreview({ image, close }: { image: PreviewImage; cl
   const stage = useRef<HTMLDivElement>(null);
   const [zoom, setZoom] = useState(1);
   const zoomRef = useRef(1);
+  const [offset, setOffset] = useState({ x: 0, y: 0 });
+  const offsetRef = useRef({ x: 0, y: 0 });
   const points = useRef(new Map<number, { x: number; y: number }>());
   const gesture = useRef({ distance: 0, zoom: 1 });
+  // One pointer drags a zoomed image; the start point and offset anchor the move.
+  const pan = useRef<{ x: number; y: number; offset: { x: number; y: number } } | null>(null);
   const [viewport, setViewport] = useState({
     width: window.innerWidth,
     height: window.innerHeight,
   });
+  const ratio = image.width / image.height;
+  const width = Math.min(
+    Math.max(1, viewport.width - 32),
+    Math.max(1, viewport.height - 32) * ratio,
+  );
+  const size = useRef({ width, height: width / ratio, viewport });
+  size.current = { width, height: width / ratio, viewport };
+  // The image edge never moves inside the screen edge, and an unzoomed image stays centered.
+  function moveTo(x: number, y: number, scale = zoomRef.current) {
+    const { width: w, height: h, viewport: v } = size.current;
+    const limitX = Math.max(0, (w * scale - v.width) / 2);
+    const limitY = Math.max(0, (h * scale - v.height) / 2);
+    const next = {
+      x: Math.max(-limitX, Math.min(limitX, x)),
+      y: Math.max(-limitY, Math.min(limitY, y)),
+    };
+    offsetRef.current = next;
+    setOffset(next);
+  }
   function changeZoom(value: number) {
     const next = clampZoom(value);
     zoomRef.current = next;
     setZoom(next);
+    moveTo(offsetRef.current.x, offsetRef.current.y, next);
+  }
+  function startPan() {
+    const [point] = [...points.current.values()];
+    pan.current =
+      points.current.size === 1 && point
+        ? { x: point.x, y: point.y, offset: offsetRef.current }
+        : null;
   }
   function distance() {
     const [a, b] = [...points.current.values()];
@@ -42,6 +73,11 @@ export default function ImagePreview({ image, close }: { image: PreviewImage; cl
   }
   function resetGesture() {
     gesture.current = { distance: distance(), zoom: zoomRef.current };
+    startPan();
+  }
+  function releasePointer(id: number) {
+    points.current.delete(id);
+    resetGesture();
   }
   useEffect(() => {
     const previous = document.body.style.overflow;
@@ -97,17 +133,16 @@ export default function ImagePreview({ image, close }: { image: PreviewImage; cl
       window.setTimeout(() => URL.revokeObjectURL(url), 60000);
     }, 'image/png');
   }
-  const ratio = image.width / image.height;
-  const width = Math.min(
-    Math.max(1, viewport.width - 32),
-    Math.max(1, viewport.height - 32) * ratio,
-  );
+  useEffect(() => {
+    moveTo(offsetRef.current.x, offsetRef.current.y);
+  }, [viewport]);
   return createPortal(
     <dialog
       ref={ref}
       className="image-viewer"
       aria-label={t('Image preview')}
       data-zoom={zoom}
+      data-panning={zoom > 1 || undefined}
       onCancel={(e) => {
         e.preventDefault();
         e.stopPropagation();
@@ -139,18 +174,19 @@ export default function ImagePreview({ image, close }: { image: PreviewImage; cl
           aria-label={imageName(image)}
           tabIndex={0}
           aria-description={t(
-            'Scroll or pinch to zoom from 1 to 4 times; double-click or press 0 to reset.',
+            'Scroll or pinch to zoom from 1 to 4 times and drag to move; double-click or press 0 to reset.',
           )}
           style={{
             width,
             height: width / ratio,
             ...imageStyle(image),
-            transform: `scale(${zoom})`,
+            transform: `translate(${offset.x}px, ${offset.y}px) scale(${zoom})`,
           }}
           onClick={(e) => e.stopPropagation()}
           onDoubleClick={() => changeZoom(1)}
           onPointerDown={(e) => {
-            if (e.pointerType !== 'touch') return;
+            // Touch always tracks for pinch; a mouse drags only once the image is zoomed.
+            if (e.pointerType !== 'touch' && (e.button !== 0 || zoomRef.current <= 1)) return;
             e.preventDefault();
             e.currentTarget.setPointerCapture(e.pointerId);
             points.current.set(e.pointerId, { x: e.clientX, y: e.clientY });
@@ -161,21 +197,19 @@ export default function ImagePreview({ image, close }: { image: PreviewImage; cl
             points.current.set(e.pointerId, { x: e.clientX, y: e.clientY });
             if (points.current.size > 1 && gesture.current.distance > 0)
               changeZoom((gesture.current.zoom * distance()) / gesture.current.distance);
+            else if (pan.current && zoomRef.current > 1)
+              moveTo(
+                pan.current.offset.x + e.clientX - pan.current.x,
+                pan.current.offset.y + e.clientY - pan.current.y,
+              );
           }}
           onPointerUp={(e) => {
-            points.current.delete(e.pointerId);
             if (e.currentTarget.hasPointerCapture(e.pointerId))
               e.currentTarget.releasePointerCapture(e.pointerId);
-            resetGesture();
+            releasePointer(e.pointerId);
           }}
-          onPointerCancel={(e) => {
-            points.current.delete(e.pointerId);
-            resetGesture();
-          }}
-          onLostPointerCapture={(e) => {
-            points.current.delete(e.pointerId);
-            resetGesture();
-          }}
+          onPointerCancel={(e) => releasePointer(e.pointerId)}
+          onLostPointerCapture={(e) => releasePointer(e.pointerId)}
         />
       </div>
       <button
