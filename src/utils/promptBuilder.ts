@@ -155,7 +155,7 @@ export function builderCategories(photo: boolean, design = false): string[] {
     ? ['Design Format', 'Design Style', 'Design Graphic', 'Color', 'Tone']
     : photo
       ? ['Photo Style', 'Photo Technique', 'Color', 'Tone']
-      : ['Illustration Style', 'Color', 'Tone', 'Outline'];
+      : ['Illustration Style', 'Color', 'Tone'];
 }
 // Gallery images also carry the texture they were made with.
 export function imageCategories(photo: boolean, design = false): string[] {
@@ -168,15 +168,14 @@ export function toggleOption(selection: Selection, category: string, id: string)
     [category]: !requiredCategories.includes(category) && current.includes(id) ? [] : [id],
   };
 }
-// The prompt names Outline by its role and drops the type from technique categories.
+// The prompt drops the type from technique categories.
 const promptNames: Record<string, string> = {
-  Outline: 'Rendering Mode',
   'Photo Technique': 'Technique',
   'Design Graphic': 'Graphic',
 };
 const promptCategory = (category: string) => promptNames[category] ?? category;
-// Option lines after Color: tone and rendering first, then the photo technique or graphic treatment.
-const mockupLineOrder = ['Tone', 'Outline', 'Photo Technique', 'Design Graphic'];
+// Option lines after Color: tone first, then the photo technique or graphic treatment.
+const mockupLineOrder = ['Tone', 'Photo Technique', 'Design Graphic'];
 // Each option prints its label plus the MD's one-line cue so the model gets the decisive rule.
 const optionLine = (o: Option) =>
   `${promptCategory(o.category)}: ${o.label}${o.cue ? ` — ${o.cue}` : ''}`;

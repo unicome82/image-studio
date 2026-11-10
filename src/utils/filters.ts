@@ -35,7 +35,6 @@ export function filterCategories(filters: Selection): string[] {
     ...types.flatMap((type) => styleCategories[type]),
     'Color',
     'Tone',
-    ...(types.includes('illustration') ? ['Outline'] : []),
     'Texture',
   ];
 }

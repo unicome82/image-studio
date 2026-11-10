@@ -61,6 +61,7 @@ const legacyOptions: Record<string, [string, string][]> = {
   'Design Style:memphis': [['Design Style', 'postmodernism']],
   'Design Style:boldgeometric': [['Design Graphic', 'geometric']],
   'Design Style:gradientglass': [['Design Graphic', 'glassmorphism']],
+  'Outline:outlineonly': [['Illustration Style', 'outlineillustration']],
 };
 export function parsePresets(raw: string | null, catalog: Option[]): StylePreset[] {
   const exists = (category: string, id: string) =>

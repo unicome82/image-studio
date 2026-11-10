@@ -35,8 +35,8 @@ function catalogAt(dir: string): Option[] {
 }
 const catalog = catalogAt('reference');
 
-test('each type keeps its lead style, technique, color, tone and illustration outline; images add texture', () => {
-  assert.deepEqual(builderCategories(false), ['Illustration Style', 'Color', 'Tone', 'Outline']);
+test('each type keeps its lead style, technique, color and tone; images add texture', () => {
+  assert.deepEqual(builderCategories(false), ['Illustration Style', 'Color', 'Tone']);
   assert.deepEqual(builderCategories(true), ['Photo Style', 'Photo Technique', 'Color', 'Tone']);
   assert.deepEqual(builderCategories(false, true), [
     'Design Format',
@@ -102,7 +102,6 @@ test('mockup prompt names one style, the depiction level and the subject without
       Color: ['pastel'],
       Tone: ['hazy'],
       Texture: ['papergrain'],
-      Outline: ['outlineonly'],
       Depiction: ['verycomplex'],
       'Photo Style': ['street'],
     },
@@ -110,13 +109,11 @@ test('mockup prompt names one style, the depiction level and the subject without
     'illustration',
   );
   assert.ok(
-    rich.includes(
-      '\nColor: Pastel, with different colors for each image\nTone: Hazy\nRendering Mode: Outline Only\nEach image',
-    ),
+    rich.includes('\nColor: Pastel, with different colors for each image\nTone: Hazy\nEach image'),
   );
   assert.ok(
     rich.includes(
-      'The header shows the style and options as text: Risograph · Pastel · Hazy · Outline Only · Very Complex\n',
+      'The header shows the style and options as text: Risograph · Pastel · Hazy · Very Complex\n',
     ),
   );
   assert.ok(!rich.includes('Texture'));
@@ -177,7 +174,6 @@ test('gallery image prompts list texture and the image ratio', () => {
 test('single choice per category; required categories stay selected', () => {
   assert.deepEqual(toggleOption({ Color: ['muted'] }, 'Color', 'vivid').Color, ['vivid']);
   assert.deepEqual(toggleOption({ Color: ['muted'] }, 'Color', 'muted').Color, []);
-  assert.deepEqual(toggleOption({ Outline: ['coloronly'] }, 'Outline', 'coloronly').Outline, []);
   assert.deepEqual(toggleOption({ Depiction: ['rich'] }, 'Depiction', 'rich').Depiction, ['rich']);
   for (const category of ['Illustration Style', 'Photo Style', 'Design Style'])
     assert.deepEqual(toggleOption({ [category]: ['a'] }, category, 'a')[category], ['a']);
@@ -197,6 +193,7 @@ test('saved mockups keep only offered categories and migrate removed styles', ()
         'Illustration Style': ['celshadedanime'],
         Technique: ['watercolor'],
         Color: ['muted'],
+        Outline: ['outlineonly'],
         Depiction: ['complex'],
       },
       fields: { Subject: 'A tree', Text: 'TREE', 'Aspect Ratio': '3:4' },

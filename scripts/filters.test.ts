@@ -38,9 +38,9 @@ test('filters have no selection limit and builder handoff retains every unresolv
     pendingBuilderFilters({ Texture: ['a', 'b'], 'Aspect Ratio': ['1:1', '4:5'] }, false),
     {},
   );
-  const singles = { Outline: ['coloronly', 'outlineonly'] };
+  const singles = { Tone: ['calm', 'soft'] };
   assert.deepEqual(pendingBuilderFilters(singles, false), singles);
-  assert.deepEqual(pendingBuilderFilters({ Outline: singles.Outline }, true), {});
+  assert.deepEqual(pendingBuilderFilters({ Outline: ['coloronly', 'outlineonly'] }, false), {});
 });
 
 test('no type shows every style; chosen types show only their own styles', () => {
@@ -49,7 +49,9 @@ test('no type shows every style; chosen types show only their own styles', () =>
     assert.ok(all.includes(category), category);
   const photoDesign = filterCategories({ Type: ['photo', 'design'] });
   assert.ok(photoDesign.includes('Photo Style') && photoDesign.includes('Design Style'));
-  assert.ok(!photoDesign.includes('Illustration Style') && !photoDesign.includes('Outline'));
+  assert.ok(
+    !photoDesign.includes('Illustration Style') && !photoDesign.includes('Outline Illustration'),
+  );
   assert.deepEqual(filterCategories({ Type: ['photo'] }), [
     'Type',
     'Aspect Ratio',
@@ -64,7 +66,6 @@ test('no type shows every style; chosen types show only their own styles', () =>
 test('changing type preserves shared selections and drops incompatible filters without mutation', () => {
   const filters = {
     'Illustration Style': ['naivefolk'],
-    Outline: ['coloronly'],
     Color: ['muted'],
     'Aspect Ratio': ['4:5'],
   };

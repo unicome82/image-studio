@@ -31,15 +31,7 @@ export default function SelectedOptions({
   mockup = false,
 }: SelectedOptionsProps) {
   const { t } = useTranslation(undefined, english ? { lng: 'en' } : undefined);
-  const options = selectedBuilderOptions(catalog, selection, photo, design, !mockup).filter(
-    (option) => option.category !== 'Outline',
-  );
-  const outline =
-    !photo && !design
-      ? catalog.find(
-          (option) => option.category === 'Outline' && option.id === selection.Outline?.[0],
-        )
-      : undefined;
+  const options = selectedBuilderOptions(catalog, selection, photo, design, !mockup);
   const depiction = catalog.find(
     (option) =>
       option.category === 'Depiction' &&
@@ -54,7 +46,6 @@ export default function SelectedOptions({
     ...(mockup || !fields['Aspect Ratio']
       ? []
       : [{ key: 'ratio', title: t('Aspect ratio'), label: fields['Aspect Ratio'] }]),
-    ...(outline ? [{ key: 'outline', title: t('Outline'), label: t(outline.label) }] : []),
     // Typography has no style to pick, so its switch shows as one fixed chip.
     ...(isTypographyEnabled(fields)
       ? [{ key: 'typography', title: t('Typography'), label: t('Typography') }]
