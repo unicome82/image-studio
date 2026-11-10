@@ -206,9 +206,12 @@ function styleName(catalog: Option[], selection: Selection, type: ImageType) {
     .filter(Boolean)
     .join(' ');
 }
-/** The level phrase (its Cue) such as "very simple"; missing levels read as Simple. */
+// The middle level leaves the depiction to the style, so it adds no phrase.
+const plainDepiction = 'balanced';
+/** The level phrase (its Cue) such as "very simple"; missing levels read as Simple, Moderate reads as none. */
 export function depictionPhrase(catalog: Option[], selection: Selection) {
   const id = selection.Depiction?.[0] ?? defaultDepiction;
+  if (id === plainDepiction) return '';
   return catalog.find((o) => o.category === 'Depiction' && o.id === id)?.cue ?? 'simple';
 }
 // The subject follows a colon so any input, with or without an article, reads naturally.
@@ -233,10 +236,12 @@ function typographyLines(catalog: Option[], fields: Record<string, string>, mock
       : `Text: Not specified. Choose suitable wording freely to complement ${target}.`,
   ];
 }
-const subjectLine = (depiction: string, subject?: string) =>
-  subject
-    ? `Each image shows a different ${depiction} take on the subject: ${subject}`
-    : `Each image shows a different ${depiction} subject.`;
+const subjectLine = (depiction: string, subject?: string) => {
+  const different = depiction ? `a different ${depiction}` : 'a different';
+  return subject
+    ? `Each image shows ${different} take on the subject: ${subject}`
+    : `Each image shows ${different} subject.`;
+};
 // Every mockup keeps a grown-up, modern and chic tone.
 const mockupMood = 'Mood: modern and chic, refined and grown-up';
 // Each image gets its own colors so the gallery does not settle on one color;

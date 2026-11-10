@@ -6,6 +6,7 @@ import {
   builderCategories,
   compactFields,
   defaultDepiction,
+  depictionPhrase,
   imageCategories,
   depictionLevels,
   makeImagePrompt,
@@ -64,10 +65,15 @@ test('each type keeps its lead style, technique, color and tone; images add text
   for (const option of catalog) assert.ok(offered.has(option.category), option.path);
   const levels = catalog.filter((o) => o.category === 'Depiction');
   assert.deepEqual(levels.map((o) => o.id).sort(), [...depictionLevels].sort());
-  // The prompt uses each level's lowercase Cue phrase; the screen label may be shorter.
+  // The prompt uses each level's lowercase Cue phrase; Moderate adds no phrase.
   assert.deepEqual(
-    depictionLevels.map((id) => levels.find((o) => o.id === id)?.cue),
-    ['very simple', 'simple', 'moderately complex', 'complex', 'very complex'],
+    depictionLevels.map((id) => depictionPhrase(catalog, { Depiction: [id] })),
+    ['very simple', 'simple', '', 'lightly detailed', 'more detailed'],
+  );
+  assert.ok(
+    makeMockupPrompt(catalog, { Depiction: ['balanced'] }, { Subject: 'A cat' }, 'photo').endsWith(
+      '\nEach image shows a different take on the subject: A cat',
+    ),
   );
 });
 
@@ -124,7 +130,7 @@ test('mockup prompt names one style, the depiction level and the subject without
     'Color: Grayscale, with a different grayscale tone for each image',
   );
   assert.equal(tone('monochrome'), 'Color: Monochrome, with a different hue for each image');
-  assert.ok(rich.endsWith('Each image shows a different very complex subject.'));
+  assert.ok(rich.endsWith('Each image shows a different more detailed subject.'));
   assert.ok(!rich.includes('Street') && !rich.includes('Aspect Ratio'));
   assert.ok(
     makeMockupPrompt(catalog, {}, {}, 'illustration').includes('a different simple subject'),
