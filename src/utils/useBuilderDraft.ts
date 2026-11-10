@@ -31,7 +31,7 @@ export function useBuilderDraft() {
   });
   const [designSelection, setDesignSelection] = useState<Selection>({
     'Design Format': defaultLeadOptions['Design Format'],
-    'Design Style': ['minimalist'],
+    'Design Style': defaultLeadOptions['Design Style'],
   });
   const [fields, setFields] = useState<Record<string, string>>(defaultFields);
   const [pendingChoices, setPendingChoices] = useState<Selection>({});

@@ -12,8 +12,8 @@ export const imageTypes: ImageType[] = ['illustration', 'photo', 'design'];
 // Each type's own style categories; the remaining filter categories are shared.
 const styleCategories: Record<ImageType, string[]> = {
   illustration: ['Illustration Style'],
-  photo: ['Photo Style'],
-  design: ['Design Format', 'Design Style'],
+  photo: ['Photo Style', 'Photo Technique'],
+  design: ['Design Format', 'Design Style', 'Design Graphic'],
 };
 /** The chosen image types, or every type when none is chosen. */
 export function filterTypes(filters: Selection): ImageType[] {

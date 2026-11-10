@@ -77,7 +77,14 @@ export default function Builder(p: Props) {
   ] as const;
   // The subject is shared by every type and sits above the type tabs; lead styles follow the tabs.
   const categories = builderCategories(p.photo, design);
-  const leadCategories = ['Illustration Style', 'Photo Style', 'Design Format', 'Design Style'];
+  const leadCategories = [
+    'Illustration Style',
+    'Photo Style',
+    'Photo Technique',
+    'Design Format',
+    'Design Style',
+    'Design Graphic',
+  ];
   const lead = categories.filter((category) => leadCategories.includes(category));
   const rest = categories.filter((category) => !leadCategories.includes(category));
   const choices = (category: string) => (

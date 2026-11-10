@@ -42,9 +42,56 @@ export const toneOrder = [
   'dreamy',
   'elegant',
 ];
+// Curated display orders of the photo and design style and technique choices.
+export const photoStyleOrder = [
+  'editorial',
+  'fashion',
+  'cinematic',
+  'minimal',
+  'fineart',
+  'street',
+  'stilllife',
+  'abstract',
+];
+export const photoTechniqueOrder = [
+  'film',
+  'lofi',
+  'motionblur',
+  'flash',
+  'softfocus',
+  'longexposure',
+];
+export const designStyleOrder = [
+  'minimalist',
+  'maximalism',
+  'swiss',
+  'midcentury',
+  'brutalist',
+  'y2k',
+  'avantgarde',
+  'retro',
+  'futurism',
+  'postmodernism',
+];
+export const designGraphicOrder = [
+  'typography',
+  'geometric',
+  'abstract',
+  'risograph',
+  'halftone',
+  'glassmorphism',
+  'chrome',
+  'collage',
+  '3d',
+  'generative',
+];
 // Categories whose options follow a curated order instead of folder names.
 export const optionOrder: Record<string, string[]> = {
+  'Photo Style': photoStyleOrder,
+  'Photo Technique': photoTechniqueOrder,
   'Design Format': designFormatOrder,
+  'Design Style': designStyleOrder,
+  'Design Graphic': designGraphicOrder,
   Tone: toneOrder,
 };
 export const aspectRatios = ['1:1', '4:5', '3:4', '2:3', '9:16', '4:3', '3:2', '16:9'];
@@ -54,13 +101,15 @@ export const requiredCategories = [
   'Illustration Style',
   'Photo Style',
   'Design Format',
+  'Design Style',
   'Depiction',
 ];
 // The style each type starts with, also filled into saved mockups that lack one.
 export const defaultLeadOptions: Selection = {
   'Illustration Style': ['contemporaryflat'],
-  'Photo Style': ['portrait'],
+  'Photo Style': ['editorial'],
   'Design Format': ['poster'],
+  'Design Style': ['minimalist'],
 };
 // How simply or richly each mockup image depicts its subject; every mockup states one level.
 export const depictionLevels = ['verysimple', 'simple', 'balanced', 'complex', 'verycomplex'];
@@ -75,12 +124,12 @@ export function compactFields(fields: Record<string, string>): Record<string, st
 export function imageType(photo: boolean, design = false): ImageType {
   return design ? 'design' : photo ? 'photo' : 'illustration';
 }
-// The lead style comes first so the defining look is read before color.
+// The lead style and its optional technique come first so the defining look is read before color.
 export function builderCategories(photo: boolean, design = false): string[] {
   return design
-    ? ['Design Format', 'Design Style', 'Color', 'Tone']
+    ? ['Design Format', 'Design Style', 'Design Graphic', 'Color', 'Tone']
     : photo
-      ? ['Photo Style', 'Color', 'Tone']
+      ? ['Photo Style', 'Photo Technique', 'Color', 'Tone']
       : ['Illustration Style', 'Color', 'Tone', 'Outline'];
 }
 // Gallery images also carry the texture they were made with.
@@ -94,8 +143,15 @@ export function toggleOption(selection: Selection, category: string, id: string)
     [category]: !requiredCategories.includes(category) && current.includes(id) ? [] : [id],
   };
 }
-// The prompt names Outline by its role so the option list and summary agree.
-const promptCategory = (category: string) => (category === 'Outline' ? 'Rendering Mode' : category);
+// The prompt names Outline by its role and drops the type from technique categories.
+const promptNames: Record<string, string> = {
+  Outline: 'Rendering Mode',
+  'Photo Technique': 'Technique',
+  'Design Graphic': 'Graphic',
+};
+const promptCategory = (category: string) => promptNames[category] ?? category;
+// Option lines after Color: tone and rendering first, then the photo technique or graphic treatment.
+const mockupLineOrder = ['Tone', 'Outline', 'Photo Technique', 'Design Graphic'];
 // Each option prints its label plus the MD's one-line cue so the model gets the decisive rule.
 const optionLine = (o: Option) =>
   `${promptCategory(o.category)}: ${o.label}${o.cue ? ` — ${o.cue}` : ''}`;
@@ -157,7 +213,7 @@ export function makeMockupPrompt(
   const style = styleName(catalog, selection, type);
   // Naming the medium keeps an illustration style such as Minimalism from turning into photos.
   const media = `${words[type].one}s`;
-  // Outline is listed only when chosen; color always asks for different colors per image.
+  // Optional options are listed only when chosen; color always asks for different colors per image.
   const extras = chosenOptions(
     builderCategories(type === 'photo', type === 'design'),
     catalog,
@@ -181,6 +237,7 @@ export function makeMockupPrompt(
     colorLine(extras.find((o) => o.category === 'Color')),
     ...extras
       .filter((o) => o.category !== 'Color')
+      .sort((a, b) => mockupLineOrder.indexOf(a.category) - mockupLineOrder.indexOf(b.category))
       .map((o) => `${promptCategory(o.category)}: ${o.label}`),
     subjectLine(depictionPhrase(catalog, selection), fields.Subject?.trim()),
   ].join('\n');

@@ -1,4 +1,4 @@
-## Retro Graphic Design
+## Retro
 
 - **Category:** Design Style
 - **Style ID:** `retro`

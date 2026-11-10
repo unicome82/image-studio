@@ -54,6 +54,7 @@ test('no type shows every style; chosen types show only their own styles', () =>
     'Type',
     'Aspect Ratio',
     'Photo Style',
+    'Photo Technique',
     'Color',
     'Tone',
     'Texture',
@@ -75,11 +76,11 @@ test('changing type preserves shared selections and drops incompatible filters w
 
 test('styles of different types are alternatives; a style choice shows only that style', () => {
   const pop = filterMetadata({ 'Illustration Style': ['popart'] }, false, '1:1');
-  const portrait = filterMetadata({ 'Photo Style': ['portrait'] }, true, '1:1');
+  const portrait = filterMetadata({ 'Photo Style': ['editorial'] }, true, '1:1');
   const onlyPop = { 'Illustration Style': ['popart'] };
   assert.equal(matchesFilters(pop, onlyPop), true);
   assert.equal(matchesFilters(portrait, onlyPop), false);
-  const either = { 'Illustration Style': ['popart'], 'Photo Style': ['portrait'] };
+  const either = { 'Illustration Style': ['popart'], 'Photo Style': ['editorial'] };
   assert.equal(matchesFilters(pop, either), true);
   assert.equal(matchesFilters(portrait, either), true);
   const poster = filterMetadata(

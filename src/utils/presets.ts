@@ -48,9 +48,25 @@ const legacyOptions: Record<string, [string, string][]> = {
   'Tone:deep': [['Tone', 'lowkey']],
   'Tone:subtle': [['Tone', 'lowcontrast']],
   'Illustration Style:lowpoly': [['Illustration Style', 'geometricillustration']],
-  'Photo Style:film': [['Color', 'muted']],
-  'Photo Style:analog': [['Color', 'muted']],
+  'Photo Style:film': [['Photo Technique', 'film']],
+  'Photo Style:analog': [['Photo Technique', 'film']],
   'Photo Style:monochrome': [['Color', 'blackwhite']],
+  'Photo Style:portrait': [['Photo Style', 'editorial']],
+  'Photo Style:landscape': [['Photo Style', 'fineart']],
+  'Photo Style:architectural': [['Photo Style', 'minimal']],
+  'Photo Style:documentary': [['Photo Style', 'street']],
+  'Photo Style:food': [['Photo Style', 'stilllife']],
+  'Photo Style:product': [['Photo Style', 'stilllife']],
+  'Design Style:bauhaus': [['Design Style', 'swiss']],
+  'Design Style:memphis': [['Design Style', 'postmodernism']],
+  'Design Style:boldgeometric': [
+    ['Design Style', 'swiss'],
+    ['Design Graphic', 'geometric'],
+  ],
+  'Design Style:gradientglass': [
+    ['Design Style', 'futurism'],
+    ['Design Graphic', 'glassmorphism'],
+  ],
 };
 export function parsePresets(raw: string | null, catalog: Option[]): StylePreset[] {
   const exists = (category: string, id: string) =>

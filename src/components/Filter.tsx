@@ -28,6 +28,8 @@ const filterTitles: Record<string, string> = {
   'Aspect Ratio': 'Aspect ratio',
   'Design Format': 'Design format',
   'Design Style': 'Design style',
+  'Photo Technique': 'Photo technique',
+  'Design Graphic': 'Design graphic',
 };
 
 export default function Filter(p: Props) {

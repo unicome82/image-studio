@@ -1,4 +1,4 @@
-## Swiss Graphic Design
+## Swiss
 
 - **Category:** Design Style
 - **Style ID:** `swiss`

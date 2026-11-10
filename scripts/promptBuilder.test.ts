@@ -34,16 +34,23 @@ function catalogAt(dir: string): Option[] {
 }
 const catalog = catalogAt('reference');
 
-test('each type keeps only its lead style, color, tone and illustration outline; images add texture', () => {
+test('each type keeps its lead style, technique, color, tone and illustration outline; images add texture', () => {
   assert.deepEqual(builderCategories(false), ['Illustration Style', 'Color', 'Tone', 'Outline']);
-  assert.deepEqual(builderCategories(true), ['Photo Style', 'Color', 'Tone']);
+  assert.deepEqual(builderCategories(true), ['Photo Style', 'Photo Technique', 'Color', 'Tone']);
   assert.deepEqual(builderCategories(false, true), [
     'Design Format',
     'Design Style',
+    'Design Graphic',
     'Color',
     'Tone',
   ]);
-  assert.deepEqual(imageCategories(true), ['Photo Style', 'Color', 'Tone', 'Texture']);
+  assert.deepEqual(imageCategories(true), [
+    'Photo Style',
+    'Photo Technique',
+    'Color',
+    'Tone',
+    'Texture',
+  ]);
   const offered = new Set([
     ...imageCategories(false),
     ...imageCategories(true),
@@ -93,7 +100,7 @@ test('mockup prompt names one style, the depiction level and the subject without
       Texture: ['papergrain'],
       Outline: ['outlineonly'],
       Depiction: ['verycomplex'],
-      'Photo Style': ['portrait'],
+      'Photo Style': ['street'],
     },
     {},
     'illustration',
@@ -117,7 +124,7 @@ test('mockup prompt names one style, the depiction level and the subject without
   );
   assert.equal(tone('monochrome'), 'Color: Monochrome, with a different hue for each image');
   assert.ok(rich.endsWith('Each image shows a different very complex subject.'));
-  assert.ok(!rich.includes('Portrait') && !rich.includes('Aspect Ratio'));
+  assert.ok(!rich.includes('Street') && !rich.includes('Aspect Ratio'));
   assert.ok(
     makeMockupPrompt(catalog, {}, {}, 'illustration').includes('a different simple subject'),
   );
@@ -127,7 +134,25 @@ test('mockup prompt names one style, the depiction level and the subject without
       { 'Design Format': ['poster'], 'Design Style': ['swiss'] },
       {},
       'design',
-    ).includes('share one style: Swiss Graphic Design Poster'),
+    ).includes('share one style: Swiss Poster'),
+  );
+  const technique = makeMockupPrompt(
+    catalog,
+    { 'Photo Style': ['editorial'], 'Photo Technique': ['film'], Tone: ['soft'] },
+    {},
+    'photo',
+  );
+  assert.ok(technique.includes('as text: Editorial · Film · Soft · Simple\n'));
+  assert.ok(technique.includes('\nTone: Soft\nTechnique: Film\nEach image'));
+  assert.ok(
+    makeMockupPrompt(
+      catalog,
+      { 'Design Format': ['poster'], 'Design Style': ['retro'], 'Design Graphic': ['halftone'] },
+      {},
+      'design',
+    ).includes(
+      'share one style: Retro Poster\nMood: modern and chic, refined and grown-up\nColor: different colors for each image\nGraphic: Halftone\n',
+    ),
   );
   assert.ok(makeMockupPrompt(catalog, {}, {}, 'photo').includes('photography portfolio website'));
 });
@@ -150,7 +175,7 @@ test('single choice per category; required categories stay selected', () => {
   assert.deepEqual(toggleOption({ Color: ['muted'] }, 'Color', 'muted').Color, []);
   assert.deepEqual(toggleOption({ Outline: ['coloronly'] }, 'Outline', 'coloronly').Outline, []);
   assert.deepEqual(toggleOption({ Depiction: ['rich'] }, 'Depiction', 'rich').Depiction, ['rich']);
-  for (const category of ['Illustration Style', 'Photo Style'])
+  for (const category of ['Illustration Style', 'Photo Style', 'Design Style'])
     assert.deepEqual(toggleOption({ [category]: ['a'] }, category, 'a')[category], ['a']);
   assert.equal(defaultDepiction, 'simple');
   assert.deepEqual(compactFields({ Subject: 'A', Text: 'B', 'Typography Enabled': 'true' }), {
@@ -175,24 +200,46 @@ test('saved mockups keep only offered categories and migrate removed styles', ()
     { id: '3', photo: false, selection: { Technique: ['risograph'] }, fields: {} },
     { id: '4', photo: true, selection: { Color: ['highkey'] }, fields: {} },
     { id: '5', photo: false, selection: { 'Illustration Style': ['lowpoly'] }, fields: {} },
+    { id: '6', photo: true, selection: { 'Photo Style': ['portrait'] }, fields: {} },
+    {
+      id: '7',
+      photo: false,
+      design: true,
+      selection: { 'Design Format': ['poster'], 'Design Style': ['gradientglass'] },
+      fields: {},
+    },
+    { id: '8', photo: false, design: true, selection: {}, fields: {} },
   ]);
-  const [illustration, photo, riso, highkey, lowpoly] = parsePresets(raw, catalog);
+  const [illustration, photo, riso, highkey, lowpoly, portrait, glass, design] = parsePresets(
+    raw,
+    catalog,
+  );
   assert.deepEqual(illustration.selection, {
     'Illustration Style': ['contemporaryflat'],
     Color: ['muted'],
     Depiction: ['complex'],
   });
   assert.deepEqual(illustration.fields, { Subject: 'A tree' });
-  // A removed style with no kept replacement falls back to the type's default style.
+  // Film moved from photo styles to techniques; the empty style takes the default.
   assert.deepEqual(photo.selection, {
-    'Photo Style': ['portrait'],
-    Color: ['muted'],
+    'Photo Style': ['editorial'],
+    'Photo Technique': ['film'],
   });
   assert.deepEqual(riso.selection, { 'Illustration Style': ['risograph'] });
   assert.deepEqual(highkey.selection, {
     Color: [],
     Tone: ['highkey'],
-    'Photo Style': ['portrait'],
+    'Photo Style': ['editorial'],
   });
   assert.deepEqual(lowpoly.selection, { 'Illustration Style': ['geometricillustration'] });
+  assert.deepEqual(portrait.selection, { 'Photo Style': ['editorial'] });
+  assert.deepEqual(glass.selection, {
+    'Design Format': ['poster'],
+    'Design Style': ['futurism'],
+    'Design Graphic': ['glassmorphism'],
+  });
+  assert.deepEqual(design.selection, {
+    'Design Format': ['poster'],
+    'Design Style': ['minimalist'],
+  });
 });
