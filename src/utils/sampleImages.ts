@@ -17,6 +17,36 @@ export interface SampleImage {
 export const sampleImages: SampleImage[] = [
   {
     type: 'design',
+    fileName: 'infographic-journey-center-earth-ammonite.webp',
+    added: '2026-11-10T12:11:17Z',
+    width: 1200,
+    height: 1200,
+    color: '#bca996',
+    fields: { Subject: 'Journey to the Center of the Earth', 'Typography Enabled': 'true' },
+    selection: {
+      'Design Format': ['infographic'],
+      'Design Style': ['swiss'],
+      'Design Graphic': ['geometric'],
+      Depiction: ['balanced'],
+    },
+  },
+  {
+    type: 'design',
+    fileName: 'infographic-journey-center-earth-core-hikers.webp',
+    added: '2026-11-10T12:11:17Z',
+    width: 1200,
+    height: 1155,
+    color: '#bca692',
+    fields: { Subject: 'Journey to the Center of the Earth', 'Typography Enabled': 'true' },
+    selection: {
+      'Design Format': ['infographic'],
+      'Design Style': ['swiss'],
+      'Design Graphic': ['geometric'],
+      Depiction: ['balanced'],
+    },
+  },
+  {
+    type: 'design',
     fileName: 'infographic-journey-center-earth-compass.webp',
     added: '2026-11-10T12:08:23Z',
     width: 1200,
