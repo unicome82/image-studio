@@ -16,6 +16,20 @@ export interface SampleImage {
 }
 export const sampleImages: SampleImage[] = [
   {
+    type: 'illustration',
+    fileName: 'expressionism-glowing-stag-forest.webp',
+    added: '2026-11-10T11:03:51Z',
+    width: 1632,
+    height: 964,
+    color: '#355052',
+    fields: { Subject: 'Dreamy and Surreal' },
+    selection: {
+      'Illustration Style': ['expressionism'],
+      Tone: ['dramatic'],
+      Depiction: ['balanced'],
+    },
+  },
+  {
     type: 'photo',
     fileName: 'minimal-leather-tubular-armchair.webp',
     added: '2026-11-10T05:15:12Z',
