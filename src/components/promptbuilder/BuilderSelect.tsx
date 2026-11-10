@@ -28,9 +28,10 @@ export default function BuilderSelect({
     function position() {
       const bounds = trigger.current?.getBoundingClientRect();
       if (!bounds || !dropdown) return;
-      // Right-aligned to the trigger like the language menu, kept inside the viewport.
+      // Centered under the trigger, kept inside the viewport.
       const width = dropdown.getBoundingClientRect().width;
-      const left = Math.max(8, Math.min(bounds.right - width, window.innerWidth - width - 8));
+      const center = bounds.left + bounds.width / 2 - width / 2;
+      const left = Math.max(8, Math.min(center, window.innerWidth - width - 8));
       dropdown.style.left = `${left}px`;
       dropdown.style.top = `${bounds.bottom + 8}px`;
     }
