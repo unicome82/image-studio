@@ -65,6 +65,7 @@ export const designStyleOrder = [
   'minimalist',
   'maximalism',
   'swiss',
+  'artdeco',
   'midcentury',
   'brutalist',
   'y2k',

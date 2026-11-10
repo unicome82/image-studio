@@ -22,12 +22,11 @@ const legacyCategories: Record<string, string> = {
 };
 // Removed options map to the options that absorbed them, as [category, id] pairs.
 const legacyOptions: Record<string, [string, string][]> = {
-  'Illustration Style:constructivism': [['Illustration Style', 'bauhaus']],
+  'Illustration Style:constructivism': [['Illustration Style', 'geometricillustration']],
   'Illustration Style:suprematism': [['Illustration Style', 'geometricillustration']],
   'Illustration Style:dadaism': [['Illustration Style', 'surrealism']],
   'Illustration Style:cubism': [['Illustration Style', 'geometricillustration']],
   'Illustration Style:fauvism': [['Illustration Style', 'expressionism']],
-  'Illustration Style:artnouveau': [['Illustration Style', 'artdeco']],
   'Illustration Style:opticalart': [['Illustration Style', 'geometricillustration']],
   'Illustration Style:retrographicdesign': [['Illustration Style', 'midcentury']],
   'Illustration Style:swissgraphicdesign': [['Illustration Style', 'geometricillustration']],
@@ -61,6 +60,8 @@ const legacyOptions: Record<string, [string, string][]> = {
   'Design Style:memphis': [['Design Style', 'postmodernism']],
   'Design Style:boldgeometric': [['Design Graphic', 'geometric']],
   'Design Style:gradientglass': [['Design Graphic', 'glassmorphism']],
+  'Illustration Style:bauhaus': [['Illustration Style', 'geometricillustration']],
+  'Illustration Style:memphisdesign': [['Illustration Style', 'geometricillustration']],
   'Outline:outlineonly': [['Illustration Style', 'outlineillustration']],
 };
 export function parsePresets(raw: string | null, catalog: Option[]): StylePreset[] {
