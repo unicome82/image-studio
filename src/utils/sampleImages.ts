@@ -16,6 +16,62 @@ export interface SampleImage {
 }
 export const sampleImages: SampleImage[] = [
   {
+    type: 'illustration',
+    fileName: 'editorialillustration-zero-gravity-astronaut.webp',
+    added: '2026-11-10T12:36:32Z',
+    width: 1200,
+    height: 900,
+    color: '#72535d',
+    fields: { Subject: 'Mysterious Space', 'Typography Enabled': 'true' },
+    selection: {
+      'Illustration Style': ['editorialillustration'],
+      Color: ['neutralaccent'],
+      Depiction: ['simple'],
+    },
+  },
+  {
+    type: 'illustration',
+    fileName: 'editorialillustration-space-archive-saturn.webp',
+    added: '2026-11-10T12:36:32Z',
+    width: 1200,
+    height: 900,
+    color: '#c8b59c',
+    fields: { Subject: 'Mysterious Space', 'Typography Enabled': 'true' },
+    selection: {
+      'Illustration Style': ['editorialillustration'],
+      Color: ['neutralaccent'],
+      Depiction: ['simple'],
+    },
+  },
+  {
+    type: 'illustration',
+    fileName: 'editorialillustration-beyond-the-stars-rover.webp',
+    added: '2026-11-10T12:36:32Z',
+    width: 1200,
+    height: 675,
+    color: '#b0a49a',
+    fields: { Subject: 'Mysterious Space', 'Typography Enabled': 'true' },
+    selection: {
+      'Illustration Style': ['editorialillustration'],
+      Color: ['neutralaccent'],
+      Depiction: ['simple'],
+    },
+  },
+  {
+    type: 'illustration',
+    fileName: 'editorialillustration-cosmic-journey-astronaut.webp',
+    added: '2026-11-10T12:36:32Z',
+    width: 1200,
+    height: 801,
+    color: '#d7b097',
+    fields: { Subject: 'Mysterious Space', 'Typography Enabled': 'true' },
+    selection: {
+      'Illustration Style': ['editorialillustration'],
+      Color: ['neutralaccent'],
+      Depiction: ['simple'],
+    },
+  },
+  {
     type: 'design',
     fileName: 'infographic-journey-center-earth-ammonite.webp',
     added: '2026-11-10T12:11:17Z',
