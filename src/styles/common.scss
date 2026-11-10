@@ -1523,7 +1523,7 @@ textarea,
   .typography-toggle {
     @include flex-row($display: inline-flex);
     flex-shrink: 0;
-    width: 24px;
+    width: 28px;
     height: 16px;
     padding: 2px;
     border: 0;
@@ -1541,7 +1541,7 @@ textarea,
     &[aria-checked='true'] {
       background: $ink;
       span {
-        transform: translateX(8px);
+        transform: translateX(12px);
       }
     }
   }
