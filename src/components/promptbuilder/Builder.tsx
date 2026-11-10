@@ -83,7 +83,7 @@ export default function Builder(p: Props) {
   const choices = (category: string) => (
     <section className="option-section" key={category}>
       <OptionChoices
-        title={category === 'Illustration Style' ? 'Style' : category}
+        title={['Illustration Style', 'Photo Style'].includes(category) ? 'Style' : category}
         options={p.catalog
           .filter((o) => o.category === category)
           .map((o) => ({ id: o.id, label: o.label.replace(' Modern', ''), category }))}
@@ -122,7 +122,11 @@ export default function Builder(p: Props) {
                 {pending.map(([category, ids]) => (
                   <section className="option-section" key={category}>
                     <OptionChoices
-                      title={category === 'Illustration Style' ? 'Style' : category}
+                      title={
+                        ['Illustration Style', 'Photo Style'].includes(category)
+                          ? 'Style'
+                          : category
+                      }
                       options={ids.map((id) => ({
                         id,
                         label: (

@@ -150,6 +150,8 @@ test('single choice per category; required categories stay selected', () => {
   assert.deepEqual(toggleOption({ Color: ['muted'] }, 'Color', 'muted').Color, []);
   assert.deepEqual(toggleOption({ Outline: ['coloronly'] }, 'Outline', 'coloronly').Outline, []);
   assert.deepEqual(toggleOption({ Depiction: ['rich'] }, 'Depiction', 'rich').Depiction, ['rich']);
+  for (const category of ['Illustration Style', 'Photo Style'])
+    assert.deepEqual(toggleOption({ [category]: ['a'] }, category, 'a')[category], ['a']);
   assert.equal(defaultDepiction, 'simple');
   assert.deepEqual(compactFields({ Subject: 'A', Text: 'B', 'Typography Enabled': 'true' }), {
     Subject: 'A',
@@ -181,11 +183,16 @@ test('saved mockups keep only offered categories and migrate removed styles', ()
     Depiction: ['complex'],
   });
   assert.deepEqual(illustration.fields, { Subject: 'A tree' });
+  // A removed style with no kept replacement falls back to the type's default style.
   assert.deepEqual(photo.selection, {
-    'Photo Style': [],
+    'Photo Style': ['portrait'],
     Color: ['muted'],
   });
   assert.deepEqual(riso.selection, { 'Illustration Style': ['risograph'] });
-  assert.deepEqual(highkey.selection, { Color: [], Tone: ['highkey'] });
+  assert.deepEqual(highkey.selection, {
+    Color: [],
+    Tone: ['highkey'],
+    'Photo Style': ['portrait'],
+  });
   assert.deepEqual(lowpoly.selection, { 'Illustration Style': ['geometricillustration'] });
 });

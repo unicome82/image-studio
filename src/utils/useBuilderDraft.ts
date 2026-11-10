@@ -4,9 +4,11 @@ import { pendingBuilderFilters, type FilterType } from './filters';
 import type { StylePreset } from './presets';
 import {
   builderCategories,
+  defaultLeadOptions,
   imageType,
   makeMockupPrompt,
   optionLimit,
+  requiredCategories,
   toggleOption,
   type ImageType,
   type Selection,
@@ -22,13 +24,13 @@ export function useBuilderDraft() {
   const photo = builderType === 'photo';
   const design = builderType === 'design';
   const [illustrationSelection, setIllustrationSelection] = useState<Selection>({
-    'Illustration Style': ['contemporaryflat'],
+    'Illustration Style': defaultLeadOptions['Illustration Style'],
   });
   const [photoSelection, setPhotoSelection] = useState<Selection>({
-    'Photo Style': ['portrait'],
+    'Photo Style': defaultLeadOptions['Photo Style'],
   });
   const [designSelection, setDesignSelection] = useState<Selection>({
-    'Design Format': ['poster'],
+    'Design Format': defaultLeadOptions['Design Format'],
     'Design Style': ['minimalist'],
   });
   const [fields, setFields] = useState<Record<string, string>>(defaultFields);
@@ -95,6 +97,7 @@ export function useBuilderDraft() {
     setSelection(toggleOption(selection, category, id));
   }
   function removeOption(category: string, id: string) {
+    if (requiredCategories.includes(category)) return;
     setSelection((previous) => ({
       ...previous,
       [category]: (previous[category] ?? []).filter((value) => value !== id),

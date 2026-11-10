@@ -1,6 +1,7 @@
 import {
   builderCategories,
   compactFields,
+  defaultLeadOptions,
   optionLimit,
   toggleOption,
   type Option,
@@ -100,6 +101,10 @@ export function parsePresets(raw: string | null, catalog: Option[]): StylePreset
       for (const [category, id] of migrated)
         if (categories.includes(category) && exists(category, id) && !selection[category]?.length)
           selection = toggleOption(selection, category, id);
+      // Every saved mockup keeps its type's required lead style, so none is left untitled.
+      for (const [category, ids] of Object.entries(defaultLeadOptions))
+        if (categories.includes(category) && !selection[category]?.length)
+          selection = { ...selection, [category]: ids };
       const fields = compactFields(
         Object.fromEntries(
           Object.entries(item.fields).filter(

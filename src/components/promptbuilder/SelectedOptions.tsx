@@ -1,6 +1,11 @@
 import { useTranslation } from 'react-i18next';
 import Icon from '../Icon';
-import { defaultDepiction, type Option, type Selection } from '../../utils/promptBuilder';
+import {
+  defaultDepiction,
+  requiredCategories,
+  type Option,
+  type Selection,
+} from '../../utils/promptBuilder';
 import { selectedBuilderOptions } from '../../utils/selectedOptions';
 import { optionLabelKey } from '../../utils/optionChoices';
 export interface SelectedOptionsProps {
@@ -82,20 +87,24 @@ export default function SelectedOptions({
       ))}
       {options.map((option) => {
         const label = optionLabel(option);
+        const required = requiredCategories.includes(option.category);
         return (
           <span
-            className="selected-option"
+            className={'selected-option' + (required ? ' fixed-option' : '')}
             key={`${option.category}:${option.id}`}
             title={`${t(option.category)}: ${label}`}
           >
             <span className="selected-option-label">{label}</span>
-            <button
-              className="selected-option-remove"
-              aria-label={t('Remove {{label}} option', { label })}
-              onClick={() => remove(option.category, option.id)}
-            >
-              <Icon name="close" size="16" />
-            </button>
+            {/* Required styles always keep a choice, so their chips cannot be removed. */}
+            {!required && (
+              <button
+                className="selected-option-remove"
+                aria-label={t('Remove {{label}} option', { label })}
+                onClick={() => remove(option.category, option.id)}
+              >
+                <Icon name="close" size="16" />
+              </button>
+            )}
           </span>
         );
       })}

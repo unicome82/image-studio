@@ -48,8 +48,20 @@ export const optionOrder: Record<string, string[]> = {
   Tone: toneOrder,
 };
 export const aspectRatios = ['1:1', '4:5', '3:4', '2:3', '9:16', '4:3', '3:2', '16:9'];
-// Every Builder category takes one decisive choice; choosing it again clears it.
-const requiredCategories = ['Design Format', 'Depiction'];
+// Every Builder category takes one decisive choice; choosing it again clears it,
+// except required categories, which always keep one choice.
+export const requiredCategories = [
+  'Illustration Style',
+  'Photo Style',
+  'Design Format',
+  'Depiction',
+];
+// The style each type starts with, also filled into saved mockups that lack one.
+export const defaultLeadOptions: Selection = {
+  'Illustration Style': ['contemporaryflat'],
+  'Photo Style': ['portrait'],
+  'Design Format': ['poster'],
+};
 // How simply or richly each mockup image depicts its subject; every mockup states one level.
 export const depictionLevels = ['verysimple', 'simple', 'balanced', 'complex', 'verycomplex'];
 export const defaultDepiction = 'simple';
