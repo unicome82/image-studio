@@ -59,14 +59,8 @@ const legacyOptions: Record<string, [string, string][]> = {
   'Photo Style:product': [['Photo Style', 'stilllife']],
   'Design Style:bauhaus': [['Design Style', 'swiss']],
   'Design Style:memphis': [['Design Style', 'postmodernism']],
-  'Design Style:boldgeometric': [
-    ['Design Style', 'swiss'],
-    ['Design Graphic', 'geometric'],
-  ],
-  'Design Style:gradientglass': [
-    ['Design Style', 'futurism'],
-    ['Design Graphic', 'glassmorphism'],
-  ],
+  'Design Style:boldgeometric': [['Design Graphic', 'geometric']],
+  'Design Style:gradientglass': [['Design Graphic', 'glassmorphism']],
 };
 export function parsePresets(raw: string | null, catalog: Option[]): StylePreset[] {
   const exists = (category: string, id: string) =>

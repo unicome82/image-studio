@@ -282,5 +282,6 @@ const translation: Record<string, string> = {
   Collage: '콜라주',
   '3D': '3D',
   Generative: '생성형',
+  Gradient: '그라디언트',
 };
 export default translation;

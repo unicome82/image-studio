@@ -282,5 +282,6 @@ const translation: Record<string, string> = {
   Collage: 'Collage',
   '3D': '3D',
   Generative: 'Generative',
+  Gradient: 'Gradient',
 };
 export default translation;

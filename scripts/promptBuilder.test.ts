@@ -235,7 +235,7 @@ test('saved mockups keep only offered categories and migrate removed styles', ()
   assert.deepEqual(portrait.selection, { 'Photo Style': ['editorial'] });
   assert.deepEqual(glass.selection, {
     'Design Format': ['poster'],
-    'Design Style': ['futurism'],
+    'Design Style': ['minimalist'],
     'Design Graphic': ['glassmorphism'],
   });
   assert.deepEqual(design.selection, {

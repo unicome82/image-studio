@@ -79,6 +79,7 @@ export const designGraphicOrder = [
   'abstract',
   'risograph',
   'halftone',
+  'gradient',
   'glassmorphism',
   'chrome',
   'collage',
