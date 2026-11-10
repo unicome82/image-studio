@@ -59,26 +59,6 @@ const legacyOptions: Record<string, [string, string][]> = {
   'Photo Style:product': [['Photo Style', 'stilllife']],
   'Design Style:bauhaus': [['Design Style', 'swiss']],
   'Design Style:memphis': [['Design Style', 'postmodernism']],
-  'Typography:editorialtypography': [['Typography', 'display']],
-  'Typography:serifdisplay': [['Typography', 'display']],
-  'Typography:retrodisplay': [['Typography', 'display']],
-  'Typography:classicserif': [['Typography', 'serif']],
-  'Typography:lightsans': [
-    ['Typography', 'sansserif'],
-    ['Typography Weight', 'thin'],
-  ],
-  'Typography:swisstypography': [['Typography', 'sansserif']],
-  'Typography:brutalisttypography': [
-    ['Typography', 'sansserif'],
-    ['Typography Weight', 'bold'],
-  ],
-  'Typography:boldgrotesk': [
-    ['Typography', 'sansserif'],
-    ['Typography Weight', 'bold'],
-  ],
-  'Typography:chrometypography': [['Typography', 'display']],
-  'Typography:modulartypography': [['Typography', 'display']],
-  'Typography:pixeltype': [['Typography', 'display']],
   'Design Style:boldgeometric': [['Design Graphic', 'geometric']],
   'Design Style:gradientglass': [['Design Graphic', 'glassmorphism']],
 };

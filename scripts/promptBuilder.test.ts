@@ -36,38 +36,20 @@ function catalogAt(dir: string): Option[] {
 const catalog = catalogAt('reference');
 
 test('each type keeps its lead style, technique, color, tone and illustration outline; images add texture', () => {
-  assert.deepEqual(builderCategories(false), [
-    'Illustration Style',
-    'Color',
-    'Tone',
-    'Outline',
-    'Typography Weight',
-    'Typography',
-  ]);
-  assert.deepEqual(builderCategories(true), [
-    'Photo Style',
-    'Photo Technique',
-    'Color',
-    'Tone',
-    'Typography Weight',
-    'Typography',
-  ]);
+  assert.deepEqual(builderCategories(false), ['Illustration Style', 'Color', 'Tone', 'Outline']);
+  assert.deepEqual(builderCategories(true), ['Photo Style', 'Photo Technique', 'Color', 'Tone']);
   assert.deepEqual(builderCategories(false, true), [
     'Design Format',
     'Design Style',
     'Design Graphic',
     'Color',
     'Tone',
-    'Typography Weight',
-    'Typography',
   ]);
   assert.deepEqual(imageCategories(true), [
     'Photo Style',
     'Photo Technique',
     'Color',
     'Tone',
-    'Typography Weight',
-    'Typography',
     'Texture',
   ]);
   const offered = new Set([
@@ -75,6 +57,9 @@ test('each type keeps its lead style, technique, color, tone and illustration ou
     ...imageCategories(true),
     ...imageCategories(false, true),
     'Depiction',
+    // Typography options stay in the catalog as the random typeface and weight pool.
+    'Typography',
+    'Typography Weight',
   ]);
   for (const option of catalog) assert.ok(offered.has(option.category), option.path);
   const levels = catalog.filter((o) => o.category === 'Depiction');
@@ -264,36 +249,6 @@ test('saved mockups keep only offered categories and migrate removed styles', ()
   });
 });
 
-test('typography works for every type only while its switch is on', () => {
-  const selection = { 'Photo Style': ['editorial'], Typography: ['calligraphy'] };
-  const off = makeMockupPrompt(catalog, selection, { Text: 'HELLO' }, 'photo');
-  assert.ok(!off.includes('Typography') && !off.includes('HELLO') && !off.includes('Calligraphy'));
-  const on = makeMockupPrompt(
-    catalog,
-    selection,
-    { 'Typography Enabled': 'true', Text: 'HELLO' },
-    'photo',
-  );
-  assert.ok(on.includes('as text: Editorial · Calligraphy · Simple\n'));
-  assert.ok(on.includes('\nTypography: Calligraphy\nText: HELLO\nEach image'));
-  for (const type of ['illustration', 'design'] as const)
-    assert.ok(
-      makeMockupPrompt(catalog, {}, { 'Typography Enabled': 'true' }, type).includes(
-        `\nTypography: On\nText: Not specified. Choose suitable wording freely to complement each ${type}.\n`,
-      ),
-    );
-  const image = makeImagePrompt(
-    catalog,
-    selection,
-    { 'Typography Enabled': 'true', 'Aspect Ratio': '1:1' },
-    'photo',
-  );
-  assert.match(
-    image,
-    /\nTypography: Calligraphy — .+\nText: Not specified\. .+ the photograph\.\n/,
-  );
-});
-
 test('every option has a short positive Cue and curated orders list exactly the catalog IDs', () => {
   for (const option of catalog) {
     assert.ok(option.cue, option.path);
@@ -311,57 +266,40 @@ test('every option has a short positive Cue and curated orders list exactly the 
     );
 });
 
-test('retired typography styles load as the styles that absorbed them', () => {
-  const raw = JSON.stringify([
-    {
-      id: '1',
-      photo: true,
-      selection: { Typography: ['editorialtypography'] },
-      fields: { 'Typography Enabled': 'true' },
-    },
-    { id: '2', photo: false, selection: { Typography: ['swisstypography'] }, fields: {} },
-  ]);
-  const [editorial, swiss] = parsePresets(raw, catalog);
-  assert.deepEqual(editorial.selection.Typography, ['display']);
-  assert.deepEqual(editorial.fields, { Subject: '', 'Typography Enabled': 'true' });
-  assert.deepEqual(swiss.selection.Typography, ['sansserif']);
-  const [grotesk] = parsePresets(
-    JSON.stringify([
-      { id: '4', photo: false, selection: { Typography: ['boldgrotesk'] }, fields: {} },
-    ]),
-    catalog,
-  );
-  assert.deepEqual(grotesk.selection['Typography Weight'], ['bold']);
-  assert.deepEqual(grotesk.selection.Typography, ['sansserif']);
-  const [light] = parsePresets(
-    JSON.stringify([
-      { id: '3', photo: false, selection: { Typography: ['lightsans'] }, fields: {} },
-    ]),
-    catalog,
-  );
-  assert.deepEqual(light.selection['Typography Weight'], ['thin']);
-  assert.deepEqual(light.selection.Typography, ['sansserif']);
-});
-
-test('typography weight pairs with the style as one phrase and only while typography is on', () => {
-  const selection = { 'Typography Weight': ['thin'], Typography: ['serif'] };
-  const on = { 'Typography Enabled': 'true', Text: 'HI' };
+test('typography picks a different typeface and weight per image from the catalog pool', () => {
+  const faces =
+    'Sans-serif, Serif, Display, Monospace, Outline Type, Bubble Lettering, Calligraphy, Hand Lettering, Childlike Handwriting, Experimental Typography';
+  const on = { 'Typography Enabled': 'true', Text: 'HELLO' };
+  for (const type of ['illustration', 'photo', 'design'] as const)
+    assert.ok(
+      makeMockupPrompt(catalog, {}, on, type).includes(
+        `\nTypography: a different typeface and lettering style for each image, picked at random from ${faces}, in a thin or bold weight\nText: HELLO\nEach image`,
+      ),
+    );
+  const off = makeMockupPrompt(catalog, { Typography: ['serif'] }, { Text: 'HELLO' }, 'photo');
+  assert.ok(!off.includes('Typography') && !off.includes('HELLO'));
   assert.ok(
-    makeMockupPrompt(catalog, selection, on, 'illustration').includes(
-      '\nTypography: Thin Serif\nText: HI\n',
+    makeMockupPrompt(catalog, {}, { 'Typography Enabled': 'true' }, 'design').includes(
+      '\nText: Not specified. Choose suitable wording freely to complement each image.\n',
     ),
   );
   assert.ok(
-    makeMockupPrompt(catalog, { 'Typography Weight': ['bold'] }, on, 'design').includes(
-      '\nTypography: Bold\nText: HI\n',
+    makeImagePrompt(catalog, {}, { 'Typography Enabled': 'true' }, 'photo').includes(
+      `\nTypography: one typeface and lettering style, picked at random from ${faces}, in a thin or bold weight\nText: Not specified. Choose suitable wording freely to complement the image.\n`,
     ),
   );
-  assert.ok(!makeMockupPrompt(catalog, selection, {}, 'illustration').includes('Thin'));
-  assert.deepEqual(toggleOption(selection, 'Typography Weight', 'bold')['Typography Weight'], [
-    'bold',
-  ]);
-  assert.match(
-    makeImagePrompt(catalog, selection, on, 'photo'),
-    /\nTypography Weight: Thin — .+\nTypography: Serif — .+\nText: HI\n/,
+  // Saved typography choices are dropped; the switch and text stay.
+  const [preset] = parsePresets(
+    JSON.stringify([
+      {
+        id: '1',
+        photo: true,
+        selection: { Typography: ['serif'], 'Typography Weight': ['bold'] },
+        fields: { 'Typography Enabled': 'true', Text: 'HI' },
+      },
+    ]),
+    catalog,
   );
+  assert.deepEqual(preset.selection, { 'Photo Style': ['editorial'] });
+  assert.deepEqual(preset.fields, { Subject: '', 'Typography Enabled': 'true', Text: 'HI' });
 });

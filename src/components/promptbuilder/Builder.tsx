@@ -16,7 +16,6 @@ import {
   depictionLevels,
   isTypographyEnabled,
   optionLimit,
-  typographyCategories,
 } from '../../utils/promptBuilder';
 import type { ImageType, Option, Selection } from '../../utils/promptBuilder';
 interface Props {
@@ -88,9 +87,7 @@ export default function Builder(p: Props) {
     'Design Graphic',
   ];
   const lead = categories.filter((category) => leadCategories.includes(category));
-  const rest = categories.filter(
-    (category) => !leadCategories.includes(category) && !typographyCategories.includes(category),
-  );
+  const rest = categories.filter((category) => !leadCategories.includes(category));
   const typography = isTypographyEnabled(p.fields);
   const choices = (category: string) => (
     <section className="option-section" key={category}>
@@ -202,29 +199,11 @@ export default function Builder(p: Props) {
                   />
                 </section>
                 {rest.map(choices)}
-                {/* Typography stays off until its switch turns on the text input and styles;
-                    Thin or Bold leads the row as its own single choice beside the style. */}
+                {/* Typography only adds an optional text; each image picks its own typeface. */}
                 <section className="option-section">
-                  <OptionChoices
-                    title="Typography"
-                    options={typographyCategories.flatMap((category) =>
-                      p.catalog
-                        .filter((o) => o.category === category)
-                        .map((o) => ({ id: o.id, label: o.label, category })),
-                    )}
-                    selected={typographyCategories.flatMap(
-                      (category) => p.selection[category] ?? [],
-                    )}
-                    choose={(id) =>
-                      p.toggle(
-                        p.catalog.some((o) => o.category === 'Typography Weight' && o.id === id)
-                          ? 'Typography Weight'
-                          : 'Typography',
-                        id,
-                      )
-                    }
-                    showOptions={typography}
-                    headerControl={
+                  <h3 className="option-heading">
+                    {t('Typography')}
+                    <span className="option-heading-actions">
                       <button
                         className="typography-toggle"
                         role="switch"
@@ -239,17 +218,17 @@ export default function Builder(p: Props) {
                       >
                         <span />
                       </button>
-                    }
-                    afterHeading={
-                      <input
-                        className="typography-input"
-                        aria-label={t('Typography text')}
-                        placeholder={t('Text (random if empty)')}
-                        value={p.fields.Text ?? ''}
-                        onChange={(e) => p.setFields({ ...p.fields, Text: e.target.value })}
-                      />
-                    }
-                  />
+                    </span>
+                  </h3>
+                  {typography && (
+                    <input
+                      className="typography-input"
+                      aria-label={t('Typography text')}
+                      placeholder={t('Text (random if empty)')}
+                      value={p.fields.Text ?? ''}
+                      onChange={(e) => p.setFields({ ...p.fields, Text: e.target.value })}
+                    />
+                  )}
                 </section>
               </>
             )}

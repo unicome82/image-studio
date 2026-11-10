@@ -85,7 +85,7 @@ export const designGraphicOrder = [
   '3d',
   'generative',
 ];
-// Typography runs from sans and serif families to display, effect and hand-made letters.
+// The typeface pool runs from sans and serif families to display, effect and hand-made letters.
 export const typographyOrder = [
   'sansserif',
   'serif',
@@ -98,7 +98,7 @@ export const typographyOrder = [
   'childlikehandwriting',
   'experimentaltypography',
 ];
-// The letter weight sits before the typography styles and takes at most one choice.
+// Letter weights that typography picks from at random.
 export const typographyWeights = ['thin', 'bold'];
 // Categories whose options follow a curated order instead of folder names.
 export const optionOrder: Record<string, string[]> = {
@@ -146,26 +146,16 @@ export function compactFields(fields: Record<string, string>): Record<string, st
 export function isTypographyEnabled(fields: Record<string, string>): boolean {
   return fields['Typography Enabled'] === 'true';
 }
-// The weight and the typography style share the Typography section and its switch.
-export const typographyCategories = ['Typography Weight', 'Typography'];
-/** The selection that applies: a typography style counts only while typography is on. */
-export function activeSelection(selection: Selection, fields: Record<string, string>): Selection {
-  if (isTypographyEnabled(fields)) return selection;
-  return Object.fromEntries(
-    Object.entries(selection).filter(([category]) => !typographyCategories.includes(category)),
-  );
-}
 export function imageType(photo: boolean, design = false): ImageType {
   return design ? 'design' : photo ? 'photo' : 'illustration';
 }
-// The lead style and its optional technique come first so the defining look is read before color;
-// every type ends with the optional typography.
+// The lead style and its optional technique come first so the defining look is read before color.
 export function builderCategories(photo: boolean, design = false): string[] {
   return design
-    ? ['Design Format', 'Design Style', 'Design Graphic', 'Color', 'Tone', ...typographyCategories]
+    ? ['Design Format', 'Design Style', 'Design Graphic', 'Color', 'Tone']
     : photo
-      ? ['Photo Style', 'Photo Technique', 'Color', 'Tone', ...typographyCategories]
-      : ['Illustration Style', 'Color', 'Tone', 'Outline', ...typographyCategories];
+      ? ['Photo Style', 'Photo Technique', 'Color', 'Tone']
+      : ['Illustration Style', 'Color', 'Tone', 'Outline'];
 }
 // Gallery images also carry the texture they were made with.
 export function imageCategories(photo: boolean, design = false): string[] {
@@ -223,23 +213,21 @@ export function depictionPhrase(catalog: Option[], selection: Selection) {
 }
 // The subject follows a colon so any input, with or without an article, reads naturally.
 // Typography is mentioned only when on; naming it when off can itself invite lettering.
-function typographyLines(
-  catalog: Option[],
-  selection: Selection,
-  fields: Record<string, string>,
-  target: string,
-  cue = false,
-) {
+// No style is chosen: the image picks its typeface and weight at random from the catalog's pool.
+function typographyLines(catalog: Option[], fields: Record<string, string>, mockup: boolean) {
   if (!isTypographyEnabled(fields)) return [];
-  const [weight, style] = typographyCategories.map(
-    (category) => chosenOptions([category], catalog, selection)[0],
-  );
-  // The mockup reads the weight and style as one phrase such as "Thin Serif".
-  const look = [weight?.label, style?.label].filter(Boolean).join(' ');
+  const labels = (category: string, order: string[]) =>
+    catalog
+      .filter((o) => o.category === category)
+      .sort((a, b) => order.indexOf(a.id) - order.indexOf(b.id))
+      .map((o) => o.label);
+  const faces = labels('Typography', typographyOrder).join(', ');
+  const weights = labels('Typography Weight', typographyWeights)
+    .map((label) => label.toLowerCase())
+    .join(' or ');
+  const target = mockup ? 'each image' : 'the image';
   return [
-    ...(cue && (weight || style)
-      ? [weight, style].filter((o): o is Option => !!o).map(optionLine)
-      : [`Typography: ${look || 'On'}`]),
+    `Typography: ${mockup ? 'a different typeface and lettering style for each image' : 'one typeface and lettering style'}, picked at random from ${faces}, in a ${weights} weight`,
     fields.Text?.trim()
       ? `Text: ${fields.Text}`
       : `Text: Not specified. Choose suitable wording freely to complement ${target}.`,
@@ -268,7 +256,6 @@ export function makeMockupPrompt(
   fields: Record<string, string>,
   type: ImageType,
 ) {
-  selection = activeSelection(selection, fields);
   const style = styleName(catalog, selection, type);
   // Naming the medium keeps an illustration style such as Minimalism from turning into photos.
   const media = `${words[type].one}s`;
@@ -295,10 +282,10 @@ export function makeMockupPrompt(
     mockupMood,
     colorLine(extras.find((o) => o.category === 'Color')),
     ...extras
-      .filter((o) => !['Color', ...typographyCategories].includes(o.category))
+      .filter((o) => o.category !== 'Color')
       .sort((a, b) => mockupLineOrder.indexOf(a.category) - mockupLineOrder.indexOf(b.category))
       .map((o) => `${promptCategory(o.category)}: ${o.label}`),
-    ...typographyLines(catalog, selection, fields, `each ${words[type].one}`),
+    ...typographyLines(catalog, fields, true),
     subjectLine(depictionPhrase(catalog, selection), fields.Subject?.trim()),
   ].join('\n');
 }
@@ -310,13 +297,12 @@ export function makeImagePrompt(
   type: ImageType,
 ) {
   const subject = fields.Subject?.trim();
-  const categories = imageCategories(type === 'photo', type === 'design').filter(
-    (category) => !typographyCategories.includes(category),
-  );
   return [
     `Create a standalone ${words[type].one} of ${subject ? `"${subject}"` : 'a subject you choose'}.`,
-    ...chosenOptions(categories, catalog, selection).map(optionLine),
-    ...typographyLines(catalog, selection, fields, `the ${words[type].one}`, true),
+    ...chosenOptions(imageCategories(type === 'photo', type === 'design'), catalog, selection).map(
+      optionLine,
+    ),
+    ...typographyLines(catalog, fields, false),
     `Aspect Ratio: ${fields['Aspect Ratio']?.trim() || '1:1'}`,
   ].join('\n');
 }

@@ -1,10 +1,8 @@
 import { useTranslation } from 'react-i18next';
 import Icon from '../Icon';
 import {
-  activeSelection,
   defaultDepiction,
   isTypographyEnabled,
-  typographyCategories,
   requiredCategories,
   type Option,
   type Selection,
@@ -33,13 +31,9 @@ export default function SelectedOptions({
   mockup = false,
 }: SelectedOptionsProps) {
   const { t } = useTranslation(undefined, english ? { lng: 'en' } : undefined);
-  const options = selectedBuilderOptions(
-    catalog,
-    activeSelection(selection, fields),
-    photo,
-    design,
-    !mockup,
-  ).filter((option) => option.category !== 'Outline');
+  const options = selectedBuilderOptions(catalog, selection, photo, design, !mockup).filter(
+    (option) => option.category !== 'Outline',
+  );
   const outline =
     !photo && !design
       ? catalog.find(
@@ -61,9 +55,8 @@ export default function SelectedOptions({
       ? []
       : [{ key: 'ratio', title: t('Aspect ratio'), label: fields['Aspect Ratio'] }]),
     ...(outline ? [{ key: 'outline', title: t('Outline'), label: t(outline.label) }] : []),
-    // Typography switched on without a style still shows that lettering is requested.
-    ...(isTypographyEnabled(fields) &&
-    !options.some((option) => typographyCategories.includes(option.category))
+    // Typography has no style to pick, so its switch shows as one fixed chip.
+    ...(isTypographyEnabled(fields)
       ? [{ key: 'typography', title: t('Typography'), label: t('Typography') }]
       : []),
     ...(mockup && depiction

@@ -32,11 +32,11 @@ test('Summary follows the active image type and category-scoped selection IDs', 
   };
   assert.deepEqual(
     selectedBuilderOptions(catalog, selection, false).map((o) => o.path),
-    ['style', 'color', 'outline', 'type'],
+    ['style', 'color', 'outline'],
   );
   assert.deepEqual(
     selectedBuilderOptions(catalog, selection, true, false, true).map((o) => o.path),
-    ['film', 'color', 'type', 'texture'],
+    ['film', 'color', 'texture'],
   );
   const removed = { ...selection, Color: [] };
   assert(!selectedBuilderOptions(catalog, removed, false).some((o) => o.path === 'color'));
