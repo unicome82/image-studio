@@ -572,7 +572,7 @@ textarea,
   columns: 152px;
   column-gap: 12px;
   &.large {
-    columns: 304px;
+    columns: 248px;
   }
   @media (max-width: $mobile) {
     columns: 2;
