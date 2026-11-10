@@ -17,6 +17,9 @@ interface Props {
   remove: (id: string) => void;
   copy: (prompt: string) => void;
 }
+// The image type leads every title in English, whatever the UI language.
+const typePrefix = { illustration: 'Illust', photo: 'Photo', design: 'Design' };
+
 export default function Presets(p: Props) {
   const { t } = useTranslation();
   const [deleting, setDeleting] = useState<string | null>(null);
@@ -33,7 +36,8 @@ export default function Presets(p: Props) {
             // Rebuild from saved settings and the canonical catalog; never duplicate prompt bodies in storage.
             const type = imageType(preset.photo, preset.design);
             const prompt = makeMockupPrompt(p.catalog, preset.selection, preset.fields, type);
-            // A saved mockup is named after its lead style.
+            // A saved mockup is named after its Subject, or its lead style when the Subject is empty.
+            const subject = preset.fields.Subject?.trim();
             const lead = builderCategories(preset.photo, preset.design)
               .flatMap((category) =>
                 (preset.selection[category] ?? []).map((id) =>
@@ -41,11 +45,14 @@ export default function Presets(p: Props) {
                 ),
               )
               .find(Boolean);
-            const title = lead ? t(optionLabelKey(lead)) : t('Untitled mockup');
+            const title = subject || (lead ? t(optionLabelKey(lead)) : t('Untitled mockup'));
             return (
               <article className="preset-item" key={preset.id} aria-label={title}>
                 <div className="preset-item-heading">
-                  <h3 className="preset-name">{title}</h3>
+                  <h3 className="preset-name">
+                    <span className="preset-type">{typePrefix[type]}</span>
+                    {title}
+                  </h3>
                   <div className="preset-item-actions">
                     {deleting === preset.id ? (
                       <>

@@ -1479,6 +1479,10 @@ textarea,
   text-transform: none;
   letter-spacing: normal;
   overflow-wrap: anywhere;
+  .preset-type {
+    margin-right: 8px;
+    color: $muted;
+  }
 }
 .preset-selected {
   margin-top: 16px;
