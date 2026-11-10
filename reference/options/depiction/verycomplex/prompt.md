@@ -1,4 +1,4 @@
-## Very Complex
+## More Detail
 
 - **Category:** Depiction
 - **Style ID:** `verycomplex`

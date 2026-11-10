@@ -1,4 +1,4 @@
-## Complex
+## Light Detail
 
 - **Category:** Depiction
 - **Style ID:** `complex`

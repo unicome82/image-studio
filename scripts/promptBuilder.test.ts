@@ -119,7 +119,7 @@ test('mockup prompt names one style, the depiction level and the subject without
   );
   assert.ok(
     rich.includes(
-      'The header shows the style and options as text: Risograph · Pastel · Hazy · Very Complex\n',
+      'The header shows the style and options as text: Risograph · Pastel · Hazy · More Detail\n',
     ),
   );
   assert.ok(!rich.includes('Texture'));
