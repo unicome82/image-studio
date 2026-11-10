@@ -88,7 +88,6 @@ export default function Builder(p: Props) {
           .filter((o) => o.category === category)
           .map((o) => ({ id: o.id, label: o.label.replace(' Modern', ''), category }))}
         selected={p.selection[category] ?? []}
-        multiple={false}
         choose={(id) => p.toggle(category, id)}
       />
     </section>
@@ -135,7 +134,6 @@ export default function Builder(p: Props) {
                       }))}
                       selected={p.pendingSelection[category] ?? []}
                       choose={(id) => p.choosePending(category, id)}
-                      multiple={false}
                       collapsible={false}
                     />
                   </section>
@@ -179,7 +177,6 @@ export default function Builder(p: Props) {
                 <section className="option-section">
                   <OptionChoices
                     title="Depiction"
-                    multiple={false}
                     options={p.catalog
                       .filter((o) => o.category === 'Depiction')
                       .sort((a, b) => depictionLevels.indexOf(a.id) - depictionLevels.indexOf(b.id))

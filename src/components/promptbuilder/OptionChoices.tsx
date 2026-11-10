@@ -1,8 +1,8 @@
 import { useTranslation } from 'react-i18next';
-import { optionLabelKey, prioritizeSelectedOptions } from '../../utils/optionChoices';
+import { optionLabelKey } from '../../utils/optionChoices';
 import Icon from '../Icon';
 import OptionSummary from './OptionSummary';
-import { useId, useMemo, useState, type ReactNode } from 'react';
+import { useId, useState, type ReactNode } from 'react';
 interface Choice {
   id: string;
   label: string;
@@ -14,7 +14,6 @@ interface Props {
   afterHeading?: ReactNode;
   showOptions?: boolean;
   collapsible?: boolean;
-  multiple?: boolean;
   allIsUnfiltered?: boolean;
   options: Choice[];
   selected: string[];
@@ -29,14 +28,9 @@ export default function OptionChoices({
   afterHeading,
   showOptions = true,
   collapsible = true,
-  multiple = true,
   allIsUnfiltered = false,
 }: Props) {
   const { t } = useTranslation();
-  const orderedOptions = useMemo(
-    () => prioritizeSelectedOptions(options, selected, multiple),
-    [options, selected, multiple],
-  );
   const rowId = useId();
   const [expanded, setExpanded] = useState(true);
   const isExpanded = !collapsible || expanded;
@@ -80,7 +74,7 @@ export default function OptionChoices({
           {isExpanded ? (
             <>
               <div className="option-list">
-                {orderedOptions.map((option) => (
+                {options.map((option) => (
                   <button
                     className="option-choice"
                     key={option.id}
