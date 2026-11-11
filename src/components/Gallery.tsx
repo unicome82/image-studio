@@ -1,3 +1,4 @@
+import { useLayoutEffect, useRef, useState, type ReactNode, type RefObject } from 'react';
 import { useTranslation } from 'react-i18next';
 import FavoriteButton from './FavoriteButton';
 import { imageName } from '../utils/imageName';
@@ -11,6 +12,60 @@ interface Props {
   select: (tile: GalleryTile) => void;
   toggleBookmark: (id: string) => void;
 }
+// Column count follows the grid's CSS: a fixed --grid-columns on mobile, else as many
+// --grid-column-width columns as fit, matching the old CSS multi-column behavior.
+function useColumnCount(ref: RefObject<HTMLDivElement | null>, large: boolean) {
+  const [count, setCount] = useState(1);
+  useLayoutEffect(() => {
+    const grid = ref.current;
+    if (!grid) return;
+    const measure = () => {
+      const style = getComputedStyle(grid);
+      const fixed = parseInt(style.getPropertyValue('--grid-columns'), 10);
+      const width = parseFloat(style.getPropertyValue('--grid-column-width')) || 1;
+      const gap = parseFloat(style.columnGap) || 0;
+      setCount(
+        fixed > 0 ? fixed : Math.max(1, Math.floor((grid.clientWidth + gap) / (width + gap))),
+      );
+    };
+    const observer = new ResizeObserver(measure);
+    observer.observe(grid);
+    measure();
+    return () => observer.disconnect();
+  }, [ref, large]);
+  return count;
+}
+
+// Deals tiles in order into the shortest column, so the sort order reads left to right.
+function MasonryGrid({
+  tiles,
+  large,
+  render,
+}: {
+  tiles: GalleryTile[];
+  large: boolean;
+  render: (tile: GalleryTile) => ReactNode;
+}) {
+  const ref = useRef<HTMLDivElement>(null);
+  const count = useColumnCount(ref, large);
+  const columns: GalleryTile[][] = Array.from({ length: count }, () => []);
+  const heights = new Array<number>(count).fill(0);
+  for (const tile of tiles) {
+    const shortest = heights.indexOf(Math.min(...heights));
+    columns[shortest].push(tile);
+    heights[shortest] += tile.height / tile.width;
+  }
+  return (
+    <div ref={ref} className={'image-grid' + (large ? ' large' : '')}>
+      {columns.map((column, index) => (
+        <div className="image-column" key={index}>
+          {column.map(render)}
+        </div>
+      ))}
+    </div>
+  );
+}
+
 export default function Gallery(p: Props) {
   const { t } = useTranslation();
   const total = p.groups.reduce((sum, group) => sum + group.tiles.length, 0);
@@ -18,8 +73,10 @@ export default function Gallery(p: Props) {
     <>
       {p.groups.map((group) => (
         <section className="gallery-section" id={'section-' + group.id} key={group.id}>
-          <div className={'image-grid' + (p.largeThumbnails ? ' large' : '')}>
-            {group.tiles.map((tile) => (
+          <MasonryGrid
+            tiles={group.tiles}
+            large={p.largeThumbnails}
+            render={(tile) => (
               <article
                 className={'tile ' + (p.selectedId === tile.id ? 'selected' : '')}
                 key={tile.id}
@@ -70,8 +127,8 @@ export default function Gallery(p: Props) {
                   toggle={() => p.toggleBookmark(tile.id)}
                 />
               </article>
-            ))}
-          </div>
+            )}
+          />
         </section>
       ))}
       {!total && (

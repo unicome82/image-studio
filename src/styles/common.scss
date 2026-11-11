@@ -563,26 +563,31 @@ textarea,
   }
 }
 .image-grid {
-  columns: 152px;
-  column-gap: 12px;
+  // Gallery.tsx reads these to deal tiles row by row into the shortest column.
+  --grid-column-width: 152px;
+  --grid-columns: 0;
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
   &.large {
-    columns: 248px;
+    --grid-column-width: 248px;
   }
   @media (max-width: $mobile) {
-    columns: 2;
-    column-gap: 8px;
+    --grid-columns: 2;
+    gap: 8px;
     &.large {
-      columns: 1;
+      --grid-columns: 1;
       --favorite-size: #{$favorite-size-wide};
     }
   }
 }
+.image-column {
+  flex: 1;
+  min-width: 0;
+}
 .tile {
   position: relative;
-  // inline-block keeps Safari from carrying a column's last margin to the next column's top.
-  display: inline-block;
-  vertical-align: top;
-  break-inside: avoid;
+  display: block;
   width: 100%;
   margin-bottom: 12px;
   overflow: hidden;
