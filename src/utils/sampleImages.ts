@@ -17,6 +17,20 @@ export interface SampleImage {
 export const sampleImages: SampleImage[] = [
   {
     type: 'illustration',
+    fileName: 'editorialillustration-light-and-shadow-back.webp',
+    added: '2026-11-11T00:00:00Z',
+    width: 884,
+    height: 1200,
+    color: '#9a7a5c',
+    fields: { Subject: 'Expressive Portraits', 'Typography Enabled': 'true' },
+    selection: {
+      'Illustration Style': ['editorialillustration'],
+      Color: ['neutralaccent'],
+      Depiction: ['simple'],
+    },
+  },
+  {
+    type: 'illustration',
     fileName: 'editorialillustration-mood-ribbon-portrait.webp',
     added: '2026-11-11T00:00:00Z',
     width: 1095,
