@@ -22,7 +22,7 @@ export const sampleImages: SampleImage[] = [
     width: 1095,
     height: 1200,
     color: '#c09b95',
-    fields: { 'Typography Enabled': 'true' },
+    fields: { Subject: 'Expressive Portraits', 'Typography Enabled': 'true' },
     selection: {
       'Illustration Style': ['editorialillustration'],
       Color: ['neutralaccent'],
@@ -36,7 +36,7 @@ export const sampleImages: SampleImage[] = [
     width: 1200,
     height: 800,
     color: '#b79e82',
-    fields: { 'Typography Enabled': 'true' },
+    fields: { Subject: 'Expressive Portraits', 'Typography Enabled': 'true' },
     selection: {
       'Illustration Style': ['editorialillustration'],
       Color: ['neutralaccent'],
@@ -50,7 +50,7 @@ export const sampleImages: SampleImage[] = [
     width: 900,
     height: 1200,
     color: '#c4ae9a',
-    fields: { 'Typography Enabled': 'true' },
+    fields: { Subject: 'Expressive Portraits', 'Typography Enabled': 'true' },
     selection: {
       'Illustration Style': ['editorialillustration'],
       Color: ['neutralaccent'],
@@ -64,7 +64,7 @@ export const sampleImages: SampleImage[] = [
     width: 900,
     height: 1200,
     color: '#ddb79b',
-    fields: { 'Typography Enabled': 'true' },
+    fields: { Subject: 'Expressive Portraits', 'Typography Enabled': 'true' },
     selection: {
       'Illustration Style': ['editorialillustration'],
       Color: ['neutralaccent'],
@@ -78,7 +78,7 @@ export const sampleImages: SampleImage[] = [
     width: 1200,
     height: 800,
     color: '#6585a3',
-    fields: { 'Typography Enabled': 'true' },
+    fields: { Subject: 'Expressive Portraits', 'Typography Enabled': 'true' },
     selection: {
       'Illustration Style': ['editorialillustration'],
       Color: ['neutralaccent'],
