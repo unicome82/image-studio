@@ -17,6 +17,21 @@ export interface SampleImage {
 export const sampleImages: SampleImage[] = [
   {
     type: 'photo',
+    fileName: 'stilllife-nixie-tube-clock.webp',
+    added: '2026-11-11T03:00:00Z',
+    width: 1200,
+    height: 789,
+    color: '#6f4d3d',
+    fields: { Subject: 'Retro Product' },
+    selection: {
+      'Photo Style': ['stilllife'],
+      Color: ['vivid'],
+      Tone: ['soft'],
+      Depiction: ['simple'],
+    },
+  },
+  {
+    type: 'photo',
     fileName: 'stilllife-analog-turntable.webp',
     added: '2026-11-11T03:00:00Z',
     width: 900,
