@@ -78,7 +78,7 @@ test('each type keeps its lead style, technique, color and tone; images add text
   );
   assert.ok(
     makeMockupPrompt(catalog, { Depiction: ['balanced'] }, { Subject: 'A cat' }, 'photo').endsWith(
-      '\nEach image shows a different take on the subject: A cat',
+      '\nEach image shows a different take on the subject: A cat\nAfter the image, list every image in reading order (left to right, top to bottom) as text with its number and aspect ratio, e.g. "1 — 3:4".',
     ),
   );
 });
@@ -98,7 +98,7 @@ test('mockup prompt names one style, the depiction level and the subject without
   assert.equal(
     text,
     [
-      'Design a mockup of a minimal gallery website: white background, only a simple header and a masonry gallery of 9 to 12 illustrations in mixed aspect ratios.',
+      'Design a mockup of a minimal gallery website: white background, only a simple header and a masonry gallery of 9 to 12 illustrations mixing 1:1, 2:3, 3:4 and 16:9 aspect ratios.',
       'The header shows the style and options as text: Geometric Illustration · Minimal',
       '',
       'All illustrations share one style: Geometric Illustration',
@@ -106,6 +106,7 @@ test('mockup prompt names one style, the depiction level and the subject without
       'Color: different colors for each image',
       'Detail: minimal composition, very few elements',
       'Each image shows a different take on the subject: A tall building',
+      'After the image, list every image in reading order (left to right, top to bottom) as text with its number and aspect ratio, e.g. "1 — 3:4".',
     ].join('\n'),
   );
   const rich = makeMockupPrompt(
@@ -139,13 +140,13 @@ test('mockup prompt names one style, the depiction level and the subject without
   assert.equal(tone('monochrome'), 'Color: Monochrome, with a different hue for each image');
   assert.ok(
     rich.endsWith(
-      '\nDetail: intricate composition, elaborate fine details\nEach image shows a different subject.',
+      '\nDetail: intricate composition, elaborate fine details\nEach image shows a different subject.\nAfter the image, list every image in reading order (left to right, top to bottom) as text with its number and aspect ratio, e.g. "1 — 3:4".',
     ),
   );
   assert.ok(!rich.includes('Street') && !rich.includes('Aspect Ratio'));
   assert.ok(
     makeMockupPrompt(catalog, {}, {}, 'illustration').includes(
-      '\nDetail: simple composition, limited details\nEach image shows a different subject.',
+      '\nDetail: simple composition, limited details\nEach image shows a different subject.\nAfter the image, list every image in reading order (left to right, top to bottom) as text with its number and aspect ratio, e.g. "1 — 3:4".',
     ),
   );
   assert.ok(

@@ -236,6 +236,8 @@ function typographyLines(catalog: Option[], fields: Record<string, string>, mock
       : `Text: Not specified. Choose suitable wording freely to complement ${target}.`,
   ];
 }
+const ratioListLine =
+  'After the image, list every image in reading order (left to right, top to bottom) as text with its number and aspect ratio, e.g. "1 — 3:4".';
 const subjectLine = (subject?: string) =>
   subject
     ? `Each image shows a different take on the subject: ${subject}`
@@ -279,7 +281,7 @@ export function makeMockupPrompt(
     .filter(Boolean)
     .join(' · ');
   return [
-    `Design a mockup of a ${words[type].site}: white background, only a simple header and a masonry gallery of 9 to 12 ${media} in mixed aspect ratios.`,
+    `Design a mockup of a ${words[type].site}: white background, only a simple header and a masonry gallery of 9 to 12 ${media} mixing 1:1, 2:3, 3:4 and 16:9 aspect ratios.`,
     `The header shows the style and options as text: ${headerText}`,
     '',
     style ? `All ${media} share one style: ${style}` : `All ${media} share one consistent style.`,
@@ -293,6 +295,8 @@ export function makeMockupPrompt(
     ...(detail ? [`Detail: ${detail}`] : []),
     ...typographyLines(catalog, fields, true),
     subjectLine(fields.Subject?.trim()),
+    // The ratio list lets each numbered image be upscaled at its own ratio.
+    ratioListLine,
   ].join('\n');
 }
 /** A standalone prompt for one gallery image, usable without the mockup chat. */

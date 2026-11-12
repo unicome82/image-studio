@@ -41,7 +41,7 @@ IMAGE STUDIO의 **부가 메뉴**로 **갤러리 시안** 영문 프롬프트를
 - 옵션 순서는 대표 스타일 → Technique·Graphic → Color → Tone(상세 프롬프트는 이어서 Texture)이다. 시안 본문에서는 Technique·Graphic 줄을 Tone 다음에 둔다. Photo Technique은 `Technique`, Design Graphic은 `Graphic`으로 표기한다. 선택하지 않은 항목과 현재 유형에서 숨겨진 항목은 제외한다.
 - **갤러리 시안:**
   ```text
-  Design a mockup of a minimal {gallery | photography portfolio | design studio portfolio} website: white background, only a simple header and a masonry gallery of 9 to 12 {illustrations | photographs | designs} in mixed aspect ratios.
+  Design a mockup of a minimal {gallery | photography portfolio | design studio portfolio} website: white background, only a simple header and a masonry gallery of 9 to 12 {illustrations | photographs | designs} mixing 1:1, 2:3, 3:4 and 16:9 aspect ratios.
   The header shows the style and options as text: {대표 스타일} · {Technique | Graphic} · {Color} · {Tone} · {Depiction 표시명}
 
   All {illustrations | photographs | designs} share one style: {대표 스타일 | Design Style + Design Format}
@@ -57,8 +57,9 @@ IMAGE STUDIO의 **부가 메뉴**로 **갤러리 시안** 영문 프롬프트를
   {Text: 문구 | Not specified. Choose suitable wording freely to complement each image. — 스위치를 켠 경우만}
   Each image shows a different take on the subject: {대상}
   (대상이 비면) Each image shows a different subject.
+  After the image, list every image in reading order (left to right, top to bottom) as text with its number and aspect ratio, e.g. "1 — 3:4".
   ```
-  헤더 텍스트는 선택한 값의 표시명만 ` · `로 잇고 미선택 항목은 뺀다. Texture·비율은 넣지 않는다. 대표 스타일이 없으면 `All {…} share one consistent style.`로 쓴다.
+  헤더 텍스트는 선택한 값의 표시명만 ` · `로 잇고 미선택 항목은 뺀다. Texture는 넣지 않는다. 비율은 첫 줄의 1:1·2:3·3:4·16:9 네 가지로 한정하고, 마지막 줄에서 읽는 순서대로 번호와 비율을 텍스트로 나열하게 한다. 대표 스타일이 없으면 `All {…} share one consistent style.`로 쓴다.
 - **갤러리 상세 (단독 사용):** `Create a standalone {…} of "{Subject}".`, 옵션 줄, `Aspect Ratio: {비율}` 순서다.
 - 입력·Subject는 원문 그대로 유지한다. 피할 대상을 나열하는 부정문, 완성도 강조 문구, 파일 읽기 지시·경로는 출력하지 않는다.
 - 저장소에는 선택 ID·입력값(대상·타이포 스위치·문구)만 저장하고 프롬프트 본문을 복제하지 않는다.
