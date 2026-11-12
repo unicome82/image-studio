@@ -178,11 +178,8 @@ export default function App() {
       'Aspect Ratio': selected ? normalizeRatio(`${selected.width}:${selected.height}`) : '1:1',
     },
   };
-  // Saving from a gallery image keeps its style and ratio for a new mockup.
-  const mockupPreset = {
-    ...detailPreset,
-    fields: { 'Aspect Ratio': detailPreset.fields['Aspect Ratio'] },
-  };
+  // Saving from a gallery image keeps its style for a new mockup; mockups carry no ratio.
+  const mockupPreset = { ...detailPreset, fields: {} };
   const detailPrompt = makeImagePrompt(
     catalog,
     detailPreset.selection,
