@@ -2,8 +2,8 @@
 
 - **Category:** Photo Technique
 - **Style ID:** `mediumformat`
-- **Cue:** Medium format capture, extremely fine detail, smooth tonal gradation, shallow depth with gentle falloff
+- **Cue:** Medium format photography, exceptional fine detail, natural micro-textures, smooth tonal gradation, subtle depth transitions, refined optical rendering
 
 ### Apply
-- Render the photograph as a medium format capture: extremely fine detail, smooth tonal gradation, rich color depth, and shallow depth of field with gentle falloff.
+- Render the photograph with this look: medium format photography, exceptional fine detail, natural micro-textures, smooth tonal gradation, subtle depth transitions, refined optical rendering.
 - Keep the chosen Photo Style, Color, and Tone; this technique only changes how the frame is captured.
