@@ -2,7 +2,7 @@
 
 - **Category:** Photo Style
 - **Style ID:** `cinematic`
-- **Cue:** Film-still compositions, atmospheric depth, layered foreground and background, expressive lighting, narrative visual moments
+- **Cue:** Film-still compositions, atmospheric depth, layered foreground and background, narrative visual moments
 
 ### Apply
 - Frame the subject with film-still visual storytelling and purposeful depth and light direction.

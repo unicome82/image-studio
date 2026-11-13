@@ -262,6 +262,10 @@ export function makeMockupPrompt(
   type: ImageType,
 ) {
   const style = styleName(catalog, selection, type);
+  // The style's cue spells out its form, line and surface; a design uses its Design Style cue.
+  const styleCategory =
+    type === 'design' ? 'Design Style' : type === 'photo' ? 'Photo Style' : 'Illustration Style';
+  const styleCue = chosenOptions([styleCategory], catalog, selection)[0]?.cue;
   // Naming the medium keeps an illustration style such as Minimalism from turning into photos.
   const media = `${words[type].one}s`;
   // Optional options are listed only when chosen; color always asks for different colors per image.
@@ -284,7 +288,9 @@ export function makeMockupPrompt(
     `Design a mockup of a ${words[type].site}: white background, only a simple header and a masonry gallery of 9 to 12 ${media} in mixed aspect ratios.`,
     `The header shows the style and options as text: ${headerText}`,
     '',
-    style ? `All ${media} share one style: ${style}` : `All ${media} share one consistent style.`,
+    style
+      ? `All ${media} share one style: ${style}${styleCue ? ` — ${styleCue}` : ''}`
+      : `All ${media} share one consistent style.`,
     mockupMood,
     colorLine(extras.find((o) => o.category === 'Color')),
     ...extras
