@@ -311,8 +311,6 @@ export function makeMockupPrompt(
     ...(detail ? [`Detail: ${detail}`] : []),
     ...typographyLines(catalog, fields, true),
     subjectLine(fields.Subject?.trim()),
-    // Photos and illustrations keep people in the gallery instead of drifting to objects and scenery only.
-    ...(type === 'design' ? [] : [`At least 50% of the ${media} depict a person.`]),
   ].join('\n');
 }
 /** A standalone prompt for one gallery image, usable without the mockup chat. */
