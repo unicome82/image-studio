@@ -55,8 +55,8 @@ IMAGE STUDIO의 **부가 메뉴**로 **갤러리 시안** 영문 프롬프트를
   {Detail: Depiction Cue — Balanced가 아닌 경우만}
   {Typography: a different typeface and lettering style for each image, picked at random from {Typography 목록}, in a thin or bold weight — 스위치를 켠 경우만}
   {Text: 문구 | Not specified. Choose suitable wording freely to complement each image. — 스위치를 켠 경우만}
-  Each image shows a different take on the subject: {대상}
-  (대상이 비면) Each image shows a different subject.
+  All images are based on the same subject: {대상}. Vary the composition, viewpoint, framing and visual details from image to image, and keep the overall style and mood consistent.
+  (대상이 비면) All images are based on one shared subject of your choice. Vary the composition, viewpoint, framing and visual details from image to image, and keep the overall style and mood consistent.
   After the image, list every image in reading order (left to right, top to bottom) as text with its number and the closest aspect ratio of 1:1, 2:3, 3:4 or 16:9, e.g. "1 — 3:4".
   ```
   헤더 텍스트는 선택한 값의 표시명만 ` · `로 잇고 미선택 항목은 뺀다. Texture는 넣지 않는다. 시안 이미지 비율은 자유롭게 두고, 마지막 줄에서 읽는 순서대로 번호와 가장 가까운 1:1·2:3·3:4·16:9 비율을 텍스트로 나열하게 한다. 대표 스타일이 없으면 `All {…} share one consistent style.`로 쓴다.

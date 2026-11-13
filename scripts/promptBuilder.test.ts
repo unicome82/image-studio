@@ -78,7 +78,7 @@ test('each type keeps its lead style, technique, color and tone; images add text
   );
   assert.ok(
     makeMockupPrompt(catalog, { Depiction: ['balanced'] }, { Subject: 'A cat' }, 'photo').endsWith(
-      '\nEach image shows a different take on the subject: A cat\nAfter the image, list every image in reading order (left to right, top to bottom) as text with its number and the closest aspect ratio of 1:1, 2:3, 3:4 or 16:9, e.g. "1 — 3:4".',
+      '\nAll images are based on the same subject: A cat. Vary the composition, viewpoint, framing and visual details from image to image, and keep the overall style and mood consistent.\nAfter the image, list every image in reading order (left to right, top to bottom) as text with its number and the closest aspect ratio of 1:1, 2:3, 3:4 or 16:9, e.g. "1 — 3:4".',
     ),
   );
 });
@@ -109,7 +109,7 @@ test('mockup prompt names one style, the depiction level and the subject without
       'Mood: editorial, refined magazine feel',
       'Color: different colors for each image',
       'Detail: minimal composition, very few elements',
-      'Each image shows a different take on the subject: A tall building',
+      'All images are based on the same subject: A tall building. Vary the composition, viewpoint, framing and visual details from image to image, and keep the overall style and mood consistent.',
       'After the image, list every image in reading order (left to right, top to bottom) as text with its number and the closest aspect ratio of 1:1, 2:3, 3:4 or 16:9, e.g. "1 — 3:4".',
     ].join('\n'),
   );
@@ -144,13 +144,13 @@ test('mockup prompt names one style, the depiction level and the subject without
   assert.equal(tone('monochrome'), 'Color: Monochrome, with a different hue for each image');
   assert.ok(
     rich.endsWith(
-      '\nDetail: intricate composition, elaborate fine details\nEach image shows a different subject.\nAfter the image, list every image in reading order (left to right, top to bottom) as text with its number and the closest aspect ratio of 1:1, 2:3, 3:4 or 16:9, e.g. "1 — 3:4".',
+      '\nDetail: intricate composition, elaborate fine details\nAll images are based on one shared subject of your choice. Vary the composition, viewpoint, framing and visual details from image to image, and keep the overall style and mood consistent.\nAfter the image, list every image in reading order (left to right, top to bottom) as text with its number and the closest aspect ratio of 1:1, 2:3, 3:4 or 16:9, e.g. "1 — 3:4".',
     ),
   );
   assert.ok(!rich.includes('Street') && !rich.includes('Aspect Ratio'));
   assert.ok(
     makeMockupPrompt(catalog, {}, {}, 'illustration').includes(
-      '\nDetail: simple composition, limited details\nEach image shows a different subject.\nAfter the image, list every image in reading order (left to right, top to bottom) as text with its number and the closest aspect ratio of 1:1, 2:3, 3:4 or 16:9, e.g. "1 — 3:4".',
+      '\nDetail: simple composition, limited details\nAll images are based on one shared subject of your choice. Vary the composition, viewpoint, framing and visual details from image to image, and keep the overall style and mood consistent.\nAfter the image, list every image in reading order (left to right, top to bottom) as text with its number and the closest aspect ratio of 1:1, 2:3, 3:4 or 16:9, e.g. "1 — 3:4".',
     ),
   );
   assert.ok(
