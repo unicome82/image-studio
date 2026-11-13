@@ -53,7 +53,18 @@ export const photoStyleOrder = [
   'stilllife',
   'abstract',
 ];
-export const photoTechniqueOrder = ['film', 'lofi', 'flash', 'softfocus', 'longexposure'];
+export const photoTechniqueOrder = [
+  'film',
+  'lofi',
+  'flash',
+  'polaroid',
+  'disposable',
+  'expiredfilm',
+  'crossprocess',
+  'silvergelatin',
+  'pictorialism',
+  'newsprint',
+];
 export const designStyleOrder = [
   'minimalist',
   'maximalism',
