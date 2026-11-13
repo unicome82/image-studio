@@ -294,7 +294,7 @@ test('typography picks a different typeface and weight per image from the catalo
   for (const type of ['illustration', 'photo', 'design'] as const)
     assert.ok(
       makeMockupPrompt(catalog, {}, on, type).includes(
-        `\nTypography: a different typeface and lettering style for each image, picked at random from ${faces}, in a thin or bold weight\nText: HELLO\nEach image`,
+        `\nTypography: a different typeface and lettering style for each image, picked at random from ${faces}, in a thin or bold weight\nText: HELLO\nAll images`,
       ),
     );
   const off = makeMockupPrompt(catalog, { Typography: ['serif'] }, { Text: 'HELLO' }, 'photo');
