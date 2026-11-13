@@ -2,7 +2,7 @@
 
 - **Category:** Design Style
 - **Style ID:** `y2k`
-- **Cue:** Glossy chrome, bubbly shapes, pixel accents, millennium tech optimism
+- **Cue:** Bubbly inflated shapes, translucent candy plastic, pixel and star accents, glossy rounded bevels, tech motifs
 
 ### Instructions
 - Use a turn-of-the-millennium digital aesthetic with glossy bubbly shapes, chrome and translucent plastic accents, pixel and grid details, and an optimistic tech mood. Follow the Color instructions when given.

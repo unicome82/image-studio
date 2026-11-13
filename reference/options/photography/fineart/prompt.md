@@ -2,7 +2,7 @@
 
 - **Category:** Photo Style
 - **Style ID:** `fineart`
-- **Cue:** Conceptual intent, expressive framing, sculpted light, restrained palette
+- **Cue:** Sculptural stillness, tactile natural materials, matte surfaces, fine fabric and skin texture, painterly plain backdrop
 
 ### Apply
 - Approach photography as a deliberate conceptual artwork with expressive framing and coherent visual intent.

@@ -2,7 +2,7 @@
 
 - **Category:** Illustration Style
 - **Style ID:** `popart`
-- **Cue:** Bold black outlines, Ben-Day halftone dots, flat saturated fills, iconic framing
+- **Cue:** Bold black outlines, Ben-Day halftone dots, flat unshaded fills, graphic comic-print surface, iconic cropped framing
 
 ### Style
 - Treat familiar consumer imagery and mass-culture symbols as striking graphic icons with playful irony.

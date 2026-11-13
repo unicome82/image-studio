@@ -2,7 +2,7 @@
 
 - **Category:** Illustration Style
 - **Style ID:** `minimalism`
-- **Cue:** Two or three decisive forms, one bold focal shape, large intentional empty field
+- **Cue:** Clean flat shapes, crisp even edges, unshaded fills, one bold focal form, open empty field
 
 ### Style
 - Reduce the visual concept to its irreducible essentials while retaining clear meaning and intentional presence.

@@ -2,7 +2,7 @@
 
 - **Category:** Illustration Style
 - **Style ID:** `continuousline`
-- **Cue:** One unbroken line of steady weight drawing the whole subject; open loops
+- **Cue:** Unbroken single-weight line traces each subject, open loops, unfilled forms, smooth pen stroke on paper
 
 ### Style
 - Express the subject with the elegance and economy of a single uninterrupted line drawn with confident flow.
