@@ -236,8 +236,6 @@ function typographyLines(catalog: Option[], fields: Record<string, string>, mock
       : `Text: Not specified. Choose suitable wording freely to complement ${target}.`,
   ];
 }
-const ratioListLine =
-  'After the image, list every image in reading order (left to right, top to bottom) as text with its number and the closest aspect ratio of 1:1, 2:3, 3:4 or 16:9, e.g. "1 — 3:4".';
 // One theme runs through the gallery; each image picks its own person, scene or object from it.
 const subjectVariation =
   'Each image shows a different person, scene or object from that theme, and all share one consistent style and mood.';
@@ -304,8 +302,6 @@ export function makeMockupPrompt(
     ...(detail ? [`Detail: ${detail}`] : []),
     ...typographyLines(catalog, fields, true),
     subjectLine(fields.Subject?.trim()),
-    // The ratio list lets each numbered image be upscaled at its own ratio.
-    ratioListLine,
   ].join('\n');
 }
 /** A standalone prompt for one gallery image, usable without the mockup chat. */

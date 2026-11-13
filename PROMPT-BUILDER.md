@@ -57,7 +57,6 @@ IMAGE STUDIO의 **부가 메뉴**로 **갤러리 시안** 영문 프롬프트를
   {Text: 문구 | Not specified. Choose suitable wording freely to complement each image. — 스위치를 켠 경우만}
   All images explore the same theme: {대상}. Each image shows a different person, scene or object from that theme, and all share one consistent style and mood.
   (대상이 비면) All images explore one shared theme of your choice. Each image shows a different person, scene or object from that theme, and all share one consistent style and mood.
-  After the image, list every image in reading order (left to right, top to bottom) as text with its number and the closest aspect ratio of 1:1, 2:3, 3:4 or 16:9, e.g. "1 — 3:4".
   ```
   헤더 텍스트는 선택한 값의 표시명만 ` · `로 잇고 미선택 항목은 뺀다. Texture는 넣지 않는다. 시안 이미지 비율은 자유롭게 두고, 마지막 줄에서 읽는 순서대로 번호와 가장 가까운 1:1·2:3·3:4·16:9 비율을 텍스트로 나열하게 한다. 대표 스타일이 없으면 `All {…} share one consistent style.`로 쓴다.
 - **갤러리 상세 (단독 사용):** `Create a standalone {…} of "{Subject}".`, 옵션 줄, `Aspect Ratio: {비율}` 순서다.

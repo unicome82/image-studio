@@ -78,7 +78,7 @@ test('each type keeps its lead style, technique, color and tone; images add text
   );
   assert.ok(
     makeMockupPrompt(catalog, { Depiction: ['balanced'] }, { Subject: 'A cat' }, 'photo').endsWith(
-      '\nAll images explore the same theme: A cat. Each image shows a different person, scene or object from that theme, and all share one consistent style and mood.\nAfter the image, list every image in reading order (left to right, top to bottom) as text with its number and the closest aspect ratio of 1:1, 2:3, 3:4 or 16:9, e.g. "1 — 3:4".',
+      '\nAll images explore the same theme: A cat. Each image shows a different person, scene or object from that theme, and all share one consistent style and mood.',
     ),
   );
 });
@@ -110,7 +110,6 @@ test('mockup prompt names one style, the depiction level and the subject without
       'Color: different colors for each image',
       'Detail: minimal composition, very few elements',
       'All images explore the same theme: A tall building. Each image shows a different person, scene or object from that theme, and all share one consistent style and mood.',
-      'After the image, list every image in reading order (left to right, top to bottom) as text with its number and the closest aspect ratio of 1:1, 2:3, 3:4 or 16:9, e.g. "1 — 3:4".',
     ].join('\n'),
   );
   const rich = makeMockupPrompt(
@@ -144,13 +143,13 @@ test('mockup prompt names one style, the depiction level and the subject without
   assert.equal(tone('monochrome'), 'Color: Monochrome, with a different hue for each image');
   assert.ok(
     rich.endsWith(
-      '\nDetail: intricate composition, elaborate fine details\nAll images explore one shared theme of your choice. Each image shows a different person, scene or object from that theme, and all share one consistent style and mood.\nAfter the image, list every image in reading order (left to right, top to bottom) as text with its number and the closest aspect ratio of 1:1, 2:3, 3:4 or 16:9, e.g. "1 — 3:4".',
+      '\nDetail: intricate composition, elaborate fine details\nAll images explore one shared theme of your choice. Each image shows a different person, scene or object from that theme, and all share one consistent style and mood.',
     ),
   );
   assert.ok(!rich.includes('Street') && !rich.includes('Aspect Ratio'));
   assert.ok(
     makeMockupPrompt(catalog, {}, {}, 'illustration').includes(
-      '\nDetail: simple composition, limited details\nAll images explore one shared theme of your choice. Each image shows a different person, scene or object from that theme, and all share one consistent style and mood.\nAfter the image, list every image in reading order (left to right, top to bottom) as text with its number and the closest aspect ratio of 1:1, 2:3, 3:4 or 16:9, e.g. "1 — 3:4".',
+      '\nDetail: simple composition, limited details\nAll images explore one shared theme of your choice. Each image shows a different person, scene or object from that theme, and all share one consistent style and mood.',
     ),
   );
   assert.ok(
