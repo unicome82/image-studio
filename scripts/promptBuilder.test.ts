@@ -102,7 +102,7 @@ test('mockup prompt names one style, the depiction level and the subject without
   assert.equal(
     text,
     [
-      'Design a mockup of a minimal gallery website: white background, only a simple header and a masonry gallery of 9 to 12 illustrations in mixed aspect ratios.',
+      'Generate a new image from scratch, with no reference image: a mockup of a minimal gallery website with a white background, only a simple header and a masonry gallery of 9 to 12 illustrations in mixed aspect ratios.',
       'The header shows the style and options as text: Geometric Illustration · Minimal',
       '',
       'All illustrations share one style: Geometric Illustration — Subjects constructed from circles, arcs, polygons and intersecting planes, precise tangencies, calculated proportions, repeated geometric relationships, clean structural boundaries, deliberate overlaps, mathematically balanced compositions, clearly defined spatial divisions',

@@ -41,7 +41,7 @@ IMAGE STUDIO의 **부가 메뉴**로 **갤러리 시안** 영문 프롬프트를
 - 옵션 순서는 대표 스타일 → Technique·Graphic → Color → Tone(상세 프롬프트는 이어서 Texture)이다. 시안 본문에서는 Technique·Graphic 줄을 Tone 다음에 둔다. Photo Technique은 `Technique`, Design Graphic은 `Graphic`으로 표기한다. 선택하지 않은 항목과 현재 유형에서 숨겨진 항목은 제외한다.
 - **갤러리 시안:**
   ```text
-  Design a mockup of a minimal {gallery | photography portfolio | design studio portfolio} website: white background, only a simple header and a masonry gallery of 9 to 12 {illustrations | photographs | designs} in mixed aspect ratios.
+  Generate a new image from scratch, with no reference image: a mockup of a minimal {gallery | photography portfolio | design studio portfolio} website with a white background, only a simple header and a masonry gallery of 9 to 12 {illustrations | photographs | designs} in mixed aspect ratios.
   The header shows the style and options as text: {대표 스타일} · {Technique | Graphic} · {Color} · {Tone} · {Depiction 표시명}
 
   All {illustrations | photographs | designs} share one style: {대표 스타일 | Design Style + Design Format} — {대표 스타일 Cue | Design Style Cue}

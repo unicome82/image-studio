@@ -286,7 +286,7 @@ export function makeMockupPrompt(
     .filter(Boolean)
     .join(' · ');
   return [
-    `Design a mockup of a ${words[type].site}: white background, only a simple header and a masonry gallery of 9 to 12 ${media} in mixed aspect ratios.`,
+    `Generate a new image from scratch, with no reference image: a mockup of a ${words[type].site} with a white background, only a simple header and a masonry gallery of 9 to 12 ${media} in mixed aspect ratios.`,
     `The header shows the style and options as text: ${headerText}`,
     '',
     style
