@@ -64,6 +64,7 @@ export const photoTechniqueOrder = [
   'silvergelatin',
   'pictorialism',
   'newsprint',
+  'mediumformat',
 ];
 export const designStyleOrder = [
   'minimalist',

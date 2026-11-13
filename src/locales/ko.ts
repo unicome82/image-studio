@@ -270,6 +270,7 @@ const translation: Record<string, string> = {
   'Silver Gelatin': '은염',
   Pictorialism: '회화주의',
   Newsprint: '신문인쇄',
+  'Medium Format': '정밀 사진',
   Swiss: '스위스',
   'Avant-Garde': '아방가르드',
   Retro: '레트로',
