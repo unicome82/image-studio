@@ -2,7 +2,7 @@
 
 - **Category:** Illustration Style
 - **Style ID:** `papercutout`
-- **Cue:** Layered cut-paper shapes, clean cut edges, overlapping paper planes, subtle dimensional shadows, tactile paper textures
+- **Cue:** Layered cut-paper silhouettes, precisely trimmed and subtly irregular edges, overlapping paper planes, delicate cast shadows between layers, visible paper fibers, tactile surface grain, dimensional separation, handcrafted collage-like construction
 
 ### Style
 - Interpret imagery as assembled shapes cut from physical sheets of paper, emphasizing the logic of overlapping cut pieces.

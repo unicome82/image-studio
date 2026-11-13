@@ -2,7 +2,7 @@
 
 - **Category:** Illustration Style
 - **Style ID:** `grunge`
-- **Cue:** Rough gestural marks, distressed surfaces, torn edges, layered scratches and scuffs, deliberately imperfect textures
+- **Cue:** Rough gestural marks, distressed and abraded surfaces, torn paper edges, scratched ink layers, uneven pigment deposits, scuffed textures, fragmented graphic elements, accidental-looking imperfections, raw tactile surface irregularities
 
 ### Style
 - Express anti-polished, subcultural visual energy with purposeful imperfection and visual friction.

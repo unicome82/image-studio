@@ -2,7 +2,7 @@
 
 - **Category:** Illustration Style
 - **Style ID:** `y2k`
-- **Cue:** Inflated shapes, chrome and translucent surfaces, playful digital motifs, techno-organic curves, early digital aesthetics
+- **Cue:** Inflated bubble-like forms, reflective chrome surfaces, translucent plastic layers, rounded digital bevels, techno-organic curves, glossy dimensional highlights, playful interface-inspired motifs, early digital-era graphic textures
 
 ### Style
 - Reference the optimistic, synthetic, futuristic visual imagination of the late 1990s and early 2000s.

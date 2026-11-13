@@ -2,7 +2,7 @@
 
 - **Category:** Illustration Style
 - **Style ID:** `naivefolk`
-- **Cue:** Flattened perspective, intuitive handmade forms, decorative repeated motifs, ornamental details, visible hand-painted textures
+- **Cue:** Flattened perspective, intuitive hand-painted forms, irregular contours, repeated decorative motifs, simplified symbolic figures, ornamental patterns, uneven brush coverage, visible pigment variations, charming inconsistencies in scale and proportion
 
 ### Style
 - Naive folk art inspired by traditional folk paintings and self-taught artistic expression. Emphasize instinctive, unconventional, deliberately unrefined interpretation; preserve playful imagination, innocent charm, and subtle visual humor.

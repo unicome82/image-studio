@@ -2,7 +2,7 @@
 
 - **Category:** Illustration Style
 - **Style ID:** `botanicalillustration`
-- **Cue:** Accurate plant anatomy, delicate observational linework, natural botanical arrangements, fine organic details
+- **Cue:** Accurate botanical anatomy, delicate observational linework, finely traced leaf veins, subtle cross-hatching, intricate petal structures, natural variations in stems and foliage, precise organic contours, carefully observed plant textures
 
 ### Style
 - Convey the distinctive morphology and growth logic of plants through careful observational interpretation.

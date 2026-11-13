@@ -2,7 +2,7 @@
 
 - **Category:** Illustration Style
 - **Style ID:** `expressionism`
-- **Cue:** Distorted expressive forms, energetic visible brushstrokes, dynamic gestures, emotionally charged visual contrasts
+- **Cue:** Emotionally distorted forms, angular and exaggerated contours, energetic visible brushstrokes, irregular paint buildup, scraped and dragged pigment, gestural mark-making, unstable spatial relationships, expressive variations in stroke direction and density
 
 ### Style
 - Prioritize subjective feeling and psychological intensity over objective description.

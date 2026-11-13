@@ -2,7 +2,7 @@
 
 - **Category:** Photo Style
 - **Style ID:** `fashion`
-- **Cue:** Garment-focused composition, expressive poses, distinctive silhouettes, detailed fabric textures, contemporary styling
+- **Cue:** Garment-focused compositions, expressive body language, distinctive clothing silhouettes, realistic fabric weave and drape, natural folds and tension points, visible seams and material weight, contemporary styling, carefully directed poses emphasizing garment structure
 
 ### Apply
 - Present clothing and styling as the focus with confident posing, considered silhouettes, and editorial-quality finish.

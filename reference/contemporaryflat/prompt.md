@@ -2,7 +2,7 @@
 
 - **Category:** Illustration Style
 - **Style ID:** `contemporaryflat`
-- **Cue:** Rounded geometric forms, simplified bold proportions, flat overlapping planes, crisp vector edges, minimal interior detail
+- **Cue:** Simplified geometric silhouettes, rounded corners, bold proportional relationships, overlapping flat planes, crisp vector-like contours, controlled shape intersections, minimal internal detailing, clean transitions between graphic forms
 
 ### Style
 - Create a fresh, present-day flat illustration with confident simplification, clean edges, and a flat digital finish suited to modern brands and interfaces.

@@ -2,7 +2,7 @@
 
 - **Category:** Illustration Style
 - **Style ID:** `psychedelicart`
-- **Cue:** Melting and swirling forms, interlocking organic shapes, concentric rippling patterns, flowing contours, hypnotic visual rhythms
+- **Cue:** Melting and swirling organic forms, interlocking fluid shapes, concentric rippling patterns, undulating hand-drawn contours, distorted spatial relationships, intricate flowing transitions, repeated wave-like structures, hypnotic visual rhythms
 
 ### Style
 - Suggest altered perception, fluid transformation, and an immersive countercultural visual sensibility.

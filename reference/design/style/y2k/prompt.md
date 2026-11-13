@@ -2,7 +2,7 @@
 
 - **Category:** Design Style
 - **Style ID:** `y2k`
-- **Cue:** Inflated glossy forms, translucent digital surfaces, playful techno motifs, rounded bevels, early internet-inspired graphics
+- **Cue:** Inflated glossy graphic forms, translucent plastic-like surfaces, rounded dimensional bevels, chrome-inspired reflections, playful pixel and star motifs, layered digital interface elements, techno-organic curves, nostalgic early internet aesthetics
 
 ### Instructions
 - Use a turn-of-the-millennium digital aesthetic with glossy bubbly shapes, chrome and translucent plastic accents, pixel and grid details, and an optimistic tech mood. Follow the Color instructions when given.

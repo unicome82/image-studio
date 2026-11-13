@@ -2,7 +2,7 @@
 
 - **Category:** Photo Style
 - **Style ID:** `abstract`
-- **Cue:** Close-up studies of form, line, texture, pattern and light, unconventional framing, emphasis on visual abstraction over literal subjects
+- **Cue:** Close-up studies of shape, line, texture and reflected light, unconventional cropping, ambiguous scale, layered visual patterns, subtle surface variations, unexpected geometric relationships, emphasis on visual abstraction over recognizable subjects
 
 ### Apply
 - Isolate shapes, lines, reflections, and patterns from the subject so form and rhythm lead the image while it remains a real photograph.

@@ -2,7 +2,7 @@
 
 - **Category:** Design Style
 - **Style ID:** `artdeco`
-- **Cue:** Stepped geometric symmetry, sunburst and fan motifs, elegant ornamental details, streamlined forms, refined architectural geometry
+- **Cue:** Stepped geometric symmetry, radiating sunburst and fan motifs, elongated ornamental forms, repeated architectural patterns, precise metallic-looking linework, elegant geometric borders, streamlined curves, refined decorative detailing, balanced monumental proportions
 
 ### Instructions
 - Use a refined Art Deco graphic approach: strong central symmetry, stepped and tiered frames, sunburst and fan ornaments, elongated geometric forms, and thin parallel rules. Set any rendered text in tall, condensed geometric capitals with generous letter spacing. Follow the Color instructions when given.

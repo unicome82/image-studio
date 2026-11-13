@@ -2,7 +2,7 @@
 
 - **Category:** Illustration Style
 - **Style ID:** `outlineillustration`
-- **Cue:** Clean contour lines of consistent weight, clearly defined silhouettes, unfilled forms, minimal interior linework
+- **Cue:** Clean contour lines with consistent stroke weight, precisely defined silhouettes, smooth directional curves, minimal internal linework, clearly separated unfilled shapes, controlled intersections, open negative spaces, crisp linear boundaries
 
 ### Style
 - Express the subject entirely through clean, deliberate outlines and essential interior linework, like a refined line-art illustration.

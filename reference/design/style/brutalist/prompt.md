@@ -2,7 +2,7 @@
 
 - **Category:** Design Style
 - **Style ID:** `brutalist`
-- **Cue:** Raw geometric structures, oversized typography, unconventional layouts, exposed visual elements, direct and uncompromising composition
+- **Cue:** Raw geometric structures, oversized uncompromising typography, abrupt scale changes, exposed grid elements, rigid rectangular blocks, unconventional spacing, deliberately harsh visual relationships, direct unpolished composition, visible structural boundaries
 
 ### Instructions
 - Use bold scale changes, raw geometric blocks, direct composition, and deliberate tension in spacing and alignment. Keep hierarchy intentional and any rendered text readable. Follow the Color instructions when given; keep the raw look deliberate, with readable text and fully finished rendering.

@@ -2,7 +2,7 @@
 
 - **Category:** Illustration Style
 - **Style ID:** `pixelart`
-- **Cue:** Strict pixel-grid construction, hard stepped edges, blocky pixel clusters, pixel-level shading, deliberate low-resolution aesthetics
+- **Cue:** Strict low-resolution pixel-grid construction, hard stepped contours, carefully clustered square pixels, deliberate pixel placement, block-based silhouettes, pixel-level shading, patterned dithering, consistent pixel scale
 
 ### Style
 - Create deliberate pixel art with the clarity and charm of contemporary independent game art.

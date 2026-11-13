@@ -2,7 +2,7 @@
 
 - **Category:** Illustration Style
 - **Style ID:** `impressionism`
-- **Cue:** Broken dabs of color, visible painterly brushstrokes, softly dissolving edges, optical mixing of light and color
+- **Cue:** Short broken brushstrokes, loosely placed dabs of pigment, visible directional paint marks, softly dissolving contours, adjacent strokes creating optical color mixing, atmospheric transitions, flickering light effects, textured painterly surfaces
 
 ### Style
 - Capture fleeting perception and the immediacy of a passing moment rather than exact representation.

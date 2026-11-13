@@ -2,7 +2,7 @@
 
 - **Category:** Photo Style
 - **Style ID:** `stilllife`
-- **Cue:** Carefully arranged inanimate subjects, intentional object relationships, balanced visual composition, detailed material textures
+- **Cue:** Carefully arranged inanimate subjects, intentional relationships between objects, realistic material textures, subtle reflections and surface imperfections, natural contact shadows, variations in object scale and orientation, balanced spatial layering, precise attention to physical presence
 
 ### Apply
 - Arrange inanimate objects with purposeful spatial relationships and controlled object interaction.

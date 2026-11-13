@@ -2,7 +2,7 @@
 
 - **Category:** Illustration Style
 - **Style ID:** `maximalism`
-- **Cue:** Ornate layered motifs, intricate decorative patterns, elaborate linework, abundant overlapping forms, rich visual complexity
+- **Cue:** Intricately layered ornamental motifs, densely interwoven patterns, elaborate decorative linework, repeated miniature details, overlapping organic and geometric forms, complex visual rhythms, rich surface embellishments, carefully organized ornamental density
 
 ### Style
 - Celebrate expressive abundance, visual multiplicity, and deliberate excess without losing the central idea.

@@ -2,7 +2,7 @@
 
 - **Category:** Design Style
 - **Style ID:** `retro`
-- **Cue:** Nostalgic period-inspired graphics, vintage typography, decorative framing, analog print textures, distinctive historical design motifs
+- **Cue:** Nostalgic period-inspired graphic forms, vintage display typography, decorative framing, analog print grain, subtle ink misregistration, aged paper textures, distinctive historical motifs, carefully balanced ornamental details, authentic reproduction imperfections
 
 ### Instructions
 - Use a coherent retro graphic vocabulary with period-inspired shapes, deliberate framing, bold hierarchy, and carefully balanced ornament. Add period texture only when Texture instructions are given. Follow the Color instructions when given; keep any rendered lettering clean and readable.

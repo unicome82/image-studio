@@ -2,7 +2,7 @@
 
 - **Category:** Illustration Style
 - **Style ID:** `popart`
-- **Cue:** Bold graphic outlines, Ben-Day halftone dots, simplified iconic forms, comic-print textures, striking graphic compositions
+- **Cue:** Bold graphic contours, Ben-Day halftone dot patterns, sharply simplified iconic forms, comic-book printing textures, repeated graphic motifs, hard-edged shape divisions, dramatic cropping, deliberate separation of printed color areas
 
 ### Style
 - Treat familiar consumer imagery and mass-culture symbols as striking graphic icons with playful irony.

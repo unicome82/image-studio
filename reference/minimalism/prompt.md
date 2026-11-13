@@ -2,7 +2,7 @@
 
 - **Category:** Illustration Style
 - **Style ID:** `minimalism`
-- **Cue:** Essential geometric forms, crisp edges, restrained detail, deliberate negative space, clear visual hierarchy
+- **Cue:** Essential geometric forms, precisely controlled silhouettes, crisp boundaries, restrained structural details, deliberate spacing, clearly separated visual elements, balanced proportions, generous negative space, strong relationships between form and emptiness
 
 ### Style
 - Reduce the visual concept to its irreducible essentials while retaining clear meaning and intentional presence.

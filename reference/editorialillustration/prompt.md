@@ -2,7 +2,7 @@
 
 - **Category:** Illustration Style
 - **Style ID:** `editorialillustration`
-- **Cue:** Expressive simplified forms, confident hand-drawn contours, graphic shapes, conceptual visual storytelling, subtle print texture
+- **Cue:** Expressive simplified forms, slightly irregular hand-drawn contours, varied line pressure, overlapping graphic shapes, deliberate distortions of proportion, subtle ink grain, imperfect print registration, tactile printed-paper textures, conceptual visual storytelling
 
 ### Style
 - Interpret an idea as an insightful visual metaphor suitable for an editorial article or cultural publication.

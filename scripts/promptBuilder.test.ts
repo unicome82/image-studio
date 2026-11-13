@@ -83,9 +83,13 @@ test('each type keeps its lead style, technique, color and tone; images add text
   );
 });
 
+// Lead styles describe form, line and surface in detail; every other option stays brief.
+const cueLimit = (option: { category: string }) =>
+  ['Illustration Style', 'Photo Style', 'Design Style'].includes(option.category) ? 35 : 20;
+
 test('every source MD carries a short Cue', () => {
   for (const option of catalog)
-    assert.ok(option.cue && option.cue.split(' ').length <= 20, option.path);
+    assert.ok(option.cue && option.cue.split(' ').length <= cueLimit(option), option.path);
 });
 
 test('mockup prompt names one style, the depiction level and the subject without a ratio', () => {
@@ -101,7 +105,7 @@ test('mockup prompt names one style, the depiction level and the subject without
       'Design a mockup of a minimal gallery website: white background, only a simple header and a masonry gallery of 9 to 12 illustrations in mixed aspect ratios.',
       'The header shows the style and options as text: Geometric Illustration · Minimal',
       '',
-      'All illustrations share one style: Geometric Illustration — Subjects constructed from circles, arcs, polygons and geometric planes, precise intersections, structured spatial relationships',
+      'All illustrations share one style: Geometric Illustration — Subjects constructed from circles, arcs, polygons and intersecting planes, precise tangencies, calculated proportions, repeated geometric relationships, clean structural boundaries, deliberate overlaps, mathematically balanced compositions, clearly defined spatial divisions',
       'Mood: editorial, refined magazine feel',
       'Color: different colors for each image',
       'Detail: minimal composition, very few elements',
@@ -172,7 +176,7 @@ test('mockup prompt names one style, the depiction level and the subject without
       {},
       'design',
     ).includes(
-      'share one style: Retro Poster — Nostalgic period-inspired graphics, vintage typography, decorative framing, analog print textures, distinctive historical design motifs\nMood: editorial, refined magazine feel\nColor: different colors for each image\nGraphic: Halftone\n',
+      'share one style: Retro Poster — Nostalgic period-inspired graphic forms, vintage display typography, decorative framing, analog print grain, subtle ink misregistration, aged paper textures, distinctive historical motifs, carefully balanced ornamental details, authentic reproduction imperfections\nMood: editorial, refined magazine feel\nColor: different colors for each image\nGraphic: Halftone\n',
     ),
   );
   assert.ok(makeMockupPrompt(catalog, {}, {}, 'photo').includes('photography portfolio website'));
@@ -269,7 +273,7 @@ test('saved mockups keep only offered categories and migrate removed styles', ()
 test('every option has a short positive Cue and curated orders list exactly the catalog IDs', () => {
   for (const option of catalog) {
     assert.ok(option.cue, option.path);
-    assert.ok(option.cue.split(/\s+/).length <= 20, option.path);
+    assert.ok(option.cue.split(/\s+/).length <= cueLimit(option), option.path);
     assert.doesNotMatch(option.cue, /\b(no|not|avoid|without|never)\b/i, option.path);
   }
   for (const [category, order] of Object.entries(optionOrder))

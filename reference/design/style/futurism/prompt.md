@@ -2,7 +2,7 @@
 
 - **Category:** Design Style
 - **Style ID:** `futurism`
-- **Cue:** Streamlined geometric forms, dynamic spatial composition, technological aesthetics, innovative visual structures, forward-looking design
+- **Cue:** Streamlined geometric forms, dynamic diagonal structures, fluid technological contours, layered spatial planes, precise engineered details, innovative visual systems, directional movement, advanced material aesthetics, forward-looking structural compositions
 
 ### Instructions
 - Use a forward-looking futuristic graphic language with sleek speed lines, dynamic diagonals, precise technical details, and a strong sense of motion. Follow the Color instructions when given.
