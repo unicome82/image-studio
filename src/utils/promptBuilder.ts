@@ -238,13 +238,13 @@ function typographyLines(catalog: Option[], fields: Record<string, string>, mock
 }
 const ratioListLine =
   'After the image, list every image in reading order (left to right, top to bottom) as text with its number and the closest aspect ratio of 1:1, 2:3, 3:4 or 16:9, e.g. "1 — 3:4".';
-// One subject runs through the whole gallery; only the way it is shown changes.
+// One theme runs through the gallery; each image picks its own person, scene or object from it.
 const subjectVariation =
-  'Vary the composition, viewpoint, framing and visual details from image to image, and keep the overall style and mood consistent.';
+  'Each image shows a different person, scene or object from that theme, and all share one consistent style and mood.';
 const subjectLine = (subject?: string) =>
   subject
-    ? `All images are based on the same subject: ${subject}. ${subjectVariation}`
-    : `All images are based on one shared subject of your choice. ${subjectVariation}`;
+    ? `All images explore the same theme: ${subject}. ${subjectVariation}`
+    : `All images explore one shared theme of your choice. ${subjectVariation}`;
 // Every mockup keeps an editorial, refined magazine mood.
 const mockupMood = 'Mood: editorial, refined magazine feel';
 // Each image gets its own colors so the gallery does not settle on one color;
