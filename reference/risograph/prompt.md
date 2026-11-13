@@ -2,7 +2,7 @@
 
 - **Category:** Illustration Style
 - **Style ID:** `risograph`
-- **Cue:** Two or three flat ink layers, slight misregistration, grainy uneven coverage, paper showing through
+- **Cue:** Layered spot-color ink printing, subtle color misregistration, grainy ink textures, uneven ink coverage, visible paper grain
 
 ### Style
 - Recreate the character of stencil-based risograph printing: layered flat ink deposits with decisive boundaries, slight plate misregistration, and uneven ink coverage.

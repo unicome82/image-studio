@@ -2,7 +2,7 @@
 
 - **Category:** Design Style
 - **Style ID:** `brutalist`
-- **Cue:** Raw geometric blocks, oversized scale shifts, tense direct layout
+- **Cue:** Raw geometric structures, oversized typography, unconventional layouts, exposed visual elements, direct and uncompromising composition
 
 ### Instructions
 - Use bold scale changes, raw geometric blocks, direct composition, and deliberate tension in spacing and alignment. Keep hierarchy intentional and any rendered text readable. Follow the Color instructions when given; keep the raw look deliberate, with readable text and fully finished rendering.

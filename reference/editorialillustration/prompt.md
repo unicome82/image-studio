@@ -2,7 +2,7 @@
 
 - **Category:** Illustration Style
 - **Style ID:** `editorialillustration`
-- **Cue:** Simplified expressive forms, confident hand-drawn contours, flat shapes, subtle print grain, one visual metaphor
+- **Cue:** Expressive simplified forms, confident hand-drawn contours, graphic shapes, conceptual visual storytelling, subtle print texture
 
 ### Style
 - Interpret an idea as an insightful visual metaphor suitable for an editorial article or cultural publication.

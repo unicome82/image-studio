@@ -2,7 +2,7 @@
 
 - **Category:** Illustration Style
 - **Style ID:** `botanicalillustration`
-- **Cue:** Accurate plant anatomy, fine observational linework, specimen-style layout on open paper
+- **Cue:** Accurate plant anatomy, delicate observational linework, natural botanical arrangements, fine organic details
 
 ### Style
 - Convey the distinctive morphology and growth logic of plants through careful observational interpretation.

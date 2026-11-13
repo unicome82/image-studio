@@ -2,7 +2,7 @@
 
 - **Category:** Photo Style
 - **Style ID:** `street`
-- **Cue:** Candid urban moment, decisive timing, environmental specificity
+- **Cue:** Candid everyday moments, spontaneous human activity, authentic urban environments, decisive timing, observational framing
 
 ### Apply
 - Capture spontaneous urban life with candid timing and environmental specificity.

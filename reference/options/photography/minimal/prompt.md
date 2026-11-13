@@ -2,7 +2,7 @@
 
 - **Category:** Photo Style
 - **Style ID:** `minimal`
-- **Cue:** One subject, vast clean negative space, simple geometry, quiet restraint
+- **Cue:** Essential subjects, simplified geometry, precise spatial relationships, generous negative space, restrained visual composition
 
 ### Apply
 - Reduce the frame to one clear subject with generous empty space, simple shapes, and a calm, deliberate composition.

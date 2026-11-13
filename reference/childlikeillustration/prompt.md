@@ -2,7 +2,7 @@
 
 - **Category:** Illustration Style
 - **Style ID:** `childlikeillustration`
-- **Cue:** Crayon-like wobbly lines, literal symbols, mismatched proportions, flat naive space
+- **Cue:** Wobbly crayon-like lines, intuitive simple shapes, playful mismatched proportions, spontaneous flat compositions
 
 ### Style
 - Convey the imaginative visual logic of a young child without imitating a specific existing artwork.

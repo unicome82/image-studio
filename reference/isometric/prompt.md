@@ -2,7 +2,7 @@
 
 - **Category:** Illustration Style
 - **Style ID:** `isometric`
-- **Cue:** True 30-degree isometric grid, parallel receding lines, equal axis angles, clean block volumes
+- **Cue:** Consistent 30-degree isometric projection, parallel receding lines, equal axis angles, structured three-dimensional forms
 
 ### Style
 - Present the scene as a clean, precise isometric construction with an orderly, diagrammatic clarity.

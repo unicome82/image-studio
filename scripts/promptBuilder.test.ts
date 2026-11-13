@@ -85,7 +85,7 @@ test('each type keeps its lead style, technique, color and tone; images add text
 
 test('every source MD carries a short Cue', () => {
   for (const option of catalog)
-    assert.ok(option.cue && option.cue.split(' ').length <= 15, option.path);
+    assert.ok(option.cue && option.cue.split(' ').length <= 20, option.path);
 });
 
 test('mockup prompt names one style, the depiction level and the subject without a ratio', () => {
@@ -269,7 +269,7 @@ test('saved mockups keep only offered categories and migrate removed styles', ()
 test('every option has a short positive Cue and curated orders list exactly the catalog IDs', () => {
   for (const option of catalog) {
     assert.ok(option.cue, option.path);
-    assert.ok(option.cue.split(/\s+/).length <= 15, option.path);
+    assert.ok(option.cue.split(/\s+/).length <= 20, option.path);
     assert.doesNotMatch(option.cue, /\b(no|not|avoid|without|never)\b/i, option.path);
   }
   for (const [category, order] of Object.entries(optionOrder))

@@ -2,7 +2,7 @@
 
 - **Category:** Design Style
 - **Style ID:** `minimalist`
-- **Cue:** Few purposeful elements, precise spacing, generous negative space
+- **Cue:** Essential design elements, precise alignment and spacing, restrained typography, generous negative space, clear visual hierarchy
 
 ### Instructions
 - Reduce the design to a few purposeful elements with generous negative space, precise spacing, and a clear focal hierarchy. Use restrained shapes and deliberate contrast. Every visible element must serve the subject. Follow the Color instructions when given.

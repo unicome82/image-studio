@@ -2,7 +2,7 @@
 
 - **Category:** Illustration Style
 - **Style ID:** `surrealism`
-- **Cue:** Smooth painterly realism, soft modeled volumes, crisp dreamlike clarity, impossible juxtaposition in still open space
+- **Cue:** Dreamlike imagery, impossible juxtapositions, unexpected transformations, visual paradoxes, coherent yet uncanny compositions
 
 ### Style
 - Create an uncanny poetic reality through unexpected associations and dreamlike visual logic.

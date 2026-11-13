@@ -2,7 +2,7 @@
 
 - **Category:** Illustration Style
 - **Style ID:** `minimalism`
-- **Cue:** Clean flat shapes, crisp even edges, unshaded fills, one bold focal form, open empty field
+- **Cue:** Essential geometric forms, crisp edges, restrained detail, deliberate negative space, clear visual hierarchy
 
 ### Style
 - Reduce the visual concept to its irreducible essentials while retaining clear meaning and intentional presence.

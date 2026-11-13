@@ -2,7 +2,7 @@
 
 - **Category:** Design Style
 - **Style ID:** `avantgarde`
-- **Cue:** Experimental broken grid, unexpected scale, bold conceptual gesture
+- **Cue:** Experimental typography, unconventional grid structures, unexpected scale relationships, disruptive compositions, bold conceptual expression
 
 ### Instructions
 - Use an experimental composition that breaks the grid with unexpected scale, cropping, rotation, and one bold conceptual gesture, while keeping a clear focal point and readable text. Follow the Color instructions when given.

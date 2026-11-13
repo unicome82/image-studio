@@ -2,7 +2,7 @@
 
 - **Category:** Design Style
 - **Style ID:** `postmodernism`
-- **Cue:** Playful clashing shapes, squiggles, eclectic references, lively asymmetric balance
+- **Cue:** Eclectic visual references, playful geometric collisions, unconventional patterns, expressive typography, lively asymmetric compositions
 
 ### Instructions
 - Combine playful geometric shapes, squiggles, patterns, and eclectic historical references in a lively asymmetric layout with a clear focal hierarchy. Follow the Color instructions when given.

@@ -2,7 +2,7 @@
 
 - **Category:** Illustration Style
 - **Style ID:** `grunge`
-- **Cue:** Rough gestural marks, torn edges, layered scuffs, deliberate visual friction
+- **Cue:** Rough gestural marks, distressed surfaces, torn edges, layered scratches and scuffs, deliberately imperfect textures
 
 ### Style
 - Express anti-polished, subcultural visual energy with purposeful imperfection and visual friction.

@@ -2,7 +2,7 @@
 
 - **Category:** Illustration Style
 - **Style ID:** `outlineillustration`
-- **Cue:** Clean contour lines of even weight, forms left unfilled on open background
+- **Cue:** Clean contour lines of consistent weight, clearly defined silhouettes, unfilled forms, minimal interior linework
 
 ### Style
 - Express the subject entirely through clean, deliberate outlines and essential interior linework, like a refined line-art illustration.

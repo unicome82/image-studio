@@ -2,7 +2,7 @@
 
 - **Category:** Design Style
 - **Style ID:** `midcentury`
-- **Cue:** 1950s–60s organic shapes, flat limited palette, playful modern balance
+- **Cue:** 1950s–60s inspired geometric and organic forms, playful asymmetry, simplified graphic elements, balanced modernist composition
 
 ### Instructions
 - Use mid-century modern graphic language: organic and geometric shapes, flat layered color, playful asymmetric balance, and clean modern lettering when text appears. Follow the Color instructions when given.

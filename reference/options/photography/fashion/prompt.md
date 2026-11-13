@@ -2,7 +2,7 @@
 
 - **Category:** Photo Style
 - **Style ID:** `fashion`
-- **Cue:** Garment silhouette as hero, visible fabric weave and drape, confident elongated pose, styled set
+- **Cue:** Garment-focused composition, expressive poses, distinctive silhouettes, detailed fabric textures, contemporary styling
 
 ### Apply
 - Present clothing and styling as the focus with confident posing, considered silhouettes, and editorial-quality finish.
