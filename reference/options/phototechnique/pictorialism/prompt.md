@@ -2,8 +2,8 @@
 
 - **Category:** Photo Technique
 - **Style ID:** `pictorialism`
-- **Cue:** Pictorialist print, soft diffused focus, painterly atmosphere, gentle tonal blending, hand-printed feel
+- **Cue:** Pictorialist photography, diffused optical softness, painterly tonal blending, atmospheric depth, handcrafted print texture
 
 ### Apply
-- Render the photograph as a pictorialist print: soft diffused focus, painterly atmosphere, gentle tonal blending, and a hand-printed feel.
+- Render the photograph with this look: pictorialist photography, diffused optical softness, painterly tonal blending, atmospheric depth, handcrafted print texture.
 - Keep the chosen Photo Style, Color, and Tone; this technique only changes how the frame is captured.

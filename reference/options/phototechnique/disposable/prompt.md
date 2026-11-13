@@ -2,8 +2,8 @@
 
 - **Category:** Photo Technique
 - **Style ID:** `disposable`
-- **Cue:** Disposable camera snapshot, plastic-lens softness, harsh built-in flash, coarse grain, warm color cast
+- **Cue:** Disposable camera snapshot, plastic-lens softness, uneven exposure, coarse film grain, spontaneous imperfect framing
 
 ### Apply
-- Render the photograph as a disposable camera snapshot: plastic-lens softness, harsh built-in flash, coarse grain, a warm color cast, and casual framing.
+- Render the photograph with this look: disposable camera snapshot, plastic-lens softness, uneven exposure, coarse film grain, spontaneous imperfect framing.
 - Keep the chosen Photo Style, Color, and Tone; this technique only changes how the frame is captured.

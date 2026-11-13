@@ -2,8 +2,8 @@
 
 - **Category:** Photo Technique
 - **Style ID:** `newsprint`
-- **Cue:** Newspaper print reproduction, visible halftone dots, rough absorbent paper, dense ink, slight misregistration
+- **Cue:** Newspaper print reproduction, visible halftone dots, uneven ink absorption, rough paper fibers, subtle printing imperfections
 
 ### Apply
-- Render the photograph as a newspaper print reproduction: visible halftone dots, rough absorbent paper, dense ink, and slight misregistration.
+- Render the photograph with this look: newspaper print reproduction, visible halftone dots, uneven ink absorption, rough paper fibers, subtle printing imperfections.
 - Keep the chosen Photo Style, Color, and Tone; this technique only changes how the frame is captured.
