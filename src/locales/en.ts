@@ -262,7 +262,6 @@ const translation: Record<string, string> = {
   Abstract: 'Abstract',
   Film: 'Film',
   'Lo-fi': 'Lo-fi',
-  'Motion Blur': 'Motion Blur',
   Flash: 'Flash',
   'Soft Focus': 'Soft Focus',
   'Long Exposure': 'Long Exposure',

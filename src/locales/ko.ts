@@ -262,7 +262,6 @@ const translation: Record<string, string> = {
   Abstract: '추상',
   Film: '필름',
   'Lo-fi': '로파이',
-  'Motion Blur': '모션 블러',
   Flash: '플래시',
   'Soft Focus': '소프트 포커스',
   'Long Exposure': '장노출',
