@@ -78,7 +78,7 @@ test('each type keeps its lead style, technique, color and tone; images add text
   );
   assert.ok(
     makeMockupPrompt(catalog, { Depiction: ['balanced'] }, { Subject: 'A cat' }, 'photo').endsWith(
-      '\nAll images explore the same theme: A cat. Each image shows a different person, scene or object from that theme, and all share one consistent style and mood.',
+      '\nAll images explore the same theme: A cat. Each image shows a different person, scene or object from that theme, and all share one consistent style and mood.\nAt least 30% of the photographs are model shots featuring a person.',
     ),
   );
 });
