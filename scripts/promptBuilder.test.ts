@@ -168,7 +168,11 @@ test('mockup prompt names one style, the depiction level and the subject without
     'photo',
   );
   assert.ok(technique.includes('as text: Editorial · Film · Soft · Simple\n'));
-  assert.ok(technique.includes('\nTone: Soft\nTechnique: Film\nDetail: simple composition'));
+  assert.ok(
+    technique.includes(
+      '\nTone: Soft\nTechnique: Film — 35mm film look, organic grain, gentle halation, softly lifted blacks\nDetail: simple composition',
+    ),
+  );
   assert.ok(
     makeMockupPrompt(
       catalog,

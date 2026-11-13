@@ -302,7 +302,11 @@ export function makeMockupPrompt(
     ...extras
       .filter((o) => o.category !== 'Color')
       .sort((a, b) => mockupLineOrder.indexOf(a.category) - mockupLineOrder.indexOf(b.category))
-      .map((o) => `${promptCategory(o.category)}: ${o.label}`),
+      // A photo technique adds its cue so the capture look is spelled out, not just named.
+      .map(
+        (o) =>
+          `${promptCategory(o.category)}: ${o.label}${o.category === 'Photo Technique' && o.cue ? ` — ${o.cue}` : ''}`,
+      ),
     // The detail level explains how much each image holds; Balanced leaves it to the style.
     ...(detail ? [`Detail: ${detail}`] : []),
     ...typographyLines(catalog, fields, true),

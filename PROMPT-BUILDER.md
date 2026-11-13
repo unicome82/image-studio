@@ -37,7 +37,7 @@ IMAGE STUDIO의 **부가 메뉴**로 **갤러리 시안** 영문 프롬프트를
 
 ## 4. 생성 규칙
 
-- 모든 원본 MD는 Style ID 아래에 `- **Cue:** …` 한 줄을 둔다. 대표 스타일은 35단어·그 외 20단어 이내 긍정문으로 해당 카테고리 범위의 결정적 규칙·수치만 쓴다. 시안 프롬프트에는 대표 스타일만 `표시명 — Cue`(디자인은 Design Style의 Cue)로, 나머지 옵션은 표시명만 출력하고, 갤러리 상세 프롬프트에는 `카테고리: 표시명 — Cue`를 출력하고 나머지 본문은 보관만 한다. Depiction Cue는 시안의 `Detail:` 줄에 쓴다(Balanced 제외).
+- 모든 원본 MD는 Style ID 아래에 `- **Cue:** …` 한 줄을 둔다. 대표 스타일은 35단어·그 외 20단어 이내 긍정문으로 해당 카테고리 범위의 결정적 규칙·수치만 쓴다. 시안 프롬프트에는 대표 스타일(디자인은 Design Style의 Cue)과 Photo Technique만 `표시명 — Cue`로, 나머지 옵션은 표시명만 출력하고, 갤러리 상세 프롬프트에는 `카테고리: 표시명 — Cue`를 출력하고 나머지 본문은 보관만 한다. Depiction Cue는 시안의 `Detail:` 줄에 쓴다(Balanced 제외).
 - 옵션 순서는 대표 스타일 → Technique·Graphic → Color → Tone(상세 프롬프트는 이어서 Texture)이다. 시안 본문에서는 Technique·Graphic 줄을 Tone 다음에 둔다. Photo Technique은 `Technique`, Design Graphic은 `Graphic`으로 표기한다. 선택하지 않은 항목과 현재 유형에서 숨겨진 항목은 제외한다.
 - **갤러리 시안:**
   ```text
@@ -51,7 +51,8 @@ IMAGE STUDIO의 **부가 메뉴**로 **갤러리 시안** 영문 프롬프트를
   (Monochrome) Color: Monochrome, with a different hue for each image
   (Color 미선택) Color: different colors for each image
   {Tone: 표시명 — 선택한 경우만}
-  {Technique | Graphic: 표시명 — 선택한 경우만}
+  {Technique: 표시명 — Photo Technique Cue — 선택한 경우만}
+  {Graphic: 표시명 — 선택한 경우만}
   {Detail: Depiction Cue — Balanced가 아닌 경우만}
   {Typography: a different typeface and lettering style for each image, picked at random from {Typography 목록}, in a thin or bold weight — 스위치를 켠 경우만}
   {Text: 문구 | Not specified. Choose suitable wording freely to complement each image. — 스위치를 켠 경우만}
