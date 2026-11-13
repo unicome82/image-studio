@@ -102,7 +102,7 @@ test('mockup prompt names one style, the depiction level and the subject without
       'The header shows the style and options as text: Geometric Illustration · Minimal',
       '',
       'All illustrations share one style: Geometric Illustration',
-      'Mood: modern and chic, refined and grown-up',
+      'Mood: editorial, refined magazine feel',
       'Color: different colors for each image',
       'Detail: minimal composition, very few elements',
       'Each image shows a different take on the subject: A tall building',
@@ -172,7 +172,7 @@ test('mockup prompt names one style, the depiction level and the subject without
       {},
       'design',
     ).includes(
-      'share one style: Retro Poster\nMood: modern and chic, refined and grown-up\nColor: different colors for each image\nGraphic: Halftone\n',
+      'share one style: Retro Poster\nMood: editorial, refined magazine feel\nColor: different colors for each image\nGraphic: Halftone\n',
     ),
   );
   assert.ok(makeMockupPrompt(catalog, {}, {}, 'photo').includes('photography portfolio website'));

@@ -45,7 +45,7 @@ IMAGE STUDIO의 **부가 메뉴**로 **갤러리 시안** 영문 프롬프트를
   The header shows the style and options as text: {대표 스타일} · {Technique | Graphic} · {Color} · {Tone} · {Depiction 표시명}
 
   All {illustrations | photographs | designs} share one style: {대표 스타일 | Design Style + Design Format}
-  Mood: modern and chic, refined and grown-up
+  Mood: editorial, refined magazine feel
   Color: {표시명}, with different colors for each image
   (Grayscale) Color: Grayscale, with a different grayscale tone for each image
   (Monochrome) Color: Monochrome, with a different hue for each image

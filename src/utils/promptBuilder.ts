@@ -242,8 +242,8 @@ const subjectLine = (subject?: string) =>
   subject
     ? `Each image shows a different take on the subject: ${subject}`
     : 'Each image shows a different subject.';
-// Every mockup keeps a grown-up, modern and chic tone.
-const mockupMood = 'Mood: modern and chic, refined and grown-up';
+// Every mockup keeps an editorial, refined magazine mood.
+const mockupMood = 'Mood: editorial, refined magazine feel';
 // Each image gets its own colors so the gallery does not settle on one color;
 // black and white varies its grayscale tone and monochrome varies its hue.
 const colorVariation: Record<string, string> = {
