@@ -243,7 +243,6 @@ const subjectLine = (subject?: string) =>
   subject
     ? `All images explore the same theme: ${subject}. ${subjectVariation}`
     : `All images explore one shared theme of your choice. ${subjectVariation}`;
-const modelShotLine = 'At least 30% of the photographs are model shots featuring a person.';
 // Every mockup keeps an editorial, refined magazine mood.
 const mockupMood = 'Mood: editorial, refined magazine feel';
 // Each image gets its own colors so the gallery does not settle on one color;
@@ -303,8 +302,8 @@ export function makeMockupPrompt(
     ...(detail ? [`Detail: ${detail}`] : []),
     ...typographyLines(catalog, fields, true),
     subjectLine(fields.Subject?.trim()),
-    // A photo gallery keeps people in it instead of drifting to objects and scenery only.
-    ...(type === 'photo' ? [modelShotLine] : []),
+    // Photos and illustrations keep people in the gallery instead of drifting to objects and scenery only.
+    ...(type === 'design' ? [] : [`At least 50% of the ${media} depict a person.`]),
   ].join('\n');
 }
 /** A standalone prompt for one gallery image, usable without the mockup chat. */

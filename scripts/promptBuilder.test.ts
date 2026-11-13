@@ -78,7 +78,7 @@ test('each type keeps its lead style, technique, color and tone; images add text
   );
   assert.ok(
     makeMockupPrompt(catalog, { Depiction: ['balanced'] }, { Subject: 'A cat' }, 'photo').endsWith(
-      '\nAll images explore the same theme: A cat. Each image shows a different person, scene or object from that theme, and all share one consistent style and mood.\nAt least 30% of the photographs are model shots featuring a person.',
+      '\nAll images explore the same theme: A cat. Each image shows a different person, scene or object from that theme, and all share one consistent style and mood.\nAt least 50% of the photographs depict a person.',
     ),
   );
 });
@@ -110,6 +110,7 @@ test('mockup prompt names one style, the depiction level and the subject without
       'Color: different colors for each image',
       'Detail: minimal composition, very few elements',
       'All images explore the same theme: A tall building. Each image shows a different person, scene or object from that theme, and all share one consistent style and mood.',
+      'At least 50% of the illustrations depict a person.',
     ].join('\n'),
   );
   const rich = makeMockupPrompt(
@@ -143,7 +144,7 @@ test('mockup prompt names one style, the depiction level and the subject without
   assert.equal(tone('monochrome'), 'Color: Monochrome, with a different hue for each image');
   assert.ok(
     rich.endsWith(
-      '\nDetail: intricate composition, elaborate fine details\nAll images explore one shared theme of your choice. Each image shows a different person, scene or object from that theme, and all share one consistent style and mood.',
+      '\nDetail: intricate composition, elaborate fine details\nAll images explore one shared theme of your choice. Each image shows a different person, scene or object from that theme, and all share one consistent style and mood.\nAt least 50% of the illustrations depict a person.',
     ),
   );
   assert.ok(!rich.includes('Street') && !rich.includes('Aspect Ratio'));
