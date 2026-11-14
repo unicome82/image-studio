@@ -17,6 +17,22 @@ export interface SampleImage {
 export const sampleImages: SampleImage[] = [
   {
     type: 'photo',
+    fileName: 'fashion-white-rabbit-shoulder-tulle-turquoise.webp',
+    added: '2026-11-14T01:55:26Z',
+    width: 1200,
+    height: 1200,
+    color: '#a1a39f',
+    fields: { Subject: 'A woman with a white rabbit resting on her shoulder against turquoise' },
+    selection: {
+      'Photo Style': ['fashion'],
+      Color: ['pastel'],
+      Tone: ['soft'],
+      Texture: ['glossy'],
+      Depiction: ['simple'],
+    },
+  },
+  {
+    type: 'photo',
     fileName: 'minimal-white-staircase-arch-clouds.webp',
     added: '2026-11-14T01:48:50Z',
     width: 1200,
