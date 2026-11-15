@@ -17,18 +17,16 @@ export interface SampleImage {
 export const sampleImages: SampleImage[] = [
   {
     type: 'design',
-    fileName: 'poster-time-shape-sculpted-wall-clock.webp',
+    fileName: 'product-time-shape-sculpted-wall-clock.webp',
     added: '2026-11-15T13:36:30Z',
     width: 1200,
     height: 1200,
-    color: '#cec3be',
+    color: '#d5cbc3',
     fields: {
       Subject: 'An organic pebble-shaped wall clock with black hands on an off-white wall',
-      'Typography Enabled': 'true',
-      Text: 'Time Shape, A Sculpted Clock, Forma Object Series 05',
     },
     selection: {
-      'Design Format': ['poster'],
+      'Design Format': ['product'],
       'Design Style': ['minimalist'],
       Color: ['monochrome'],
       Tone: ['soft'],
@@ -60,18 +58,16 @@ export const sampleImages: SampleImage[] = [
   },
   {
     type: 'design',
-    fileName: 'poster-pour-gently-ceramic-pitcher.webp',
+    fileName: 'product-pour-gently-ceramic-pitcher.webp',
     added: '2026-11-15T13:36:30Z',
     width: 1200,
     height: 1200,
-    color: '#b58f80',
+    color: '#bb9081',
     fields: {
       Subject: 'A cream ceramic pitcher with a looping handle on a dusty rose background',
-      'Typography Enabled': 'true',
-      Text: 'Pour Gently, A Daily Ritual, Forma Tableware Series 07',
     },
     selection: {
-      'Design Format': ['poster'],
+      'Design Format': ['product'],
       'Design Style': ['minimalist'],
       Color: ['muted'],
       Tone: ['soft'],
@@ -81,18 +77,16 @@ export const sampleImages: SampleImage[] = [
   },
   {
     type: 'design',
-    fileName: 'poster-scent-sculpture-stacked-stones.webp',
+    fileName: 'product-scent-sculpture-stacked-stones.webp',
     added: '2026-11-15T13:36:30Z',
-    width: 900,
+    width: 1200,
     height: 1200,
-    color: '#9f9d8e',
+    color: '#a4a291',
     fields: {
       Subject: 'Three stacked stone diffusers releasing a wisp of smoke on sage green',
-      'Typography Enabled': 'true',
-      Text: 'Scent Sculpture, Fragrance in Form, Forma Scent Series 09',
     },
     selection: {
-      'Design Format': ['poster'],
+      'Design Format': ['product'],
       'Design Style': ['minimalist'],
       Color: ['muted'],
       Tone: ['calm'],
