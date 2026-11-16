@@ -92,17 +92,19 @@ export default function OptionChoices({
               aria-controls={helpId}
               onClick={() => setHelpOpen(!helpOpen)}
             >
-              <Icon name="help" size="16" />
+              <Icon name="help" size="14" className="w200" />
             </button>
             {helpOpen && (
-              <dl className="option-help-popup" id={helpId} role="tooltip">
-                {options.map((option) => (
-                  <div key={option.id}>
-                    <dt>{label(option)}</dt>
-                    <dd>{t(`Help ${helpCategory} ${option.id}`)}</dd>
-                  </div>
-                ))}
-              </dl>
+              <table className="option-help-popup" id={helpId} role="tooltip">
+                <tbody>
+                  {options.map((option) => (
+                    <tr key={option.id}>
+                      <th scope="row">{label(option)}</th>
+                      <td>{t(`Help ${helpCategory} ${option.id}`)}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
             )}
           </span>
         )}

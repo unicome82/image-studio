@@ -1840,43 +1840,56 @@ textarea,
     width: var(--icon-button-size, #{$option-control-height});
     height: var(--icon-button-size, #{$option-control-height});
     padding: 0;
-    color: $muted;
+    color: $placeholder;
     @media (hover: hover) {
       &:hover {
-        color: $black;
+        color: $muted;
       }
     }
     &[aria-expanded='true'] {
-      color: $black;
+      color: $muted;
     }
   }
   &-popup {
-    @include flex-column;
+    display: block;
     position: absolute;
     top: 100%;
     left: 0;
     z-index: 100;
-    gap: 8px;
     width: max-content;
-    max-width: min(100%, 400px);
+    max-width: min(100%, 480px);
     max-height: min(50dvh, 320px);
-    margin: 0;
-    padding: 12px;
+    padding: 4px 12px;
     overflow-y: auto;
     overscroll-behavior: none;
     border: 1px solid $line;
     border-radius: 8px;
+    border-spacing: 0;
     background: $page;
     box-shadow: 0 4px 16px rgba($black, 0.08);
     color: $ink;
     font-size: var(--text-small, 12px);
     font-weight: 400;
     line-height: 1.5;
-    dt {
-      font-weight: 500;
+    text-align: left;
+    th,
+    td {
+      padding: 8px 0;
+      border-bottom: 1px solid $line;
+      vertical-align: top;
     }
-    dd {
-      margin: 0;
+    tr:last-child {
+      th,
+      td {
+        border-bottom: 0;
+      }
+    }
+    th {
+      padding-right: 16px;
+      font-weight: 500;
+      white-space: nowrap;
+    }
+    td {
       color: $muted;
     }
   }
