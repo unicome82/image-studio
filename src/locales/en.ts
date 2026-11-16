@@ -299,5 +299,156 @@ const translation: Record<string, string> = {
   Thin: 'Thin',
   Bold: 'Bold',
   'Typography Weight': 'Weight',
+  'Show {{title}} definitions': 'Show {{title}} definitions',
+  'Help Illustration Style botanicalillustration':
+    'Precise, delicate plant studies in the manner of a scientific plate.',
+  'Help Illustration Style childlikeillustration':
+    'Wobbly lines and crayon-like fills, as if drawn by a child.',
+  'Help Illustration Style contemporaryflat': 'Clean flat color shapes with little or no shading.',
+  'Help Illustration Style continuousline': 'The whole subject drawn with one unbroken line.',
+  'Help Illustration Style editorialillustration':
+    'Concept-led magazine illustration that tells an idea through metaphor.',
+  'Help Illustration Style expressionism':
+    'Distorted forms and intense color that put emotion before accuracy.',
+  'Help Illustration Style geometricillustration':
+    'Subjects built from circles, triangles and other simple shapes.',
+  'Help Illustration Style grunge': 'Rough, scratched and stained textures with a raw, worn look.',
+  'Help Illustration Style impressionism':
+    'Loose visible brushstrokes that capture light and atmosphere.',
+  'Help Illustration Style isometric':
+    'Objects seen from a fixed 30° angle with no perspective, like a 3D diagram.',
+  'Help Illustration Style maximalism':
+    'Dense, ornate scenes packed with pattern, color and detail.',
+  'Help Illustration Style midcentury':
+    '1950s–60s look with simple organic shapes and a limited retro palette.',
+  'Help Illustration Style minimalism': 'Only the essential shapes, with plenty of empty space.',
+  'Help Illustration Style naivefolk':
+    'Flat, decorative folk painting with simple figures and no strict perspective.',
+  'Help Illustration Style outlineillustration': 'Drawn with even outlines and little or no fill.',
+  'Help Illustration Style papercutout':
+    'Layered cut-paper shapes with soft shadows between the layers.',
+  'Help Illustration Style pixelart':
+    'Images built from visible square pixels, like early video games.',
+  'Help Illustration Style popart': 'Bold outlines, flat bright colors and comic-style dots.',
+  'Help Illustration Style psychedelicart':
+    'Swirling, melting forms in vivid, clashing 1960s colors.',
+  'Help Illustration Style risograph':
+    'Two or three overlapping spot inks with grain and slight misregistration.',
+  'Help Illustration Style surrealism':
+    'Realistically rendered scenes that combine things in dreamlike, impossible ways.',
+  'Help Illustration Style y2k':
+    'Late-90s/2000s futurism: glossy, bubbly shapes, chrome and candy colors.',
+  'Help Photo Style editorial': 'Magazine-feature photography built around a concept or story.',
+  'Help Photo Style fashion': 'Styled photography where clothing, pose and attitude lead.',
+  'Help Photo Style cinematic':
+    'Looks like a film still: wide framing, moody light, a sense of story.',
+  'Help Photo Style minimal': 'One simple subject, clean background and lots of empty space.',
+  'Help Photo Style fineart':
+    "Photography made as artwork, driven by the artist's idea rather than a record.",
+  'Help Photo Style street': 'Candid, unposed moments of everyday life in public places.',
+  'Help Photo Style stilllife': 'Carefully arranged objects shot in controlled light.',
+  'Help Photo Style abstract':
+    'Shape, color and texture shown so the subject is hard to recognize.',
+  'Help Photo Technique film': 'Analog film look with natural grain and gentle color.',
+  'Help Photo Technique lofi':
+    'Point-and-shoot snapshot feel: soft edges, light vignette, casual framing.',
+  'Help Photo Technique flash':
+    'Direct on-camera flash: bright subject, hard shadows, dark background.',
+  'Help Photo Technique polaroid':
+    'Instant-film look with soft focus, creamy faded color and a white frame.',
+  'Help Photo Technique disposable':
+    'Disposable-camera snapshot: harsh flash, heavy grain, casual framing.',
+  'Help Photo Technique expiredfilm': 'Out-of-date film with shifted colors, fog and uneven grain.',
+  'Help Photo Technique crossprocess':
+    'Film developed in the wrong chemicals: strong contrast and odd green or yellow color shifts.',
+  'Help Photo Technique silvergelatin':
+    'Classic black-and-white darkroom print with deep blacks and rich grays.',
+  'Help Photo Technique pictorialism':
+    'Soft-focus, painting-like photography from the early 1900s.',
+  'Help Photo Technique newsprint':
+    'Coarse halftone dots and rough ink, as printed in a newspaper.',
+  'Help Photo Technique mediumformat':
+    'Large-film look: very fine detail, smooth tones, shallow depth of field.',
+  'Help Design Format poster':
+    'A single printed sheet that combines image and text to announce something.',
+  'Help Design Format logo': 'A mark or wordmark that identifies a brand.',
+  'Help Design Format packaging': 'The box, bottle or pouch a product is sold in.',
+  'Help Design Format infographic': 'Information explained with charts, icons and diagrams.',
+  'Help Design Format iconset': 'A family of small icons sharing one consistent style.',
+  'Help Design Format pattern': 'A motif that repeats seamlessly across a surface.',
+  'Help Design Format greetingcard': 'A folded card for a birthday, holiday or thank-you.',
+  'Help Design Format website': 'A web page layout shown on a screen.',
+  'Help Design Format emblem': 'A badge or crest that holds image and text inside one shape.',
+  'Help Design Format product': 'The physical object itself, shown as a clean studio shot.',
+  'Help Design Format character': 'A mascot or character with its own personality.',
+  'Help Design Format appscreen': 'A mobile app screen with its interface elements.',
+  'Help Design Format signage': 'Signs and wayfinding placed in a real space.',
+  'Help Design Style minimalist':
+    'Few essential elements, precise alignment and generous white space.',
+  'Help Design Style maximalism':
+    'More is more: layered patterns, colors and typefaces filling the space.',
+  'Help Design Style swiss': 'Strict grid, sans-serif type and objective, orderly layout.',
+  'Help Design Style artdeco':
+    '1920s–30s glamour: symmetry, geometric ornament and metallic accents.',
+  'Help Design Style midcentury':
+    '1950s–60s modern: organic shapes, playful layout, warm retro colors.',
+  'Help Design Style brutalist':
+    'Raw and blunt: heavy type, stark contrast, deliberately unpolished.',
+  'Help Design Style y2k': 'Late-90s/2000s tech optimism: gloss, chrome, bubbly shapes.',
+  'Help Design Style avantgarde':
+    'Experimental layouts that break the rules with diagonals and abstract forms.',
+  'Help Design Style retro':
+    'Nostalgic look borrowed from past decades, with vintage type and colors.',
+  'Help Design Style futurism':
+    'Speed and technology: dynamic lines, sleek forms, a forward-looking feel.',
+  'Help Design Style postmodernism':
+    'Playful rule-breaking: clashing colors, mixed typefaces, squiggles and odd shapes.',
+  'Help Design Graphic geometric': 'Built from circles, squares, triangles and straight lines.',
+  'Help Design Graphic abstract': 'Free shapes and color fields that depict no specific object.',
+  'Help Design Graphic risograph': 'Overlapping spot inks with grain and slight misregistration.',
+  'Help Design Graphic halftone': 'Tones made from visible printing dots of varying size.',
+  'Help Design Graphic gradient': 'Colors that blend smoothly into one another.',
+  'Help Design Graphic glassmorphism':
+    'Frosted, translucent glass panels over a blurred background.',
+  'Help Design Graphic chrome': 'Mirror-like liquid metal with sharp reflections.',
+  'Help Design Graphic collage': 'Cut-out photos and paper pieces assembled together.',
+  'Help Design Graphic 3d': 'Rendered three-dimensional objects with volume, light and shadow.',
+  'Help Design Graphic generative':
+    'Algorithm-made patterns of repeating lines, dots or particles.',
+  'Help Depiction verysimple': 'Very few elements; almost empty.',
+  'Help Depiction simple': 'A simple composition with limited detail.',
+  'Help Depiction balanced': 'A moderate amount of detail (adds no instruction to the prompt).',
+  'Help Depiction complex': 'A detailed composition with rich visual elements.',
+  'Help Depiction verycomplex': 'Elaborate fine detail throughout the image.',
+  'Help Color analogous': 'Neighboring colors on the color wheel, such as blue and green.',
+  'Help Color blackwhite': 'No color; black, white and grays only.',
+  'Help Color complementary':
+    'Opposite colors on the wheel, such as blue and orange, for strong contrast.',
+  'Help Color cool': 'Blues, greens and violets.',
+  'Help Color duotone': 'Exactly two colors and the tints between them.',
+  'Help Color earthy': 'Natural browns, ochres, olive and terracotta.',
+  'Help Color iridescent': 'Pearly rainbow sheen that shifts like a soap bubble.',
+  'Help Color monochrome': 'One color in lighter and darker variations.',
+  'Help Color muted': 'Low-saturation, grayed-down colors.',
+  'Help Color neon': 'Glowing fluorescent colors.',
+  'Help Color neutralaccent': 'Whites and soft neutrals with one saturated accent color.',
+  'Help Color pastel': 'Pale, soft colors mixed with white.',
+  'Help Color primarycolors': 'Pure red, yellow and blue.',
+  'Help Color vivid': 'Bright, fully saturated colors.',
+  'Help Color warm': 'Reds, oranges and yellows.',
+  'Help Tone highkey': 'Bright overall, with light tones and few shadows.',
+  'Help Tone lowkey': 'Dark overall, with only a small part lit.',
+  'Help Tone highcontrast': 'A large gap between the bright and dark areas.',
+  'Help Tone lowcontrast': 'A small gap between bright and dark; flat and gentle.',
+  'Help Tone faded': 'Milky blacks and dimmed highlights, like a washed-out print.',
+  'Help Tone matte': 'Only the blacks are lifted; midtone contrast stays strong.',
+  'Help Tone soft': 'Diffused light with gentle shadow edges.',
+  'Help Tone hazy': 'Atmospheric haze that blurs detail with distance.',
+  'Help Tone backlit': 'Light from behind the subject, giving a glowing rim.',
+  'Help Tone dramatic': 'Strong directional light and deep shadows for tension.',
+  'Help Tone moody': 'Dim, subdued light with an emotional, introspective feel.',
+  'Help Tone calm': 'Even, quiet light with a still, peaceful feel.',
+  'Help Tone dreamy': 'Soft glow and gentle blur, like a dream.',
+  'Help Tone elegant': 'Restrained, refined light with smooth gradations.',
 };
 export default translation;

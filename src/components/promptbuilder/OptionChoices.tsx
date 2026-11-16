@@ -2,7 +2,7 @@ import { useTranslation } from 'react-i18next';
 import { optionLabelKey } from '../../utils/optionChoices';
 import Icon from '../Icon';
 import OptionSummary from './OptionSummary';
-import { useId, useState, type ReactNode } from 'react';
+import { useEffect, useId, useRef, useState, type ReactNode } from 'react';
 interface Choice {
   id: string;
   label: string;
@@ -11,6 +11,8 @@ interface Choice {
 interface Props {
   title: string;
   headerControl?: ReactNode;
+  /** Catalog category whose option definitions open from a help button beside the title. */
+  helpCategory?: string;
   afterHeading?: ReactNode;
   showOptions?: boolean;
   collapsible?: boolean;
@@ -25,6 +27,7 @@ export default function OptionChoices({
   selected,
   choose,
   headerControl,
+  helpCategory,
   afterHeading,
   showOptions = true,
   collapsible = true,
@@ -37,6 +40,28 @@ export default function OptionChoices({
   const canCollapse = collapsible && showOptions && options.length > 0;
   const label = (option: Choice) => t(optionLabelKey(option));
   const labels = options.filter((option) => selected.includes(option.id)).map(label);
+  const helpId = useId();
+  const helpRef = useRef<HTMLSpanElement>(null);
+  const [helpOpen, setHelpOpen] = useState(false);
+  useEffect(() => {
+    if (!helpOpen) return;
+    const outside = (event: PointerEvent) => {
+      if (!helpRef.current?.contains(event.target as Node)) setHelpOpen(false);
+    };
+    // Capture Escape before the dialog so it closes the definitions, not the Builder.
+    const escape = (event: KeyboardEvent) => {
+      if (event.key !== 'Escape') return;
+      event.preventDefault();
+      event.stopPropagation();
+      setHelpOpen(false);
+    };
+    document.addEventListener('pointerdown', outside);
+    document.addEventListener('keydown', escape, true);
+    return () => {
+      document.removeEventListener('pointerdown', outside);
+      document.removeEventListener('keydown', escape, true);
+    };
+  }, [helpOpen]);
   const unfiltered = allIsUnfiltered && (labels.length === 0 || labels.length === options.length);
   return (
     <>
@@ -52,6 +77,34 @@ export default function OptionChoices({
           </button>
         ) : (
           t(title)
+        )}
+        {helpCategory && (
+          <span
+            className="option-heading-actions option-help"
+            ref={helpRef}
+            onPointerEnter={(event) => event.pointerType === 'mouse' && setHelpOpen(true)}
+            onPointerLeave={(event) => event.pointerType === 'mouse' && setHelpOpen(false)}
+          >
+            <button
+              className="option-help-button"
+              aria-label={t('Show {{title}} definitions', { title: t(title) })}
+              aria-expanded={helpOpen}
+              aria-controls={helpId}
+              onClick={() => setHelpOpen(!helpOpen)}
+            >
+              <Icon name="help" size="16" />
+            </button>
+            {helpOpen && (
+              <dl className="option-help-popup" id={helpId} role="tooltip">
+                {options.map((option) => (
+                  <div key={option.id}>
+                    <dt>{label(option)}</dt>
+                    <dd>{t(`Help ${helpCategory} ${option.id}`)}</dd>
+                  </div>
+                ))}
+              </dl>
+            )}
+          </span>
         )}
         {headerControl && <span className="option-heading-actions">{headerControl}</span>}
         {canCollapse && (

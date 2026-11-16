@@ -98,6 +98,7 @@ export default function Builder(p: Props) {
           .map((o) => ({ id: o.id, label: o.label.replace(' Modern', ''), category }))}
         selected={p.selection[category] ?? []}
         choose={(id) => p.toggle(category, id)}
+        helpCategory={category}
       />
     </section>
   );
@@ -196,6 +197,7 @@ export default function Builder(p: Props) {
                       .map((o) => ({ id: o.id, label: o.label, category: o.category }))}
                     selected={p.selection.Depiction ?? [defaultDepiction]}
                     choose={(id) => p.toggle('Depiction', id)}
+                    helpCategory="Depiction"
                   />
                 </section>
                 {rest.map(choices)}

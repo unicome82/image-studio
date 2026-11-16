@@ -46,3 +46,28 @@ test('Option labels map to translation keys without type suffixes', async () => 
   assert.equal(ko.Grayscale, '흑백');
   assert.equal(ko.Pastel, '파스텔');
 });
+
+test('Every Builder option has an English and Korean definition for its help popup', async () => {
+  const { builderCategories } = await import('../src/utils/promptBuilder.ts');
+  const categories = new Set([
+    'Depiction',
+    ...builderCategories(false),
+    ...builderCategories(true),
+    ...builderCategories(false, true),
+  ]);
+  function check(dir: string) {
+    for (const entry of readdirSync(dir, { withFileTypes: true })) {
+      const path = join(dir, entry.name);
+      if (entry.isDirectory()) check(path);
+      else if (entry.name === 'prompt.md') {
+        const text = readFileSync(path, 'utf8');
+        const category = text.match(/\*\*Category:\*\* (.+)/)?.[1] ?? '';
+        const id = text.match(/\*\*Style ID:\*\* `([^`]+)`/)?.[1];
+        if (!categories.has(category)) continue;
+        const key = `Help ${category} ${id}`;
+        assert.ok(en[key] && ko[key], `${path}: ${key}`);
+      }
+    }
+  }
+  check('reference');
+});

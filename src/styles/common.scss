@@ -1829,6 +1829,58 @@ textarea,
   @include flex-row($gap: 8px, $display: inline-flex);
   flex-shrink: 0;
 }
+// Definitions of a category's options, opened from the help button beside its title.
+.option-heading:has(.option-help) {
+  position: relative;
+}
+.option-help {
+  margin-left: -8px;
+  &-button {
+    @include flex-row($justify: center, $display: inline-flex);
+    width: var(--icon-button-size, #{$option-control-height});
+    height: var(--icon-button-size, #{$option-control-height});
+    padding: 0;
+    color: $muted;
+    @media (hover: hover) {
+      &:hover {
+        color: $black;
+      }
+    }
+    &[aria-expanded='true'] {
+      color: $black;
+    }
+  }
+  &-popup {
+    @include flex-column;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    z-index: 100;
+    gap: 8px;
+    width: max-content;
+    max-width: min(100%, 400px);
+    max-height: min(50dvh, 320px);
+    margin: 0;
+    padding: 12px;
+    overflow-y: auto;
+    overscroll-behavior: none;
+    border: 1px solid $line;
+    border-radius: 8px;
+    background: $page;
+    box-shadow: 0 4px 16px rgba($black, 0.08);
+    color: $ink;
+    font-size: var(--text-small, 12px);
+    font-weight: 400;
+    line-height: 1.5;
+    dt {
+      font-weight: 500;
+    }
+    dd {
+      margin: 0;
+      color: $muted;
+    }
+  }
+}
 .typography-input {
   display: block;
   margin-bottom: 8px;

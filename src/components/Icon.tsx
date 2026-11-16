@@ -24,7 +24,8 @@ export type IconName =
   | 'delete'
   | 'more_horiz'
   | 'expand_less'
-  | 'expand_more';
+  | 'expand_more'
+  | 'help';
 export type IconSize = `${12 | 14 | 16 | 18 | 20 | 22 | 24 | 28 | 32 | 36}`;
 interface Props {
   name: IconName;
