@@ -1858,6 +1858,10 @@ textarea,
     }
   }
   &-scroll {
+    --scrollbar-thumb: #{$tooltip-scrollbar};
+    &:hover {
+      --scrollbar-thumb: #{$tooltip-scrollbar-hover};
+    }
     max-height: calc(min(50dvh, 320px) - 10px);
     padding-inline: 8px;
     overflow-y: auto;
@@ -1878,11 +1882,11 @@ textarea,
     max-height: min(50dvh, 320px);
     padding: 4px;
     overflow: hidden;
-    border: 1px solid $line;
+    border: 1px solid $tooltip-line;
     border-radius: 8px;
-    background: $page;
+    background: $tooltip-background;
     box-shadow: 0 4px 16px rgba($black, 0.08);
-    color: $ink;
+    color: $white;
     font-size: var(--text-small, 12px);
     font-weight: 400;
     line-height: 1.5;
@@ -1898,7 +1902,7 @@ textarea,
     th,
     td {
       padding: 8px 0;
-      border-bottom: 1px solid $line;
+      border-bottom: 1px solid $tooltip-line;
       vertical-align: top;
     }
     tr:last-child {
@@ -1913,7 +1917,7 @@ textarea,
       white-space: nowrap;
     }
     td {
-      color: $muted;
+      color: $tooltip-muted;
     }
   }
 }
