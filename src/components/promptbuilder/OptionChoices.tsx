@@ -2,7 +2,7 @@ import { useTranslation } from 'react-i18next';
 import { optionLabelKey } from '../../utils/optionChoices';
 import Icon from '../Icon';
 import OptionSummary from './OptionSummary';
-import { useEffect, useId, useRef, useState, type ReactNode } from 'react';
+import { useEffect, useLayoutEffect, useId, useRef, useState, type ReactNode } from 'react';
 interface Choice {
   id: string;
   label: string;
@@ -43,6 +43,23 @@ export default function OptionChoices({
   const helpId = useId();
   const helpRef = useRef<HTMLSpanElement>(null);
   const [helpOpen, setHelpOpen] = useState(false);
+  const [helpAbove, setHelpAbove] = useState(false);
+  useLayoutEffect(() => {
+    if (!helpOpen) return;
+    const position = () => {
+      const button = helpRef.current?.querySelector('button');
+      if (!button) return;
+      const bounds = button.getBoundingClientRect();
+      setHelpAbove(bounds.top + bounds.height / 2 > window.innerHeight / 2);
+    };
+    position();
+    window.addEventListener('resize', position);
+    document.addEventListener('scroll', position, true);
+    return () => {
+      window.removeEventListener('resize', position);
+      document.removeEventListener('scroll', position, true);
+    };
+  }, [helpOpen]);
   useEffect(() => {
     if (!helpOpen) return;
     const outside = (event: PointerEvent) => {
@@ -90,16 +107,25 @@ export default function OptionChoices({
               <Icon name="help" size="16" className="w300" />
             </button>
             {helpOpen && (
-              <table className="option-help-popup" id={helpId} role="tooltip">
-                <tbody>
-                  {options.map((option) => (
-                    <tr key={option.id}>
-                      <th scope="row">{label(option)}</th>
-                      <td>{t(`Help ${helpCategory} ${option.id}`)}</td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
+              <div
+                className="option-help-popup"
+                id={helpId}
+                role="tooltip"
+                data-placement={helpAbove ? 'top' : 'bottom'}
+              >
+                <div className="option-help-scroll">
+                  <table>
+                    <tbody>
+                      {options.map((option) => (
+                        <tr key={option.id}>
+                          <th scope="row">{label(option)}</th>
+                          <td>{t(`Help ${helpCategory} ${option.id}`)}</td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
             )}
           </span>
         )}

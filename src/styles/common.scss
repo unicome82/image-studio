@@ -1857,6 +1857,20 @@ textarea,
       font-variation-settings: 'FILL' 1;
     }
   }
+  &-scroll {
+    --scrollbar-thumb: #{$tooltip-scrollbar};
+    &:hover {
+      --scrollbar-thumb: #{$tooltip-scrollbar-hover};
+    }
+    max-height: calc(min(50dvh, 320px) - 10px);
+    padding-inline: 8px;
+    overflow-y: auto;
+    overscroll-behavior: none;
+    &::-webkit-scrollbar-track,
+    &::-webkit-scrollbar-thumb {
+      border-radius: 8px;
+    }
+  }
   &-popup {
     display: block;
     position: absolute;
@@ -1866,23 +1880,30 @@ textarea,
     width: max-content;
     max-width: min(100%, 480px);
     max-height: min(50dvh, 320px);
-    padding: 4px 12px;
-    overflow-y: auto;
-    overscroll-behavior: none;
-    border: 1px solid $line;
+    padding: 4px;
+    overflow: hidden;
+    border: 1px solid $tooltip-line;
     border-radius: 8px;
-    border-spacing: 0;
-    background: $page;
+    background: $tooltip-background;
+    backdrop-filter: blur($tooltip-blur);
     box-shadow: 0 4px 16px rgba($black, 0.08);
-    color: $ink;
+    color: $white;
     font-size: var(--text-small, 12px);
     font-weight: 400;
     line-height: 1.5;
     text-align: left;
+    &[data-placement='top'] {
+      top: auto;
+      bottom: 100%;
+    }
+    table {
+      width: 100%;
+      border-spacing: 0;
+    }
     th,
     td {
       padding: 8px 0;
-      border-bottom: 1px solid $line;
+      border-bottom: 1px solid $tooltip-line;
       vertical-align: top;
     }
     tr:last-child {
@@ -1897,7 +1918,7 @@ textarea,
       white-space: nowrap;
     }
     td {
-      color: $muted;
+      color: $tooltip-muted;
     }
   }
 }
