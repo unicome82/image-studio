@@ -79,12 +79,7 @@ export default function OptionChoices({
           t(title)
         )}
         {helpCategory && (
-          <span
-            className="option-heading-actions option-help"
-            ref={helpRef}
-            onPointerEnter={(event) => event.pointerType === 'mouse' && setHelpOpen(true)}
-            onPointerLeave={(event) => event.pointerType === 'mouse' && setHelpOpen(false)}
-          >
+          <span className="option-heading-actions option-help" ref={helpRef}>
             <button
               className="option-help-button"
               aria-label={t('Show {{title}} definitions', { title: t(title) })}
