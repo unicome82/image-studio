@@ -1885,6 +1885,7 @@ textarea,
     border: 1px solid $tooltip-line;
     border-radius: 8px;
     background: $tooltip-background;
+    backdrop-filter: blur($tooltip-blur);
     box-shadow: 0 4px 16px rgba($black, 0.08);
     color: $white;
     font-size: var(--text-small, 12px);
