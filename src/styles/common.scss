@@ -1840,10 +1840,16 @@ textarea,
   }
   &-button {
     @include flex-row($justify: center, $display: inline-flex);
-    width: var(--icon-button-size, 18px);
-    height: var(--icon-button-size, 18px);
+    width: var(--icon-button-size, 16px);
+    height: var(--icon-button-size, 16px);
     padding: 0;
-    color: $placeholder;
+    color: inherit;
+    // At weight 200 the glyph's circle spans 16px of a 22px box, matching the desktop button.
+    @media (min-width: #{$mobile + 1px}) {
+      .material-symbol {
+        font-size: 22px;
+      }
+    }
     // Hovered or open: the symbol fills in its line color, leaving the question mark white.
     @media (hover: hover) {
       &:hover .material-symbol {
