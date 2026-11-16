@@ -1844,10 +1844,10 @@ textarea,
     height: var(--icon-button-size, 16px);
     padding: 0;
     color: inherit;
-    // At weight 200 the glyph's circle spans 16px of a 22px box, matching the desktop button.
+    // The glyph's circle spans 16px of a 20px box, matching the desktop button.
     @media (min-width: #{$mobile + 1px}) {
       .material-symbol {
-        font-size: 22px;
+        font-size: 20px;
       }
     }
     // Hovered or open: the symbol fills in its line color, leaving the question mark white.

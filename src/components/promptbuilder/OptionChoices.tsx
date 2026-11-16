@@ -92,7 +92,7 @@ export default function OptionChoices({
               aria-controls={helpId}
               onClick={() => setHelpOpen(!helpOpen)}
             >
-              <Icon name="help" size="14" className="w200" />
+              <Icon name="help" size="14" />
             </button>
             {helpOpen && (
               <table className="option-help-popup" id={helpId} role="tooltip">
