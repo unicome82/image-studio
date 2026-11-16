@@ -1841,20 +1841,14 @@ textarea,
     height: var(--icon-button-size, #{$option-control-height});
     padding: 0;
     color: $placeholder;
-    // Hovered or open: the default text color with the filled symbol.
+    // Hovered or open: the symbol fills in its line color, leaving the question mark white.
     @media (hover: hover) {
-      &:hover {
-        color: $ink;
-        .material-symbol {
-          font-variation-settings: 'FILL' 1;
-        }
-      }
-    }
-    &[aria-expanded='true'] {
-      color: $ink;
-      .material-symbol {
+      &:hover .material-symbol {
         font-variation-settings: 'FILL' 1;
       }
+    }
+    &[aria-expanded='true'] .material-symbol {
+      font-variation-settings: 'FILL' 1;
     }
   }
   &-popup {
