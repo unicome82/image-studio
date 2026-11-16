@@ -320,6 +320,9 @@ textarea,
   &.w200 {
     font-weight: 200;
   }
+  &.w300 {
+    font-weight: 300;
+  }
   &.fill {
     font-variation-settings: 'FILL' 1;
   }
@@ -1844,12 +1847,6 @@ textarea,
     height: var(--icon-button-size, 16px);
     padding: 0;
     color: inherit;
-    // The glyph's circle spans 16px of a 20px box, matching the desktop button.
-    @media (min-width: #{$mobile + 1px}) {
-      .material-symbol {
-        font-size: 20px;
-      }
-    }
     // Hovered or open: the symbol fills in its line color, leaving the question mark white.
     @media (hover: hover) {
       &:hover .material-symbol {
