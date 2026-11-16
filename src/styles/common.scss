@@ -1857,6 +1857,16 @@ textarea,
       font-variation-settings: 'FILL' 1;
     }
   }
+  &-scroll {
+    max-height: calc(min(50dvh, 320px) - 10px);
+    padding-inline: 8px;
+    overflow-y: auto;
+    overscroll-behavior: none;
+    &::-webkit-scrollbar-track,
+    &::-webkit-scrollbar-thumb {
+      border-radius: 8px;
+    }
+  }
   &-popup {
     display: block;
     position: absolute;
@@ -1866,12 +1876,10 @@ textarea,
     width: max-content;
     max-width: min(100%, 480px);
     max-height: min(50dvh, 320px);
-    padding: 4px 12px;
-    overflow-y: auto;
-    overscroll-behavior: none;
+    padding: 4px;
+    overflow: hidden;
     border: 1px solid $line;
     border-radius: 8px;
-    border-spacing: 0;
     background: $page;
     box-shadow: 0 4px 16px rgba($black, 0.08);
     color: $ink;
@@ -1879,6 +1887,10 @@ textarea,
     font-weight: 400;
     line-height: 1.5;
     text-align: left;
+    table {
+      width: 100%;
+      border-spacing: 0;
+    }
     th,
     td {
       padding: 8px 0;

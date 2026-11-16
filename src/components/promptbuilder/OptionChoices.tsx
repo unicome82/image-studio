@@ -90,16 +90,20 @@ export default function OptionChoices({
               <Icon name="help" size="16" className="w300" />
             </button>
             {helpOpen && (
-              <table className="option-help-popup" id={helpId} role="tooltip">
-                <tbody>
-                  {options.map((option) => (
-                    <tr key={option.id}>
-                      <th scope="row">{label(option)}</th>
-                      <td>{t(`Help ${helpCategory} ${option.id}`)}</td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
+              <div className="option-help-popup" id={helpId} role="tooltip">
+                <div className="option-help-scroll">
+                  <table>
+                    <tbody>
+                      {options.map((option) => (
+                        <tr key={option.id}>
+                          <th scope="row">{label(option)}</th>
+                          <td>{t(`Help ${helpCategory} ${option.id}`)}</td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
             )}
           </span>
         )}
