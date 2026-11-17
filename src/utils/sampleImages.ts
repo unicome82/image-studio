@@ -16,6 +16,93 @@ export interface SampleImage {
 }
 export const sampleImages: SampleImage[] = [
   {
+    type: 'illustration',
+    fileName: 'isometric-woman-laptop-yellow-desk-pink.webp',
+    added: '2026-11-17T07:15:00Z',
+    width: 1200,
+    height: 1200,
+    color: '#e99495',
+    fields: {
+      Subject:
+        'A woman working on a laptop at a yellow desk with a lamp, a plant and glass arches on pink',
+    },
+    selection: {
+      'Illustration Style': ['isometric'],
+      Color: ['vivid'],
+      Tone: ['calm'],
+      Texture: ['papergrain'],
+      Depiction: ['balanced'],
+    },
+  },
+  {
+    type: 'illustration',
+    fileName: 'isometric-checklist-clipboard-giant-pencil.webp',
+    added: '2026-11-17T07:15:00Z',
+    width: 1200,
+    height: 1200,
+    color: '#9399d7',
+    fields: {
+      Subject: 'A person ticking a giant clipboard checklist with an oversized yellow pencil',
+    },
+    selection: {
+      'Illustration Style': ['isometric'],
+      Color: ['analogous'],
+      Tone: ['calm'],
+      Texture: ['papergrain'],
+      Depiction: ['simple'],
+    },
+  },
+  {
+    type: 'illustration',
+    fileName: 'isometric-laptop-worker-arch-block-green.webp',
+    added: '2026-11-17T07:15:00Z',
+    width: 1200,
+    height: 1200,
+    color: '#5c7664',
+    fields: {
+      Subject: 'A person in orange trousers typing on a laptop atop an arched block on deep green',
+    },
+    selection: {
+      'Illustration Style': ['isometric'],
+      Color: ['complementary'],
+      Tone: ['calm'],
+      Texture: ['papergrain'],
+      Depiction: ['simple'],
+    },
+  },
+  {
+    type: 'illustration',
+    fileName: 'isometric-desk-calendar-sticky-note-lilac.webp',
+    added: '2026-11-17T07:15:00Z',
+    width: 1200,
+    height: 1200,
+    color: '#b7a4cf',
+    fields: { Subject: 'A person sticking a yellow note on a giant desk calendar on lilac' },
+    selection: {
+      'Illustration Style': ['isometric'],
+      Color: ['complementary'],
+      Tone: ['calm'],
+      Texture: ['papergrain'],
+      Depiction: ['simple'],
+    },
+  },
+  {
+    type: 'illustration',
+    fileName: 'isometric-team-meeting-round-table-lamp.webp',
+    added: '2026-11-17T07:15:00Z',
+    width: 1200,
+    height: 1200,
+    color: '#d3c4c0',
+    fields: { Subject: 'Four people meeting around a round table under a pendant lamp' },
+    selection: {
+      'Illustration Style': ['isometric'],
+      Color: ['muted'],
+      Tone: ['calm'],
+      Texture: ['papergrain'],
+      Depiction: ['balanced'],
+    },
+  },
+  {
     type: 'design',
     fileName: 'poster-motion-pink-gradient-folds-dark.webp',
     added: '2026-11-17T06:58:22Z',
