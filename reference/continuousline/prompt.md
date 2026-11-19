@@ -2,7 +2,7 @@
 
 - **Category:** Illustration Style
 - **Style ID:** `continuousline`
-- **Cue:** Fluid uninterrupted pen strokes tracing individual subjects, consistent line weight, graceful directional changes, open loops, overlapping contours, continuous curves suggesting volume, unfilled shapes, delicate variations in line rhythm
+- **Cue:** One single continuous line drawn in one pen movement per subject, looping and overlapping through contours, steady thin weight, open unfilled forms, fluid hand-drawn rhythm, one or two soft flat color shapes behind the line
 
 ### Style
 - Express the subject with the elegance and economy of a single uninterrupted line drawn with confident flow.
