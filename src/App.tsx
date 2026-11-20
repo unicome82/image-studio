@@ -1,7 +1,7 @@
 import { createPortal } from 'react-dom';
 import { useTranslation } from 'react-i18next';
 import Icon from './components/Icon';
-import { useEffect, useRef, useState, type CSSProperties } from 'react';
+import { useEffect, useLayoutEffect, useRef, useState, type CSSProperties } from 'react';
 import catalog from 'virtual:prompt-catalog';
 import Header from './components/Header';
 import Gallery from './components/Gallery';
@@ -122,6 +122,12 @@ export default function App() {
     if (modal === 'prompt') modalRef.current?.showModal();
     else modalRef.current?.close();
   }, [modal]);
+  // Opening or closing a panel reflows the gallery and moves the scroll position;
+  // those jumps are not the user scrolling up, so they leave the header as it is.
+  const layoutShiftUntil = useRef(0);
+  useLayoutEffect(() => {
+    layoutShiftUntil.current = performance.now() + 400;
+  }, [selected, builder, filterClosing, composerOpen, presetOpen, modal]);
   useEffect(() => {
     // CSS owns the header height and sticky offsets; JS only reads scroll direction.
     const header = document.querySelector<HTMLElement>('.header');
@@ -131,6 +137,11 @@ export default function App() {
       const delta = y - lastY;
       if (y <= (header?.offsetHeight ?? 0)) {
         setHeaderHidden(false);
+        lastY = y;
+      } else if (
+        performance.now() < layoutShiftUntil.current ||
+        document.querySelector('dialog[open]')
+      ) {
         lastY = y;
       } else if (Math.abs(delta) >= 8) {
         setHeaderHidden(delta > 0 && !header?.contains(document.activeElement));
