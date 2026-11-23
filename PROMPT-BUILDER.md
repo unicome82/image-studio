@@ -10,7 +10,7 @@ IMAGE STUDIO의 **부가 메뉴**로 **갤러리 시안** 영문 프롬프트를
 
 ## 2. 선택 라이브러리
 
-각 항목은 영문 표시명과 고유 ID를 가진다. 빌더는 유형별로 아래 카테고리만 사용한다: 일러스트 Style·Color·Tone, 사진 Photo Style·Photo Technique·Color·Tone, 디자인 Format·Style·Graphic·Color·Tone, 모든 유형 공통 Typography 스위치·문구. 모든 유형에 Depiction을 둔다. Texture는 갤러리 이미지의 필터·상세 프롬프트에만 쓴다.
+각 항목은 영문 표시명과 고유 ID를 가진다. 빌더는 유형별로 아래 카테고리만 사용한다: 일러스트 Style·Color·Tone, 사진 Photo Style·Photo Technique·Color·Tone, 디자인 Format·Style·Graphic·Color·Tone, 모든 유형 공통 Typography 스위치·문구. 모든 유형에 Depiction과 Depth를 둔다. Texture는 갤러리 이미지의 필터·상세 프롬프트에만 쓴다.
 
 - **Illustration Style (22):** [Botanical Illustration](reference/botanicalillustration/prompt.md), [Childlike Illustration](reference/childlikeillustration/prompt.md), [Contemporary Flat Illustration](reference/contemporaryflat/prompt.md), [Continuous Line](reference/continuousline/prompt.md), [Editorial Illustration](reference/editorialillustration/prompt.md), [Expressionism](reference/expressionism/prompt.md), [Geometric Illustration](reference/geometricillustration/prompt.md), [Grunge](reference/grunge/prompt.md), [Impressionism](reference/impressionism/prompt.md), [Isometric Illustration](reference/isometric/prompt.md), [Maximalism](reference/maximalism/prompt.md), [Mid-century Modern](reference/midcentury/prompt.md), [Minimalism](reference/minimalism/prompt.md), [Naive Folk Art](reference/naivefolk/prompt.md), [Outline Illustration](reference/outlineillustration/prompt.md), [Paper Cutout](reference/papercutout/prompt.md), [Pixel Art](reference/pixelart/prompt.md), [Pop Art](reference/popart/prompt.md), [Psychedelic Art](reference/psychedelicart/prompt.md), [Risograph](reference/risograph/prompt.md), [Surrealism](reference/surrealism/prompt.md), [Y2K](reference/y2k/prompt.md).
 - **Photo Style (8, 필수·기본 Editorial):** [Editorial](reference/options/photography/editorial/prompt.md), [Fashion](reference/options/photography/fashion/prompt.md), [Cinematic](reference/options/photography/cinematic/prompt.md), [Minimal](reference/options/photography/minimal/prompt.md), [Fine Art](reference/options/photography/fineart/prompt.md), [Street](reference/options/photography/street/prompt.md), [Still Life](reference/options/photography/stilllife/prompt.md), [Abstract](reference/options/photography/abstract/prompt.md). 피사체 장르는 Subject 입력이 맡는다.
@@ -25,8 +25,9 @@ IMAGE STUDIO의 **부가 메뉴**로 **갤러리 시안** 영문 프롬프트를
 - **Typography (10, 무작위 후보):** [Sans-serif](reference/options/typography/sansserif/prompt.md), [Serif](reference/options/typography/serif/prompt.md), [Display](reference/options/typography/display/prompt.md), [Monospace](reference/options/typography/monospace/prompt.md), [Outline Type](reference/options/typography/outlinetype/prompt.md), [Bubble Lettering](reference/options/typography/bubblelettering/prompt.md), [Calligraphy](reference/options/typography/calligraphy/prompt.md), [Hand Lettering](reference/options/typography/handlettering/prompt.md), [Childlike Handwriting](reference/options/typography/childlikehandwriting/prompt.md), [Experimental Typography](reference/options/typography/experimentaltypography/prompt.md). 선택 버튼 없이 스위치를 켜면 이미지마다 다른 서체를 이 목록에서 무작위로 고르게 하며, 스위치와 문구(선택)만 빌더에 표시한다.
 
 - **Detail (Depiction, 5, 필수·기본 Simple):** 화면 이름은 Detail(디테일). Minimal(`verysimple`, 최소), Simple(`simple`, 단순), Balanced(`balanced`, 보통), Detailed(`complex`, 상세), Intricate(`verycomplex`, 정교). Cue는 각각 `minimal composition, very few elements`·`simple composition, limited details`·(Balanced는 출력 없음)·`detailed composition, rich visual elements`·`intricate composition, elaborate fine details`이며 시안의 `Detail: {Cue}` 줄로 들어간다.
+- **Depth (3, 선택·기본 미선택, 모든 유형):** 화면 이름은 Depth(공간감). [Flat](reference/options/depth/flat/prompt.md)(`flat`, 평면 — 2D에 한정하지 않는 얕은 정면 평면), [Layered](reference/options/depth/layered/prompt.md)(`layered`, 레이어), [Perspective](reference/options/depth/perspective/prompt.md)(`perspective`, 원근). 시안의 Detail 줄 다음 `Depth: {Cue}` 줄로 들어간다.
 
-일러스트 Technique·Camera·Mood·Lighting·Composition 카테고리는 사용하지 않는다. Photo Technique·Design Graphic·Color·Tone은 기본 미선택이다. 빌더 순서는 대상(모든 유형 공통, 유형을 바꿔도 유지) → 유형 탭 → 대표 스타일 → Photo Technique·Design Graphic → Depiction → Color → Tone → Typography이다.
+일러스트 Technique·Camera·Mood·Lighting·Composition 카테고리는 사용하지 않는다. Photo Technique·Design Graphic·Depth·Color·Tone은 기본 미선택이다. 빌더 순서는 대상(모든 유형 공통, 유형을 바꿔도 유지) → 유형 탭 → 대표 스타일 → Photo Technique·Design Graphic → Depiction → Depth → Color → Tone → Typography이다.
 
 ## 3. 기능
 
@@ -37,12 +38,12 @@ IMAGE STUDIO의 **부가 메뉴**로 **갤러리 시안** 영문 프롬프트를
 
 ## 4. 생성 규칙
 
-- 모든 원본 MD는 Style ID 아래에 `- **Cue:** …` 한 줄을 둔다. 대표 스타일은 35단어·그 외 20단어 이내 긍정문으로 해당 카테고리 범위의 결정적 규칙·수치만 쓴다. 시안 프롬프트에는 대표 스타일(디자인은 Design Style의 Cue)과 Photo Technique만 `표시명 — Cue`로, 나머지 옵션은 표시명만 출력하고, 갤러리 상세 프롬프트에는 `카테고리: 표시명 — Cue`를 출력하고 나머지 본문은 보관만 한다. Depiction Cue는 시안의 `Detail:` 줄에 쓴다(Balanced 제외).
+- 모든 원본 MD는 Style ID 아래에 `- **Cue:** …` 한 줄을 둔다. 대표 스타일은 35단어·그 외 20단어 이내 긍정문으로 해당 카테고리 범위의 결정적 규칙·수치만 쓴다. 시안 프롬프트에는 대표 스타일(디자인은 Design Style의 Cue)과 Photo Technique만 `표시명 — Cue`로, 나머지 옵션은 표시명만 출력하고, 갤러리 상세 프롬프트에는 `카테고리: 표시명 — Cue`를 출력하고 나머지 본문은 보관만 한다. Depiction Cue는 시안의 `Detail:` 줄에 쓴다(Balanced 제외). Depth Cue는 그 다음 `Depth:` 줄에 쓴다.
 - 옵션 순서는 대표 스타일 → Technique·Graphic → Color → Tone(상세 프롬프트는 이어서 Texture)이다. 시안 본문에서는 Technique·Graphic 줄을 Tone 다음에 둔다. Photo Technique은 `Technique`, Design Graphic은 `Graphic`으로 표기한다. 선택하지 않은 항목과 현재 유형에서 숨겨진 항목은 제외한다.
 - **갤러리 시안:**
   ```text
   Generate a new image from scratch, with no reference image: a mockup of a minimal {gallery | photography portfolio | design studio portfolio} website with a white background, only a simple header and a masonry gallery of 9 to 12 {illustrations | photographs | designs} in mixed aspect ratios.
-  The header shows the style and options as text: {대표 스타일} · {Technique | Graphic} · {Color} · {Tone} · {Depiction 표시명}
+  The header shows the style and options as text: {대표 스타일} · {Technique | Graphic} · {Color} · {Tone} · {Depiction 표시명} · {Depth 표시명}
 
   All {illustrations | photographs | designs} share one style: {대표 스타일 | Design Style + Design Format} — {대표 스타일 Cue | Design Style Cue}
   Mood: editorial, refined magazine feel
@@ -54,6 +55,7 @@ IMAGE STUDIO의 **부가 메뉴**로 **갤러리 시안** 영문 프롬프트를
   {Technique: 표시명 — Photo Technique Cue — 선택한 경우만}
   {Graphic: 표시명 — 선택한 경우만}
   {Detail: Depiction Cue — Balanced가 아닌 경우만}
+  {Depth: Depth Cue — 선택한 경우만}
   {Typography: a different typeface and lettering style for each image, picked at random from {Typography 목록}, in a thin or bold weight — 스위치를 켠 경우만}
   {Text: 문구 | Not specified. Choose suitable wording freely to complement each image. — 스위치를 켠 경우만}
   All images explore the same theme: {대상}. Each image shows a different person, scene or object from that theme, and all share one consistent style and mood.

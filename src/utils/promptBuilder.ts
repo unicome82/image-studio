@@ -106,6 +106,8 @@ export const typographyOrder = [
 ];
 // Letter weights that typography picks from at random.
 export const typographyWeights = ['thin', 'bold'];
+// Spatial depth runs from a flat plane through layered planes to deep perspective.
+export const depthOrder = ['flat', 'layered', 'perspective'];
 // Categories whose options follow a curated order instead of folder names.
 export const optionOrder: Record<string, string[]> = {
   'Photo Style': photoStyleOrder,
@@ -116,6 +118,7 @@ export const optionOrder: Record<string, string[]> = {
   Tone: toneOrder,
   Typography: typographyOrder,
   'Typography Weight': typographyWeights,
+  Depth: depthOrder,
 };
 export const aspectRatios = ['1:1', '4:5', '3:4', '2:3', '9:16', '4:3', '3:2', '16:9'];
 // Every Builder category takes one decisive choice; choosing it again clears it,
@@ -156,12 +159,13 @@ export function imageType(photo: boolean, design = false): ImageType {
   return design ? 'design' : photo ? 'photo' : 'illustration';
 }
 // The lead style and its optional technique come first so the defining look is read before color.
+// Every type takes an optional spatial depth, shown after the detail level.
 export function builderCategories(photo: boolean, design = false): string[] {
   return design
-    ? ['Design Format', 'Design Style', 'Design Graphic', 'Color', 'Tone']
+    ? ['Design Format', 'Design Style', 'Design Graphic', 'Depth', 'Color', 'Tone']
     : photo
-      ? ['Photo Style', 'Photo Technique', 'Color', 'Tone']
-      : ['Illustration Style', 'Color', 'Tone'];
+      ? ['Photo Style', 'Photo Technique', 'Depth', 'Color', 'Tone']
+      : ['Illustration Style', 'Depth', 'Color', 'Tone'];
 }
 // Gallery images also carry the texture they were made with.
 export function imageCategories(photo: boolean, design = false): string[] {
@@ -281,13 +285,17 @@ export function makeMockupPrompt(
     selection,
   ).filter(
     (o) =>
-      !['Illustration Style', 'Photo Style', 'Design Format', 'Design Style'].includes(o.category),
+      !['Illustration Style', 'Photo Style', 'Design Format', 'Design Style', 'Depth'].includes(
+        o.category,
+      ),
   );
+  // Depth follows the detail level and spells out its cue, like the detail line.
+  const depth = chosenOptions(['Depth'], catalog, selection)[0];
   // The header spells out the chosen look so each mockup labels its own settings.
   const depictionId = selection.Depiction?.[0] ?? defaultDepiction;
   const depiction = catalog.find((o) => o.category === 'Depiction' && o.id === depictionId);
   const detail = depictionPhrase(catalog, selection);
-  const headerText = [style, ...extras.map((o) => o.label), depiction?.label]
+  const headerText = [style, ...extras.map((o) => o.label), depiction?.label, depth?.label]
     .filter(Boolean)
     .join(' · ');
   return [
@@ -309,6 +317,7 @@ export function makeMockupPrompt(
       ),
     // The detail level explains how much each image holds; Balanced leaves it to the style.
     ...(detail ? [`Detail: ${detail}`] : []),
+    ...(depth?.cue ? [`Depth: ${depth.cue}`] : []),
     ...typographyLines(catalog, fields, true),
     subjectLine(fields.Subject?.trim()),
   ].join('\n');

@@ -36,19 +36,27 @@ function catalogAt(dir: string): Option[] {
 }
 const catalog = catalogAt('reference');
 
-test('each type keeps its lead style, technique, color and tone; images add texture', () => {
-  assert.deepEqual(builderCategories(false), ['Illustration Style', 'Color', 'Tone']);
-  assert.deepEqual(builderCategories(true), ['Photo Style', 'Photo Technique', 'Color', 'Tone']);
+test('each type keeps its lead style, technique, depth, color and tone; images add texture', () => {
+  assert.deepEqual(builderCategories(false), ['Illustration Style', 'Depth', 'Color', 'Tone']);
+  assert.deepEqual(builderCategories(true), [
+    'Photo Style',
+    'Photo Technique',
+    'Depth',
+    'Color',
+    'Tone',
+  ]);
   assert.deepEqual(builderCategories(false, true), [
     'Design Format',
     'Design Style',
     'Design Graphic',
+    'Depth',
     'Color',
     'Tone',
   ]);
   assert.deepEqual(imageCategories(true), [
     'Photo Style',
     'Photo Technique',
+    'Depth',
     'Color',
     'Tone',
     'Texture',
@@ -111,6 +119,19 @@ test('mockup prompt names one style, the depiction level and the subject without
       'Detail: minimal composition, very few elements',
       'All images explore the same theme: A tall building. Each image shows a different person, scene or object from that theme, and all share one consistent style and mood.',
     ].join('\n'),
+  );
+  // Depth follows the detail level in the header and adds its cue after the Detail line.
+  const deep = makeMockupPrompt(
+    catalog,
+    { 'Photo Style': ['street'], Depiction: ['complex'], Depth: ['perspective'] },
+    {},
+    'photo',
+  );
+  assert.ok(deep.includes('text: Street · Detailed · Perspective\n'));
+  assert.ok(
+    deep.includes(
+      '\nDetail: detailed composition, rich visual elements\nDepth: deep perspective space, converging lines, strong scale change from near foreground to distant background\n',
+    ),
   );
   const rich = makeMockupPrompt(
     catalog,
