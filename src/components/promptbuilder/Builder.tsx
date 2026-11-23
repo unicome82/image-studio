@@ -99,6 +99,7 @@ export default function Builder(p: Props) {
         selected={p.selection[category] ?? []}
         choose={(id) => p.toggle(category, id)}
         helpCategory={category}
+        summaryInHeading
       />
     </section>
   );
@@ -198,6 +199,7 @@ export default function Builder(p: Props) {
                     selected={p.selection.Depiction ?? [defaultDepiction]}
                     choose={(id) => p.toggle('Depiction', id)}
                     helpCategory="Depiction"
+                    summaryInHeading
                   />
                 </section>
                 {rest.map(choices)}

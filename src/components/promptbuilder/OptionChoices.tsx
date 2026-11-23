@@ -16,6 +16,8 @@ interface Props {
   afterHeading?: ReactNode;
   showOptions?: boolean;
   collapsible?: boolean;
+  /** Builder categories show the collapsed summary beside the title; filters keep it below. */
+  summaryInHeading?: boolean;
   allIsUnfiltered?: boolean;
   options: Choice[];
   selected: string[];
@@ -31,6 +33,7 @@ export default function OptionChoices({
   afterHeading,
   showOptions = true,
   collapsible = true,
+  summaryInHeading = false,
   allIsUnfiltered = false,
 }: Props) {
   const { t } = useTranslation();
@@ -80,6 +83,13 @@ export default function OptionChoices({
     };
   }, [helpOpen]);
   const unfiltered = allIsUnfiltered && (labels.length === 0 || labels.length === options.length);
+  const summary = (
+    <OptionSummary
+      id={summaryInHeading ? rowId : undefined}
+      labels={unfiltered ? [] : labels}
+      fallback={t(unfiltered ? 'All' : 'None selected')}
+    />
+  );
   return (
     <>
       <h3 className="option-heading" aria-label={t(title)}>
@@ -130,13 +140,7 @@ export default function OptionChoices({
           </span>
         )}
         {headerControl && <span className="option-heading-actions">{headerControl}</span>}
-        {showOptions && !isExpanded && (
-          <OptionSummary
-            id={rowId}
-            labels={unfiltered ? [] : labels}
-            fallback={t(unfiltered ? 'All' : 'None selected')}
-          />
-        )}
+        {showOptions && !isExpanded && summaryInHeading && summary}
         {canCollapse && (
           <button
             className="choice-toggle"
@@ -152,20 +156,24 @@ export default function OptionChoices({
         )}
       </h3>
       {showOptions && isExpanded && afterHeading}
-      {showOptions && isExpanded && (
+      {showOptions && (isExpanded || !summaryInHeading) && (
         <div className="option-choices" id={rowId} role="group" aria-label={t(title)}>
-          <div className="option-list">
-            {options.map((option) => (
-              <button
-                className="option-choice"
-                key={option.id}
-                aria-pressed={selected.includes(option.id)}
-                onClick={() => choose(option.id)}
-              >
-                {label(option)}
-              </button>
-            ))}
-          </div>
+          {isExpanded ? (
+            <div className="option-list">
+              {options.map((option) => (
+                <button
+                  className="option-choice"
+                  key={option.id}
+                  aria-pressed={selected.includes(option.id)}
+                  onClick={() => choose(option.id)}
+                >
+                  {label(option)}
+                </button>
+              ))}
+            </div>
+          ) : (
+            summary
+          )}
         </div>
       )}
     </>

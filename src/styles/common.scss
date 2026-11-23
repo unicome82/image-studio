@@ -1148,9 +1148,17 @@ textarea,
   padding-inline: $content-padding;
 }
 .option-heading {
-  // A collapsed category keeps only its heading row, which shows the chosen values.
+  // A collapsed Builder category keeps only its heading row, which shows the chosen values.
   &:has(.option-summary) {
     margin-bottom: 0;
+    .option-summary {
+      flex: 1 1 auto;
+      min-width: 0;
+      padding-inline: 0;
+      font-weight: 400;
+      text-transform: none;
+      letter-spacing: normal;
+    }
   }
   .option-heading-label {
     padding: 0;
@@ -1166,13 +1174,9 @@ textarea,
 .option-summary {
   position: relative;
   display: flex;
-  flex: 1 1 auto;
-  min-width: 0;
+  padding-inline: $content-padding;
   color: $selected-summary;
   font-size: var(--text-small, 12px);
-  font-weight: 400;
-  text-transform: none;
-  letter-spacing: normal;
   white-space: nowrap;
   &-values {
     min-width: 0;
