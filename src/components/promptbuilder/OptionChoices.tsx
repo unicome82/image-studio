@@ -130,6 +130,13 @@ export default function OptionChoices({
           </span>
         )}
         {headerControl && <span className="option-heading-actions">{headerControl}</span>}
+        {showOptions && !isExpanded && (
+          <OptionSummary
+            id={rowId}
+            labels={unfiltered ? [] : labels}
+            fallback={t(unfiltered ? 'All' : 'None selected')}
+          />
+        )}
         {canCollapse && (
           <button
             className="choice-toggle"
@@ -145,29 +152,20 @@ export default function OptionChoices({
         )}
       </h3>
       {showOptions && isExpanded && afterHeading}
-      {showOptions && (
+      {showOptions && isExpanded && (
         <div className="option-choices" id={rowId} role="group" aria-label={t(title)}>
-          {isExpanded ? (
-            <>
-              <div className="option-list">
-                {options.map((option) => (
-                  <button
-                    className="option-choice"
-                    key={option.id}
-                    aria-pressed={selected.includes(option.id)}
-                    onClick={() => choose(option.id)}
-                  >
-                    {label(option)}
-                  </button>
-                ))}
-              </div>
-            </>
-          ) : (
-            <OptionSummary
-              labels={unfiltered ? [] : labels}
-              fallback={t(unfiltered ? 'All' : 'None selected')}
-            />
-          )}
+          <div className="option-list">
+            {options.map((option) => (
+              <button
+                className="option-choice"
+                key={option.id}
+                aria-pressed={selected.includes(option.id)}
+                onClick={() => choose(option.id)}
+              >
+                {label(option)}
+              </button>
+            ))}
+          </div>
         </div>
       )}
     </>
