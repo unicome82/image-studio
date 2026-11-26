@@ -408,6 +408,10 @@ textarea,
   padding: $header-padding;
   border-bottom: 1px solid $line;
   background: $page;
+  @media (width > $tablet) {
+    position: fixed;
+    inset-inline: 0;
+  }
   &-search {
     @include flex-row;
     flex: 1;
@@ -702,6 +706,7 @@ textarea,
   @include flex-column;
   min-height: 0;
   overflow-y: auto;
+  scrollbar-gutter: stable;
   overscroll-behavior: none;
   height: calc(100dvh - var(--panel-top));
   margin-top: -$header-overlap;
@@ -936,6 +941,11 @@ textarea,
   margin: (-$header-overlap) calc(-1 * var(--gallery-padding)) 0;
   padding: $header-overlap var(--gallery-padding) 0;
   @include sticky-surface($results-background);
+  @media (width > $tablet) {
+    top: 0;
+    margin-top: 0;
+    padding-top: 0;
+  }
   .section-heading {
     min-height: 56px;
     margin-bottom: 0;

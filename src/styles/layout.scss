@@ -9,6 +9,11 @@
   display: grid;
   grid-template-columns: minmax(0, 1fr);
   align-items: start;
+  @media (width > $tablet) {
+    position: fixed;
+    inset: var(--header-visible) 0 0;
+    @include follow-header(top);
+  }
   &.with-builder {
     --gallery-left: var(--builder-width, 280px);
     grid-template-columns: var(--builder-width, 280px) minmax(0, 1fr);
@@ -51,6 +56,13 @@
   min-height: calc(100dvh - var(--header-height));
   min-width: 0;
   padding: 0 var(--gallery-padding) 40px;
+  @media (width > $tablet) {
+    height: 100%;
+    min-height: 0;
+    overflow-y: auto;
+    overscroll-behavior: none;
+    scrollbar-gutter: stable;
+  }
 }
 .mobile-scrim,
 .detail-scrim {

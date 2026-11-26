@@ -79,6 +79,12 @@ export default function App() {
   const [toastVersion, setToastVersion] = useState(0);
   const [modal, setModal] = useState<'prompt' | 'image' | null>(null);
   const modalRef = useRef<HTMLDialogElement>(null);
+  const galleryRef = useRef<HTMLElement>(null);
+  function resetGalleryScroll(behavior: ScrollBehavior = 'auto') {
+    const scroller = compact ? window : galleryRef.current;
+    scroller?.scrollTo({ top: 0, behavior });
+    setHeaderHidden(false);
+  }
   // Bump the version so a repeated message restarts its timer.
   function showToast(message: string) {
     setToast(message);
@@ -131,11 +137,22 @@ export default function App() {
   useEffect(() => {
     // CSS owns the header height and sticky offsets; JS only reads scroll direction.
     const header = document.querySelector<HTMLElement>('.header');
-    let lastY = window.scrollY;
+    const galleryScroller = compact ? null : galleryRef.current;
+    const scroller = galleryScroller ?? window;
+    const scrollPosition = () => galleryScroller?.scrollTop ?? window.scrollY;
+    let lastY = scrollPosition();
     const scroll = () => {
-      const y = Math.max(0, window.scrollY);
+      const y = Math.max(0, scrollPosition());
       const delta = y - lastY;
-      if (y <= (header?.offsetHeight ?? 0)) {
+      // Hiding the header expands the gallery and can clamp its scroll position at the end.
+      const clampedAtBottom =
+        galleryScroller &&
+        delta < 0 &&
+        y > 0 &&
+        y >= galleryScroller.scrollHeight - galleryScroller.clientHeight - 1;
+      if (clampedAtBottom) {
+        lastY = y;
+      } else if (y <= (header?.offsetHeight ?? 0)) {
         setHeaderHidden(false);
         lastY = y;
       } else if (
@@ -149,13 +166,14 @@ export default function App() {
       }
     };
     const reveal = () => setHeaderHidden(false);
-    window.addEventListener('scroll', scroll, { passive: true });
+    reveal();
+    scroller.addEventListener('scroll', scroll, { passive: true });
     header?.addEventListener('focusin', reveal);
     return () => {
-      window.removeEventListener('scroll', scroll);
+      scroller.removeEventListener('scroll', scroll);
       header?.removeEventListener('focusin', reveal);
     };
-  }, []);
+  }, [compact]);
   async function copy(text: string) {
     try {
       await navigator.clipboard.writeText(text);
@@ -209,7 +227,7 @@ export default function App() {
           setSelected(null);
           setModal(null);
           setCopyFallback('');
-          window.scrollTo({ top: 0, behavior: 'instant' });
+          resetGalleryScroll('instant');
         }}
         query={query}
         search={gallery.search}
@@ -220,14 +238,14 @@ export default function App() {
           gallery.clearQuery();
           setPresetOpen(false);
           setSelected(null);
-          window.scrollTo({ top: 0 });
+          resetGalleryScroll();
         }}
         togglePrompts={() => {
           setPresetOpen(!presetOpen);
           gallery.clearQuery();
           setOnlySaved(false);
           setSelected(null);
-          window.scrollTo({ top: 0 });
+          resetGalleryScroll();
         }}
       />
       <div
@@ -259,6 +277,7 @@ export default function App() {
           </>
         )}
         <main
+          ref={galleryRef}
           className="gallery"
           aria-label={t(presetOpen ? 'Saved mockups' : onlySaved ? 'Favorites' : 'Image gallery')}
         >
